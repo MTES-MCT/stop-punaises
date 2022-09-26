@@ -47,7 +47,6 @@
 }
 
 @media (max-width: 991px) {
-
     .index-tout-le-monde {
         .fr-grid-row {
             flex-direction: column-reverse;
@@ -61,5 +60,146 @@
                 text-align: center;
             }
         }
+    }
+}
+
+.information-header {
+    h1 {
+        font-size: 40px;
+        line-height: 48px;
+        font-weight: 800;
+        text-align: center;
+        color: var(--blue-france-sun-113-625);
+    }
+}
+
+.information-comment-reconnaitre-punaise {
+    background-color: var(--blue-france-975-75);
+
+    .fr-col-lg-3 {
+        text-align: center;
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    
+        span.image-caption {
+            font-size: 12px;
+            line-height: 20px;
+            font-style: italic;
+            color: #666;
+        }
+    }
+}
+
+.information-comment-reconnaitre-infestation {
+    .fr-col-lg-4 {
+        a{
+            background: none;
+
+            &::after {
+                width: 0px;
+            }
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+}
+
+.information-evaluer {
+    background-color: var(--blue-france-975-75);
+
+    h2 {
+        text-align: center;
+    }
+
+    > p {
+        text-align: center;
+    }
+
+    .fr-container {
+        > .fr-grid-row--gutters {
+            .fr-col-lg-4:last-child {
+                visibility: hidden;
+            }
+
+            .fr-col-2 {
+                text-align: center;
+
+                span {
+                    display: inline-block;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    font-weight: bold;
+                    vertical-align: middle;
+                    border-radius: 15px;
+                    background-color: #00A95F;
+
+                    &.number-1 {
+                        background-color: #E4794A;
+                    }
+
+                    &.number-2 {
+                        background-color: #B34000;
+                        color: #FFF;
+                    }
+
+                    &.number-3 {
+                        background-color: #CE0500;
+                        color: #FFF;
+                    }
+
+                    &.number-4 {
+                        background-color: #161616;
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.information-comment-eviter {
+    .fr-col-lg-4 {
+        a{
+            background: none;
+
+            &::after {
+                width: 0px;
+            }
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+}
+
+.information-contact {
+    background-color: var(--blue-france-975-75);
+    text-align: center;
+
+    .all-questions {
+        font-size: 20px;
+        line-height: 32px;
+    }
+
+    .fr-icon-phone-fill {
+        font-size: 32px;
+        line-height: 40px;
+        font-weight: bold;
+        color: #000091;
+        text-decoration: underline;
+    }
+
+    .local-phone-price {
+        font-size: 12px;
+        color: #3A3A3A;
     }
 }
