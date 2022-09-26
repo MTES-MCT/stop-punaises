@@ -1,3 +1,65 @@
-body {
-    background-color: lightgray;
+.index-header {
+    h1 {
+        font-size: 56px;
+        line-height: 60px;
+        font-weight: 800;
+        color: var(--blue-france-sun-113-625);
+    }
+    p.bons-reflexes {
+        font-size: 40px;
+        line-height: 45px;
+        font-weight: 800;
+        color: #E2241C;
+    }
+}
+
+.index-tout-le-monde {
+    background-color: var(--blue-france-975-75);
+
+    > h2 {
+        font-size: 32px;
+        font-weight: 800;
+        text-align: center;
+        color: var(--grey-50-1000);
+    }
+}
+
+.index-cest-quoi {
+    > h2 {
+        font-size: 32px;
+        font-weight: 800;
+        text-align: center;
+        color: var(--grey-50-1000);
+    }
+}
+
+
+@media (max-width: 767px) {
+    .index-header {
+        text-align: center;
+    }
+
+    .index-cest-quoi {
+        > h2 {
+            text-align: left;
+        }
+    }
+}
+
+@media (max-width: 991px) {
+
+    .index-tout-le-monde {
+        .fr-grid-row {
+            flex-direction: column-reverse;
+
+            .video-container {
+                text-align: center;
+                margin-bottom: 12px;
+            }
+
+            .button-container {
+                text-align: center;
+            }
+        }
+    }
 }
