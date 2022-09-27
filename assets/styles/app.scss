@@ -91,10 +91,41 @@
             color: #666;
         }
     }
+
+    .fr-alert--warning {
+        background: #B340001A 0% 0% no-repeat padding-box;
+    }
+    .fr-alert--info {
+        background: #0063CB1A 0% 0% no-repeat padding-box;
+    }
 }
 
 .information-comment-reconnaitre-infestation {
+    .fr-col-lg-8 {
+        .fr-col-4 {
+            text-align: center;
+
+            img {
+                display: block;
+                margin: auto;
+                max-width: 225px;
+                max-height: 175px;
+                width: auto;
+                height: auto;
+            }
+
+            span {
+                font-size: 12px;
+                line-height: 20px;
+                font-style: italic;
+                color: #666;
+            }
+        }
+    }
+
     .fr-col-lg-4 {
+        text-align: center;
+        
         a{
             background: none;
 
@@ -106,6 +137,13 @@
         img {
             max-width: 100%;
             height: auto;
+        }
+
+        span.click-to-expand {
+            font-style: italic;
+            font-size: 12px;
+            line-height: 20px;
+            color: #666;
         }
     }
 }
@@ -166,6 +204,8 @@
 
 .information-comment-eviter {
     .fr-col-lg-4 {
+        text-align: center;
+
         a{
             background: none;
 
@@ -177,6 +217,13 @@
         img {
             max-width: 100%;
             height: auto;
+        }
+
+        span.click-to-expand {
+            font-style: italic;
+            font-size: 12px;
+            line-height: 20px;
+            color: #666;
         }
     }
 }
@@ -201,5 +248,45 @@
     .local-phone-price {
         font-size: 12px;
         color: #3A3A3A;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .information-header {
+        text-align: center;
+
+        h1 {
+            color: #161616;
+        }
+    }
+    .information-comment-reconnaitre-punaise {
+        h2 {
+            text-align: center;
+        }
+    }
+
+    .information-comment-reconnaitre-infestation {
+        .fr-col-lg-8 {
+            .fr-col-4 {
+                img {
+                    max-width: 100%;
+                    max-height: 175px;
+                }
+            }
+        }
+    }
+
+    .information-comment-reconnaitre-infestation, .information-comment-eviter {
+        .no-accordions-group {
+            display: none;
+        }
+    }
+}
+@media (min-width: 768px) {
+    .information-comment-reconnaitre-infestation, .information-comment-eviter {
+        .fr-accordions-group {
+            display: none;
+        }
     }
 }
