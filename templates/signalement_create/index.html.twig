@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Signaler un problème de punaises de lit{% endblock %}
+
+{% block body %}
+<div class="creer-signalement">
+    <div class="fr-p-5w">
+        <h1>Créer un signalement</h1>
+        <p>Ajoutez un signalement en complétant le formulaire ci-dessous. Une fois toutes les étapes passées, vous pourrez valider le signalement.</p>
+    </div>
+
+    <form action="#" class="fr-my-5w fr-px-5w">
+        <div class="fr-stepper">
+            <h2 class="fr-stepper__title">
+                <span class="fr-stepper__state">Étape <span>1</span> sur 2</span>
+                <span data-step="1">Logement</span>
+                <span class="fr-stepper__hidden" data-step="2">Intervention</span>
+            </h2>
+            <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="2"></div>
+        </div>
+
+        <div id="form-creer-signalement-step-1" class="fr-container">
+            <h2>Adresse et infos du logement</h2>
+
+            <div class="fr-grid-row fr-grid-row--gutters">
+                <div class="fr-col-12 fr-col-md-6">
+                    <span class="column-label">Rechercher l'adresse</span>
+                    <br>
+                    <p>
+                        Commencez à saisir l'adresse et sélectionnez-la parmi les suggestions.
+                        Si vous ne trouvez pas l'adresse, saisissez-la manuellement.
+                    </p>
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            <input id="rechercheAdresse" type="text" class="fr-input">
+                        </div>
+                    </div>
+
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.adresse) }}
+                            {{ form_widget(form.adresse) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner l'adresse.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.codePostal) }}
+                            {{ form_widget(form.codePostal) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner le code postal.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.ville) }}
+                            {{ form_widget(form.ville) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner la ville.
+                            </p>
+                        </div>
+                    </div>
+
+                    <span class="column-label">Informations complémentaires</span>
+                    <br>
+
+                    <div class="fr-form-group">
+                        <div class="fr-select-group">
+                            {{ form_label(form.typeLogement) }}
+                            {{ form_widget(form.typeLogement) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner le type de logement.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="fr-form-group fr-form-group-hidden">
+                        <div class="fr-select-group">
+                            {{ form_label(form.localisationDansImmeuble) }}
+                            {{ form_widget(form.localisationDansImmeuble) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner la localisation dans l'immeuble.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.construitAvant1948) }}
+                            
+                            {% for key, choice in form.construitAvant1948.children %}
+                                <div class="fr-radio-group">
+                                    {{ form_widget(choice) }}
+                                    {{ form_label(choice) }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="fr-col-12 fr-col-md-6">
+                    <span class="column-label">L'occupant</span>
+                    <br>
+
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.nomOccupant) }}
+                            {{ form_widget(form.nomOccupant) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner le nom de l'occupant.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.prenomOccupant) }}
+                            {{ form_widget(form.prenomOccupant) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner le prénom de l'occupant.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.telephoneOccupant) }}
+                            {{ form_widget(form.telephoneOccupant) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner le numéro de téléphone de l'occupant.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.emailOccupant) }}
+                            {{ form_widget(form.emailOccupant) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner l'adresse e-mail de l'occupant.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="stepper-next">
+                <a href="#">Suivant &gt;</a>
+            </nav>
+        </div>
+
+        <div id="form-creer-signalement-step-2" class="fr-stepper__hidden">
+            Etape 2
+        </div>
+    </form>
+</div>
+{% endblock %}

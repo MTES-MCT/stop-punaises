@@ -83,6 +83,9 @@ class Signalement
     #[ORM\ManyToOne(inversedBy: 'signalements')]
     private ?Entreprise $entreprise = null;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $localisationDansImmeuble = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -360,6 +363,18 @@ class Signalement
     public function setEntreprise(?Entreprise $entreprise): self
     {
         $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getLocalisationDansImmeuble(): ?string
+    {
+        return $this->localisationDansImmeuble;
+    }
+
+    public function setLocalisationDansImmeuble(?string $localisationDansImmeuble): self
+    {
+        $this->localisationDansImmeuble = $localisationDansImmeuble;
 
         return $this;
     }

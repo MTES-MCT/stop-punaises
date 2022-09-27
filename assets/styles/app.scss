@@ -293,3 +293,33 @@
         }
     }
 }
+
+.creer-signalement {
+    > div.fr-p-5w {
+        background-color: var(--grey-975-75);
+    }
+
+    .fr-stepper {
+        .fr-stepper__hidden {
+            display: none;
+        }
+    }
+
+    .column-label {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .fr-form-group-hidden, .fr-stepper__hidden {
+        display: none;
+    }
+
+    .fr-radio-group {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .stepper-next {
+        text-align: right;
+    }
+}

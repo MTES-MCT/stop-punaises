@@ -10,3 +10,5 @@ import './styles/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
+
+import './controllers/form_signalement';
