@@ -322,4 +322,11 @@
     .stepper-next {
         text-align: right;
     }
+    .stepper-previous .fr-btn {
+        float: right;
+    }
+
+    .display-if-diagnostic, .display-if-traitement, .display-if-biocide {
+        display: none;
+    }
 }

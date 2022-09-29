@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\Signalement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -97,8 +99,8 @@ class SignalementType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
+                'label' => 'Construit avant 1948',
                 'required' => false,
-                'label' => 'Construit avant 1948'
             ])
 
             
@@ -110,8 +112,8 @@ class SignalementType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'required' => true,
                 'label' => 'Nom',
+                'required' => true,
             ])
             ->add('prenomOccupant', TextType::class, [
                 'attr' => [
@@ -121,8 +123,8 @@ class SignalementType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'required' => true,
                 'label' => 'Prénom',
+                'required' => true,
             ])
             ->add('telephoneOccupant', TelType::class, [
                 'attr' => [
@@ -132,8 +134,8 @@ class SignalementType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'required' => false,
                 'label' => 'Téléphone (facultatif)',
+                'required' => false,
             ])
             ->add('emailOccupant', EmailType::class, [
                 'attr' => [
@@ -143,23 +145,186 @@ class SignalementType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'required' => false,
                 'label' => 'Email (facultatif)',
+                'required' => false,
             ])
 
-            /*->add('typeIntervention')
-            ->add('dateIntervention')
-            ->add('nomAgentIntervention')
-            ->add('niveauInfestation')
-            ->add('typeTraitement')
-            ->add('nomBiocide')
-            ->add('typeDiagnostic')
-            ->add('nombrePiecesTraitees')
-            ->add('delaiEntreInterventions')
-            ->add('faitVisitePostTraitement')
-            ->add('dateVisitePostTraitement')
-            ->add('prixFactureHT')
-            ->add('entreprise')*/
+
+            // Onglet 2
+            ->add('entreprise', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-select',
+                ],
+                'choices' => [
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => "Entreprise",
+                'required' => true,
+                'placeholder' => "Entreprise",
+            ])
+            ->add('typeIntervention', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-select',
+                ],
+                'choices' => [
+                    'Diagnostic' => 'diagnostic',
+                    'Traitement' => 'traitement',
+                    'Les deux' => 'diagnostic-traitement',
+                ],
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+                'placeholder' => "Type d'intervention",
+            ])
+            ->add('dateIntervention', DateType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                ],
+                'row_attr' => [
+                    'class' => 'fr-input-group',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => "Date de l'intervention",
+                'required' => true,
+            ])
+            ->add('nomAgentIntervention', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-select',
+                ],
+                'choices' => [
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => "Nom de l'agent",
+                'required' => true,
+                'placeholder' => "Nom de l'agent",
+            ])
+            ->add('niveauInfestation', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-select',
+                ],
+                'choices' => [0, 1, 2, 3, 4],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => "Niveau d'infestation",
+                'required' => true,
+                'placeholder' => "Niveau d'infestation",
+            ])
+            ->add('typeTraitement', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-select',
+                ],
+                'choices' => [
+                    'Vapeur' => 'vapeur',
+                    'Froid' => 'froid',
+                    'Tente chauffante' => 'tente-chauffante',
+                    'Aspiration' => 'aspiration',
+                    'Biocide' => 'biocide',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => "Type de traitement",
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => false,
+                'placeholder' => 'Type de traitement',
+            ])
+            ->add('nomBiocide', TelType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                    'maxlength' => '100',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Nom du biocide',
+                'required' => false,
+            ])
+            ->add('typeDiagnostic', ChoiceType::class, [
+                'choice_attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Visuel' => 'visuel',
+                    'Canin' => 'canin',
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Type de diagnostic',
+                'required' => false,
+            ])
+
+            ->add('nombrePiecesTraitees', IntegerType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Nombre de pièces traitées',
+                'required' => true,
+            ])
+            ->add('delaiEntreInterventions', IntegerType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Délai entre les interventions (en jours)',
+                'required' => true,
+            ])
+            ->add('faitVisitePostTraitement', ChoiceType::class, [
+                'choice_attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Oui' => 1,
+                    'Non' => 0,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Visite post-traitement',
+                'required' => false,
+            ])
+            ->add('dateVisitePostTraitement', DateType::class, [
+                'format' => 'dd-MM-yyyy',
+                'attr' => [
+                    'class' => 'fr-input',
+                ],
+                'row_attr' => [
+                    'class' => 'fr-input-group',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => "Date de la visite post-traitement",
+                'required' => true,
+            ])
+            ->add('prixFactureHT', TextType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                    'maxlength' => '100',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Prix facturé (en €)',
+                'required' => true,
+            ])
         ;
     }
 
