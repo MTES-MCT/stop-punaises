@@ -24,10 +24,6 @@ class SignalementCreateController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $idAgent = $request->get('agent');
-                $employe = $employeRepository->findOneBy(['id' => $idAgent]);
-                $signalement->setAgent($employe);
-
                 $entityManager->persist($signalement);
                 $entityManager->flush();
 
