@@ -11,6 +11,12 @@
         <div class="fr-form-group">
             <div class="fr-input-group">
                 <input id="rechercheAdresse" type="text" class="fr-input">
+                <div id="rechercheAdresseIcon">
+                    <span class="fr-icon-map-pin-2-line" aria-hidden="true"></span>
+                    <span class="fr-icon-timer-line" aria-hidden="true"></span>
+                </div>
+                <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
+                </div>
             </div>
         </div>
 
@@ -33,6 +39,8 @@
                 </p>
             </div>
         </div>
+
+        {{ form_widget(form.codeInsee) }}
 
         <div class="fr-form-group">
             <div class="fr-input-group">
