@@ -7,6 +7,9 @@
         <div class="fr-form-group">
             <div class="fr-select-group">
                 {{ form_widget(form.typeIntervention) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le type d'intervention
+                </p>
             </div>
         </div>
 
@@ -14,6 +17,9 @@
             <div class="fr-select-group">
                 {{ form_label(form.entreprise) }}
                 {{ form_widget(form.entreprise) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner l'entreprise
+                </p>
             </div>
         </div>
     </div>
@@ -25,13 +31,19 @@
             <div class="fr-input-group">
                 {{ form_label(form.dateIntervention) }}
                 {{ form_widget(form.dateIntervention) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner la date d'intervention
+                </p>
             </div>
         </div>
 
         <div class="fr-form-group display-if-diagnostic display-if-traitement">
             <div class="fr-select-group">
-                {{ form_label(form.nomAgentIntervention) }}
-                {{ form_widget(form.nomAgentIntervention) }}
+                {{ form_label(form.agent) }}
+                {{ form_widget(form.agent) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner l'agent
+                </p>
             </div>
         </div>
 
@@ -39,6 +51,9 @@
             <div class="fr-select-group">
                 {{ form_label(form.niveauInfestation) }}
                 {{ form_widget(form.niveauInfestation) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le niveau d'infestation
+                </p>
             </div>
         </div>
 
@@ -46,6 +61,9 @@
             <div class="fr-select-group">
                 {{ form_label(form.typeTraitement) }}
                 {{ form_widget(form.typeTraitement) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le type de traitement
+                </p>
             </div>
         </div>
 
@@ -53,6 +71,9 @@
             <div class="fr-input-group">
                 {{ form_label(form.nomBiocide) }}
                 {{ form_widget(form.nomBiocide) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le nom du Biocide
+                </p>
             </div>
         </div>
 
@@ -66,6 +87,10 @@
                         {{ form_label(choice) }}
                     </div>
                 {% endfor %}
+
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le type de diagnostic
+                </p>
             </div>
         </div>
     </div>
@@ -75,6 +100,9 @@
             <div class="fr-input-group">
                 {{ form_label(form.nombrePiecesTraitees) }}
                 {{ form_widget(form.nombrePiecesTraitees) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le nombre de pièces traitées
+                </p>
             </div>
         </div>
 
@@ -82,6 +110,9 @@
             <div class="fr-input-group">
                 {{ form_label(form.delaiEntreInterventions) }}
                 {{ form_widget(form.delaiEntreInterventions) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le délai entre les interventions
+                </p>
             </div>
         </div>
 
@@ -95,6 +126,9 @@
                         {{ form_label(choice) }}
                     </div>
                 {% endfor %}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner la visite post-traitement
+                </p>
             </div>
         </div>
 
@@ -102,6 +136,9 @@
             <div class="fr-input-group">
                 {{ form_label(form.dateVisitePostTraitement) }}
                 {{ form_widget(form.dateVisitePostTraitement) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner la date de la visite post-traitement
+                </p>
             </div>
         </div>
 
@@ -109,6 +146,9 @@
             <div class="fr-input-group">
                 {{ form_label(form.prixFactureHT) }}
                 {{ form_widget(form.prixFactureHT) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le prix facturé
+                </p>
             </div>
         </div>
     </div>

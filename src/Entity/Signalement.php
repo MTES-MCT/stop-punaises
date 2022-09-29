@@ -50,9 +50,6 @@ class Signalement
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateIntervention = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $nomAgentIntervention = null;
-
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $niveauInfestation = null;
 
@@ -85,6 +82,12 @@ class Signalement
 
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $localisationDansImmeuble = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $codeInsee = null;
+
+    #[ORM\ManyToOne(inversedBy: 'signalements')]
+    private ?Employe $agent = null;
 
     public function getId(): ?int
     {
@@ -235,18 +238,6 @@ class Signalement
         return $this;
     }
 
-    public function getNomAgentIntervention(): ?string
-    {
-        return $this->nomAgentIntervention;
-    }
-
-    public function setNomAgentIntervention(?string $nomAgentIntervention): self
-    {
-        $this->nomAgentIntervention = $nomAgentIntervention;
-
-        return $this;
-    }
-
     public function getNiveauInfestation(): ?int
     {
         return $this->niveauInfestation;
@@ -375,6 +366,30 @@ class Signalement
     public function setLocalisationDansImmeuble(?string $localisationDansImmeuble): self
     {
         $this->localisationDansImmeuble = $localisationDansImmeuble;
+
+        return $this;
+    }
+
+    public function getCodeInsee(): ?string
+    {
+        return $this->codeInsee;
+    }
+
+    public function setCodeInsee(string $codeInsee): self
+    {
+        $this->codeInsee = $codeInsee;
+
+        return $this;
+    }
+
+    public function getAgent(): ?Employe
+    {
+        return $this->agent;
+    }
+
+    public function setAgent(?Employe $agent): self
+    {
+        $this->agent = $agent;
 
         return $this;
     }

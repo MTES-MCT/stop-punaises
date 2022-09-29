@@ -119,6 +119,20 @@ function startCreerSignalementApp() {
     }
   });
 
+  $('select#signalement_entreprise').on('change', function() {
+    let ajaxURL = $("form").data('ajax');
+    $.ajax({
+      url: ajaxURL,
+      data: { idEntreprise: $(this).val() }
+    }).done(function(jsonData) {
+      $('#signalement_agent').empty();
+      $('#signalement_agent').append('<option value="" selected="selected">Nom de l&apos;agent</option>');
+      for (let idEmploye in jsonData.data) {
+        $('#signalement_agent').append('<option value="'+idEmploye+'">'+jsonData.data[idEmploye]+'</option>');
+      }
+    });
+  });
+
   $('select#signalement_typeTraitement').on('change', function() {
     if ($(this).val() == 'biocide') {
       $('.display-if-biocide').show();

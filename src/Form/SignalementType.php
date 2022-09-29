@@ -2,7 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Employe;
+use App\Entity\Entreprise;
 use App\Entity\Signalement;
+use App\Repository\EmployeRepository;
+use App\Repository\EntrepriseRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -28,6 +33,7 @@ class SignalementType extends AbstractType
                     'maxlength' => '100',
                 ],
                 'label' => "Adresse",
+                'required' => true,
             ])
             ->add('codePostal', TextType::class, [
                 'attr' => [
@@ -40,12 +46,14 @@ class SignalementType extends AbstractType
                     'minlength' => '5',
                 ],
                 'label' => 'Code postal',
+                'required' => true,
             ])
             ->add('codeInsee', HiddenType::class, [
                 'attr' => [
                     'class' => 'fr-hidden',
                     'pattern' => '[0-9]{5}',
-                ]
+                ],
+                'required' => false,
             ])
             ->add('ville', TextType::class, [
                 'attr' => [
@@ -56,6 +64,7 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Ville',
+                'required' => true,
             ])
             
 
@@ -75,8 +84,8 @@ class SignalementType extends AbstractType
                 'row_attr' => [
                     'class' => 'fr-select-group',
                 ],
-                'required' => true,
                 'placeholder' => 'Type de logement',
+                'required' => true,
             ])
             ->add('localisationDansImmeuble', ChoiceType::class, [
                 'attr' => [
@@ -90,8 +99,8 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => "Localisation de l'infestation",
-                'required' => false,
                 'placeholder' => "Localisation de l'infestation",
+                'required' => false,
             ])
             ->add('construitAvant1948', ChoiceType::class, [
                 'choice_attr' => [
@@ -158,19 +167,6 @@ class SignalementType extends AbstractType
 
 
             // Onglet 2
-            ->add('entreprise', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'fr-select',
-                ],
-                'choices' => [
-                ],
-                'label_attr' => [
-                    'class' => 'fr-label',
-                ],
-                'label' => "Entreprise",
-                'required' => true,
-                'placeholder' => "Entreprise",
-            ])
             ->add('typeIntervention', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-select',
@@ -183,10 +179,26 @@ class SignalementType extends AbstractType
                 'row_attr' => [
                     'class' => 'fr-select-group',
                 ],
-                'required' => true,
                 'placeholder' => "Type d'intervention",
+                'required' => true,
+            ])
+            ->add('entreprise', EntityType::class, [
+                'class' => Entreprise::class,
+                'query_builder' => function (EntrepriseRepository $er) {
+                    return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
+                },
+                'attr' => [
+                    'class' => 'fr-select',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => "Entreprise",
+                'placeholder' => "Entreprise",
+                'required' => true,
             ])
             ->add('dateIntervention', DateType::class, [
+                'format' => 'dd/MM/yyyy',
                 'attr' => [
                     'class' => 'fr-input',
                 ],
@@ -199,18 +211,20 @@ class SignalementType extends AbstractType
                 'label' => "Date de l'intervention",
                 'required' => true,
             ])
-            ->add('nomAgentIntervention', ChoiceType::class, [
+            ->add('agent', EntityType::class, [
+                'class' => Employe::class,
+                'query_builder' => function (EmployeRepository $er) {
+                    return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
+                },
                 'attr' => [
                     'class' => 'fr-select',
-                ],
-                'choices' => [
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
                 'label' => "Nom de l'agent",
-                'required' => true,
                 'placeholder' => "Nom de l'agent",
+                'required' => true,
             ])
             ->add('niveauInfestation', ChoiceType::class, [
                 'attr' => [
@@ -221,8 +235,8 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => "Niveau d'infestation",
-                'required' => true,
                 'placeholder' => "Niveau d'infestation",
+                'required' => true,
             ])
             ->add('typeTraitement', ChoiceType::class, [
                 'attr' => [
@@ -242,8 +256,8 @@ class SignalementType extends AbstractType
                 'row_attr' => [
                     'class' => 'fr-select-group',
                 ],
-                'required' => false,
                 'placeholder' => 'Type de traitement',
+                'required' => false,
             ])
             ->add('nomBiocide', TelType::class, [
                 'attr' => [
@@ -269,6 +283,7 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Type de diagnostic',
+                'placeholder' => false,
                 'required' => false,
             ])
 
@@ -280,7 +295,7 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Nombre de pièces traitées',
-                'required' => true,
+                'required' => false,
             ])
             ->add('delaiEntreInterventions', IntegerType::class, [
                 'attr' => [
@@ -290,7 +305,7 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Délai entre les interventions (en jours)',
-                'required' => true,
+                'required' => false,
             ])
             ->add('faitVisitePostTraitement', ChoiceType::class, [
                 'choice_attr' => [
@@ -305,10 +320,11 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Visite post-traitement',
+                'placeholder' => false,
                 'required' => false,
             ])
             ->add('dateVisitePostTraitement', DateType::class, [
-                'format' => 'dd-MM-yyyy',
+                'format' => 'dd/MM/yyyy',
                 'attr' => [
                     'class' => 'fr-input',
                 ],
@@ -319,7 +335,7 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => "Date de la visite post-traitement",
-                'required' => true,
+                'required' => false,
             ])
             ->add('prixFactureHT', TextType::class, [
                 'attr' => [

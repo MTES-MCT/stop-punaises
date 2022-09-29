@@ -40,10 +40,19 @@ class Entreprise
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Signalement::class)]
     private Collection $signalements;
 
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Employe::class)]
+    private Collection $employes;
+
     public function __construct()
     {
         $this->territoires = new ArrayCollection();
         $this->signalements = new ArrayCollection();
+        $this->employes = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom;
     }
 
     public function getId(): ?int
@@ -171,6 +180,36 @@ class Entreprise
             // set the owning side to null (unless already changed)
             if ($signalement->getEntreprise() === $this) {
                 $signalement->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employe>
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmploye(Employe $employe): self
+    {
+        if (!$this->employes->contains($employe)) {
+            $this->employes->add($employe);
+            $employe->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploye(Employe $employe): self
+    {
+        if ($this->employes->removeElement($employe)) {
+            // set the owning side to null (unless already changed)
+            if ($employe->getEntreprise() === $this) {
+                $employe->setEntreprise(null);
             }
         }
 

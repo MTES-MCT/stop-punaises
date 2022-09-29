@@ -9,7 +9,17 @@
         <p>Ajoutez un signalement en complétant le formulaire ci-dessous. Une fois toutes les étapes passées, vous pourrez valider le signalement.</p>
     </div>
 
-    <form action="#" class="fr-my-5w fr-px-5w">
+    {% if feedback is not empty %}
+        {% for text in feedback %}
+            <div class="fr-alert fr-alert--error">
+                <h3 class="fr-alert__title">{{ text }}</h3>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form action="{{ path('app_signalement_create') }}" method="POST" class="fr-my-5w fr-px-5w" data-ajax="{{ path('app_liste_employes') }}">
+        {{ form_row(form._token) }}
+
         <div class="fr-stepper">
             <h2 class="fr-stepper__title">
                 <span class="fr-stepper__state">Étape <span>1</span> sur 2</span>
