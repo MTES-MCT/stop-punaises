@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Signalement;
+use App\Entity\Territoire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,29 +39,17 @@ class SignalementRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
+    public function findLastReference(): ?array
+    {
+        $year = (new \DateTime())->format('Y');
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->select('s.reference')
+            ->where('YEAR(s.createdAt) = :year')
+            ->setParameter('year', $year)
+            ->orderBy('s.id', 'DESC')
+            ->setMaxResults(1);
 
-//    /**
-//     * @return Signalement[] Returns an array of Signalement objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Signalement
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $queryBuilder->getQuery()->getOneOrNullResult();
+    }
 }

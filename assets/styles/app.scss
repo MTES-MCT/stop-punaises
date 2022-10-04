@@ -353,3 +353,15 @@
         }
     }
 }
+
+.liste-signalements {
+    background-color: var(--grey-975-75);
+
+    .add-button-container {
+        float: right;
+    }
+
+    table {
+        width: 100%;
+    }
+}

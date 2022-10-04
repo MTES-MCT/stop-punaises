@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stop punaises - Les signalements{% endblock %}
+
+{% block body %}
+<div class="liste-signalements fr-p-5w">
+    <div class="add-button-container">
+        <a href="{{ path('app_signalement_create') }}" class="fr-btn fr-btn--icon-left fr-icon-add-line">Créer un signalement</a>
+    </div>
+    <h1>Liste des signalements</h1>
+
+    {% if display_signalement_create_success %}
+    <div>
+        <div class="fr-alert fr-alert--success">
+            <h3 class="fr-alert__title">Le signalement a bien été enregistré.</h3>
+        </div>
+    </div>
+    {% endif %}
+
+    <div>
+    Filtres
+    </div>
+
+    <div>
+    <h2>{{ count_signalement }} signalements trouvés</h2>
+
+    {% if signalements is not empty %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Créé le</th>
+                    <th>Intervention</th>
+                    <th>Date</th>
+                    <th>Infestation</th>
+                    <th>Commune</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for signalement in signalements %}
+                    <tr>
+                        <td>{{ signalement.reference }}</td>
+                        <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
+                        <td>{{ signalement.typeIntervention|capitalize }}</td>
+                        <td>{{ signalement.dateIntervention.format('d/m/Y') }}</td>
+                        <td>{{ signalement.niveauInfestation }}</td>
+                        <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
+                        <td><a href="#" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement">Voir le signalement</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

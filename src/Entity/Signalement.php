@@ -89,6 +89,12 @@ class Signalement
     #[ORM\ManyToOne(inversedBy: 'signalements')]
     private ?Employe $agent = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $reference = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -390,6 +396,30 @@ class Signalement
     public function setAgent(?Employe $agent): self
     {
         $this->agent = $agent;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

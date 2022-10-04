@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Signalement;
 use App\Form\SignalementType;
-use App\Repository\EmployeRepository;
 use App\Repository\EntrepriseRepository;
+use App\Repository\SignalementRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,8 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementCreateController extends AbstractController
 {
-    #[Route('/signaler', name: 'app_signalement_create')]
-    public function index(Request $request, EntityManagerInterface $entityManager, EntrepriseRepository $entrepriseRepository, EmployeRepository $employeRepository): Response
+    #[Route('/bo/signalements/ajout', name: 'app_signalement_create')]
+    public function index(Request $request, EntityManagerInterface $entityManager, SignalementRepository $signalementRepository): Response
     {
         $signalement = new Signalement();
         $signalement->setUuid(uniqid());
@@ -24,14 +25,23 @@ class SignalementCreateController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                $signalement->setCreatedAt(new DateTimeImmutable());
+        
+                $lastReference = $signalementRepository->findLastReference();
+                if (!empty($lastReference)) {
+                    list($year, $id) = explode('-', $lastReference['reference']);
+                    $signalement->setReference($year.'-'.(int) $id + 1);
+                } else {
+                    $year = (new \DateTime())->format('Y');
+                    $signalement->setReference($year.'-'. 1);
+                }
+        
                 $entityManager->persist($signalement);
                 $entityManager->flush();
 
-                return $this->redirect($this->generateUrl('app_signalement_create_success'));
+                return $this->redirect($this->generateUrl('app_signalement_list') . '?create_success_message=1');
                 
             } else {
-
-                dd($form);
                 $feedback []= 'Il y a des erreurs dans les données transmises.';
             }
         }
@@ -42,13 +52,7 @@ class SignalementCreateController extends AbstractController
         ]);
     }
 
-    #[Route('/signaler/succes', name: 'app_signalement_create_success')]
-    public function index_success(Request $request)
-    {
-        return $this->render('signalement_create/success.html.twig');
-    }
-
-    #[Route('/liste-employes', name: 'app_liste_employes')]
+    #[Route('/bo/signalements/ajout/liste-employes', name: 'app_liste_employes')]
     public function get_list_employes(Request $request, EntrepriseRepository $entrepriseRepository): Response
     {
         // TODO : sécurité pour bloquer l'accès
