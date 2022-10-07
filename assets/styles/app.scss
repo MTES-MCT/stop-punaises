@@ -416,22 +416,24 @@
                             }
                         }
                     }
-                    &:nth-child(7) {
-                        a.fr-btn.fr-icon-arrow-right-fill {
-                            display: inline-block;
-                            border-radius: 20px;
-                            min-height: 1.5rem;
+                }
+                td.button-view {
+                    a.fr-btn.fr-icon-arrow-right-fill {
+                        display: inline-block;
+                        border-radius: 20px;
+                        min-height: 1.5rem;
 
-                            &::before {
-                                margin-right: 0px;
-                            }
+                        &::before {
+                            margin-right: 0px;
                         }
                     }
                 }
             }
         }
 
-
+        .dataTables_filter {
+            display: none;
+        }
         .dataTables_paginate .paginate_button {
             border: 0px;
             color: #161616;
@@ -447,5 +449,10 @@
             background-color: #E5E5E5;
 
         }
+    }
+}
+@media (min-width: 992px) {
+    .liste-signalements .fr-container .fr-input-wrap::before {
+        top: -0.75rem;
     }
 }

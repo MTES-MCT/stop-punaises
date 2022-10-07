@@ -36,14 +36,27 @@ function startListeSignalementsApp() {
   $('#filter-infectation').on('change', function() {
     refreshTableWithSearch();
   });
+  if ($('#filter-entreprise').length > 0) {
+    $('#filter-entreprise').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
 }
 
 function refreshTableWithSearch() {
+  let indexColumnRef = 0;
+  let indexColumnInfectation = 4;
+  let indexColumnAddress = 5;
+  if ($('#filter-entreprise').length > 0) {
+    let entreprise = $('#filter-entreprise').val();
+    listTable.columns(5).search(entreprise);
+    indexColumnAddress = 6;
+  }
   let searchText = $('#search-free').val();
-  listTable.columns(0).search(searchText);
+  listTable.columns(indexColumnRef).search(searchText);
   let searchAddress = $('#search-address').val();
-  listTable.columns(5).search(searchAddress);
+  listTable.columns(indexColumnAddress).search(searchAddress);
   let niveauInfectation = $('#filter-infectation').val();
-  listTable.columns(4).search(niveauInfectation);
+  listTable.columns(indexColumnInfectation).search(niveauInfectation);
   listTable.draw();
 }

@@ -19,13 +19,15 @@
 
     <div class="fr-container">
         <div class="fr-grid-row fr-grid-row--gutters">
-            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-4">
+            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
                 <input type="text" class="fr-input" id="search-free" placeholder="Référence, nom...">
             </div>
-            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-4">
+
+            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
                 <input type="text" class="fr-input" id="search-address" placeholder="Ville, CP...">
             </div>
-            <div class="fr-select-group fr-col-12 fr-col-lg-4">
+
+            <div class="fr-select-group fr-col-12 fr-col-lg-3">
                 <select class="fr-select" id="filter-infectation">
                     <option value="">Niveau infestation</option>
                     <option value="0">0 - Nulle</option>
@@ -35,6 +37,19 @@
                     <option value="4">4 - Très élevée</option>
                 </select>
             </div>
+
+            {% if is_admin %}
+                <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                    <select class="fr-select" id="filter-entreprise">
+                        <option value="">Entreprise</option>
+                        {% if entreprises is not empty %}
+                            {% for entreprise in entreprises %}
+                                <option value="{{ entreprise.nom }}">{{ entreprise.nom }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+            {% endif %}
         </div>
     </div>
 
@@ -50,6 +65,9 @@
                         <th>Intervention</th>
                         <th>Date</th>
                         <th>Infestation</th>
+                        {% if is_admin %}
+                            <th>Entreprise</th>
+                        {% endif %}
                         <th>Commune</th>
                         <th></th>
                     </tr>
@@ -76,8 +94,11 @@
                                     {% endif %}
                                 </span>
                             </td>
+                            {% if is_admin %}
+                                <td>{{ signalement.entreprise.nom }}</td>
+                            {% endif %}
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                            <td><a href="#" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
+                            <td class="button-view"><a href="#" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
