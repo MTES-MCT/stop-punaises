@@ -12,3 +12,4 @@ import './styles/app.scss';
 import './bootstrap';
 
 import './controllers/form_signalement';
+import './controllers/list_signalement';

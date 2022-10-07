@@ -25,7 +25,7 @@
     <h2>{{ count_signalement }} signalements trouvés</h2>
 
     {% if signalements is not empty %}
-        <table>
+        <table id="datatable">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -42,11 +42,25 @@
                     <tr>
                         <td>{{ signalement.reference }}</td>
                         <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
-                        <td>{{ signalement.typeIntervention|capitalize }}</td>
+                        <td><span>{{ signalement.typeIntervention|capitalize }}</span></td>
                         <td>{{ signalement.dateIntervention.format('d/m/Y') }}</td>
-                        <td>{{ signalement.niveauInfestation }}</td>
+                        <td>
+                            <span class="niveau-{{ signalement.niveauInfestation }}">
+                                {% if signalement.niveauInfestation == 0 %}
+                                    0 - Nulle
+                                {% elseif signalement.niveauInfestation == 1 %}
+                                    1 - Faible
+                                {% elseif signalement.niveauInfestation == 2 %}
+                                    2 - Moyenne
+                                {% elseif signalement.niveauInfestation == 3 %}
+                                    3 - Elevée
+                                {% elseif signalement.niveauInfestation == 4 %}
+                                    4 - Très élevée
+                                {% endif %}
+                            </span>
+                        </td>
                         <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                        <td><a href="#" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement">Voir le signalement</a></td>
+                        <td><a href="#" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
                     </tr>
                 {% endfor %}
             </tbody>
