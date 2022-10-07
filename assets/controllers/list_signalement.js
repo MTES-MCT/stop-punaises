@@ -8,9 +8,10 @@ $(function() {
   }
 });
 
+var listTable = null;
 function startListeSignalementsApp() {
-  $('table#datatable').DataTable({
-    searching: false,
+  listTable = $('table#datatable').DataTable({
+    searching: true,
     ordering: true,
     lengthChange: false,
     language: {
@@ -25,4 +26,24 @@ function startListeSignalementsApp() {
       }
     }
   });
+
+  $('#search-free').on('keyup', function() {
+    refreshTableWithSearch();
+  });
+  $('#search-address').on('keyup', function() {
+    refreshTableWithSearch();
+  });
+  $('#filter-infectation').on('change', function() {
+    refreshTableWithSearch();
+  });
+}
+
+function refreshTableWithSearch() {
+  let searchText = $('#search-free').val();
+  listTable.columns(0).search(searchText);
+  let searchAddress = $('#search-address').val();
+  listTable.columns(5).search(searchAddress);
+  let niveauInfectation = $('#filter-infectation').val();
+  listTable.columns(4).search(niveauInfectation);
+  listTable.draw();
 }

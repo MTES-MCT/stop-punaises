@@ -17,55 +17,72 @@
     </div>
     {% endif %}
 
-    <div>
-    Filtres
+    <div class="fr-container">
+        <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-4">
+                <input type="text" class="fr-input" id="search-free" placeholder="Référence, nom...">
+            </div>
+            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-4">
+                <input type="text" class="fr-input" id="search-address" placeholder="Ville, CP...">
+            </div>
+            <div class="fr-select-group fr-col-12 fr-col-lg-4">
+                <select class="fr-select" id="filter-infectation">
+                    <option value="">Niveau infestation</option>
+                    <option value="0">0 - Nulle</option>
+                    <option value="1">1 - Faible</option>
+                    <option value="2">2 - Moyenne</option>
+                    <option value="3">3 - Elevée</option>
+                    <option value="4">4 - Très élevée</option>
+                </select>
+            </div>
+        </div>
     </div>
 
-    <div>
-    <h2>{{ count_signalement }} signalements trouvés</h2>
+    <div class="fr-mt-3w">
+        <h2>{{ count_signalement }} signalements trouvés</h2>
 
-    {% if signalements is not empty %}
-        <table id="datatable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Créé le</th>
-                    <th>Intervention</th>
-                    <th>Date</th>
-                    <th>Infestation</th>
-                    <th>Commune</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for signalement in signalements %}
+        {% if signalements is not empty %}
+            <table id="datatable">
+                <thead>
                     <tr>
-                        <td>{{ signalement.reference }}</td>
-                        <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
-                        <td><span>{{ signalement.typeIntervention|capitalize }}</span></td>
-                        <td>{{ signalement.dateIntervention.format('d/m/Y') }}</td>
-                        <td>
-                            <span class="niveau-{{ signalement.niveauInfestation }}">
-                                {% if signalement.niveauInfestation == 0 %}
-                                    0 - Nulle
-                                {% elseif signalement.niveauInfestation == 1 %}
-                                    1 - Faible
-                                {% elseif signalement.niveauInfestation == 2 %}
-                                    2 - Moyenne
-                                {% elseif signalement.niveauInfestation == 3 %}
-                                    3 - Elevée
-                                {% elseif signalement.niveauInfestation == 4 %}
-                                    4 - Très élevée
-                                {% endif %}
-                            </span>
-                        </td>
-                        <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                        <td><a href="#" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
+                        <th>ID</th>
+                        <th>Créé le</th>
+                        <th>Intervention</th>
+                        <th>Date</th>
+                        <th>Infestation</th>
+                        <th>Commune</th>
+                        <th></th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+                </thead>
+                <tbody>
+                    {% for signalement in signalements %}
+                        <tr>
+                            <td>{{ signalement.reference }} <span>{{ signalement.nomOccupant }} {{ signalement.prenomOccupant }} {{ signalement.emailOccupant }}</span></td>
+                            <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
+                            <td><span>{{ signalement.typeIntervention|capitalize }}</span></td>
+                            <td>{{ signalement.dateIntervention.format('d/m/Y') }}</td>
+                            <td>
+                                <span class="niveau-{{ signalement.niveauInfestation }}">
+                                    {% if signalement.niveauInfestation == 0 %}
+                                        0 - Nulle
+                                    {% elseif signalement.niveauInfestation == 1 %}
+                                        1 - Faible
+                                    {% elseif signalement.niveauInfestation == 2 %}
+                                        2 - Moyenne
+                                    {% elseif signalement.niveauInfestation == 3 %}
+                                        3 - Elevée
+                                    {% elseif signalement.niveauInfestation == 4 %}
+                                        4 - Très élevée
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
+                            <td><a href="#" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

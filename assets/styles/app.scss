@@ -361,12 +361,27 @@
         float: right;
     }
 
+    .fr-container {
+        .fr-input-wrap::before {
+            right: 1rem;
+        }
+
+        .fr-input, .fr-select {
+            background-color: var(--grey-1000-50);   
+        }
+    }
+
     .dataTables_wrapper {
         table {
             width: 100%;
 
             tbody {
                 td{
+                    &:nth-child(1) {
+                        span {
+                            display: none;
+                        }
+                    }
                     &:nth-child(3) {
                         span {
                             display: inline-block;
