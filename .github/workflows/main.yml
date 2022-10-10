@@ -1,5 +1,5 @@
 # https://help.github.com/en/actions
-name: stop-punaise CI
+name: stop-punaises CI
 on:
   push:
     branches:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   code-quality:
-    name: STOP-PUNAISE (PHP ${{ matrix.php-versions }})
+    name: STOP-PUNAISES (PHP ${{ matrix.php-versions }})
     # https://hub.docker.com/_/ubuntu/
     runs-on: ubuntu-latest
     services:
