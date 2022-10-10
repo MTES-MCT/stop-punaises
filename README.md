@@ -104,8 +104,6 @@ cs-fix                         Fix source code with PHP-CS-Fixer
 
 ### Lancement
 
-1. Executer la commande
-
 La commande permet d'installer l'environnement de developpement avec un jeu de données
 
 ```
