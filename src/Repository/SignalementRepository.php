@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Signalement;
-use App\Entity\Territoire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,7 +38,7 @@ class SignalementRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    
+
     public function findLastReference(): ?array
     {
         $year = (new \DateTime())->format('Y');

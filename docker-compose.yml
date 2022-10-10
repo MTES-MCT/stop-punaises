@@ -1,21 +1,61 @@
-version: '3'
+# docker-compose.yml
+version: "3.8"
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-14}-alpine
+  stopunaises_mysql:
+    image: 'mysql:5.7.38'
+    container_name: stopunaises_mysql
+    restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: stopunaises_db
+      MYSQL_USER: stopunaises
+      MYSQL_PASSWORD: stopunaises
+      MYSQL_TCP_PORT: 3308
+    ports:
+      - 3308:3308
     volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - dbdata:/var/lib/mysql
+      - ./.docker/mysql:/docker-entrypoint-initdb.d
+
+  stopunaises_phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - stopunaises_mysql
+    restart: always
+    container_name: stopunaises_phpmyadmin
+    environment:
+      PMA_HOST: stopunaises_mysql
+      PMA_PORT: 3308
+    ports:
+      - 8091:80
+
+  stopunaises_phpfpm:
+    build: .docker/php-fpm
+    container_name: stopunaises_phpfpm
+    working_dir: /app
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      MAILER_DSN: ${MAILER_DSN}
+    volumes:
+      - .:/app/
+
+  stopunaises_nginx:
+    build: .docker/nginx
+    depends_on:
+      - stopunaises_phpfpm
+    container_name: stopunaises_nginx
+    working_dir: /app
+    volumes:
+      - .:/app/
+    ports:
+      - 8090:80
+
+  stopunaises_mailer:
+    image: schickling/mailcatcher
+    ports:
+      - 1035:1025
+      - 1090:1080
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  db-data:
-###< doctrine/doctrine-bundle ###
+  dbdata:
