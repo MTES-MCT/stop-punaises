@@ -48,7 +48,7 @@ class Employe
 
     public function __toString(): string
     {
-        return $this->prenom . ' ' . $this->nom;
+        return $this->prenom.' '.$this->nom;
     }
 
     public function getId(): ?int

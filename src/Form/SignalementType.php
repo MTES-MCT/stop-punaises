@@ -32,7 +32,7 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                     'maxlength' => '100',
                 ],
-                'label' => "Adresse",
+                'label' => 'Adresse',
                 'required' => true,
             ])
             ->add('codePostal', TextType::class, [
@@ -66,7 +66,6 @@ class SignalementType extends AbstractType
                 'label' => 'Ville',
                 'required' => true,
             ])
-            
 
             ->add('typeLogement', ChoiceType::class, [
                 'attr' => [
@@ -80,7 +79,7 @@ class SignalementType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => "Type de logement",
+                'label' => 'Type de logement',
                 'row_attr' => [
                     'class' => 'fr-select-group',
                 ],
@@ -119,7 +118,6 @@ class SignalementType extends AbstractType
                 'required' => false,
             ])
 
-            
             ->add('nomOccupant', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
@@ -165,7 +163,6 @@ class SignalementType extends AbstractType
                 'required' => false,
             ])
 
-
             // Onglet 2
             ->add('typeIntervention', ChoiceType::class, [
                 'attr' => [
@@ -193,8 +190,8 @@ class SignalementType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => "Entreprise",
-                'placeholder' => "Entreprise",
+                'label' => 'Entreprise',
+                'placeholder' => 'Entreprise',
                 'required' => true,
             ])
             ->add('dateIntervention', DateType::class, [
@@ -252,7 +249,7 @@ class SignalementType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => "Type de traitement",
+                'label' => 'Type de traitement',
                 'row_attr' => [
                     'class' => 'fr-select-group',
                 ],
@@ -334,7 +331,7 @@ class SignalementType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => "Date de la visite post-traitement",
+                'label' => 'Date de la visite post-traitement',
                 'required' => false,
             ])
             ->add('prixFactureHT', TextType::class, [
