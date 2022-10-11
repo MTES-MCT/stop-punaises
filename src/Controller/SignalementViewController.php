@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\SignalementRepository;
+use App\Entity\Signalement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,11 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class SignalementViewController extends AbstractController
 {
     #[Route('/bo/signalements/{uuid}', name: 'app_signalement_view')]
-    public function index(string $uuid, SignalementRepository $signalementRepository): Response
+    public function index(Signalement $signalement): Response
     {
-        /** @var Signalement $signalement */
-        $signalement = $signalementRepository->findOneByUuid($uuid);
-
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
         }
