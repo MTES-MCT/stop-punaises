@@ -23,8 +23,8 @@ class SignalementListController extends AbstractController
 
         return $this->render('signalement_list/index.html.twig', [
             'is_admin' => $isAdmin,
-            'display_signalement_create_success' => $request->get('create_success_message') == '1',
-            'count_signalement' => count($signalements),
+            'display_signalement_create_success' => '1' == $request->get('create_success_message'),
+            'count_signalement' => \count($signalements),
             'signalements' => $signalements,
             'entreprises' => $entreprises,
         ]);

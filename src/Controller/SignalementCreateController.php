@@ -26,7 +26,7 @@ class SignalementCreateController extends AbstractController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $signalement->setCreatedAt(new DateTimeImmutable());
-        
+
                 $lastReference = $signalementRepository->findLastReference();
                 if (!empty($lastReference)) {
                     list($year, $id) = explode('-', $lastReference['reference']);
@@ -35,17 +35,15 @@ class SignalementCreateController extends AbstractController
                     $year = (new \DateTime())->format('Y');
                     $signalement->setReference($year.'-'. 1);
                 }
-        
+
                 $entityManager->persist($signalement);
                 $entityManager->flush();
 
-                return $this->redirect($this->generateUrl('app_signalement_list') . '?create_success_message=1');
-                
-            } else {
-                $feedback []= 'Il y a des erreurs dans les données transmises.';
+                return $this->redirect($this->generateUrl('app_signalement_list').'?create_success_message=1');
             }
+            $feedback[] = 'Il y a des erreurs dans les données transmises.';
         }
-        
+
         return $this->render('signalement_create/index.html.twig', [
             'form' => $form->createView(),
             'feedback' => $feedback,
@@ -66,7 +64,7 @@ class SignalementCreateController extends AbstractController
         $jsonData = [];
         $employes = $entreprise->getEmployes();
         foreach ($employes as $employe) {
-            $jsonData[$employe->getId()] = $employe->getPrenom() . ' ' . $employe->getNom();
+            $jsonData[$employe->getId()] = $employe->getPrenom().' '.$employe->getNom();
         }
 
         return $this->json(['success' => true, 'data' => $jsonData]);
