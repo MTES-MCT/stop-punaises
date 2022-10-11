@@ -42,7 +42,7 @@
                             <td>{{ entreprise.nom }} <span>{{ entreprise.numeroSiret }} {{ entreprise.numeroLabel }}</span></td>
                             <td>{{ entreprise.numeroSiret }}</span></td>
                             <td>{{ entreprise.numeroLabel }}</td>
-                            <td>{{ entreprise.employes.count }}</td>
+                            <td><span>{{ entreprise.employes.count }}</span></td>
                             <td>
                                 {% for territoire in entreprise.territoires %}
                                     {{ territoire.zip }}{{ not loop.last ? ',' }}
