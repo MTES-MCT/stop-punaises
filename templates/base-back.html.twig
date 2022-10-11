@@ -9,6 +9,10 @@
         <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-device/icons-device.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-map/icons-map.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-system/icons-system.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-development/icons-development.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-buildings/icons-buildings.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-document/icons-document.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/datatables/jquery.dataTables.min.css') }}"/>
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -20,7 +24,7 @@
         {% endblock %}
     </head>
     <body>
-        {% include "common/header.html.twig" %}
+        {% include "common/header-back.html.twig" %}
 
         {% block body %}{% endblock %}
 

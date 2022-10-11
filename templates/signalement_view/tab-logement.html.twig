@@ -1,0 +1,52 @@
+<h2>
+    <span class="fr-icon-community-line" aria-hidden="true"></span>
+    Logement
+</h2>
+
+<div class="fr-container fr-px-2w fr-mb-15w">
+    <div class="fr-grid-row fr-grid fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-lg-5 fr-mr-3v edit-zone">
+            <strong>Le logement</strong>
+            <br>
+            Adresse : {{ signalement.adresse }}
+            <br>
+            Code postal : {{ signalement.codePostal }}
+            <br>
+            Commune : {{ signalement.ville }}
+            <br>
+            Type de logement : {{ signalement.typeLogement|capitalize }}
+            <br>
+            Construction avant 1948 :
+            {% if signalement.construitAvant1948 is null %}
+                Non renseigné
+            {% else %}
+                {% if signalement.construitAvant1948 %}
+                    Oui
+                {% else %}
+                    Non
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="fr-col-12 fr-col-lg-5 edit-zone">
+            <strong>L'occupant</strong>
+            <br>
+            Nom : {{ signalement.nomOccupant }}
+            <br>
+            Prénom : {{ signalement.prenomOccupant }}
+            <br>
+            Téléphone :
+            {% if signalement.telephoneOccupant %}
+                {{ signalement.telephoneOccupant }}
+            {% else %}
+                Non renseigné
+            {% endif %}
+            <br>
+            Email :
+            {% if signalement.emailOccupant %}
+                {{ signalement.emailOccupant }}
+            {% else %}
+                Non renseigné
+            {% endif %}
+        </div>
+    </div>
+</div>

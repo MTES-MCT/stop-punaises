@@ -1,0 +1,67 @@
+<h2>
+    <span class="fr-icon-bug-line" aria-hidden="true"></span>
+    Intervention
+    {% if 'diagnostic' in signalement.typeIntervention %}
+        <span class="type-intervention">Diagnostic</span>
+    {% endif %}
+    {% if 'traitement' in signalement.typeIntervention %}
+        <span class="type-intervention">Traitement</span>
+    {% endif %}
+</h2>
+
+
+<div class="fr-container fr-px-2w">
+    <div class="fr-grid-row fr-grid fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-lg-5 fr-mr-3v fr-mb-3v edit-zone">
+            <strong>Infos générales</strong>
+            <br>
+            Entreprise : {{ signalement.entreprise }}
+            <br>
+            Agent : {{ signalement.agent }}
+            <br>
+            Date d'intervention : {{ signalement.dateIntervention.format('d/m/Y') }}
+            <br>
+            Infestation : {% include "common/components/niveau-infestation.html.twig" %}
+            <br>
+            Prix facturé : {{ signalement.prixFactureHT }} €
+        </div>
+        <div class="fr-col-12 fr-col-lg-5 fr-mb-3v edit-zone">
+            <strong>Détails de l'intervention</strong>
+            <br>
+
+            {% if 'traitement' in signalement.typeIntervention %}
+                Type de traitement : {{ signalement.typeTraitement }}
+                <br>
+                Nom du biocide : {{ signalement.nomBiocide }}
+                <br>
+                Type de diagnostic : {{ signalement.typeDiagnostic }}
+                <br>
+                Nb. pièces traitées : {{ signalement.nombrePiecesTraitees }}
+                <br>
+                Délai entre les interventions : {{ signalement.delaiEntreInterventions }} jours
+                <br>
+                Visite post-traitement :
+                {% if signalement.faitVisitePostTraitement %}
+                    Oui
+                {% else %}
+                    Non
+                {% endif %}
+                <br>
+                Date de la visite :
+                {% if signalement.dateVisitePostTraitement %}
+                    {{ signalement.dateVisitePostTraitement.format('d/m/Y') }}
+                {% else %}
+                    -
+                {% endif %}
+
+            {% else %}
+                Aucun traitement pour l'instant.
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="fr-mt-2w">
+    <h3>Photos de la situation</h3>
+    A venir...
+</div>

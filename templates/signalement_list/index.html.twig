@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-back.html.twig' %}
 
 {% block title %}Stop punaises - Les signalements{% endblock %}
 
@@ -80,25 +80,13 @@
                             <td><span>{{ signalement.typeIntervention|capitalize }}</span></td>
                             <td>{{ signalement.dateIntervention.format('d/m/Y') }}</td>
                             <td>
-                                <span class="niveau-{{ signalement.niveauInfestation }}">
-                                    {% if signalement.niveauInfestation == 0 %}
-                                        0 - Nulle
-                                    {% elseif signalement.niveauInfestation == 1 %}
-                                        1 - Faible
-                                    {% elseif signalement.niveauInfestation == 2 %}
-                                        2 - Moyenne
-                                    {% elseif signalement.niveauInfestation == 3 %}
-                                        3 - Elevée
-                                    {% elseif signalement.niveauInfestation == 4 %}
-                                        4 - Très élevée
-                                    {% endif %}
-                                </span>
+                                {% include "common/components/niveau-infestation.html.twig" %}
                             </td>
                             {% if is_admin %}
                                 <td>{{ signalement.entreprise.nom }}</td>
                             {% endif %}
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                            <td class="button-view"><a href="#" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
+                            <td class="button-view"><a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -1,0 +1,45 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stop punaises - Gérer le signalement{% endblock %}
+
+{% block body %}
+<div class="fiche-signalement fr-p-5w">
+    <div class="fr-container fr-px-2w">
+        <div class="fr-grid-row">
+            <div class="fr-col-12 fr-col-lg-6">
+                <h1>Signalement #{{signalement.reference}}</h1>
+            </div>
+            <div class="fr-col-12 fr-col-lg-6">
+                {% include "common/components/niveau-infestation.html.twig" %}
+                <span class="date-info">entregistré le <strong>{{ signalement.createdAt.format('d/m/Y') }}</strong></span>
+                {% if signalement.dateIntervention %}
+                    <span class="date-info">intervention le <strong>{{ signalement.dateIntervention.format('d/m/Y') }}<strong></span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="fr-tabs">
+        <ul class="fr-tabs__list" role="tablist" aria-label="Informations du signalement">
+            <li role="presentation">
+                <button id="tabpanel-intervention" class="fr-tabs__tab" tabindex="0" role="tab" aria-selected="true" aria-controls="tabpanel-intervention-panel">Intervention</button>
+            </li>
+            <li role="presentation">
+                <button id="tabpanel-logement" class="fr-tabs__tab" tabindex="-1" role="tab" aria-selected="false" aria-controls="tabpanel-logement-panel">Logement</button>
+            </li>
+            <li role="presentation">
+                <button id="tabpanel-documents" class="fr-tabs__tab" tabindex="-1" role="tab" aria-selected="false" aria-controls="tabpanel-documents-panel">Documents</button>
+            </li>
+        </ul>
+        <div id="tabpanel-intervention-panel" class="fr-tabs__panel fr-tabs__panel--selected" role="tabpanel" aria-labelledby="tabpanel-intervention" tabindex="0">
+            {% include "signalement_view/tab-intervention.html.twig" %}
+        </div>
+        <div id="tabpanel-logement-panel" class="fr-tabs__panel" role="tabpanel" aria-labelledby="tabpanel-logement" tabindex="0">
+            {% include "signalement_view/tab-logement.html.twig" %}
+        </div>
+        <div id="tabpanel-documents-panel" class="fr-tabs__panel" role="tabpanel" aria-labelledby="tabpanel-documents" tabindex="0">
+            {% include "signalement_view/tab-documents.html.twig" %}
+        </div>
+    </div>
+</div>
+{% endblock %}

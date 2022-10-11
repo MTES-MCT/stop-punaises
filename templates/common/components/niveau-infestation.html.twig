@@ -1,0 +1,13 @@
+<span class="niveau-infestation niveau-{{ signalement.niveauInfestation }}">
+    {% if signalement.niveauInfestation == 0 %}
+        0 - Nulle
+    {% elseif signalement.niveauInfestation == 1 %}
+        1 - Faible
+    {% elseif signalement.niveauInfestation == 2 %}
+        2 - Moyenne
+    {% elseif signalement.niveauInfestation == 3 %}
+        3 - Elevée
+    {% elseif signalement.niveauInfestation == 4 %}
+        4 - Très élevée
+    {% endif %}
+</span>
