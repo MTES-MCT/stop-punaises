@@ -16,16 +16,7 @@
             <br>
             Type de logement : {{ signalement.typeLogement|capitalize }}
             <br>
-            Construction avant 1948 :
-            {% if signalement.construitAvant1948 is null %}
-                Non renseigné
-            {% else %}
-                {% if signalement.construitAvant1948 %}
-                    Oui
-                {% else %}
-                    Non
-                {% endif %}
-            {% endif %}
+            Construction avant 1948 : {{ signalement.construitAvant1948|constructionAvant1948 }}
         </div>
         <div class="fr-col-12 fr-col-lg-5 edit-zone">
             <strong>L'occupant</strong>

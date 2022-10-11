@@ -47,7 +47,7 @@ class SignalementRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
-    
+
     public function findLastReference(): ?array
     {
         $year = (new \DateTime())->format('Y');
