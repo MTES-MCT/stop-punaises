@@ -3,11 +3,21 @@
 {% block title %}Stop punaises - Les entreprises partenaires{% endblock %}
 
 {% block body %}
+{% include "entreprise_list/modal-create-entreprise.html.twig" %}
+
 <div class="liste-entreprises fr-p-5w">
     <div class="add-button-container">
-        <a href="{{ path('app_signalement_create') }}" class="fr-btn fr-btn--icon-left fr-icon-add-line">Créer une entreprise</a>
+        <button class="fr-btn fr-btn--icon-left fr-icon-add-line"  data-fr-opened="false" aria-controls="fr-modal-create-entreprise">Créer une entreprise</button>
     </div>
     <h1>Les entreprises partenaires</h1>
+
+    {% if display_signalement_create_success %}
+    <div class="fr-mb-3w">
+        <div class="fr-alert fr-alert--success">
+            <h3 class="fr-alert__title">L'entreprise a bien été enregistrée.</h3>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="fr-container">
         <div class="fr-grid-row fr-grid-row--gutters">
