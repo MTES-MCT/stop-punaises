@@ -60,3 +60,5 @@ function refreshTableWithSearch() {
   listTable.columns(indexColumnInfectation).search(niveauInfectation);
   listTable.draw();
 }
+
+
