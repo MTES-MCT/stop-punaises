@@ -39,6 +39,15 @@ class SignalementRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneByUuid(string $uuid)
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->where('s.uuid = :uuid')
+            ->setParameter('uuid', $uuid);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     public function findLastReference(): ?array
     {
         $year = (new \DateTime())->format('Y');

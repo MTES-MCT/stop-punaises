@@ -1,3 +1,27 @@
+span.niveau-infestation {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: var(--grey-1000-50);
+
+    &.niveau-0 {
+        background-color: var(--success-425-625);
+    }
+    &.niveau-1 {
+        background-color: var(--orange-terre-battue-main-645);
+        color: var(--grey-200-850);
+    }
+    &.niveau-2 {
+        background-color: var(--warning-425-625);
+    }
+    &.niveau-3 {
+        background-color: var(--error-425-625);
+    }
+    &.niveau-4 {
+        background-color: var(--grey-1000-50);
+    }
+}
+
 .index-header {
     h1 {
         font-size: 56px;
@@ -391,31 +415,6 @@
                             color: var(--grey-1000-50);
                         }
                     }
-                    &:nth-child(5) {
-                        span {
-                            display: inline-block;
-                            padding: 5px 10px;
-                            border-radius: 20px;
-                            color: var(--grey-1000-50);
-
-                            &.niveau-0 {
-                                background-color: var(--success-425-625);
-                            }
-                            &.niveau-1 {
-                                background-color: var(--orange-terre-battue-main-645);
-                                color: var(--grey-200-850);
-                            }
-                            &.niveau-2 {
-                                background-color: var(--warning-425-625);
-                            }
-                            &.niveau-3 {
-                                background-color: var(--error-425-625);
-                            }
-                            &.niveau-4 {
-                                background-color: var(--grey-1000-50);
-                            }
-                        }
-                    }
                 }
                 td.button-view {
                     a.fr-btn.fr-icon-arrow-right-fill {
@@ -454,5 +453,34 @@
 @media (min-width: 992px) {
     .liste-signalements .fr-container .fr-input-wrap::before {
         top: -0.75rem;
+    }
+}
+
+.fiche-signalement {
+    .date-info {
+        display: inline-block;
+        margin-left: 10px;
+    }
+
+    .fr-tabs__panel {
+        background-color: var(--grey-975-75);
+
+        h2 {
+            span.type-intervention {
+                display: inline-block;
+                padding: 5px 10px;
+                border-radius: 20px;
+                background-color: var(--info-425-625);
+                color: var(--grey-1000-50);
+                font-size: 0.8rem;
+                line-height: 1.2rem;
+            }
+        }
+
+        .edit-zone {
+            background-color: var(--grey-1000-50);
+            filter: drop-shadow(var(--raised-shadow));
+            font-weight: normal;
+        }
     }
 }
