@@ -3,40 +3,57 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <main class="fr-container fr-py-5w">
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+        <section class="fr-grid-row fr-grid-row--center">
+            {#        <header class="fr-callout bg-light fr-col-12"> #}
+            {#            <p class="fr-callout__title">Connexion</p> #}
+            {#            <p class="fr-callout__text fr-mb-5v"> #}
+            {#                Entrez vos identifiants et cliquez sur connexion. #}
+            {#            </p> #}
+            {#            <em class="fr-fi-information-line fr-text--light fr-text-label--blue-france"> Vous pouvez également <a #}
+            {#                        href="{{ path('login_activation') }}">activer votre compte</a> ou #}
+            {#                <a href="{{ path('login_mdp_perdu') }}">récupérer votre mot de passe</a> si neccéssaire</em> #}
+            {#        </header> #}
+            <form class="needs-validation fr-mt-5v fr-col-md-6" name="login-form" method="POST" novalidate="">
+                {% if error %}
+                    <div role="alert" class="fr-alert fr-alert--error fr-alert--sm fr-mb-5w">
+                        <p class="fr-alert__title">Connexion impossible</p>
+                        <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                    </div>
+                {% endif %}
+                <div class="fr-input-group">
+                    <label class="fr-label" for="login-email">
+                        Courriel
+                        <span class="fr-hint-text">Adresse utilisée lors de la création de votre compte</span>
+                    </label>
+                    <input class="fr-input" aria-describedby="login-email-error-desc-error" type="email"
+                           id="login-email" name="email" required>
+                    <p id="login-email-error-desc-error" class="fr-error-text fr-hidden">
+                        Veuillez saisir un courriel correct.
+                    </p>
+                </div>
+                <div class="fr-input-group fr-grid-row fr-grid-row--middle">
+                    <label class="fr-label fr-col-12" for="login-password">
+                        Mot de passe
+                        <span class="fr-hint-text">Mot de passe défini à la création de votre compte</span>
+                    </label>
+                    <input class="fr-input fr-col-11" aria-describedby="login-password-error-desc-error" type="password"
+                           id="login-password" name="password" required>
+                    <span class="fr-btn fr-fi-eye-off-fill fr-col-1 fr-mt-2v fr-password-toggle"
+                          title="Afficher/Cacher le mot de passe"></span>
+                    <p id="login-password-error-desc-error" class="fr-error-text fr-hidden fr-col-12">
+                        Veuillez saisir votre mot de passe.
+                    </p>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <div class="fr-form-group">
+                    <button class="fr-btn fr-btn--icon-left fr-icon-checkbox-circle-line">
+                        Connexion
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
 {% endblock %}
