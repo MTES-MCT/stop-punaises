@@ -39,9 +39,14 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="fr-btn fr-icon-lock-line" href="{{ path('app_signalement_list') }}">
-                                    Espace pro
-                                </a>
+
+                                {% if app.user %}
+                                    <a class="fr-btn fr-icon-user-line" href="{{ path('app_signalement_list') }}">Tableau de bord</a>
+                                {% else %}
+                                    <a class="fr-btn fr-icon-lock-line" href="{{ path('app_login') }}">
+                                        Espace pro
+                                    </a>
+                                {% endif %}
                             </li>
                         </ul>
                     </div>
