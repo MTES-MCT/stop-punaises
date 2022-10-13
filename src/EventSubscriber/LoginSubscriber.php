@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Entreprise;
+use App\Entity\User;
 use App\Manager\UserManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
@@ -15,7 +15,7 @@ class LoginSubscriber implements EventSubscriberInterface
 
     public function onLoginSuccess(LoginSuccessEvent $event)
     {
-        /** @var Entreprise $user */
+        /** @var User $user */
         $user = $event->getUser();
         $user->setLastLogin(new \DateTimeImmutable());
         $this->userManager->save($user);
