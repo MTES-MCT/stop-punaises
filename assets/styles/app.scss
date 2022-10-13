@@ -30,7 +30,7 @@ span.niveau-infestation {
     table {
         width: 100%;
         td.button-view {
-            a.fr-btn.fr-icon-arrow-right-fill {
+            a.fr-btn.fr-icon-arrow-right-fill, a.fr-btn.fr-icon-pencil-line {
                 display: inline-block;
                 border-radius: 20px;
                 min-height: 1.5rem;
@@ -520,6 +520,47 @@ span.niveau-infestation {
                             color: var(--grey-1000-50);
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+.fiche-entreprise {
+    .btn-edit-container {
+        text-align: right;
+
+        .fr-icon-pencil-line {
+            display: inline-block;
+            border-radius: 20px;
+            min-height: 1.5rem;
+    
+            &::before {
+                margin-right: 0px;
+            }
+        }
+    }
+
+    .sublist-territories {
+        span {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background-color: var(--info-425-625);
+            color: var(--grey-1000-50);
+        }
+    }
+
+    .fr-col-lg-3 {
+        text-align: right;
+    }
+
+    .sublist-employes {
+        background-color: var(--grey-975-75);
+        table {
+            tr {
+                td {
+                    background-color: var(--grey-1000-50);
                 }
             }
         }
