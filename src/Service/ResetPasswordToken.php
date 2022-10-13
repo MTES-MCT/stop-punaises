@@ -22,7 +22,7 @@ class ResetPasswordToken
     {
         $user = $this->userRepository->findOneBy(['confirmationToken' => $token]);
 
-        if (null === $user || new \DateTimeImmutable() > $user->getPasswordExpiredAt()) {
+        if (null === $user || new \DateTimeImmutable() > $user->getPasswordRequestExpiredAt()) {
             return false;
         }
 

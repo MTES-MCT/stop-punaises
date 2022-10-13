@@ -31,7 +31,7 @@ class UserManager extends AbstractManager
     {
         /** @var User $user */
         $user = $this->findOneBy(['email' => $email]);
-        $user->setPasswordExpiredAt(
+        $user->setPasswordRequestExpiredAt(
             (new \DateTime())->modify($this->parameterBag->get('confirmation_token_lifetime'))
         );
         $token = $this->tokenGenerator->generateToken();
@@ -53,7 +53,7 @@ class UserManager extends AbstractManager
         $user
             ->setPassword($password)
             ->setConfirmationToken(null)
-            ->setPasswordExpiredAt(null);
+            ->setPasswordRequestExpiredAt(null);
 
         $this->save($user);
 

@@ -38,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $confirmationToken = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $passwordExpiredAt = null;
+    private ?\DateTimeImmutable $passwordRequestExpiredAt = null;
 
     #[ORM\Column(type: 'string', enumType: Status::class)]
     private Status $status;
@@ -145,14 +145,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPasswordExpiredAt(): ?\DateTimeImmutable
+    public function getPasswordRequestExpiredAt(): ?\DateTimeImmutable
     {
-        return $this->passwordExpiredAt;
+        return $this->passwordRequestExpiredAt;
     }
 
-    public function setPasswordExpiredAt(?\DateTimeImmutable $passwordExpiredAt): self
+    public function setPasswordRequestExpiredAt(?\DateTimeImmutable $passwordRequestExpiredAt): self
     {
-        $this->passwordExpiredAt = $passwordExpiredAt;
+        $this->passwordRequestExpiredAt = $passwordRequestExpiredAt;
 
         return $this;
     }
