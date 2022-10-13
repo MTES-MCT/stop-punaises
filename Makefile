@@ -62,6 +62,9 @@ drop-db: ## Drop database
 load-data: ## Load database from dump
 	@$(DOCKER_COMP) exec -T stopunaises_mysql mysql -u $(DATABASE_USER) -pstopunaises $(DATABASE_NAME) < $(PATH_DUMP_SQL)
 
+migration: ## Build migrations
+	@$(DOCKER_COMP) exec stopunaises_phpfpm sh -c "$(SYMFONY) --env=dev make:migration --no-interaction"
+
 load-migrations: ## Play migrations
 	@$(DOCKER_COMP) exec stopunaises_phpfpm sh -c "$(SYMFONY) --env=dev doctrine:migrations:migrate --no-interaction"
 

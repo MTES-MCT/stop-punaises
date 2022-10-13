@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures\Loader;
 
+use App\Entity\Enum\Status;
 use App\Entity\User;
 use App\Repository\EntrepriseRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -33,7 +34,8 @@ class LoadUserData extends Fixture implements OrderedFixtureInterface
         $faker = Factory::create();
         $user = (new User())
             ->setRoles(json_decode($row['roles'], true))
-            ->setEmail($row['email']);
+            ->setEmail($row['email'])
+            ->setStatus(Status::from($row['status']));
 
         if (isset($row['entreprise'])) {
             $user->setEntreprise(

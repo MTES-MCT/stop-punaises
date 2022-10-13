@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
+use App\Entity\Enum\Status;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -37,10 +38,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $confirmationToken = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $passwordRequestedAt = null;
+    private ?\DateTimeImmutable $passwordRequestExpiredAt = null;
+
+    #[ORM\Column(type: 'string', enumType: Status::class)]
+    private Status $status;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Entreprise $entreprise = null;
+
+    public function __construct()
+    {
+        $this->status = Status::INACTIVE;
+    }
 
     public function getId(): ?int
     {
@@ -129,21 +138,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->confirmationToken;
     }
 
-    public function setConfirmationToken(string $confirmationToken): self
+    public function setConfirmationToken(?string $confirmationToken): self
     {
         $this->confirmationToken = $confirmationToken;
 
         return $this;
     }
 
-    public function getPasswordRequestedAt(): ?\DateTimeImmutable
+    public function getPasswordRequestExpiredAt(): ?\DateTimeImmutable
     {
-        return $this->passwordRequestedAt;
+        return $this->passwordRequestExpiredAt;
     }
 
-    public function setPasswordRequestedAt(\DateTimeImmutable $passwordRequestedAt): self
+    public function setPasswordRequestExpiredAt(?\DateTimeImmutable $passwordRequestExpiredAt): self
     {
-        $this->passwordRequestedAt = $passwordRequestedAt;
+        $this->passwordRequestExpiredAt = $passwordRequestExpiredAt;
 
         return $this;
     }
@@ -156,6 +165,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEntreprise(?Entreprise $entreprise): self
     {
         $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getStatus(): Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -52,6 +52,7 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
             ->setDelaiEntreInterventions($faker->randomDigitNotZero())
             ->setPrixFactureHT($faker->randomNumber(5))
             ->setCodeInsee($row['code_insee'])
+            ->setNiveauInfestation($row['niveau_infestation'])
             ->setDateIntervention(new \DateTimeImmutable())
             ->setAgent($this->employeRepository->findOneBy(['uuid' => $row['agent']]))
             ->setReference($row['reference'])->setCreatedAt(new \DateTimeImmutable());
