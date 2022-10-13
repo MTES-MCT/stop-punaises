@@ -2,6 +2,7 @@
 
 namespace App\Controller\Security;
 
+use App\Exception\User\UserEmailNotFoundException;
 use App\Manager\UserManager;
 use App\Security\AppAuthenticator;
 use App\Service\ResetPasswordToken;
@@ -19,9 +20,15 @@ class ResetPasswordController extends AbstractController
         UserManager $userManager
     ): Response {
         if ($request->isMethod('POST') && $email = $request->request->get('email')) {
-            $userManager->requestPasswordFrom($email);
+            try {
+                $userManager->requestPasswordFrom($email);
+            } catch (UserEmailNotFoundException) {
+                $this->addFlash('error', 'Cette adresse ne correspond à aucun compte, verifiez votre saisie');
 
-            return $this->render('security/login_link_sent.html.twig', [
+                return $this->render('security/reset_password.html.twig');
+            }
+
+            return $this->render('security/reset_password_link_sent.html.twig', [
                 'email' => $email,
             ]);
         }

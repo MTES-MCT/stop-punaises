@@ -48,7 +48,7 @@ class Message implements MessageInterface
         return $this;
     }
 
-    public function getParameters(): self
+    public function getParameters(): array
     {
         return $this->parameters;
     }

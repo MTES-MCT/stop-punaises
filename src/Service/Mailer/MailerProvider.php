@@ -14,7 +14,7 @@ class MailerProvider implements MailerProviderInterface
     public function send(MessageInterface $message)
     {
         $email = (new Email())
-            ->from($message->getFromEmail())
+            ->from($message->getFrom())
             ->to(...$message->getTo())
             ->text('');
 

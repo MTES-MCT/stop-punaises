@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\User;
+use App\Exception\User\UserEmailNotFoundException;
 use App\Service\Mailer\MailerProviderInterface;
 use App\Service\Mailer\MessageFactory;
 use App\Service\Mailer\Template;
@@ -31,14 +32,18 @@ class UserManager extends AbstractManager
     {
         /** @var User $user */
         $user = $this->findOneBy(['email' => $email]);
+        if (null === $user) {
+            throw new UserEmailNotFoundException($email);
+        }
+
         $user->setPasswordRequestExpiredAt(
-            (new \DateTime())->modify($this->parameterBag->get('confirmation_token_lifetime'))
+            (new \DateTimeImmutable())->modify($this->parameterBag->get('confirmation_token_lifetime'))
         );
         $token = $this->tokenGenerator->generateToken();
         $user->setConfirmationToken($token);
         $this->save($user);
 
-        $resetPasswordLink = $this->urlGenerator->generate('reset_password', ['confirmation_token' => $token]);
+        $resetPasswordLink = $this->urlGenerator->generate('reset_password', ['token' => $token]);
         $this->mailerProvider->send(
             $this
                 ->messageFactory
