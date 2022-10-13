@@ -14,3 +14,4 @@ import './bootstrap';
 import './controllers/form_signalement';
 import './controllers/list_signalement';
 import './controllers/list_entreprises';
+import './controllers/list_employes';
