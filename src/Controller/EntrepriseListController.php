@@ -16,7 +16,6 @@ class EntrepriseListController extends AbstractController
     #[Route('/bo/entreprises', name: 'app_entreprise_list')]
     public function index(Request $request, EntrepriseRepository $entrepriseRepository, EntityManagerInterface $entityManager): Response
     {
-        // TODO : test isAdmin
         $entreprise = new Entreprise();
         $entreprise->setUuid(uniqid());
         $feedback = [];
@@ -34,7 +33,10 @@ class EntrepriseListController extends AbstractController
 
         $entreprises = $entrepriseRepository->findAll();
 
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
+
         return $this->render('entreprise_list/index.html.twig', [
+            'is_admin' => $isAdmin,
             'form' => $form->createView(),
             'display_signalement_create_success' => '1' == $request->get('create_success_message'),
             'feedback' => $feedback,

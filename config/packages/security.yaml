@@ -1,6 +1,6 @@
 security:
     role_hierarchy:
-        ROLE_ENTRPRISE: ROLE_USER
+        ROLE_ENTREPRISE: ROLE_USER
         ROLE_ADMIN: ROLE_ENTREPRISE
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
@@ -34,6 +34,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+         - { path: ^/bo/entreprises, roles: ROLE_ADMIN }
          - { path: ^/bo, roles: ROLE_ENTREPRISE }
         # - { path: ^/profile, roles: ROLE_USER }
 

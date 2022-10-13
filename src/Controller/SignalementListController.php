@@ -16,7 +16,7 @@ class SignalementListController extends AbstractController
     {
         $signalements = $signalementRepository->findAll();
         $entreprises = [];
-        $isAdmin = true;
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
         if ($isAdmin) {
             $entreprises = $entrepriseRepository->findAll();
         }

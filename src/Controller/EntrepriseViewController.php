@@ -36,7 +36,10 @@ class EntrepriseViewController extends AbstractController
             $feedback[] = 'Il y a des erreurs dans les données transmises.';
         }
 
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
+
         return $this->render('entreprise_view/index.html.twig', [
+            'is_admin' => $isAdmin,
             'entreprise' => $entreprise,
             'formCreateEmploye' => $formCreateEmploye->createView(),
             'display_signalement_create_success' => '1' == $request->get('create_success_message'),

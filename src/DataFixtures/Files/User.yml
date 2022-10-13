@@ -4,9 +4,9 @@ users:
     roles: "[\"ROLE_ADMIN\"]"
   -
     email: company-01@stop-punaises.fr
-    roles: "[\"ROLE_ENTRPRISE\"]"
+    roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0001-0000-0000-000000000000"
   -
     email: company-02@stop-punaises.fr
-    roles: "[\"ROLE_ENTRPRISE\"]"
+    roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0002-0000-0000-000000000000"

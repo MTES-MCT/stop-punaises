@@ -16,7 +16,10 @@ class SignalementViewController extends AbstractController
             return $this->render('signalement_view/not-found.html.twig');
         }
 
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
+
         return $this->render('signalement_view/index.html.twig', [
+            'is_admin' => $isAdmin,
             'signalement' => $signalement,
         ]);
     }
