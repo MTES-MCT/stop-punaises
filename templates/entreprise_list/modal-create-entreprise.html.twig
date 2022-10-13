@@ -1,0 +1,83 @@
+<dialog aria-labelledby="fr-modal-title-modal-create-entreprise" role="dialog" id="fr-modal-create-entreprise" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-create-entreprise">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-create-entreprise" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Créer une entreprise</h1>
+                        <p>Remplissez le formulaire ci-dessous pour ajouter une entreprise.</p>
+
+                        <form action="{{ path('app_entreprise_list') }}" method="POST" class="fr-my-5w">
+                            {{ form_row(form._token) }}
+
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(form.nom) }}
+                                    {{ form_widget(form.nom) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le nom.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(form.numeroSiret) }}
+                                    {{ form_widget(form.numeroSiret) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le SIRET.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(form.telephone) }}
+                                    {{ form_widget(form.telephone) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le numéro de téléphone.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(form.numeroLabel) }}
+                                    {{ form_widget(form.numeroLabel) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le numéro de label.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(form.email) }}
+                                    {{ form_widget(form.email) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner l'email.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="fr-form-group">
+                                <div class="fr-select-group">
+                                    {{ form_label(form.territoires) }}
+                                    {{ form_widget(form.territoires) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner au moins un territoire.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <button class="fr-btn fr-btn--icon-left fr-icon-checkbox-circle-line">Valider</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
