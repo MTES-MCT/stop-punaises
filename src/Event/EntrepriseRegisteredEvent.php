@@ -7,7 +7,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class EntrepriseRegisteredEvent extends Event
 {
-    public const NAME = 'user.registered';
+    public const NAME = 'entreprise.registered';
 
     public function __construct(private Entreprise $entreprise)
     {
