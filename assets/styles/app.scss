@@ -22,6 +22,46 @@ span.niveau-infestation {
     }
 }
 
+.add-button-container {
+    float: right;
+}
+
+.dataTables_wrapper {
+    table {
+        width: 100%;
+        td.button-view {
+            a.fr-btn.fr-icon-arrow-right-fill {
+                display: inline-block;
+                border-radius: 20px;
+                min-height: 1.5rem;
+
+                &::before {
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+
+    .dataTables_filter {
+        display: none;
+    }
+    .dataTables_paginate .paginate_button {
+        border: 0px;
+        color: #161616;
+        background: none;
+        padding: 0.2em 0.7em;
+    }
+    .dataTables_paginate .paginate_button.current {
+        border: 0px;
+        background: var(--blue-france-850-200);
+    }
+    .dataTables_paginate .paginate_button:hover {
+        color: #161616 !important;
+        background-color: #E5E5E5;
+
+    }
+}
+
 .index-header {
     h1 {
         font-size: 56px;
@@ -381,10 +421,6 @@ span.niveau-infestation {
 .liste-signalements {
     background-color: var(--grey-975-75);
 
-    .add-button-container {
-        float: right;
-    }
-
     .fr-container {
         .fr-input-wrap::before {
             right: 1rem;
@@ -397,8 +433,6 @@ span.niveau-infestation {
 
     .dataTables_wrapper {
         table {
-            width: 100%;
-
             tbody {
                 td{
                     &:nth-child(1) {
@@ -416,37 +450,7 @@ span.niveau-infestation {
                         }
                     }
                 }
-                td.button-view {
-                    a.fr-btn.fr-icon-arrow-right-fill {
-                        display: inline-block;
-                        border-radius: 20px;
-                        min-height: 1.5rem;
-
-                        &::before {
-                            margin-right: 0px;
-                        }
-                    }
-                }
             }
-        }
-
-        .dataTables_filter {
-            display: none;
-        }
-        .dataTables_paginate .paginate_button {
-            border: 0px;
-            color: #161616;
-            background: none;
-            padding: 0.2em 0.7em;
-        }
-        .dataTables_paginate .paginate_button.current {
-            border: 0px;
-            background: var(--blue-france-850-200);
-        }
-        .dataTables_paginate .paginate_button:hover {
-            color: #161616 !important;
-            background-color: #E5E5E5;
-
         }
     }
 }
@@ -481,6 +485,43 @@ span.niveau-infestation {
             background-color: var(--grey-1000-50);
             filter: drop-shadow(var(--raised-shadow));
             font-weight: normal;
+        }
+    }
+}
+
+.liste-entreprises {
+    background-color: var(--grey-975-75);
+
+    .fr-container {
+        .fr-input-wrap::before {
+            right: 1rem;
+        }
+
+        .fr-input, .fr-select {
+            background-color: var(--grey-1000-50);   
+        }
+    }
+
+    .dataTables_wrapper {
+        table {
+            tbody {
+                td{
+                    &:nth-child(2) {
+                        span {
+                            display: none;
+                        }
+                    }
+                    &:nth-child(5) {
+                        span {
+                            display: inline-block;
+                            padding: 5px 10px;
+                            border-radius: 20px;
+                            background-color: var(--info-425-625);
+                            color: var(--grey-1000-50);
+                        }
+                    }
+                }
+            }
         }
     }
 }
