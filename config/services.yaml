@@ -6,6 +6,7 @@
 parameters:
     from: '%env(resolve:NOTIFICATIONS_EMAIL)%'
     confirmation_token_lifetime: '10 minutes'
+    base_url: '%env(resolve:APP_URL)%'
 
 services:
     # default configuration for services in *this* file
@@ -27,4 +28,5 @@ services:
 
     App\Service\Mailer\MessageFactory:
         arguments:
-            - '%from%'
+            $baseUrl: '%base_url%'
+            $from: '%from%'

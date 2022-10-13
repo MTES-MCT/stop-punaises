@@ -1,15 +1,15 @@
 users:
   -
-    email: admin@stop-punaises.fr
+    email: admin-punaises@yopmail.com
     roles: "[\"ROLE_ADMIN\"]"
     status: 'active'
   -
-    email: company-01@stop-punaises.fr
+    email: company-punaises-01@yopmail.com
     roles: "[\"ROLE_ENTRPRISE\"]"
     entreprise: "00000001-0001-0000-0000-000000000000"
     status: 'active'
   -
-    email: company-02@stop-punaises.fr
+    email: company-punaises-02@yopmail.com
     roles: "[\"ROLE_ENTRPRISE\"]"
     entreprise: "00000001-0002-0000-0000-000000000000"
     status: 'active'
