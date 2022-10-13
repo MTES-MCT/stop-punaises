@@ -5,6 +5,9 @@
 {% block body %}
 {% include "entreprise_view/modal-edit-entreprise.html.twig" %}
 {% include "entreprise_view/modal-create-employe.html.twig" %}
+{% for employeUuid, formEditEmploye in formsEditEmploye %}
+    {% include "entreprise_view/modal-edit-employe.html.twig" %}
+{% endfor %}
 
 <div class="fiche-entreprise">
     <div class="fr-container fr-p-5w">
@@ -16,7 +19,7 @@
             </div>
         </div>
         {% endif %}
-        
+
         <div class="fr-grid-row">
             <div class="fr-col-12 fr-col-lg-6">
                 <h1>{{entreprise.nom}}</h1>
@@ -50,6 +53,13 @@
         <div class="fr-my-3w">
             <div class="fr-alert fr-alert--success">
                 <h3 class="fr-alert__title">L'employé a été ajouté.</h3>
+            </div>
+        </div>
+        {% endif %}
+        {% if display_employe_edit_success %}
+        <div class="fr-my-3w">
+            <div class="fr-alert fr-alert--success">
+                <h3 class="fr-alert__title">Les informations de l'employé ont été modifiées avec succès.</h3>
             </div>
         </div>
         {% endif %}
@@ -89,7 +99,9 @@
                             <td>{{ employe.numeroCertification }}</td>
                             <td>{{ employe.email }}</td>
                             <td>{{ employe.telephone }}</td>
-                            <td class="button-view"><a href="#" class="fr-btn fr-icon-pencil-line" title="Editer"></a></td>
+                            <td class="button-view">
+                                <button class="fr-btn fr-icon-pencil-line" data-fr-opened="false" aria-controls="fr-modal-edit-employe-{{employe.uuid}}"></button>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
