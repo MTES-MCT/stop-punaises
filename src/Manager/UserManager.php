@@ -13,7 +13,6 @@ use App\Service\Mailer\MailerProviderInterface;
 use App\Service\Mailer\MessageFactory;
 use App\Service\Token\GeneratorToken;
 use Doctrine\Persistence\ManagerRegistry;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -29,7 +28,6 @@ class UserManager extends AbstractManager
         private PasswordHasherFactoryInterface $passwordHasherFactory,
         private UrlGeneratorInterface $urlGenerator,
         private UserFactory $userFactory,
-        private EventDispatcherInterface $eventDispatcher,
         string $entityName = User::class)
     {
         parent::__construct($managerRegistry, $entityName);
