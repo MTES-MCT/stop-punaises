@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Employe;
 use App\Entity\Entreprise;
 use App\Form\EmployeType;
+use App\Form\EntrepriseType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,9 +21,31 @@ class EntrepriseViewController extends AbstractController
             return $this->render('entreprise_view/not-found.html.twig');
         }
 
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
+
+        $feedbackEditEntreprise = [];
+        $initEntrepriseEmail = $entreprise->getEmail();
+        $formEditEntreprise = $this->createForm(EntrepriseType::class, $entreprise);
+        $formEditEntreprise->handleRequest($request);
+        if ($formEditEntreprise->isSubmitted()) {
+            if ($formEditEntreprise->isValid()) {
+                $entityManager->persist($entreprise);
+                $entityManager->flush();
+
+                if ($entreprise->getEmail() !== $initEntrepriseEmail) {
+                    // TODO :
+                    // Si ROLE_ENTREPRISE : Logout, redirect to login with success message
+                    // Dans tous les cas : envoi d'un mail d'activation de compte
+                }
+
+                return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid(), 'edit_success_message' => 1]));
+            }
+            $feedbackEditEntreprise[] = 'Il y a des erreurs dans les données transmises.';
+        }
+
         $employe = new Employe();
         $employe->setUuid(uniqid());
-        $feedback = [];
+        $feedbackCreateEmploye = [];
         $formCreateEmploye = $this->createForm(EmployeType::class, $employe);
         $formCreateEmploye->handleRequest($request);
         if ($formCreateEmploye->isSubmitted()) {
@@ -31,19 +54,20 @@ class EntrepriseViewController extends AbstractController
                 $entityManager->persist($employe);
                 $entityManager->flush();
 
-                return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]).'?create_success_message=1');
+                return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid(), 'create_success_message' => 1]));
             }
-            $feedback[] = 'Il y a des erreurs dans les données transmises.';
+            $feedbackCreateEmploye[] = 'Il y a des erreurs dans les données transmises.';
         }
-
-        $isAdmin = $this->isGranted('ROLE_ADMIN');
 
         return $this->render('entreprise_view/index.html.twig', [
             'is_admin' => $isAdmin,
             'entreprise' => $entreprise,
+            'formEditEntreprise' => $formEditEntreprise->createView(),
+            'feedbackEditEntreprise' => $feedbackEditEntreprise,
             'formCreateEmploye' => $formCreateEmploye->createView(),
-            'display_signalement_create_success' => '1' == $request->get('create_success_message'),
-            'feedback' => $feedback,
+            'feedbackCreateEmploye' => $feedbackCreateEmploye,
+            'display_employe_create_success' => '1' == $request->get('create_success_message'),
+            'display_entreprise_edit_success' => '1' == $request->get('edit_success_message'),
         ]);
     }
 }
