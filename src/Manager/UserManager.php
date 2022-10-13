@@ -2,13 +2,18 @@
 
 namespace App\Manager;
 
+use App\Entity\Entreprise;
+use App\Entity\Enum\Role;
+use App\Entity\Enum\Status;
 use App\Entity\User;
+use App\Exception\User\UserAccountAlreadyActiveException;
 use App\Exception\User\UserEmailNotFoundException;
+use App\Factory\UserFactory;
 use App\Service\Mailer\MailerProviderInterface;
 use App\Service\Mailer\MessageFactory;
-use App\Service\Mailer\Template;
-use App\Service\ResetPasswordToken;
+use App\Service\Token\GeneratorToken;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -20,9 +25,11 @@ class UserManager extends AbstractManager
         private ParameterBagInterface $parameterBag,
         private MailerProviderInterface $mailerProvider,
         private MessageFactory $messageFactory,
-        private ResetPasswordToken $tokenGenerator,
+        private GeneratorToken $tokenGenerator,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
         private UrlGeneratorInterface $urlGenerator,
+        private UserFactory $userFactory,
+        private EventDispatcherInterface $eventDispatcher,
         string $entityName = User::class)
     {
         parent::__construct($managerRegistry, $entityName);
@@ -30,26 +37,19 @@ class UserManager extends AbstractManager
 
     public function requestPasswordFrom(string $email): void
     {
-        /** @var User $user */
-        $user = $this->findOneBy(['email' => $email]);
-        if (null === $user) {
-            throw new UserEmailNotFoundException($email);
-        }
-
-        $user->setPasswordRequestExpiredAt(
-            (new \DateTimeImmutable())->modify($this->parameterBag->get('confirmation_token_lifetime'))
-        );
-        $token = $this->tokenGenerator->generateToken();
-        $user->setConfirmationToken($token);
+        $user = $this->loadUserToken($email);
         $this->save($user);
+        $this->mailerProvider->sendResetPasswordMessage($user);
+    }
 
-        $resetPasswordLink = $this->urlGenerator->generate('reset_password', ['token' => $token]);
-        $this->mailerProvider->send(
-            $this
-                ->messageFactory
-                ->createInstanceFrom(Template::RESET_PASSWORD, ['link' => $resetPasswordLink])
-                ->setTo([$user->getEmail()])
-        );
+    public function requestActivationFrom(string $email)
+    {
+        $user = $this->loadUserToken($email);
+        if (Status::ACTIVE === $user->getStatus()) {
+            throw new UserAccountAlreadyActiveException($email);
+        }
+        $this->save($user);
+        $this->mailerProvider->sendActivateMessage($user);
     }
 
     public function resetPassword(User $user, string $password): User
@@ -57,10 +57,39 @@ class UserManager extends AbstractManager
         $password = $this->passwordHasherFactory->getPasswordHasher($user)->hash($password);
         $user
             ->setPassword($password)
-            ->setConfirmationToken(null)
-            ->setPasswordRequestExpiredAt(null);
+            ->setToken(null)
+            ->setStatus(Status::ACTIVE)
+            ->setTokenExpiredAt(null);
 
         $this->save($user);
+
+        return $user;
+    }
+
+    public function createFrom(Entreprise $entreprise, Role $role): void
+    {
+        $user = $this->userFactory->createInstanceFrom($role, $entreprise->getEmail());
+        $user
+            ->setToken($this->tokenGenerator->generateToken())
+            ->setTokenExpiredAt(
+                (new \DateTimeImmutable())->modify($this->parameterBag->get('token_lifetime'))
+            )
+            ->setEntreprise($entreprise);
+        $this->save($user);
+    }
+
+    private function loadUserToken(string $email): User
+    {
+        /** @var User $user */
+        $user = $this->findOneBy(['email' => $email]);
+        if (null === $user) {
+            throw new UserEmailNotFoundException($email);
+        }
+        $user
+            ->setToken($this->tokenGenerator->generateToken())
+            ->setTokenExpiredAt(
+                (new \DateTimeImmutable())->modify($this->parameterBag->get('token_lifetime'))
+            );
 
         return $user;
     }

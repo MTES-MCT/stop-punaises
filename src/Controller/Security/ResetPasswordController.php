@@ -5,7 +5,7 @@ namespace App\Controller\Security;
 use App\Exception\User\UserEmailNotFoundException;
 use App\Manager\UserManager;
 use App\Security\AppAuthenticator;
-use App\Service\ResetPasswordToken;
+use App\Service\Token\ResetPasswordToken;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,6 +62,7 @@ class ResetPasswordController extends AbstractController
         return $this->render('security/reset_password_new.html.twig', [
             'email' => $user->getEmail(),
             'id' => $user->getId(),
+            'from' => 'reset_password',
         ]);
     }
 }
