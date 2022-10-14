@@ -64,7 +64,7 @@ class UserManager extends AbstractManager
         return $user;
     }
 
-    public function createFrom(Entreprise $entreprise, Role $role): void
+    public function createFrom(Entreprise $entreprise, Role $role): User
     {
         $user = $this->userFactory->createInstanceFrom($role, $entreprise->getEmail());
         $user
@@ -74,6 +74,8 @@ class UserManager extends AbstractManager
             )
             ->setEntreprise($entreprise);
         $this->save($user);
+
+        return $user;
     }
 
     private function loadUserToken(string $email): User

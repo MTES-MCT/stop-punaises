@@ -31,7 +31,6 @@ class Entreprise
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $numeroLabel = null;
 
-    #[ORM\Column(length: 100)]
     private ?string $email = null;
 
     #[ORM\ManyToMany(targetEntity: Territoire::class, inversedBy: 'entreprises')]

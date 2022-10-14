@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Enum\Role;
 use App\Event\EntrepriseRegisteredEvent;
 use App\Manager\UserManager;
 use App\Service\Mailer\MailerProviderInterface;
@@ -16,8 +17,8 @@ class EntrepriseRegisteredSubscriber implements EventSubscriberInterface
 
     public function onEntrepriseRegisteredEvent(EntrepriseRegisteredEvent $event): void
     {
-        $this->userManager->createFrom($event->getEntreprise());
-        $this->mailerProvider->sendActivateMessage($event->getUser());
+        $user = $this->userManager->createFrom($event->getEntreprise(), Role::ROLE_ENTREPRISE);
+        $this->mailerProvider->sendActivateMessage($user);
     }
 
     public static function getSubscribedEvents(): array
