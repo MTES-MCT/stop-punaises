@@ -2,6 +2,7 @@
 
 namespace App\Controller\Security;
 
+use App\Exception\User\RequestPasswordNotAllowedException;
 use App\Exception\User\UserEmailNotFoundException;
 use App\Manager\UserManager;
 use App\Security\AppAuthenticator;
@@ -26,6 +27,10 @@ class ResetPasswordController extends AbstractController
                 $this->addFlash('error', $exception->getMessage());
 
                 return $this->render('security/reset_password.html.twig');
+            } catch (RequestPasswordNotAllowedException $exception) {
+                $this->addFlash('error', $exception->getMessage());
+
+                return $this->render('security/reset_password.html.twig');
             }
 
             return $this->render('security/reset_password_link_sent.html.twig', [
@@ -46,6 +51,8 @@ class ResetPasswordController extends AbstractController
         string $token): Response
     {
         if (false === ($user = $resetPasswordToken->validateToken($token))) {
+            $this->addFlash('error', 'Votre lien a expiré');
+
             return $this->redirectToRoute('app_login');
         }
 

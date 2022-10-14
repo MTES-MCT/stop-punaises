@@ -6,6 +6,7 @@ use App\Entity\Entreprise;
 use App\Entity\Enum\Role;
 use App\Entity\Enum\Status;
 use App\Entity\User;
+use App\Exception\User\RequestPasswordNotAllowedException;
 use App\Exception\User\UserAccountAlreadyActiveException;
 use App\Exception\User\UserEmailNotFoundException;
 use App\Factory\UserFactory;
@@ -36,6 +37,9 @@ class UserManager extends AbstractManager
     public function requestPasswordFrom(string $email): void
     {
         $user = $this->loadUserToken($email);
+        if (Status::INACTIVE === $user->getStatus()) {
+            throw new RequestPasswordNotAllowedException($email);
+        }
         $this->save($user);
         $this->mailerProvider->sendResetPasswordMessage($user);
     }
@@ -78,11 +82,12 @@ class UserManager extends AbstractManager
         return $user;
     }
 
-    public function updateEmailFrom(Entreprise $entreprise): User
+    public function updateEmailFrom(Entreprise $entreprise, string $currentEmail): User
     {
         /** @var User $user */
-        $user = $this->findOneBy(['entreprise' => $entreprise]);
+        $user = $this->findOneBy(['email' => $currentEmail]);
         $user = $this->loadUserToken($user->getEmail());
+
         $user->setEmail($entreprise->getEmail());
         $user->setStatus(Status::INACTIVE);
         $this->save($user);

@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Employe;
 use App\Entity\Entreprise;
+use App\Event\EntrepriseUpdatedEvent;
 use App\Form\EmployeType;
 use App\Form\EntrepriseType;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class EntrepriseViewController extends AbstractController
 {
     #[Route('/bo/entreprises/{uuid}', name: 'app_entreprise_view')]
-    public function index(Request $request, Entreprise $entreprise, EntityManagerInterface $entityManager): Response
+    public function index(Request $request,
+                          Entreprise $entreprise,
+                          EntityManagerInterface $entityManager,
+                          EventDispatcherInterface $eventDispatcher): Response
     {
         if (!$entreprise) {
             return $this->render('entreprise_view/not-found.html.twig');
@@ -32,6 +37,10 @@ class EntrepriseViewController extends AbstractController
                 $entityManager->flush();
 
                 if ($entreprise->getEmail() !== $initEntrepriseEmail) {
+                    $eventDispatcher->dispatch(
+                        new EntrepriseUpdatedEvent($entreprise, $initEntrepriseEmail),
+                        EntrepriseUpdatedEvent::NAME
+                    );
                     // TODO :
                     // Si ROLE_ENTREPRISE : Logout, redirect to login with success message
                     // Dans tous les cas : envoi d'un mail d'activation de compte
