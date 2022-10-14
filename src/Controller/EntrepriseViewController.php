@@ -28,7 +28,7 @@ class EntrepriseViewController extends AbstractController
             return $this->render('entreprise_view/not-found.html.twig');
         }
 
-        // TODO : controle si Admin ou utilisateur lié à l'entreprise
+        $this->denyAccessUnlessGranted('ENTREPRISE_VIEW', $entreprise);
 
         $formEditEntreprise = $this->createForm(EntrepriseType::class, $entreprise);
         $formEditEntreprise->handleRequest($request);
