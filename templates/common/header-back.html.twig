@@ -34,7 +34,7 @@
                             </li>
                             {% else %}
                             <li>
-                                <a class="fr-btn" href="#{# path('app_entreprise_view',{uuid:user.entreprise.uuid}) #}">
+                                <a class="fr-btn" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}">
                                     Entreprise
                                 </a>
                             </li>
