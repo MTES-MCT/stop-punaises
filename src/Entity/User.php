@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
+use App\Entity\Enum\Status;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -34,13 +35,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $lastLogin = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $confirmationToken = null;
+    private ?string $token = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $passwordRequestedAt = null;
+    private ?\DateTimeImmutable $tokenExpiredAt = null;
+
+    #[ORM\Column(type: 'string', enumType: Status::class)]
+    private Status $status;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Entreprise $entreprise = null;
+
+    public function __construct()
+    {
+        $this->status = Status::INACTIVE;
+    }
 
     public function getId(): ?int
     {
@@ -88,6 +97,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function addRole(string $role): self
+    {
+        if (!\in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -124,26 +142,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getConfirmationToken(): ?string
+    public function getToken(): ?string
     {
-        return $this->confirmationToken;
+        return $this->token;
     }
 
-    public function setConfirmationToken(string $confirmationToken): self
+    public function setToken(?string $token): self
     {
-        $this->confirmationToken = $confirmationToken;
+        $this->token = $token;
 
         return $this;
     }
 
-    public function getPasswordRequestedAt(): ?\DateTimeImmutable
+    public function getTokenExpiredAt(): ?\DateTimeImmutable
     {
-        return $this->passwordRequestedAt;
+        return $this->tokenExpiredAt;
     }
 
-    public function setPasswordRequestedAt(\DateTimeImmutable $passwordRequestedAt): self
+    public function setTokenExpiredAt(?\DateTimeImmutable $tokenExpiredAt): self
     {
-        $this->passwordRequestedAt = $passwordRequestedAt;
+        $this->tokenExpiredAt = $tokenExpiredAt;
 
         return $this;
     }
@@ -156,6 +174,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEntreprise(?Entreprise $entreprise): self
     {
         $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getStatus(): Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
