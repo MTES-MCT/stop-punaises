@@ -22,8 +22,8 @@ class ResetPasswordController extends AbstractController
         if ($request->isMethod('POST') && $email = $request->request->get('email')) {
             try {
                 $userManager->requestPasswordFrom($email);
-            } catch (UserEmailNotFoundException) {
-                $this->addFlash('error', 'Cette adresse ne correspond à aucun compte, verifiez votre saisie');
+            } catch (UserEmailNotFoundException $exception) {
+                $this->addFlash('error', $exception);
 
                 return $this->render('security/reset_password.html.twig');
             }

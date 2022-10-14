@@ -78,6 +78,18 @@ class UserManager extends AbstractManager
         return $user;
     }
 
+    public function updateEmailFrom(Entreprise $entreprise): User
+    {
+        /** @var User $user */
+        $user = $this->findOneBy(['entreprise' => $entreprise]);
+        $user = $this->loadUserToken($user->getEmail());
+        $user->setEmail($entreprise->getEmail());
+        $user->setStatus(Status::INACTIVE);
+        $this->save($user);
+
+        return $user;
+    }
+
     private function loadUserToken(string $email): User
     {
         /** @var User $user */
