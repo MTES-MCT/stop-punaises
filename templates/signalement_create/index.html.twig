@@ -5,19 +5,23 @@
 {% block body %}
 <div class="creer-signalement">
     <div class="fr-p-5w">
-        <h1>Créer un signalement</h1>
-        <p>Ajoutez un signalement en complétant le formulaire ci-dessous. Une fois toutes les étapes passées, vous pourrez valider le signalement.</p>
+        <div class="fr-container">
+            <h1>Créer un signalement</h1>
+            <p>Ajoutez un signalement en complétant le formulaire ci-dessous. Une fois toutes les étapes passées, vous pourrez valider le signalement.</p>
+        </div>
     </div>
 
-    {% if feedback is not empty %}
-        {% for text in feedback %}
-            <div class="fr-alert fr-alert--error">
-                <h3 class="fr-alert__title">{{ text }}</h3>
-            </div>
-        {% endfor %}
-    {% endif %}
+    <div class="fr-container">
+        {% if feedback is not empty %}
+            {% for text in feedback %}
+                <div class="fr-alert fr-alert--error">
+                    <h3 class="fr-alert__title">{{ text }}</h3>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
-    <form action="{{ path('app_signalement_create') }}" method="POST" class="fr-my-5w fr-px-5w" data-ajax="{{ path('app_liste_employes') }}">
+    <form action="{{ path('app_signalement_create') }}" method="POST" class="fr-my-5w fr-px-5w fr-container" data-ajax="{{ path('app_liste_employes') }}">
         {{ form_row(form._token) }}
 
         <div class="fr-stepper">
@@ -29,7 +33,7 @@
             <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="2"></div>
         </div>
 
-        <div id="form-creer-signalement-step-1" class="fr-container">
+        <div id="form-creer-signalement-step-1">
             {% include "signalement_create/tab-1.html.twig" %}
         </div>
 

@@ -27,17 +27,23 @@
                                 </a>
                             </li>
                             {% if is_granted('ROLE_ADMIN') %}
-                            <li>
-                                <a class="fr-btn" href="{{ path('app_entreprise_list') }}">
-                                    Entreprises
-                                </a>
-                            </li>
-                            {% else %}
-                            <li>
-                                <a class="fr-btn" href="#{# path('app_entreprise_view',{uuid:user.entreprise.uuid}) #}">
-                                    Entreprise
-                                </a>
-                            </li>
+                                <li>
+                                    <a class="fr-btn" href="{{ path('app_entreprise_list') }}">
+                                        Entreprises
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="fr-btn" href="{{ path('app_cartographie') }}">
+                                        Cartographie
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('ROLE_ENTREPRISE') %}
+                                <li>
+                                    <a class="fr-btn" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}">
+                                        Entreprise
+                                    </a>
+                                </li>
                             {% endif %}
                             <li>
                                 <a class="fr-btn" href="{{ path('app_logout') }}">

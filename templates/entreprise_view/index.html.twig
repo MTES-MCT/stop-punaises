@@ -36,7 +36,7 @@
                 <br>
                 Téléphone : {{entreprise.telephone}}
                 <br>
-                Email : {{entreprise.email}}
+                Email : {{entreprise.user.email}}
                 <br>
             </div>
             <div class="fr-col-12 fr-col-lg-6">
@@ -77,41 +77,41 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        {% if entreprise.employes is not empty %}
-            <table id="datatable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Certification Biocide</th>
-                        <th>Email</th>
-                        <th>Téléphone</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for employe in entreprise.employes %}
+            {% if entreprise.employes is not empty %}
+                <table id="datatable">
+                    <thead>
                         <tr>
-                            <td>{{ employe.id }}</td>
-                            <td>{{ employe }}</td>
-                            <td>{{ employe.numeroCertification }}</td>
-                            <td>{{ employe.email }}</td>
-                            <td>{{ employe.telephone }}</td>
-                            <td class="button-view">
-                                <button class="fr-btn fr-icon-pencil-line" data-fr-opened="false" aria-controls="fr-modal-edit-employe-{{employe.uuid}}"></button>
-                            </td>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Certification Biocide</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th></th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            
-        {% else %}
-            <div class="fr-p-5w">
-                Aucun employé n'a été ajouté pour l'instant.
-            </div>
-        {% endif %}
+                    </thead>
+                    <tbody>
+                        {% for employe in entreprise.employes %}
+                            <tr>
+                                <td>{{ employe.id }}</td>
+                                <td>{{ employe }}</td>
+                                <td>{{ employe.numeroCertification }}</td>
+                                <td>{{ employe.email }}</td>
+                                <td>{{ employe.telephone }}</td>
+                                <td class="button-view">
+                                    <button class="fr-btn fr-icon-pencil-line" data-fr-opened="false" aria-controls="fr-modal-edit-employe-{{employe.uuid}}"></button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            {% else %}
+                <div class="fr-p-5w">
+                    Aucun employé n'a été ajouté pour l'instant.
+                </div>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

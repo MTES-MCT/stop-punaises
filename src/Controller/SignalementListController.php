@@ -14,6 +14,8 @@ class SignalementListController extends AbstractController
     #[Route('/bo/signalements', name: 'app_signalement_list')]
     public function index(Request $request, SignalementRepository $signalementRepository, EntrepriseRepository $entrepriseRepository): Response
     {
+        // TODO : ne prendre que les signalements liés à l'entreprise de l'utilisateur connecté
+
         $signalements = $signalementRepository->findAll();
         $entreprises = [];
         if ($this->isGranted('ROLE_ADMIN')) {

@@ -6,6 +6,7 @@ use App\Entity\Entreprise;
 use App\Entity\Enum\Role;
 use App\Entity\Enum\Status;
 use App\Entity\User;
+use App\Exception\User\RequestPasswordNotAllowedException;
 use App\Exception\User\UserAccountAlreadyActiveException;
 use App\Exception\User\UserEmailNotFoundException;
 use App\Factory\UserFactory;
@@ -36,6 +37,9 @@ class UserManager extends AbstractManager
     public function requestPasswordFrom(string $email): void
     {
         $user = $this->loadUserToken($email);
+        if (Status::INACTIVE === $user->getStatus()) {
+            throw new RequestPasswordNotAllowedException($email);
+        }
         $this->save($user);
         $this->mailerProvider->sendResetPasswordMessage($user);
     }
@@ -64,7 +68,7 @@ class UserManager extends AbstractManager
         return $user;
     }
 
-    public function createFrom(Entreprise $entreprise, Role $role): void
+    public function createFrom(Entreprise $entreprise, Role $role): User
     {
         $user = $this->userFactory->createInstanceFrom($role, $entreprise->getEmail());
         $user
@@ -74,6 +78,26 @@ class UserManager extends AbstractManager
             )
             ->setEntreprise($entreprise);
         $this->save($user);
+
+        return $user;
+    }
+
+    public function updateEmailFrom(Entreprise $entreprise, string $currentEmail): User
+    {
+        /** @var User $user */
+        $user = $this->findOneBy(['email' => $currentEmail]);
+        $user = $this->loadUserToken($user->getEmail());
+
+        $user->setEmail($entreprise->getEmail());
+        $user->setStatus(Status::INACTIVE);
+        $this->save($user);
+
+        return $user;
+    }
+
+    public function getActiveUser($email): ?User
+    {
+        return $this->findOneBy(['email' => $email, 'active' => true, 'status' => Status::ACTIVE]);
     }
 
     private function loadUserToken(string $email): User
