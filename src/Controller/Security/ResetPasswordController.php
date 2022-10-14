@@ -50,13 +50,26 @@ class ResetPasswordController extends AbstractController
         }
 
         if ($request->isMethod('POST')) { /* @todo: check csrf_token */
-            $user = $userManager->resetPassword($user, $request->get('password'));
+            $confirm = true;
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            if ($request->get('password') != $request->get('password-repeat')) {
+                $this->addFlash('error', 'Les deux mots de passe ne correspondent pas');
+                $confirm = false;
+            }
+            if ('' == $request->get('password')) {
+                $this->addFlash('error', 'Le mot de passe ne pas être vide');
+                $confirm = false;
+            }
+
+            if ($confirm) {
+                $user = $userManager->resetPassword($user, $request->get('password'));
+
+                return $userAuthenticator->authenticateUser(
+                    $user,
+                    $authenticator,
+                    $request
+                );
+            }
         }
 
         return $this->render('security/reset_password_new.html.twig', [
