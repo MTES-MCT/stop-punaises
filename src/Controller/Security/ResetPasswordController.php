@@ -23,7 +23,7 @@ class ResetPasswordController extends AbstractController
             try {
                 $userManager->requestPasswordFrom($email);
             } catch (UserEmailNotFoundException $exception) {
-                $this->addFlash('error', $exception);
+                $this->addFlash('error', $exception->getMessage());
 
                 return $this->render('security/reset_password.html.twig');
             }
