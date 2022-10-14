@@ -33,10 +33,7 @@ class EntrepriseListController extends AbstractController
 
         $entreprises = $entrepriseRepository->findAll();
 
-        $isAdmin = $this->isGranted('ROLE_ADMIN');
-
         return $this->render('entreprise_list/index.html.twig', [
-            'is_admin' => $isAdmin,
             'form' => $form->createView(),
             'display_signalement_create_success' => '1' == $request->get('create_success_message'),
             'feedback' => $feedback,

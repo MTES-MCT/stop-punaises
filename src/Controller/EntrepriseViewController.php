@@ -21,8 +21,6 @@ class EntrepriseViewController extends AbstractController
             return $this->render('entreprise_view/not-found.html.twig');
         }
 
-        $isAdmin = $this->isGranted('ROLE_ADMIN');
-
         // TODO : controle si Admin ou utilisateur lié à l'entreprise ?
 
         $initEntrepriseEmail = $entreprise->getEmail();
@@ -82,7 +80,6 @@ class EntrepriseViewController extends AbstractController
         }
 
         return $this->render('entreprise_view/index.html.twig', [
-            'is_admin' => $isAdmin,
             'entreprise' => $entreprise,
             'formCreateEmploye' => $formCreateEmploye->createView(),
             'formEditEntreprise' => $formEditEntreprise->createView(),

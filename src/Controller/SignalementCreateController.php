@@ -51,7 +51,6 @@ class SignalementCreateController extends AbstractController
         }
 
         return $this->render('signalement_create/index.html.twig', [
-            'is_admin' => $isAdmin,
             'form' => $form->createView(),
             'feedback' => $feedback,
         ]);

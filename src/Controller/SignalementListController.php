@@ -16,13 +16,11 @@ class SignalementListController extends AbstractController
     {
         $signalements = $signalementRepository->findAll();
         $entreprises = [];
-        $isAdmin = $this->isGranted('ROLE_ADMIN');
-        if ($isAdmin) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $entreprises = $entrepriseRepository->findAll();
         }
 
         return $this->render('signalement_list/index.html.twig', [
-            'is_admin' => $isAdmin,
             'display_signalement_create_success' => '1' == $request->get('create_success_message'),
             'count_signalement' => \count($signalements),
             'signalements' => $signalements,
