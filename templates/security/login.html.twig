@@ -31,27 +31,15 @@
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                 <div class="fr-input-group">
-                    <button class="fr-btn fr-btn--icon-left fr-icon-checkbox-circle-line" type="submit">
+                    <button class="fr-btn fr-btn--icon-left fr-icon-check-line">
                         Se connecter
                     </button>
                 </div>
             </form>
 
-            <div class="fr-alert fr-alert--info">
-                <p>
-                    Vous avez oublié votre mot de passe ?
-                    <br>
-                    <a href="{{ path('request_password') }}">Cliquez ici pour en demander un nouveau</a>
-                </p>
-            </div>
+            {% include "security/_partial_link_forgotten_password.html.twig" %}
             
-            <div class="fr-alert fr-alert--warning">
-                <p>
-                    Première connexion ?
-                    <br>
-                    <a href="#">Cliquez ici pour activer votre compte</a>
-                </p>
-            </div>
+            {% include "security/_partial_link_account_activation.html.twig" %}
         </div>
     </div>
 </main>
