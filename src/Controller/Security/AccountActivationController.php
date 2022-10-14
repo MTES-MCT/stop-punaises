@@ -51,6 +51,8 @@ class AccountActivationController extends AbstractController
         string $token): Response
     {
         if (false === ($user = $activationToken->validateToken($token))) {
+            $this->addFlash('error', 'Votre lien est invalide ou expiré');
+
             return $this->redirectToRoute('app_login');
         }
 

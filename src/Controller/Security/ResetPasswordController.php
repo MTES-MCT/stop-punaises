@@ -51,7 +51,7 @@ class ResetPasswordController extends AbstractController
         string $token): Response
     {
         if (false === ($user = $resetPasswordToken->validateToken($token))) {
-            $this->addFlash('error', 'Votre lien a expiré');
+            $this->addFlash('error', 'Votre lien est invalide ou expiré');
 
             return $this->redirectToRoute('app_login');
         }
