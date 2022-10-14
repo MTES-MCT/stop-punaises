@@ -4,20 +4,20 @@
 
 {% block body %}
 <div class="liste-signalements fr-p-5w">
-    <div class="add-button-container">
-        <a href="{{ path('app_signalement_create') }}" class="fr-btn fr-btn--icon-left fr-icon-add-line">Créer un signalement</a>
-    </div>
-    <h1>Liste des signalements</h1>
-
-    {% if display_signalement_create_success %}
-    <div class="fr-mb-3w">
-        <div class="fr-alert fr-alert--success">
-            <h3 class="fr-alert__title">Le signalement a bien été enregistré.</h3>
-        </div>
-    </div>
-    {% endif %}
-
     <div class="fr-container">
+        <div class="add-button-container">
+            <a href="{{ path('app_signalement_create') }}" class="fr-btn fr-btn--icon-left fr-icon-add-line">Créer un signalement</a>
+        </div>
+        <h1>Liste des signalements</h1>
+
+        {% if display_signalement_create_success %}
+        <div class="fr-mb-3w">
+            <div class="fr-alert fr-alert--success">
+                <h3 class="fr-alert__title">Le signalement a bien été enregistré.</h3>
+            </div>
+        </div>
+        {% endif %}
+
         <div class="fr-grid-row fr-grid-row--gutters">
             <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
                 <input type="text" class="fr-input" id="search-free" placeholder="Référence, nom...">
@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <div class="fr-mt-3w">
+    <div class="fr-container fr-mt-3w">
         <h2>{{ count_signalement }} signalements trouvés</h2>
 
         {% if signalements is not empty %}

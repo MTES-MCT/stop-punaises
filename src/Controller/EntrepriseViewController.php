@@ -21,7 +21,7 @@ class EntrepriseViewController extends AbstractController
             return $this->render('entreprise_view/not-found.html.twig');
         }
 
-        // TODO : controle si Admin ou utilisateur lié à l'entreprise ?
+        // TODO : controle si Admin ou utilisateur lié à l'entreprise
 
         $initEntrepriseEmail = $entreprise->getEmail();
         $formEditEntreprise = $this->createForm(EntrepriseType::class, $entreprise);
