@@ -1,0 +1,69 @@
+<dialog aria-labelledby="fr-modal-title-modal-edit-employe-{{employeUuid}}" role="dialog" id="fr-modal-edit-employe-{{employeUuid}}" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-edit-employe-{{employeUuid}}">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-edit-employe-{{employeUuid}}" class="fr-modal__title">Modifier les infos employé</h1>
+                        <p>Remplissez le formulaire ci-dessous pour ajouter un employé.</p>
+
+                        <form action="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" method="POST" class="fr-my-5w">
+                            {{ form_row(formEditEmploye._token) }}
+
+                            <input type="hidden" name="editEmploye" value="{{employeUuid}}">
+
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEmploye.nom) }}
+                                    {{ form_widget(formEditEmploye.nom) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le nom.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEmploye.prenom) }}
+                                    {{ form_widget(formEditEmploye.prenom) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le prénom.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEmploye.numeroCertification) }}
+                                    {{ form_widget(formEditEmploye.numeroCertification) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le numéro de certification.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEmploye.telephone) }}
+                                    {{ form_widget(formEditEmploye.telephone) }}
+                                </div>
+                            </div>
+                            
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEmploye.email) }}
+                                    {{ form_widget(formEditEmploye.email) }}
+                                </div>
+                            </div>
+
+                            <button class="fr-btn fr-btn--icon-left fr-icon-checkbox-circle-line">Valider</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

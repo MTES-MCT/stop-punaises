@@ -26,9 +26,22 @@
                                     Signalements
                                 </a>
                             </li>
+                            {% if is_granted('ROLE_ADMIN') %}
                             <li>
                                 <a class="fr-btn" href="{{ path('app_entreprise_list') }}">
-                                    Entreprises (TODO : admin)
+                                    Entreprises
+                                </a>
+                            </li>
+                            {% else %}
+                            <li>
+                                <a class="fr-btn" href="#{# path('app_entreprise_view',{uuid:user.entreprise.uuid}) #}">
+                                    Entreprise
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li>
+                                <a class="fr-btn" href="{{ path('app_logout') }}">
+                                    Déconnexion <span class="fr-icon-logout-box-r-line" aria-hidden="true"></span>
                                 </a>
                             </li>
                             <li>

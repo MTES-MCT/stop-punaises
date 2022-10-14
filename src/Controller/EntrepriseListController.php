@@ -18,7 +18,6 @@ class EntrepriseListController extends AbstractController
     #[Route('/bo/entreprises', name: 'app_entreprise_list')]
     public function index(Request $request, EntrepriseRepository $entrepriseRepository, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcherInterface): Response
     {
-        // TODO : test isAdmin
         $entreprise = new Entreprise();
         $entreprise->setUuid(uniqid());
         $feedback = [];
