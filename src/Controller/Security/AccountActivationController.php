@@ -68,7 +68,7 @@ class AccountActivationController extends AbstractController
         }
         $errors = [];
         if ($request->isMethod('POST')) { /* @todo: check csrf_token */
-            $errors = empty($this->validate($request));
+            $errors = $this->validate($request);
             if (empty($errors)) {
                 $user = $userManager->resetPassword($user, $request->get('password'));
 
