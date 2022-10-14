@@ -17,6 +17,10 @@ class EntrepriseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var Entreprise $entreprise */
+        $entreprise = $builder->getData();
+        $email = $entreprise->getUser()->getEmail();
+
         $builder
             ->add('nom', TextType::class, [
                 'attr' => [
@@ -72,6 +76,7 @@ class EntrepriseType extends AbstractType
                 ],
                 'label' => 'Email',
                 'required' => true,
+                'data' => $email,
             ])
             ->add('territoires', EntityType::class, [
                 'class' => Territoire::class,
