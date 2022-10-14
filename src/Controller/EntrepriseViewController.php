@@ -37,7 +37,8 @@ class EntrepriseViewController extends AbstractController
                 $entityManager->persist($entreprise);
                 $entityManager->flush();
                 $currentEmail = $entreprise->getUser()->getEmail();
-                if ($entreprise->getEmail() !== $currentEmail) {
+                $newEmail = $formEditEntreprise->getData()->getEmail();
+                if ($newEmail !== $currentEmail) {
                     $eventDispatcher->dispatch(
                         new EntrepriseUpdatedEvent($entreprise, $currentEmail),
                         EntrepriseUpdatedEvent::NAME

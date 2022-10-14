@@ -2,7 +2,6 @@
 
 namespace App\EventSubscriber;
 
-use App\Event\EntrepriseRegisteredEvent;
 use App\Event\EntrepriseUpdatedEvent;
 use App\Manager\UserManager;
 use App\Service\Mailer\MailerProviderInterface;
@@ -24,7 +23,7 @@ class EntrepriseUpdatedSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EntrepriseRegisteredEvent::NAME => 'onEntrepriseUpdatedEvent',
+            EntrepriseUpdatedEvent::NAME => 'onEntrepriseUpdatedEvent',
         ];
     }
 }
