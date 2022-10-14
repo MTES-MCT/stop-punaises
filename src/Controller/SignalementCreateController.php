@@ -18,10 +18,13 @@ class SignalementCreateController extends AbstractController
     #[Route('/bo/signalements/ajout', name: 'app_signalement_create')]
     public function index(Request $request, EntityManagerInterface $entityManager, SignalementRepository $signalementRepository): Response
     {
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
         $signalement = new Signalement();
         $signalement->setUuid(uniqid());
         $feedback = [];
-        $form = $this->createForm(SignalementType::class, $signalement);
+        $form = $this->createForm(SignalementType::class, $signalement, [
+            'isAdmin' => $isAdmin,
+        ]);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -36,18 +39,16 @@ class SignalementCreateController extends AbstractController
                     $signalement->setReference($year.'-'. 1);
                 }
 
+                if (!$isAdmin) {
+                    $signalement->setEntreprise($this->getUser()->getEntreprise());
+                }
+
                 $entityManager->persist($signalement);
                 $entityManager->flush();
 
                 return $this->redirect($this->generateUrl('app_signalement_list').'?create_success_message=1');
             }
             $feedback[] = 'Il y a des erreurs dans les données transmises.';
-        }
-
-        $entreprise = null;
-        $isAdmin = $this->isGranted('ROLE_ADMIN');
-        if (!$isAdmin) {
-            // $entreprise = TODO : entreprise de l'utilisateur en cours
         }
 
         return $this->render('signalement_create/index.html.twig', [

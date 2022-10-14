@@ -13,15 +13,17 @@
             </div>
         </div>
 
-        <div class="fr-form-group">
-            <div class="fr-select-group">
-                {{ form_label(form.entreprise) }}
-                {{ form_widget(form.entreprise) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner l'entreprise
-                </p>
+        {% if form.entreprise is defined %}
+            <div class="fr-form-group">
+                <div class="fr-select-group">
+                    {{ form_label(form.entreprise) }}
+                    {{ form_widget(form.entreprise) }}
+                    <p class="fr-error-text fr-hidden">
+                        Veuillez renseigner l'entreprise
+                    </p>
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 </div>
 

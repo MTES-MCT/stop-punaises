@@ -37,8 +37,7 @@
                                         Cartographie
                                     </a>
                                 </li>
-                            {% endif %}
-                            {% if is_granted('ROLE_ENTREPRISE') %}
+                            {% elseif is_granted('ROLE_ENTREPRISE') %}
                                 <li>
                                     <a class="fr-btn" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}">
                                         Entreprise

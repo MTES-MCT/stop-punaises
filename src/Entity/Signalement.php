@@ -26,7 +26,7 @@ class Signalement
     #[ORM\Column(length: 255)]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 20)]
     private ?string $typeLogement = null;
 
     #[ORM\Column(nullable: true)]
