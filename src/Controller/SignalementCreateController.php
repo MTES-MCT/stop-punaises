@@ -44,6 +44,12 @@ class SignalementCreateController extends AbstractController
             $feedback[] = 'Il y a des erreurs dans les données transmises.';
         }
 
+        $entreprise = null;
+        $isAdmin = $this->isGranted('ROLE_ADMIN');
+        if (!$isAdmin) {
+            // $entreprise = TODO : entreprise de l'utilisateur en cours
+        }
+
         return $this->render('signalement_create/index.html.twig', [
             'form' => $form->createView(),
             'feedback' => $feedback,
@@ -53,7 +59,6 @@ class SignalementCreateController extends AbstractController
     #[Route('/bo/signalements/ajout/liste-employes', name: 'app_liste_employes')]
     public function get_list_employes(Request $request, EntrepriseRepository $entrepriseRepository): Response
     {
-        // TODO : sécurité pour bloquer l'accès
         $idEntreprise = $request->get('idEntreprise');
         $entreprise = $entrepriseRepository->findOneBy(['id' => $idEntreprise]);
 

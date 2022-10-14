@@ -1,0 +1,90 @@
+<dialog aria-labelledby="fr-modal-title-modal-edit-entreprise" role="dialog" id="fr-modal-edit-entreprise" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-edit-entreprise">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-edit-entreprise" class="fr-modal__title">Editer l'entreprise</h1>
+                        <p>Modifiez les informations de l'entreprise en complétant les champs ci-dessous.</p>
+
+                        <form action="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" method="POST" class="fr-my-5w">
+                            {{ form_row(formEditEntreprise._token) }}
+
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEntreprise.nom) }}
+                                    {{ form_widget(formEditEntreprise.nom) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le nom.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEntreprise.numeroSiret) }}
+                                    {{ form_widget(formEditEntreprise.numeroSiret) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le SIRET.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEntreprise.telephone) }}
+                                    {{ form_widget(formEditEntreprise.telephone) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le numéro de téléphone.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEntreprise.numeroLabel) }}
+                                    {{ form_widget(formEditEntreprise.numeroLabel) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le numéro de label.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    {{ form_label(formEditEntreprise.email) }}
+                                    {{ form_widget(formEditEntreprise.email) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner l'email.
+                                    </p>
+                                    <div class="fr-alert fr-alert--warning fr-mt-1v">
+                                        <p>
+                                        Si vous modifiez l'adresse email, la nouvelle adresse devra être validée
+                                        pour utiliser l'interface d'administration. Un email de validation
+                                        sera envoyé à cette adresse.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="fr-form-group">
+                                <div class="fr-select-group">
+                                    {{ form_label(formEditEntreprise.territoires) }}
+                                    {{ form_widget(formEditEntreprise.territoires) }}
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner au moins un territoire.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <button class="fr-btn fr-btn--icon-left fr-icon-checkbox-circle-line">Valider</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
