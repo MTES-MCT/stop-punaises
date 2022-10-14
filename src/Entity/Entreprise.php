@@ -31,7 +31,6 @@ class Entreprise
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $numeroLabel = null;
 
-    #[ORM\Column(length: 100)]
     private ?string $email = null;
 
     #[ORM\ManyToMany(targetEntity: Territoire::class, inversedBy: 'entreprises')]
@@ -42,6 +41,9 @@ class Entreprise
 
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Employe::class)]
     private Collection $employes;
+
+    #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'entreprise')]
+    private $user;
 
     public function __construct()
     {
@@ -214,5 +216,10 @@ class Entreprise
         }
 
         return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 }

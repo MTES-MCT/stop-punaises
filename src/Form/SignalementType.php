@@ -18,11 +18,17 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class SignalementType extends AbstractType
 {
+    public function __construct(private Security $security)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $isAdmin = $options['isAdmin'];
         $builder
             ->add('adresse', TextType::class, [
                 'attr' => [
@@ -179,21 +185,6 @@ class SignalementType extends AbstractType
                 'placeholder' => "Type d'intervention",
                 'required' => true,
             ])
-            ->add('entreprise', EntityType::class, [
-                'class' => Entreprise::class,
-                'query_builder' => function (EntrepriseRepository $er) {
-                    return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
-                },
-                'attr' => [
-                    'class' => 'fr-select',
-                ],
-                'label_attr' => [
-                    'class' => 'fr-label',
-                ],
-                'label' => 'Entreprise',
-                'placeholder' => 'Entreprise',
-                'required' => true,
-            ])
             ->add('dateIntervention', DateType::class, [
                 'format' => 'dd/MM/yyyy',
                 'attr' => [
@@ -206,21 +197,6 @@ class SignalementType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => "Date de l'intervention",
-                'required' => true,
-            ])
-            ->add('agent', EntityType::class, [
-                'class' => Employe::class,
-                'query_builder' => function (EmployeRepository $er) {
-                    return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
-                },
-                'attr' => [
-                    'class' => 'fr-select',
-                ],
-                'label_attr' => [
-                    'class' => 'fr-label',
-                ],
-                'label' => "Nom de l'agent",
-                'placeholder' => "Nom de l'agent",
                 'required' => true,
             ])
             ->add('niveauInfestation', ChoiceType::class, [
@@ -346,12 +322,70 @@ class SignalementType extends AbstractType
                 'required' => true,
             ])
         ;
+
+        if ($isAdmin) {
+            $builder
+                ->add('entreprise', EntityType::class, [
+                    'class' => Entreprise::class,
+                    'query_builder' => function (EntrepriseRepository $er) {
+                        return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
+                    },
+                    'attr' => [
+                        'class' => 'fr-select',
+                    ],
+                    'label_attr' => [
+                        'class' => 'fr-label',
+                    ],
+                    'label' => 'Entreprise',
+                    'placeholder' => 'Entreprise',
+                    'required' => true,
+                ])
+                ->add('agent', EntityType::class, [
+                    'class' => Employe::class,
+                    'query_builder' => function (EmployeRepository $er) {
+                        return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
+                    },
+                    'attr' => [
+                        'class' => 'fr-select',
+                    ],
+                    'label_attr' => [
+                        'class' => 'fr-label',
+                    ],
+                    'label' => "Nom de l'agent",
+                    'placeholder' => "Nom de l'agent",
+                    'required' => true,
+                ]);
+        } else {
+            $builder
+                ->add('agent', EntityType::class, [
+                    'class' => Employe::class,
+                    'query_builder' => function (EmployeRepository $er) {
+                        $entreprise = $this->security->getUser()->getEntreprise();
+
+                        return $er
+                                    ->createQueryBuilder('e')
+                                    ->where('e.entreprise = :entreprise')
+                                    ->setParameter('entreprise', $entreprise)
+                                    ->orderBy('e.id', 'ASC');
+                    },
+                    'attr' => [
+                        'class' => 'fr-select',
+                    ],
+                    'label_attr' => [
+                        'class' => 'fr-label',
+                    ],
+                    'label' => "Nom de l'agent",
+                    'placeholder' => "Nom de l'agent",
+                    'required' => true,
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Signalement::class,
+            'isAdmin' => false,
         ]);
     }
 }
