@@ -42,6 +42,9 @@ class Entreprise
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Employe::class)]
     private Collection $employes;
 
+    #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'entreprise')]
+    private $user;
+
     public function __construct()
     {
         $this->territoires = new ArrayCollection();
@@ -213,5 +216,10 @@ class Entreprise
         }
 
         return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 }

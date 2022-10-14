@@ -2,6 +2,7 @@
 
 namespace App\Controller\Security;
 
+use App\Exception\User\RequestPasswordNotAllowedException;
 use App\Exception\User\UserEmailNotFoundException;
 use App\Manager\UserManager;
 use App\Security\AppAuthenticator;
@@ -22,8 +23,12 @@ class ResetPasswordController extends AbstractController
         if ($request->isMethod('POST') && $email = $request->request->get('email')) {
             try {
                 $userManager->requestPasswordFrom($email);
-            } catch (UserEmailNotFoundException) {
-                $this->addFlash('error', 'Cette adresse ne correspond à aucun compte, verifiez votre saisie');
+            } catch (UserEmailNotFoundException $exception) {
+                $this->addFlash('error', $exception->getMessage());
+
+                return $this->render('security/reset_password.html.twig');
+            } catch (RequestPasswordNotAllowedException $exception) {
+                $this->addFlash('error', $exception->getMessage());
 
                 return $this->render('security/reset_password.html.twig');
             }
@@ -46,6 +51,8 @@ class ResetPasswordController extends AbstractController
         string $token): Response
     {
         if (false === ($user = $resetPasswordToken->validateToken($token))) {
+            $this->addFlash('error', 'Votre lien est invalide ou expiré');
+
             return $this->redirectToRoute('app_login');
         }
 

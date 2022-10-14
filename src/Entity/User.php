@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', enumType: Status::class)]
     private Status $status;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'], inversedBy: 'user')]
     private ?Entreprise $entreprise = null;
 
     public function __construct()

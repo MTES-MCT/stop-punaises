@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Employe;
 use App\Entity\Entreprise;
+use App\Event\EntrepriseUpdatedEvent;
 use App\Form\EmployeType;
 use App\Form\EntrepriseType;
+use App\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class EntrepriseViewController extends AbstractController
 {
     #[Route('/bo/entreprises/{uuid}', name: 'app_entreprise_view')]
-    public function index(Request $request, Entreprise $entreprise, EntityManagerInterface $entityManager): Response
+    public function index(Request $request,
+                          Entreprise $entreprise,
+                          UserManager $userManager,
+                          EntityManagerInterface $entityManager,
+                          EventDispatcherInterface $eventDispatcher): Response
     {
         if (!$entreprise) {
             return $this->render('entreprise_view/not-found.html.twig');
@@ -23,15 +30,19 @@ class EntrepriseViewController extends AbstractController
 
         // TODO : controle si Admin ou utilisateur lié à l'entreprise
 
-        $initEntrepriseEmail = $entreprise->getEmail();
         $formEditEntreprise = $this->createForm(EntrepriseType::class, $entreprise);
         $formEditEntreprise->handleRequest($request);
         if ($formEditEntreprise->isSubmitted()) {
             if ($formEditEntreprise->isValid()) {
                 $entityManager->persist($entreprise);
                 $entityManager->flush();
-
-                if ($entreprise->getEmail() !== $initEntrepriseEmail) {
+                $currentEmail = $entreprise->getUser()->getEmail();
+                $newEmail = $formEditEntreprise->getData()->getEmail();
+                if ($newEmail !== $currentEmail) {
+                    $eventDispatcher->dispatch(
+                        new EntrepriseUpdatedEvent($entreprise, $currentEmail),
+                        EntrepriseUpdatedEvent::NAME
+                    );
                     // TODO :
                     // Si ROLE_ENTREPRISE : Logout, redirect to login with success message
                     // Dans tous les cas : envoi d'un mail d'activation de compte
