@@ -35,10 +35,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $lastLogin = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $confirmationToken = null;
+    private ?string $token = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $passwordRequestExpiredAt = null;
+    private ?\DateTimeImmutable $tokenExpiredAt = null;
 
     #[ORM\Column(type: 'string', enumType: Status::class)]
     private Status $status;
@@ -97,6 +97,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function addRole(string $role): self
+    {
+        if (!\in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
     /**
      * @see PasswordAuthenticatedUserInterface
      */
@@ -133,26 +142,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getConfirmationToken(): ?string
+    public function getToken(): ?string
     {
-        return $this->confirmationToken;
+        return $this->token;
     }
 
-    public function setConfirmationToken(?string $confirmationToken): self
+    public function setToken(?string $token): self
     {
-        $this->confirmationToken = $confirmationToken;
+        $this->token = $token;
 
         return $this;
     }
 
-    public function getPasswordRequestExpiredAt(): ?\DateTimeImmutable
+    public function getTokenExpiredAt(): ?\DateTimeImmutable
     {
-        return $this->passwordRequestExpiredAt;
+        return $this->tokenExpiredAt;
     }
 
-    public function setPasswordRequestExpiredAt(?\DateTimeImmutable $passwordRequestExpiredAt): self
+    public function setTokenExpiredAt(?\DateTimeImmutable $tokenExpiredAt): self
     {
-        $this->passwordRequestExpiredAt = $passwordRequestExpiredAt;
+        $this->tokenExpiredAt = $tokenExpiredAt;
 
         return $this;
     }

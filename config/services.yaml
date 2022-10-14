@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     from: '%env(resolve:NOTIFICATIONS_EMAIL)%'
-    confirmation_token_lifetime: '10 minutes'
+    token_lifetime: '10 minutes'
     base_url: '%env(resolve:APP_URL)%'
 
 services:

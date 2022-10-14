@@ -13,3 +13,8 @@ users:
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0002-0000-0000-000000000000"
     status: 'active'
+  -
+    email: company-punaises-03@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000001-0003-0000-0000-000000000000"
+    status: 'inactive'
