@@ -21,6 +21,6 @@ class SignalementManager extends AbstractManager
     {
         return $this->security->isGranted(Role::ROLE_ADMIN->value)
         ? $this->findAll()
-        : $this->findBy(['entreprise' => $this->security->getUser()->getEntreprise]);
+        : $this->findBy(['entreprise' => $this->security->getUser()->getEntreprise()]);
     }
 }

@@ -2,15 +2,24 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Enum\Role;
 use App\Event\EntrepriseUpdatedEvent;
 use App\Manager\UserManager;
 use App\Service\Mailer\MailerProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Security;
 
 class EntrepriseUpdatedSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MailerProviderInterface $mailerProvider,
-                                private UserManager $userManager
+    public function __construct(
+        private MailerProviderInterface $mailerProvider,
+        private UserManager $userManager,
+        private Security $security,
+        private UrlGeneratorInterface $urlGenerator,
+        private RequestStack $requestStack,
     ) {
     }
 
@@ -18,6 +27,13 @@ class EntrepriseUpdatedSubscriber implements EventSubscriberInterface
     {
         $user = $this->userManager->updateEmailFrom($event->getEntreprise(), $event->getCurrentEmail());
         $this->mailerProvider->sendActivateMessage($user);
+
+        if ($this->security->isGranted(Role::ROLE_ENTREPRISE->name)) {
+            $session = $this->requestStack->getSession();
+            $session->getFlashBag()->add('success', 'Merci d\'activer votre compte');
+            $response = new RedirectResponse($this->urlGenerator->generate('app_logout'));
+            $response->send();
+        }
     }
 
     public static function getSubscribedEvents(): array
