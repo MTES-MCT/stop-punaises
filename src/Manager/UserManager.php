@@ -95,6 +95,11 @@ class UserManager extends AbstractManager
         return $user;
     }
 
+    public function getActiveUser($email): ?User
+    {
+        return $this->findOneBy(['email' => $email, 'active' => true, 'status' => Status::ACTIVE]);
+    }
+
     private function loadUserToken(string $email): User
     {
         /** @var User $user */
