@@ -1,0 +1,568 @@
+span.niveau-infestation {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: var(--grey-1000-50);
+
+    &.niveau-0 {
+        background-color: var(--success-425-625);
+    }
+    &.niveau-1 {
+        background-color: var(--orange-terre-battue-main-645);
+        color: var(--grey-200-850);
+    }
+    &.niveau-2 {
+        background-color: var(--warning-425-625);
+    }
+    &.niveau-3 {
+        background-color: var(--error-425-625);
+    }
+    &.niveau-4 {
+        background-color: var(--grey-50-1000);
+    }
+}
+
+.add-button-container {
+    float: right;
+}
+
+.dataTables_wrapper {
+    table {
+        width: 100%;
+        td.button-view {
+            a.fr-btn.fr-icon-arrow-right-fill, button.fr-btn.fr-icon-pencil-line {
+                display: inline-block;
+                border-radius: 20px;
+                min-height: 1.5rem;
+
+                &::before {
+                    margin-right: 0px;
+                }
+            }
+        }
+    }
+
+    .dataTables_filter {
+        display: none;
+    }
+    .dataTables_paginate .paginate_button {
+        border: 0px;
+        color: #161616;
+        background: none;
+        padding: 0.2em 0.7em;
+    }
+    .dataTables_paginate .paginate_button.current {
+        border: 0px;
+        background: var(--blue-france-850-200);
+    }
+    .dataTables_paginate .paginate_button:hover {
+        color: #161616 !important;
+        background-color: #E5E5E5;
+
+    }
+}
+
+.index-header {
+    h1 {
+        font-size: 56px;
+        line-height: 60px;
+        font-weight: 800;
+        color: var(--blue-france-sun-113-625);
+    }
+    p.bons-reflexes {
+        font-size: 40px;
+        line-height: 45px;
+        font-weight: 800;
+        color: #E2241C;
+    }
+}
+
+.index-tout-le-monde {
+    background-color: var(--blue-france-975-75);
+
+    > h2 {
+        font-size: 32px;
+        font-weight: 800;
+        text-align: center;
+        color: var(--grey-50-1000);
+    }
+}
+
+.index-cest-quoi {
+    > h2 {
+        font-size: 32px;
+        font-weight: 800;
+        text-align: center;
+        color: var(--grey-50-1000);
+    }
+}
+
+
+@media (max-width: 767px) {
+    .index-header {
+        text-align: center;
+    }
+
+    .index-cest-quoi {
+        > h2 {
+            text-align: left;
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .index-tout-le-monde {
+        .fr-grid-row {
+            flex-direction: column-reverse;
+
+            .video-container {
+                text-align: center;
+                margin-bottom: 12px;
+            }
+
+            .button-container {
+                text-align: center;
+            }
+        }
+    }
+}
+
+.information-header {
+    h1 {
+        font-size: 40px;
+        line-height: 48px;
+        font-weight: 800;
+        text-align: center;
+        color: var(--blue-france-sun-113-625);
+    }
+    iframe {
+        max-width: 100%;
+    }
+}
+
+.information-comment-reconnaitre-punaise {
+    background-color: var(--blue-france-975-75);
+
+    .fr-col-lg-3 {
+        text-align: center;
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    
+        span.image-caption {
+            font-size: 12px;
+            line-height: 20px;
+            font-style: italic;
+            color: #666;
+        }
+    }
+
+    .fr-alert--warning {
+        background: #B340001A 0% 0% no-repeat padding-box;
+    }
+    .fr-alert--info {
+        background: #0063CB1A 0% 0% no-repeat padding-box;
+    }
+}
+
+.information-comment-reconnaitre-infestation {
+    .fr-col-lg-8 {
+        .fr-col-4 {
+            text-align: center;
+
+            img {
+                display: block;
+                margin: auto;
+                max-width: 225px;
+                max-height: 175px;
+                width: auto;
+                height: auto;
+            }
+
+            span {
+                font-size: 12px;
+                line-height: 20px;
+                font-style: italic;
+                color: #666;
+            }
+        }
+    }
+
+    .fr-col-lg-4 {
+        text-align: center;
+        
+        a{
+            background: none;
+
+            &::after {
+                width: 0px;
+            }
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        span.click-to-expand {
+            font-style: italic;
+            font-size: 12px;
+            line-height: 20px;
+            color: #666;
+        }
+    }
+}
+
+.information-evaluer {
+    background-color: var(--blue-france-975-75);
+
+    h2 {
+        text-align: center;
+    }
+
+    > p {
+        text-align: center;
+    }
+
+    .fr-container {
+        > .fr-grid-row--gutters {
+            .fr-col-lg-4:last-child {
+                visibility: hidden;
+            }
+
+            .fr-col-2 {
+                text-align: center;
+
+                span {
+                    display: inline-block;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    font-weight: bold;
+                    vertical-align: middle;
+                    border-radius: 15px;
+                    background-color: #00A95F;
+
+                    &.number-1 {
+                        background-color: #E4794A;
+                    }
+
+                    &.number-2 {
+                        background-color: #B34000;
+                        color: #FFF;
+                    }
+
+                    &.number-3 {
+                        background-color: #CE0500;
+                        color: #FFF;
+                    }
+
+                    &.number-4 {
+                        background-color: #161616;
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.information-comment-eviter {
+    .fr-col-lg-4 {
+        text-align: center;
+
+        a{
+            background: none;
+
+            &::after {
+                width: 0px;
+            }
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        span.click-to-expand {
+            font-style: italic;
+            font-size: 12px;
+            line-height: 20px;
+            color: #666;
+        }
+    }
+}
+
+.information-contact {
+    background-color: var(--blue-france-975-75);
+    text-align: center;
+
+    .all-questions {
+        font-size: 20px;
+        line-height: 32px;
+    }
+
+    .fr-icon-phone-fill {
+        font-size: 32px;
+        line-height: 40px;
+        font-weight: bold;
+        color: #000091;
+        text-decoration: underline;
+    }
+
+    .local-phone-price {
+        font-size: 12px;
+        color: #3A3A3A;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .information-header {
+        text-align: center;
+
+        h1 {
+            color: #161616;
+        }
+    }
+    .information-comment-reconnaitre-punaise {
+        h2 {
+            text-align: center;
+        }
+    }
+
+    .information-comment-reconnaitre-infestation {
+        .fr-col-lg-8 {
+            .fr-col-4 {
+                img {
+                    max-width: 100%;
+                    max-height: 175px;
+                }
+            }
+        }
+    }
+
+    .information-comment-reconnaitre-infestation, .information-comment-eviter {
+        .no-accordions-group {
+            display: none;
+        }
+    }
+}
+@media (min-width: 768px) {
+    .information-comment-reconnaitre-infestation, .information-comment-eviter {
+        .fr-accordions-group {
+            display: none;
+        }
+    }
+}
+
+.creer-signalement {
+    > div.fr-p-5w {
+        background-color: var(--grey-975-75);
+    }
+
+    .fr-stepper {
+        .fr-stepper__hidden {
+            display: none;
+        }
+    }
+
+    .column-label {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .fr-form-group-hidden, .fr-stepper__hidden {
+        display: none;
+    }
+
+    .fr-radio-group {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .stepper-next {
+        text-align: right;
+    }
+    .stepper-previous .fr-btn {
+        float: right;
+    }
+
+    .display-if-diagnostic, .display-if-traitement, .display-if-biocide {
+        display: none;
+    }
+
+    #rechercheAdresse {
+        padding: .5rem 1.5rem;
+    }
+    #rechercheAdresseIcon {
+        margin-top: -32px;
+        .fr-icon-timer-line {
+            display: none;
+        }
+    }
+    #rechercheAdresseListe {
+        position: absolute;
+        display: none;
+        border: 1px solid;
+        background: #FFF;
+        min-width: 300px;
+        div {
+            cursor: pointer;
+            &:hover {
+                background-color: #dde5ff;
+            }
+        }
+    }
+}
+
+.liste-signalements {
+    background-color: var(--grey-975-75);
+
+    .fr-container {
+        .fr-input-wrap::before {
+            right: 1rem;
+        }
+
+        .fr-input, .fr-select {
+            background-color: var(--grey-1000-50);   
+        }
+    }
+
+    .dataTables_wrapper {
+        table {
+            tbody {
+                td{
+                    &:nth-child(1) {
+                        span {
+                            display: none;
+                        }
+                    }
+                    &:nth-child(3) {
+                        span {
+                            display: inline-block;
+                            padding: 5px 10px;
+                            border-radius: 20px;
+                            background-color: var(--info-425-625);
+                            color: var(--grey-1000-50);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media (min-width: 992px) {
+    .liste-signalements .fr-container .fr-input-wrap::before {
+        top: -0.75rem;
+    }
+}
+
+.fiche-signalement {
+    .date-info {
+        display: inline-block;
+        margin-left: 10px;
+    }
+
+    .fr-tabs__panel {
+        background-color: var(--grey-975-75);
+
+        h2 {
+            span.type-intervention {
+                display: inline-block;
+                padding: 5px 10px;
+                border-radius: 20px;
+                background-color: var(--info-425-625);
+                color: var(--grey-1000-50);
+                font-size: 0.8rem;
+                line-height: 1.2rem;
+            }
+        }
+
+        .edit-zone {
+            background-color: var(--grey-1000-50);
+            filter: drop-shadow(var(--raised-shadow));
+            font-weight: normal;
+        }
+    }
+}
+
+.liste-entreprises {
+    background-color: var(--grey-975-75);
+
+    .fr-container {
+        .fr-input-wrap::before {
+            right: 1rem;
+        }
+
+        .fr-input, .fr-select {
+            background-color: var(--grey-1000-50);   
+        }
+    }
+
+    .dataTables_wrapper {
+        table {
+            tbody {
+                td{
+                    &:nth-child(2) {
+                        span {
+                            display: none;
+                        }
+                    }
+                    &:nth-child(5) {
+                        span {
+                            display: inline-block;
+                            padding: 5px 10px;
+                            border-radius: 20px;
+                            background-color: var(--info-425-625);
+                            color: var(--grey-1000-50);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.fiche-entreprise {
+    .btn-edit-container {
+        text-align: right;
+
+        .fr-icon-pencil-line {
+            display: inline-block;
+            border-radius: 20px;
+            min-height: 1.5rem;
+    
+            &::before {
+                margin-right: 0px;
+            }
+        }
+    }
+
+    .sublist-territories {
+        span {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background-color: var(--info-425-625);
+            color: var(--grey-1000-50);
+        }
+    }
+
+    .fr-col-lg-3 {
+        text-align: right;
+    }
+
+    .sublist-employes {
+        background-color: var(--grey-975-75);
+        table {
+            tr {
+                td {
+                    background-color: var(--grey-1000-50);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stop punaises - Connexion à l'espace pro{% endblock %}
+
+{% block body %}
+<main class="fr-container fr-py-5w">
+    <div class="fr-grid-row fr-grid-row--center">
+        <div class="fr-col-10 fr-col-md-8 fr-col-lg-6">
+            <h1>Se connecter</h1>
+
+            <form class="needs-validation fr-mb-5w" name="login-form" method="POST" novalidate="">
+                {% if error %}
+                <div class="fr-form-group">
+                    <div class="fr-alert fr-alert--error">
+                        <h3 class="fr-alert__title">Erreur d'identification</h3>
+                        <p>Ces identifiants ne correspondent à aucun compte existant. Veuillez réessayer.</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="fr-input-group">
+                    <label class="fr-label" for="login-email">Adresse email</label>
+                    <input class="fr-input" type="email" id="login-email" name="email" value="{{ last_username }}" required>
+                </div>
+
+                <div class="fr-input-group">
+                    <label class="fr-label" for="login-password">Mot de passe</label>
+                    <input class="fr-input" type="password" id="login-password" name="password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="fr-input-group">
+                    <button class="fr-btn fr-btn--icon-left fr-icon-check-line">
+                        Se connecter
+                    </button>
+                </div>
+            </form>
+
+            {% include "security/_partial_link_forgotten_password.html.twig" %}
+            
+            {% include "security/_partial_link_account_activation.html.twig" %}
+        </div>
+    </div>
+</main>
+{% endblock %}

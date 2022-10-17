@@ -1,0 +1,45 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stop punaises - Ajouter un signalement{% endblock %}
+
+{% block body %}
+<div class="creer-signalement">
+    <div class="fr-p-5w">
+        <div class="fr-container">
+            <h1>Créer un signalement</h1>
+            <p>Ajoutez un signalement en complétant le formulaire ci-dessous. Une fois toutes les étapes passées, vous pourrez valider le signalement.</p>
+        </div>
+    </div>
+
+    <div class="fr-container">
+        {% if feedback is not empty %}
+            {% for text in feedback %}
+                <div class="fr-alert fr-alert--error">
+                    <h3 class="fr-alert__title">{{ text }}</h3>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <form action="{{ path('app_signalement_create') }}" method="POST" class="fr-my-5w fr-px-5w fr-container" data-ajax="{{ path('app_liste_employes') }}">
+        {{ form_row(form._token) }}
+
+        <div class="fr-stepper">
+            <h2 class="fr-stepper__title">
+                <span class="fr-stepper__state">Étape <span>1</span> sur 2</span>
+                <span data-step="1">Logement</span>
+                <span class="fr-stepper__hidden" data-step="2">Intervention</span>
+            </h2>
+            <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="2"></div>
+        </div>
+
+        <div id="form-creer-signalement-step-1">
+            {% include "signalement_create/tab-1.html.twig" %}
+        </div>
+
+        <div id="form-creer-signalement-step-2" class="fr-stepper__hidden">
+            {% include "signalement_create/tab-2.html.twig" %}
+        </div>
+    </form>
+</div>
+{% endblock %}

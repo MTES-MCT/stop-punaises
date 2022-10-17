@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        
+        <link rel="stylesheet" href="{{ asset('build/dsfr/dsfr.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-buildings/icons-buildings.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-design/icons-design.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-development/icons-development.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-device/icons-device.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-document/icons-document.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-map/icons-map.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-system/icons-system.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-user/icons-user.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/datatables/jquery.dataTables.min.css') }}"/>
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        <script src="{{ asset('build/dsfr/dsfr.module.min.js') }}"></script>
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% include "common/header-back.html.twig" %}
+
+        {% block body %}{% endblock %}
+
+        {% include "common/footer.html.twig" %}
+    </body>
+</html>

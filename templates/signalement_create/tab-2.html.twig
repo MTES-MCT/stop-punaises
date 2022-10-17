@@ -1,0 +1,162 @@
+<h2>Intervention</h2>
+
+<p>Sélectionnez le type d'intervention puis remplissez les champs proposés.</p>
+
+<div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-col-12 fr-col-md-6">
+        <div class="fr-form-group">
+            <div class="fr-select-group">
+                {{ form_widget(form.typeIntervention) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le type d'intervention
+                </p>
+            </div>
+        </div>
+
+        {% if form.entreprise is defined %}
+            <div class="fr-form-group">
+                <div class="fr-select-group">
+                    {{ form_label(form.entreprise) }}
+                    {{ form_widget(form.entreprise) }}
+                    <p class="fr-error-text fr-hidden">
+                        Veuillez renseigner l'entreprise
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-col-12 fr-col-md-6">
+        <div class="fr-form-group display-if-diagnostic display-if-traitement">
+            <div class="fr-input-group">
+                {{ form_label(form.dateIntervention) }}
+                {{ form_widget(form.dateIntervention) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner la date d'intervention
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group display-if-diagnostic display-if-traitement">
+            <div class="fr-select-group">
+                {{ form_label(form.agent) }}
+                {{ form_widget(form.agent) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner l'agent
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group display-if-diagnostic display-if-traitement">
+            <div class="fr-select-group">
+                {{ form_label(form.niveauInfestation) }}
+                {{ form_widget(form.niveauInfestation) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le niveau d'infestation
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group display-if-traitement">
+            <div class="fr-select-group">
+                {{ form_label(form.typeTraitement) }}
+                {{ form_widget(form.typeTraitement) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le type de traitement
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group display-if-traitement display-if-biocide">
+            <div class="fr-input-group">
+                {{ form_label(form.nomBiocide) }}
+                {{ form_widget(form.nomBiocide) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le nom du Biocide
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group display-if-diagnostic">
+            <div class="fr-input-group">
+                {{ form_label(form.typeDiagnostic) }}
+                
+                {% for key, choice in form.typeDiagnostic.children %}
+                    <div class="fr-radio-group">
+                        {{ form_widget(choice) }}
+                        {{ form_label(choice) }}
+                    </div>
+                {% endfor %}
+
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le type de diagnostic
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="fr-col-12 fr-col-md-6">
+        <div class="fr-form-group display-if-traitement">
+            <div class="fr-input-group">
+                {{ form_label(form.nombrePiecesTraitees) }}
+                {{ form_widget(form.nombrePiecesTraitees) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le nombre de pièces traitées
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group display-if-traitement">
+            <div class="fr-input-group">
+                {{ form_label(form.delaiEntreInterventions) }}
+                {{ form_widget(form.delaiEntreInterventions) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le délai entre les interventions
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group display-if-traitement">
+            <div class="fr-input-group">
+                {{ form_label(form.faitVisitePostTraitement) }}
+                
+                {% for key, choice in form.faitVisitePostTraitement.children %}
+                    <div class="fr-radio-group">
+                        {{ form_widget(choice) }}
+                        {{ form_label(choice) }}
+                    </div>
+                {% endfor %}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner la visite post-traitement
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group display-if-traitement">
+            <div class="fr-input-group">
+                {{ form_label(form.dateVisitePostTraitement) }}
+                {{ form_widget(form.dateVisitePostTraitement) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner la date de la visite post-traitement
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group display-if-diagnostic display-if-traitement">
+            <div class="fr-input-group">
+                {{ form_label(form.prixFactureHT) }}
+                {{ form_widget(form.prixFactureHT) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le prix facturé
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="stepper-previous">
+    <a href="#">&lt; Précédent</a>
+    <button class="fr-btn fr-btn--icon-left fr-icon-checkbox-circle-line" disabled>Valider</button>
+</nav>

@@ -1,0 +1,85 @@
+signalements:
+-
+  entreprise: "00000001-0001-0000-0000-000000000000"
+  uuid: "00000001-0001-0000-0000-000000000000"
+  adresse: "18 Avenue De La Republique"
+  code_postal: "13002"
+  ville: "Marseille"
+  type_logement: "maison"
+  construit_avant1948: 1
+  type_intervention: "diagnostic"
+  niveau_infestation: 1
+  type_diagnostic: "visuel"
+  code_insee: "13202"
+  agent: "00000001-0001-0000-0000-000000000000"
+  reference: "2022-1"
+-
+  entreprise: "00000001-0001-0000-0000-000000000000"
+  uuid: "00000001-0002-0000-0000-000000000000"
+  adresse: "19 Avenue De La Republique"
+  code_postal: "13002"
+  ville: "Marseille"
+  type_logement: "maison"
+  construit_avant1948: 1
+  type_intervention: "diagnostic"
+  niveau_infestation: 1
+  type_diagnostic: "visuel"
+  code_insee: "13202"
+  agent: "00000001-0002-0000-0000-000000000000"
+  reference: "2022-2"
+-
+  entreprise: "00000001-0001-0000-0000-000000000000"
+  uuid: "00000001-0003-0000-0000-000000000000"
+  adresse: "20 Avenue De La Republique"
+  code_postal: "13002"
+  ville: "Marseille"
+  type_logement: "maison"
+  construit_avant1948: 1
+  type_intervention: "diagnostic"
+  niveau_infestation: 1
+  type_diagnostic: "visuel"
+  code_insee: "13202"
+  agent: "00000001-0003-0000-0000-000000000000"
+  reference: "2022-3"
+-
+  entreprise: "00000001-0002-0000-0000-000000000000"
+  uuid: "00000001-0004-0000-0000-000000000000"
+  adresse: "21 Avenue De La Republique"
+  code_postal: "13002"
+  ville: "Marseille"
+  type_logement: "maison"
+  construit_avant1948: 1
+  type_intervention: "diagnostic"
+  niveau_infestation: 1
+  type_diagnostic: "visuel"
+  code_insee: "13202"
+  agent: "00000001-0001-0000-0000-000000000000"
+  reference: "2022-4"
+-
+  entreprise: "00000001-0002-0000-0000-000000000000"
+  uuid: "00000001-0005-0000-0000-000000000000"
+  adresse: "22 Avenue De La Republique"
+  code_postal: "13002"
+  ville: "Marseille"
+  type_logement: "maison"
+  construit_avant1948: 1
+  type_intervention: "diagnostic"
+  niveau_infestation: 1
+  type_diagnostic: "visuel"
+  code_insee: "13202"
+  agent: "00000001-0002-0000-0000-000000000000"
+  reference: "2022-5"
+-
+  entreprise: "00000001-0003-0000-0000-000000000000"
+  uuid: "00000001-0006-0000-0000-000000000000"
+  adresse: "23 Avenue De La Republique"
+  code_postal: "13002"
+  ville: "Marseille"
+  type_logement: "maison"
+  construit_avant1948: 1
+  type_intervention: "diagnostic"
+  niveau_infestation: 1
+  type_diagnostic: "visuel"
+  code_insee: "13202"
+  agent: "00000001-0003-0000-0000-000000000000"
+  reference: "2022-6"

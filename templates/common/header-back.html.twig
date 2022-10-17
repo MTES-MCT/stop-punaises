@@ -1,0 +1,67 @@
+<header role="banner" class="fr-header">
+    <div class="fr-header__body">
+        <div class="fr-container">
+            <div class="fr-header__body-row">
+                <div class="fr-header__brand fr-enlarge-link">
+                    <div class="fr-header__brand-top">
+                        <div class="fr-header__logo">
+                            <p class="fr-logo">
+                                Ministère
+                                <br>de la transition
+                                <br>écologique
+                            </p>
+                        </div>
+                        <div class="fr-header__navbar">
+                            <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-499" aria-haspopup="menu" id="button-500" title="Menu">
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="fr-header__tools">
+                    <div class="fr-header__tools-links">
+                        <ul class="fr-btns-group">
+                            <li>
+                                <a class="fr-btn" href="{{ path('app_signalement_list') }}">
+                                    Signalements
+                                </a>
+                            </li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li>
+                                    <a class="fr-btn" href="{{ path('app_entreprise_list') }}">
+                                        Entreprises
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="fr-btn" href="{{ path('app_cartographie') }}">
+                                        Cartographie
+                                    </a>
+                                </li>
+                            {% elseif is_granted('ROLE_ENTREPRISE') %}
+                                <li>
+                                    <a class="fr-btn" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}">
+                                        Entreprise
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a class="fr-btn" href="{{ path('app_logout') }}">
+                                    Déconnexion <span class="fr-icon-logout-box-r-line" aria-hidden="true"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="fr-header__menu fr-modal" id="modal-499" aria-labelledby="button-500">
+        <div class="fr-container">
+            <button class="fr-btn--close fr-btn" aria-controls="modal-499" title="Fermer">
+                Fermer
+            </button>
+            <div class="fr-header__menu-links">
+            </div>
+        </div>
+    </div>
+</header>

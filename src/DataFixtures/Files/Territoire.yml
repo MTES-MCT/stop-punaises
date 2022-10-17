@@ -1,0 +1,414 @@
+territoires:
+  -
+    zip: "01"
+    name: "Ain"
+    active: 1
+  -
+    zip: "02"
+    name: "Aisne"
+    active: 1
+  -
+    zip: "03"
+    name: "Allier"
+    active: 0
+  -
+    zip: "04"
+    name: "Alpes-de-Haute-Provence"
+    active: 1
+  -
+    zip: "05"
+    name: "Hautes-Alpes"
+    active: 0
+  -
+    zip: "06"
+    name: "Alpes-Maritimes"
+    active: 1
+  -
+    zip: "07"
+    name: "Ardèche"
+    active: 1
+  -
+    zip: "08"
+    name: "Ardennes"
+    active: 1
+  -
+    zip: "09"
+    name: "Ariège"
+    active: 0
+  -
+    zip: "10"
+    name: "Aube"
+    active: 0
+  -
+    zip: "11"
+    name: "Aude"
+    active: 0
+  -
+    zip: "12"
+    name: "Aveyron"
+    active: 0
+  -
+    zip: "13"
+    name: "Bouches-du-Rhône"
+    active: 1
+  -
+    zip: "14"
+    name: "Calvados"
+    active: 0
+  -
+    zip: "15"
+    name: "Cantal"
+    active: 0
+  -
+    zip: "16"
+    name: "Charente"
+    active: 0
+  -
+    zip: "17"
+    name: "Charente-Maritime"
+    active: 0
+  -
+    zip: "18"
+    name: "Cher"
+    active: 0
+  -
+    zip: "19"
+    name: "Corrèze"
+    active: 1
+  -
+    zip: "2A"
+    name: "Corse-du-Sud"
+    active: 1
+  -
+    zip: "2B"
+    name: "Haute-Corse"
+    active: 0
+  -
+    zip: "21"
+    name: "Côte-d'Or"
+    active: 1
+  -
+    zip: "22"
+    name: "Côtes d'Armor"
+    active: 0
+  -
+    zip: "23"
+    name: "Creuse"
+    active: 0
+  -
+    zip: "24"
+    name: "Dordogne"
+    active: 0
+  -
+    zip: "25"
+    name: "Doubs"
+    active: 0
+  -
+    zip: "26"
+    name: "Drôme"
+    active: 0
+  -
+    zip: "27"
+    name: "Eure"
+    active: 0
+  -
+    zip: "28"
+    name: "Eure-et-Loir"
+    active: 1
+  -
+    zip: "29"
+    name: "Finistère"
+    active: 1
+  -
+    zip: "30"
+    name: "Gard"
+    active: 0
+  -
+    zip: "31"
+    name: "Haute-Garonne"
+    active: 1
+  -
+    zip: "32"
+    name: "Gers"
+    active: 0
+  -
+    zip: "33"
+    name: "Gironde"
+    active: 0
+  -
+    zip: "34"
+    name: "Hérault"
+    active: 0
+  -
+    zip: "35"
+    name: "Ille-et-Vilaine"
+    active: 0
+  -
+    zip: "36"
+    name: "Indre"
+    active: 0
+  -
+    zip: "37"
+    name: "Indre-et-Loire"
+    active: 0
+  -
+    zip: "38"
+    name: "Isère"
+    active: 1
+  -
+    zip: "39"
+    name: "Jura"
+    active: 0
+  -
+    zip: "40"
+    name: "Landes"
+    active: 0
+  -
+    zip: "41"
+    name: "Loir-et-Cher"
+    active: 0
+  -
+    zip: "42"
+    name: "Loire"
+    active: 0
+  -
+    zip: "43"
+    name: "Haute-Loire"
+    active: 0
+  -
+    zip: "44"
+    name: "Loire-Atlantique"
+    active: 1
+  -
+    zip: "45"
+    name: "Loiret"
+    active: 0
+  -
+    zip: "46"
+    name: "Lot"
+    active: 0
+  -
+    zip: "47"
+    name: "Lot-et-Garonne"
+    active: 1
+  -
+    zip: "48"
+    name: "Lozère"
+    active: 0
+  -
+    zip: "49"
+    name: "Maine-et-Loire"
+    active: 1
+  -
+    zip: "50"
+    name: "Manche"
+    active: 0
+  -
+    zip: "51"
+    name: "Marne"
+    active: 0
+  -
+    zip: "52"
+    name: "Haute-Marne"
+    active: 0
+  -
+    zip: "53"
+    name: "Mayenne"
+    active: 0
+  -
+    zip: "54"
+    name: "Meurthe-et-Moselle"
+    active: 0
+  -
+    zip: "55"
+    name: "Meuse"
+    active: 1
+  -
+    zip: "56"
+    name: "Morbihan"
+    active: 0
+  -
+    zip: "57"
+    name: "Moselle"
+    active: 1
+  -
+    zip: "58"
+    name: "Nièvre"
+    active: 0
+  -
+    zip: "59"
+    name: "Nord"
+    active: 1
+  -
+    zip: "60"
+    name: "Oise"
+    active: 0
+  -
+    zip: "61"
+    name: "Orne"
+    active: 0
+  -
+    zip: "62"
+    name: "Pas-de-Calais"
+    active: 0
+  -
+    zip: "63"
+    name: "Puy-de-Dôme"
+    active: 1
+  -
+    zip: "64"
+    name: "Pyrénées-Atlantiques"
+    active: 1
+  -
+    zip: "65"
+    name: "Hautes-Pyrénées"
+    active: 0
+  -
+    zip: "66"
+    name: "Pyrénées-Orientales"
+    active: 1
+  -
+    zip: "67"
+    name: "Bas-Rhin"
+    active: 0
+  -
+    zip: "68"
+    name: "Haut-Rhin"
+    active: 0
+  -
+    zip: "69"
+    name: "Rhône"
+    active: 1
+  -
+    zip: "70"
+    name: "Haute-Saône"
+    active: 0
+  -
+    zip: "71"
+    name: "Saône-et-Loire"
+    active: 1
+  -
+    zip: "72"
+    name: "Sarthe"
+    active: 0
+  -
+    zip: "73"
+    name: "Savoie"
+    active: 0
+  -
+    zip: "74"
+    name: "Haute-Savoie"
+    active: 0
+  -
+    zip: "75"
+    name: "Paris"
+    active: 0
+  -
+    zip: "76"
+    name: "Seine-Maritime"
+    active: 0
+  -
+    zip: "77"
+    name: "Seine-et-Marne"
+    active: 0
+  -
+    zip: "78"
+    name: "Yvelines"
+    active: 0
+  -
+    zip: "79"
+    name: "Deux-Sèvres"
+    active: 0
+  -
+    zip: "80"
+    name: "Somme"
+    active: 0
+  -
+    zip: "81"
+    name: "Tarn"
+    active: 1
+  -
+    zip: "82"
+    name: "Tarn-et-Garonne"
+    active: 0
+  -
+    zip: "83"
+    name: "Var"
+    active: 0
+  -
+    zip: "84"
+    name: "Vaucluse"
+    active: 0
+  -
+    zip: "85"
+    name: "Vendée"
+    active: 0
+  -
+    zip: "86"
+    name: "Vienne"
+    active: 0
+  -
+    zip: "87"
+    name: "Haute-Vienne"
+    active: 0
+  -
+    zip: "88"
+    name: "Vosges"
+    active: 0
+  -
+    zip: "89"
+    name: "Yonne"
+    active: 0
+  -
+    zip: "90"
+    name: "Territoire de Belfort"
+    active: 0
+  -
+    zip: "91"
+    name: "Essonne"
+    active: 0
+  -
+    zip: "92"
+    name: "Hauts-de-Seine"
+    active: 0
+  -
+    zip: "93"
+    name: "Seine-St-Denis"
+    active: 0
+  -
+    zip: "94"
+    name: "Val-de-Marne"
+    active: 0
+  -
+    zip: "95"
+    name: "Val-D'Oise"
+    active: 0
+  -
+    zip: "971"
+    name: "Guadeloupe"
+    active: 0
+
+  -
+    zip: "972"
+    name: "Martinique"
+    active: 0
+
+  -
+    zip: "973"
+    name: "Guyane"
+    active: 0
+
+  -
+    zip: "974"
+    name: "La Réunion"
+    active: 1
+
+  -
+    zip: "976"
+    name: "Mayotte"
+    active: 0
+
+  -
+    zip: "64"
+    name: "Agglo de Pau"
+    active: 1

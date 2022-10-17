@@ -1,0 +1,9 @@
+{
+  "//": "https://developers.scalingo.com/scalingo-json-schema",
+  "env": {
+    "COMPOSER_DEV": {
+      "description": "Install composer dev dependencies",
+      "value": "true"
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stop punaises - Les signalements{% endblock %}
+
+{% block body %}
+<div class="liste-signalements fr-p-5w">
+    <div class="fr-container">
+        <div class="add-button-container">
+            <a href="{{ path('app_signalement_create') }}" class="fr-btn fr-btn--icon-left fr-icon-add-line">Créer un signalement</a>
+        </div>
+        <h1>Liste des signalements</h1>
+
+        {% if display_signalement_create_success %}
+        <div class="fr-mb-3w">
+            <div class="fr-alert fr-alert--success">
+                <h3 class="fr-alert__title">Le signalement a bien été enregistré.</h3>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
+                <input type="text" class="fr-input" id="search-free" placeholder="Référence, nom...">
+            </div>
+
+            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
+                <input type="text" class="fr-input" id="search-address" placeholder="Ville, CP...">
+            </div>
+
+            <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                <select class="fr-select" id="filter-infectation">
+                    <option value="">Niveau infestation</option>
+                    <option value="0">0 - Nulle</option>
+                    <option value="1">1 - Faible</option>
+                    <option value="2">2 - Moyenne</option>
+                    <option value="3">3 - Elevée</option>
+                    <option value="4">4 - Très élevée</option>
+                </select>
+            </div>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                    <select class="fr-select" id="filter-entreprise">
+                        <option value="">Entreprise</option>
+                        {% if entreprises is not empty %}
+                            {% for entreprise in entreprises %}
+                                <option value="{{ entreprise.nom }}">{{ entreprise.nom }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="fr-container fr-mt-3w">
+        <h2>{{ count_signalement }} signalements trouvés</h2>
+
+        {% if signalements is not empty %}
+            <table id="datatable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Créé le</th>
+                        <th>Intervention</th>
+                        <th>Date</th>
+                        <th>Infestation</th>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <th>Entreprise</th>
+                        {% endif %}
+                        <th>Commune</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for signalement in signalements %}
+                        <tr>
+                            <td>{{ signalement.reference }} <span>{{ signalement.nomOccupant }} {{ signalement.prenomOccupant }} {{ signalement.emailOccupant }}</span></td>
+                            <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
+                            <td><span>{{ signalement.typeIntervention|capitalize }}</span></td>
+                            <td>{{ signalement.dateIntervention.format('d/m/Y') }}</td>
+                            <td>
+                                {% include "common/components/niveau-infestation.html.twig" %}
+                            </td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td>{{ signalement.entreprise.nom }}</td>
+                            {% endif %}
+                            <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
+                            <td class="button-view"><a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        {% else %}
+            Aucun.
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

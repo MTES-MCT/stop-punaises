@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stop punaises - Se débarasser des punaises de lit{% endblock %}
+
+{% block body %}
+
+    <section class="index-header fr-container fr-mt-3w fr-mt-md-12w">
+        <div class="fr-grid-row fr-px-1w fr-px-md-12w">
+            <div class="fr-col-12 fr-col-md-6 fr-col-lg-7">
+                <h1>Punaises de lit</h1>
+                <p class="bons-reflexes">Ayez les bons réflexes&nbsp;!</p>
+                <p>Le site officiel de l'Etat Français pour lutter contre les infestations de punaises de lit.</p>
+            </div>
+            <div class="fr-col-12 fr-col-md-6 fr-col-lg-5">
+                <img src="{{ asset('build/images/loupe-punaise.png') }}" alt="illustration punaises" width="384" height="288">
+            </div>
+        </div>
+    </section>
+
+    <section class="index-tout-le-monde fr-py-3w fr-py-md-5w">
+        <h2>Tout le monde peut être concerné !</h2>
+        <div class="fr-container fr-px-2w">
+            <div class="fr-grid-row">
+                <div class="fr-col-12 fr-col-lg-6">
+                    <p>
+                        Un voyage ? Le canapé d'un ami ? Les transports en commun ?
+                        Les punaises peuvent infester n'importe qui et il est parfois compliqué de savoir d'où elles viennent !
+                        <br>
+                        Elles ne sont pas synonyme de saleté ni de mauvais entretien.
+                        Bref <strong>aucune honte à avoir !</strong>
+                    </p>
+                    <p>
+                        Dans tous les cas, il faut agir vite pour éviter leur prolifération dans le foyer.
+                    </p>
+                    <p class="button-container">
+                        <a href="#" class="fr-btn">En savoir plus</a>
+                    </p>
+                </div>
+                <div class="fr-col-12 fr-col-lg-6 video-container">
+                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;"> <iframe style="width:100%;height:100%;position:absolute;left:0px;top:0px;overflow:hidden" frameborder="0" type="text/html" src="https://www.dailymotion.com/embed/video/x7rxzh7" width="100%" height="100%" allowfullscreen allow="autoplay"> </iframe> </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="index-cest-quoi fr-py-5w fr-px-3w fr-px-md-15w">
+        <h2>C'est quoi Stop punaises ?</h2>
+        <p>
+            En mars 2021, le gouvernement a lancé un plan national de lutte contre les infestations de punaises de lit.
+            <br><br>
+            Stop-punaises.beta.gouv.fr est une plateforme numérique de l’Etat actuellement en test sur le département des Bouches du Rhône (13).
+            <br><br>
+            Elle est propulsée par le programme beta.gouv, sous la gouvernance du Ministère de la Transition Ecologique et de la cohésion des territoires.
+        </p>
+    </section>
+
+{% endblock %}

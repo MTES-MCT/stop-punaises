@@ -1,0 +1,117 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stop punaises - Gérer l'entreprise{% endblock %}
+
+{% block body %}
+{% include "entreprise_view/modal-edit-entreprise.html.twig" %}
+{% include "entreprise_view/modal-create-employe.html.twig" %}
+{% for employeUuid, formEditEmploye in formsEditEmploye %}
+    {% include "entreprise_view/modal-edit-employe.html.twig" %}
+{% endfor %}
+
+<div class="fiche-entreprise">
+    <div class="fr-container fr-p-5w">
+
+        {% if display_entreprise_edit_success %}
+        <div class="fr-my-3w">
+            <div class="fr-alert fr-alert--success">
+                <h3 class="fr-alert__title">Les informations de l'entreprise ont été modifiées avec succès.</h3>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="fr-grid-row">
+            <div class="fr-col-12 fr-col-lg-6">
+                <h1>{{entreprise.nom}}</h1>
+            </div>
+            <div class="fr-col-12 fr-col-lg-6 btn-edit-container">
+                <button class="fr-btn fr-icon-pencil-line" data-fr-opened="false" aria-controls="fr-modal-edit-entreprise"></button>
+            </div>
+        </div>
+        <div class="fr-grid-row">
+            <div class="fr-col-12 fr-col-lg-6">
+                SIRET : {{entreprise.numeroSiret}}
+                <br>
+                Label : {{entreprise.numeroLabel}}
+                <br>
+                Téléphone : {{entreprise.telephone}}
+                <br>
+                Email : {{entreprise.user.email}}
+                <br>
+            </div>
+            <div class="fr-col-12 fr-col-lg-6">
+                <strong>Territoires d'intervention :</strong>
+                <div class="sublist-territories">
+                {% for territoire in entreprise.territoires %}
+                    <span>{{ territoire.zip }} - {{ territoire.nom }}</span>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {% if display_employe_create_success %}
+        <div class="fr-my-3w">
+            <div class="fr-alert fr-alert--success">
+                <h3 class="fr-alert__title">L'employé a été ajouté.</h3>
+            </div>
+        </div>
+        {% endif %}
+        {% if display_employe_edit_success %}
+        <div class="fr-my-3w">
+            <div class="fr-alert fr-alert--success">
+                <h3 class="fr-alert__title">Les informations de l'employé ont été modifiées avec succès.</h3>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="sublist-employes fr-p-5w">
+        <div class="fr-container">
+            <div class="fr-grid-row">
+                <div class="fr-col-12 fr-col-lg-9">
+                    <h2><span class="fr-icon-team-line" aria-hidden="true"></span>Employés</h2>
+                </div>
+                <div class="fr-col-12 fr-col-lg-3">
+                    <div class="add-button-container">
+                        <button class="fr-btn fr-btn--icon-left fr-icon-add-line"  data-fr-opened="false" aria-controls="fr-modal-create-employe">Ajouter un employé</button>
+                    </div>
+                </div>
+            </div>
+
+            {% if entreprise.employes is not empty %}
+                <table id="datatable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Certification Biocide</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employe in entreprise.employes %}
+                            <tr>
+                                <td>{{ employe.id }}</td>
+                                <td>{{ employe }}</td>
+                                <td>{{ employe.numeroCertification }}</td>
+                                <td>{{ employe.email }}</td>
+                                <td>{{ employe.telephone }}</td>
+                                <td class="button-view">
+                                    <button class="fr-btn fr-icon-pencil-line" data-fr-opened="false" aria-controls="fr-modal-edit-employe-{{employe.uuid}}"></button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            {% else %}
+                <div class="fr-p-5w">
+                    Aucun employé n'a été ajouté pour l'instant.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
