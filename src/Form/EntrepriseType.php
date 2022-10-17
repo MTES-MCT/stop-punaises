@@ -19,8 +19,7 @@ class EntrepriseType extends AbstractType
     {
         /** @var Entreprise $entreprise */
         $entreprise = $builder->getData();
-        $email = $entreprise->getUser()->getEmail();
-
+        $email = $entreprise->getUser()?->getEmail();
         $builder
             ->add('nom', TextType::class, [
                 'attr' => [
