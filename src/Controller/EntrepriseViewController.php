@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class EntrepriseViewController extends AbstractController
 {
@@ -21,6 +22,7 @@ class EntrepriseViewController extends AbstractController
     public function index(Request $request,
                           Entreprise $entreprise,
                           UserManager $userManager,
+                          Security $security,
                           EntityManagerInterface $entityManager,
                           EventDispatcherInterface $eventDispatcher): Response
     {
@@ -28,7 +30,7 @@ class EntrepriseViewController extends AbstractController
             return $this->render('entreprise_view/not-found.html.twig');
         }
 
-        // TODO : controle si Admin ou utilisateur lié à l'entreprise
+        $this->denyAccessUnlessGranted('ENTREPRISE_VIEW', $entreprise);
 
         $formEditEntreprise = $this->createForm(EntrepriseType::class, $entreprise);
         $formEditEntreprise->handleRequest($request);
@@ -43,9 +45,6 @@ class EntrepriseViewController extends AbstractController
                         new EntrepriseUpdatedEvent($entreprise, $currentEmail),
                         EntrepriseUpdatedEvent::NAME
                     );
-                    // TODO :
-                    // Si ROLE_ENTREPRISE : Logout, redirect to login with success message
-                    // Dans tous les cas : envoi d'un mail d'activation de compte
                 }
 
                 return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid(), 'edit_entreprise_success_message' => 1]));

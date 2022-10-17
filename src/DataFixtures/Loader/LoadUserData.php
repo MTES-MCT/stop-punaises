@@ -43,7 +43,7 @@ class LoadUserData extends Fixture implements OrderedFixtureInterface
             ;
         }
 
-        $password = $this->hasher->hashPassword($user, 'punaise');
+        $password = $this->hasher->hashPassword($user, 'punaises');
         $user->setPassword($password);
 
         $manager->persist($user);
