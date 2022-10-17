@@ -17,7 +17,7 @@ class SignalementListController extends AbstractController
         SignalementManager $signalementManager,
         EntrepriseRepository $entrepriseRepository): Response
     {
-        $signalements = $signalementManager->findByPrvileges();
+        $signalements = $signalementManager->findByPrivileges();
 
         $entreprises = [];
         if ($this->isGranted('ROLE_ADMIN')) {

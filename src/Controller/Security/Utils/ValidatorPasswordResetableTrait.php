@@ -15,7 +15,7 @@ trait ValidatorPasswordResetableTrait
         }
 
         if (empty($request->get('password'))) {
-            $errors['password'][] = 'Le mot de passe ne pas être vide';
+            $errors['password'][] = 'Le mot de passe ne peut pas être vide';
         }
 
         return $errors;

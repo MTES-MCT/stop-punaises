@@ -17,7 +17,7 @@ class SignalementManager extends AbstractManager
         parent::__construct($managerRegistry, $entityName);
     }
 
-    public function findByPrvileges(): ?array
+    public function findByPrivileges(): ?array
     {
         return $this->security->isGranted(Role::ROLE_ADMIN->value)
         ? $this->findAll()
