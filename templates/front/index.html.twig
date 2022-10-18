@@ -5,13 +5,13 @@
 {% block body %}
 
     <section class="index-header fr-container fr-mt-3w fr-mt-md-12w">
-        <div class="fr-grid-row fr-px-1w fr-px-md-12w">
-            <div class="fr-col-12 fr-col-md-6 fr-col-lg-7">
+        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-px-1w">
+            <div class="fr-col-10 fr-col-md-5 fr-col-lg-6">
                 <h1>Punaises de lit</h1>
                 <p class="bons-reflexes">Ayez les bons réflexes&nbsp;!</p>
                 <p>Le site officiel de l'Etat Français pour lutter contre les infestations de punaises de lit.</p>
             </div>
-            <div class="fr-col-12 fr-col-md-6 fr-col-lg-5">
+            <div class="fr-col-10 fr-col-md-5 fr-col-lg-4">
                 <img src="{{ asset('build/images/loupe-punaise.png') }}" alt="illustration punaises" width="384" height="288">
             </div>
         </div>
@@ -33,7 +33,7 @@
                         Dans tous les cas, il faut agir vite pour éviter leur prolifération dans le foyer.
                     </p>
                     <p class="button-container">
-                        <a href="#" class="fr-btn">En savoir plus</a>
+                        <a href="{{ path('app_front_information') }}" class="fr-btn">En savoir plus</a>
                     </p>
                 </div>
                 <div class="fr-col-12 fr-col-lg-6 video-container">
@@ -45,13 +45,19 @@
 
     <section class="index-cest-quoi fr-py-5w fr-px-3w fr-px-md-15w">
         <h2>C'est quoi Stop punaises ?</h2>
-        <p>
-            En mars 2021, le gouvernement a lancé un plan national de lutte contre les infestations de punaises de lit.
-            <br><br>
-            Stop-punaises.beta.gouv.fr est une plateforme numérique de l’Etat actuellement en test sur le département des Bouches du Rhône (13).
-            <br><br>
-            Elle est propulsée par le programme beta.gouv, sous la gouvernance du Ministère de la Transition Ecologique et de la cohésion des territoires.
-        </p>
+        <div class="fr-container">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+                <div class="fr-col-10">
+                    <p>
+                        En mars 2021, le gouvernement a lancé un plan national de lutte contre les infestations de punaises de lit.
+                        <br><br>
+                        Stop-punaises.beta.gouv.fr est une plateforme numérique de l’Etat actuellement en test sur le département des Bouches du Rhône (13).
+                        <br><br>
+                        Elle est propulsée par le programme beta.gouv, sous la gouvernance du Ministère de la Transition Ecologique et de la cohésion des territoires.
+                    </p>
+                </div>
+            </div>
+        </div>
     </section>
 
 {% endblock %}
