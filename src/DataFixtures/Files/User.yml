@@ -18,3 +18,38 @@ users:
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0003-0000-0000-000000000000"
     status: 'inactive'
+  -
+    email: company-punaises-04@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000001-0004-0000-0000-000000000000"
+    status: 'active'
+  -
+    email: company-punaises-05@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000001-0005-0000-0000-000000000000"
+    status: 'active'
+  -
+    email: company-punaises-06@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000001-0006-0000-0000-000000000000"
+    status: 'active'
+  -
+    email: company-punaises-07@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000001-0007-0000-0000-000000000000"
+    status: 'active'
+  -
+    email: company-punaises-08@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000001-0008-0000-0000-000000000000"
+    status: 'inactive'
+  -
+    email: company-punaises-09@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000001-0009-0000-0000-000000000000"
+    status: 'inactive'
+  -
+    email: company-punaises-10@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000001-0010-0000-0000-000000000000"
+    status: 'inactive'
