@@ -31,8 +31,8 @@ class EntrepriseUpdatedSubscriber implements EventSubscriberInterface
         if ($user instanceof User) {
             $this->mailerProvider->sendActivateMessage($user);
 
+            $session = $this->requestStack->getSession();
             if (!$this->security->isGranted(Role::ROLE_ADMIN->value)) {
-                $session = $this->requestStack->getSession();
                 $session->getFlashBag()->add('success', 'Merci d\'activer votre compte');
                 $response = new RedirectResponse($this->urlGenerator->generate('app_logout'));
                 $response->send();

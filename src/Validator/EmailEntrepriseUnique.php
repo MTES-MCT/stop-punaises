@@ -6,15 +6,18 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
- *
- * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  */
-#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
+#[\Attribute(\Attribute::TARGET_CLASS)]
 class EmailEntrepriseUnique extends Constraint
 {
     /*
      * Any public properties become valid options for the annotation.
      * Then, use these in your validator class.
      */
-    public $message = 'L\'email "{{ value }}" est déja utilisée, merci de saisir un nouvel email.';
+    public string $message = 'L\'email "{{ value }}" est déja utilisée, merci de saisir un nouvel email.';
+
+    public function getTargets(): string
+    {
+        return self::CLASS_CONSTRAINT;
+    }
 }

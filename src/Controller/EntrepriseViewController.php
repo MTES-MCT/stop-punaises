@@ -50,7 +50,9 @@ class EntrepriseViewController extends AbstractController
                     );
                 }
 
-                return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid(), 'edit_entreprise_success_message' => 1]));
+                $this->addFlash('success', 'Les informations de l\'entreprise ont été modifiées avec succès.');
+
+                return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
             }
 
             /** @var FormError $error */

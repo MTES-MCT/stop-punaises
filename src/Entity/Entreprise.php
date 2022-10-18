@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
+#[AppAssert\EmailEntrepriseUnique]
 class Entreprise
 {
     #[ORM\Id]
@@ -37,7 +38,6 @@ class Entreprise
 
     #[Assert\NotBlank]
     #[Assert\Email]
-    #[AppAssert\EmailEntrepriseUnique]
     private ?string $email = null;
 
     #[ORM\ManyToMany(targetEntity: Territoire::class, inversedBy: 'entreprises')]
