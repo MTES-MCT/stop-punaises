@@ -62,6 +62,8 @@ function refreshTableWithSearch() {
   let niveauInfectation = $('#filter-infectation').val();
   listTable.columns(indexColumnInfectation).search(niveauInfectation);
   listTable.draw();
+  let countSignalement = listTable.rows( {search:'applied'} ).count();
+  $("span#count-signalement").text(countSignalement);
 }
 
 

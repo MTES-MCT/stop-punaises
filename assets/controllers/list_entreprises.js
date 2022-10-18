@@ -39,4 +39,6 @@ function refreshTableWithSearch() {
   let searchText = $('#search-free').val();
   listTable.columns(1).search(searchText);
   listTable.draw();
+  let countEntreprise = listTable.rows( {search:'applied'} ).count();
+  $("span#count-entreprise").text(countEntreprise);
 }
