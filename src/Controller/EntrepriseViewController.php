@@ -7,10 +7,12 @@ use App\Entity\Entreprise;
 use App\Event\EntrepriseUpdatedEvent;
 use App\Form\EmployeType;
 use App\Form\EntrepriseType;
+use App\Manager\EntrepriseManager;
 use App\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,6 +26,7 @@ class EntrepriseViewController extends AbstractController
                           UserManager $userManager,
                           Security $security,
                           EntityManagerInterface $entityManager,
+                          EntrepriseManager $entrepriseManager,
                           EventDispatcherInterface $eventDispatcher): Response
     {
         if (!$entreprise) {
@@ -36,8 +39,8 @@ class EntrepriseViewController extends AbstractController
         $formEditEntreprise->handleRequest($request);
         if ($formEditEntreprise->isSubmitted()) {
             if ($formEditEntreprise->isValid()) {
-                $entityManager->persist($entreprise);
-                $entityManager->flush();
+                $entrepriseManager->save($entreprise);
+
                 $currentEmail = $entreprise->getUser()->getEmail();
                 $newEmail = $formEditEntreprise->getData()->getEmail();
                 if ($newEmail !== $currentEmail) {
@@ -48,6 +51,11 @@ class EntrepriseViewController extends AbstractController
                 }
 
                 return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid(), 'edit_entreprise_success_message' => 1]));
+            }
+
+            /** @var FormError $error */
+            foreach ($formEditEntreprise->getErrors(true) as $error) {
+                $this->addFlash('error', $error->getMessage());
             }
         }
 

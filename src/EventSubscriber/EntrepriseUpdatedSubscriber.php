@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Enum\Role;
+use App\Entity\User;
 use App\Event\EntrepriseUpdatedEvent;
 use App\Manager\UserManager;
 use App\Service\Mailer\MailerProviderInterface;
@@ -26,13 +27,16 @@ class EntrepriseUpdatedSubscriber implements EventSubscriberInterface
     public function onEntrepriseUpdatedEvent(EntrepriseUpdatedEvent $event): void
     {
         $user = $this->userManager->updateEmailFrom($event->getEntreprise(), $event->getCurrentEmail());
-        $this->mailerProvider->sendActivateMessage($user);
 
-        if (!$this->security->isGranted(Role::ROLE_ADMIN->value)) {
-            $session = $this->requestStack->getSession();
-            $session->getFlashBag()->add('success', 'Merci d\'activer votre compte');
-            $response = new RedirectResponse($this->urlGenerator->generate('app_logout'));
-            $response->send();
+        if ($user instanceof User) {
+            $this->mailerProvider->sendActivateMessage($user);
+
+            if (!$this->security->isGranted(Role::ROLE_ADMIN->value)) {
+                $session = $this->requestStack->getSession();
+                $session->getFlashBag()->add('success', 'Merci d\'activer votre compte');
+                $response = new RedirectResponse($this->urlGenerator->generate('app_logout'));
+                $response->send();
+            }
         }
     }
 

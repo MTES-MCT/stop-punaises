@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Entity\Entreprise;
 use App\Event\EntrepriseRegisteredEvent;
 use App\Form\EntrepriseType;
-use App\Repository\EntrepriseRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Manager\EntrepriseManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,30 +16,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class EntrepriseListController extends AbstractController
 {
     #[Route('/bo/entreprises', name: 'app_entreprise_list')]
-    public function index(Request $request, EntrepriseRepository $entrepriseRepository, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcherInterface): Response
-    {
+    public function index(
+        Request $request,
+        EntrepriseManager $entrepriseManager,
+        EventDispatcherInterface $eventDispatcher
+    ): Response {
         $entreprise = new Entreprise();
         $entreprise->setUuid(uniqid());
-        $feedback = [];
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $entityManager->persist($entreprise);
-                $entityManager->flush();
-                $eventDispatcherInterface->dispatch(new EntrepriseRegisteredEvent($entreprise), EntrepriseRegisteredEvent::NAME);
+                $entrepriseManager->save($entreprise);
+                $eventDispatcher->dispatch(new EntrepriseRegisteredEvent($entreprise), EntrepriseRegisteredEvent::NAME);
+                $this->addFlash('success', 'L\'entreprise a bien été enregistrée.');
 
-                return $this->redirect($this->generateUrl('app_entreprise_list').'?create_success_message=1');
+                return $this->redirect($this->generateUrl('app_entreprise_list'));
             }
-            $feedback[] = 'Il y a des erreurs dans les données transmises.';
+            /** @var FormError $error */
+            foreach ($form->getErrors(true) as $error) {
+                $this->addFlash('error', $error->getMessage());
+            }
         }
 
-        $entreprises = $entrepriseRepository->findAll();
+        $entreprises = $entrepriseManager->findAll();
 
         return $this->render('entreprise_list/index.html.twig', [
             'form' => $form->createView(),
-            'display_signalement_create_success' => '1' == $request->get('create_success_message'),
-            'feedback' => $feedback,
             'entreprises' => $entreprises,
             'count_entreprises' => \count($entreprises),
         ]);
