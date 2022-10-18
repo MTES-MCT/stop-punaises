@@ -28,6 +28,15 @@
     <body>
         {% include "common/header-back.html.twig" %}
 
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="fr-mb-3w">
+                    <div class="fr-alert fr-alert--{{ label }}">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
         {% block body %}{% endblock %}
 
         {% include "common/footer.html.twig" %}
