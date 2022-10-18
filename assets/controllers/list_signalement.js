@@ -18,6 +18,8 @@ function startListeSignalementsApp() {
       emptyTable: "Aucune donnée à afficher",
       info: "Résultats _START_ - _END_ sur _TOTAL_",
       infoEmpty: "Résultats 0 - 0 sur 0",
+      infoFiltered: "(sur un total de _MAX_)",
+      zeroRecords: "Aucun signalement trouvé",
       paginate: {
         first: "|&lt;",
         previous: "&lt;",
