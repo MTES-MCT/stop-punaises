@@ -28,17 +28,17 @@
                 <div class="fr-header__tools">
                     <div class="fr-header__tools-links">
                         <ul class="fr-btns-group">
-                            <li>
+                            <li {% if app.request.get('_route') == 'home' %} class="active"{% endif %}>
                                 <a class="fr-btn" href="{{ path('home') }}">
                                     Accueil
                                 </a>
                             </li>
-                            <li>
+                            <li {% if app.request.get('_route') == 'app_front_information' %} class="active"{% endif %}>
                                 <a class="fr-btn" href="{{ path('app_front_information') }}">
                                     Informations
                                 </a>
                             </li>
-                            <li>
+                            <li {% if app.request.get('_route') == 'app_login' %} class="active"{% endif %}>
 
                                 {% if app.user %}
                                     <a class="fr-btn fr-icon-user-line" href="{{ path('app_signalement_list') }}">Tableau de bord</a>
