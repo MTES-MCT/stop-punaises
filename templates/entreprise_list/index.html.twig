@@ -6,62 +6,64 @@
 {% include "entreprise_list/modal-create-entreprise.html.twig" %}
 
 <div class="liste-entreprises fr-p-5w">
-    <div class="add-button-container">
-        <button class="fr-btn fr-btn--icon-left fr-icon-add-line"  data-fr-opened="false" aria-controls="fr-modal-create-entreprise">Créer une entreprise</button>
-    </div>
-    <h1>Les entreprises partenaires</h1>
-
-    {% if display_signalement_create_success %}
-    <div class="fr-mb-3w">
-        <div class="fr-alert fr-alert--success">
-            <h3 class="fr-alert__title">L'entreprise a bien été enregistrée.</h3>
-        </div>
-    </div>
-    {% endif %}
-
     <div class="fr-container">
-        <div class="fr-grid-row fr-grid-row--gutters">
-            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-4">
-                <input type="text" class="fr-input" id="search-free" placeholder="Nom, SIRET, label...">
+        <div class="add-button-container">
+            <button class="fr-btn fr-btn--icon-left fr-icon-add-line"  data-fr-opened="false" aria-controls="fr-modal-create-entreprise">Créer une entreprise</button>
+        </div>
+        <h1>Les entreprises partenaires</h1>
+
+        {% if display_signalement_create_success %}
+        <div class="fr-mb-3w">
+            <div class="fr-alert fr-alert--success">
+                <h3 class="fr-alert__title">L'entreprise a bien été enregistrée.</h3>
             </div>
         </div>
-    </div>
-
-    <div class="fr-mt-3w">
-        <h2>{{ count_entreprises }} entreprises trouvées</h2>
-
-        {% if entreprises is not empty %}
-            <table id="datatable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>SIRET</th>
-                        <th>Label</th>
-                        <th>Employés</th>
-                        <th>Territoire(s)</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for entreprise in entreprises %}
-                        <tr>
-                            <td>{{ entreprise.id }}</td>
-                            <td>{{ entreprise.nom }} <span>{{ entreprise.numeroSiret }} {{ entreprise.numeroLabel }}</span></td>
-                            <td>{{ entreprise.numeroSiret }}</span></td>
-                            <td>{{ entreprise.numeroLabel }}</td>
-                            <td><span>{{ entreprise.employes.count }}</span></td>
-                            <td>
-                                {% for territoire in entreprise.territoires %}
-                                    {{ territoire.zip }}{{ not loop.last ? ',' }}
-                                {% endfor %}
-                            </td>
-                            <td class="button-view"><a href="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir l'entreprise"></a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
         {% endif %}
+
+        <div class="fr-container">
+            <div class="fr-grid-row fr-grid-row--gutters">
+                <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-4">
+                    <input type="text" class="fr-input" id="search-free" placeholder="Nom, SIRET, label...">
+                </div>
+            </div>
+        </div>
+
+        <div class="fr-mt-3w">
+            <h2>{{ count_entreprises }} entreprises trouvées</h2>
+
+            {% if entreprises is not empty %}
+                <table id="datatable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>SIRET</th>
+                            <th>Label</th>
+                            <th>Employés</th>
+                            <th>Territoire(s)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entreprise in entreprises %}
+                            <tr>
+                                <td>{{ entreprise.id }}</td>
+                                <td>{{ entreprise.nom }} <span>{{ entreprise.numeroSiret }} {{ entreprise.numeroLabel }}</span></td>
+                                <td>{{ entreprise.numeroSiret }}</span></td>
+                                <td>{{ entreprise.numeroLabel }}</td>
+                                <td><span>{{ entreprise.employes.count }}</span></td>
+                                <td>
+                                    {% for territoire in entreprise.territoires %}
+                                        {{ territoire.zip }}{{ not loop.last ? ',' }}
+                                    {% endfor %}
+                                </td>
+                                <td class="button-view"><a href="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir l'entreprise"></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
