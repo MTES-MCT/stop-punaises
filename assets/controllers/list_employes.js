@@ -11,6 +11,7 @@ $(function() {
 var listTable = null;
 function startListeEmployesApp() {
   listTable = $('table#datatable').DataTable({
+    pageLength: 20,
     searching: false,
     ordering: true,
     lengthChange: false,

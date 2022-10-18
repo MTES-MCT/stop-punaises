@@ -11,6 +11,7 @@ $(function() {
 var listTable = null;
 function startListeEntreprisesApp() {
   listTable = $('table#datatable').DataTable({
+    pageLength: 20,
     searching: true,
     ordering: true,
     lengthChange: false,
