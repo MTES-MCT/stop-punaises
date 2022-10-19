@@ -18,10 +18,10 @@ class EmployeType extends AbstractType
             ->add('nom', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'maxlength' => '50',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '50',
                 ],
                 'label' => 'Nom',
                 'required' => true,
@@ -29,10 +29,10 @@ class EmployeType extends AbstractType
             ->add('prenom', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'maxlength' => '50',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '50',
                 ],
                 'label' => 'Prénom',
                 'required' => true,
@@ -40,10 +40,10 @@ class EmployeType extends AbstractType
             ->add('numeroCertification', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'maxlength' => '50',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '50',
                 ],
                 'label' => 'Certification Biocide',
                 'required' => true,
@@ -51,10 +51,11 @@ class EmployeType extends AbstractType
             ->add('telephone', TelType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'pattern' => '^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$',
+                    'maxlength' => '20',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '20',
                 ],
                 'label' => 'Téléphone (facultatif)',
                 'required' => false,

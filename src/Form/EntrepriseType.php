@@ -24,10 +24,10 @@ class EntrepriseType extends AbstractType
             ->add('nom', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'maxlength' => '255',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '255',
                 ],
                 'label' => 'Nom / raison sociale',
                 'required' => true,
@@ -35,10 +35,10 @@ class EntrepriseType extends AbstractType
             ->add('numeroSiret', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'maxlength' => '50',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '50',
                 ],
                 'label' => 'SIRET',
                 'required' => true,
@@ -46,10 +46,11 @@ class EntrepriseType extends AbstractType
             ->add('telephone', TelType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'pattern' => '^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$',
+                    'maxlength' => '20',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '20',
                 ],
                 'label' => 'Téléphone',
                 'required' => true,
@@ -57,10 +58,10 @@ class EntrepriseType extends AbstractType
             ->add('numeroLabel', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'maxlength' => '100',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '100',
                 ],
                 'label' => 'Numéro de label',
                 'required' => true,
@@ -68,10 +69,10 @@ class EntrepriseType extends AbstractType
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'maxlength' => '100',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '100',
                 ],
                 'label' => 'Email',
                 'required' => true,

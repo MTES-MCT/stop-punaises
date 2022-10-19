@@ -31,6 +31,11 @@ class Entreprise
     private ?string $numeroSiret = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\Regex(
+        pattern: '/^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$/',
+        match: true,
+        message: 'Merci de saisir le numéro de téléphone au bon format'
+    )]
     private ?string $telephone = null;
 
     #[ORM\Column(length: 100, nullable: true)]

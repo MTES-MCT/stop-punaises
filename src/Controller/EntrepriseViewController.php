@@ -7,12 +7,14 @@ use App\Entity\Entreprise;
 use App\Event\EntrepriseUpdatedEvent;
 use App\Form\EmployeType;
 use App\Form\EntrepriseType;
+use App\Manager\EmployeManager;
 use App\Manager\EntrepriseManager;
 use App\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,12 +29,9 @@ class EntrepriseViewController extends AbstractController
                           Security $security,
                           EntityManagerInterface $entityManager,
                           EntrepriseManager $entrepriseManager,
+                          EmployeManager $employeManager,
                           EventDispatcherInterface $eventDispatcher): Response
     {
-        if (!$entreprise) {
-            return $this->render('entreprise_view/not-found.html.twig');
-        }
-
         $this->denyAccessUnlessGranted('ENTREPRISE_VIEW', $entreprise);
 
         $formEditEntreprise = $this->createForm(EntrepriseType::class, $entreprise);
@@ -40,25 +39,12 @@ class EntrepriseViewController extends AbstractController
         if ($formEditEntreprise->isSubmitted()) {
             if ($formEditEntreprise->isValid()) {
                 $entrepriseManager->save($entreprise);
-
-                $currentEmail = $entreprise->getUser()->getEmail();
-                $newEmail = $formEditEntreprise->getData()->getEmail();
-                if ($newEmail !== $currentEmail) {
-                    $eventDispatcher->dispatch(
-                        new EntrepriseUpdatedEvent($entreprise, $currentEmail),
-                        EntrepriseUpdatedEvent::NAME
-                    );
-                }
-
+                $this->dispatchEntrepriseUpdateEvent($eventDispatcher, $formEditEntreprise, $entreprise);
                 $this->addFlash('success', 'Les informations de l\'entreprise ont été modifiées avec succès.');
 
                 return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
             }
-
-            /** @var FormError $error */
-            foreach ($formEditEntreprise->getErrors(true) as $error) {
-                $this->addFlash('error', $error->getMessage());
-            }
+            $this->displayErrors($formEditEntreprise);
         }
 
         $editEmployeUuid = $request->get('editEmploye');
@@ -71,11 +57,12 @@ class EntrepriseViewController extends AbstractController
             if ($formCreateEmploye->isSubmitted()) {
                 if ($formCreateEmploye->isValid()) {
                     $employe->setEntreprise($entreprise);
-                    $entityManager->persist($employe);
-                    $entityManager->flush();
+                    $employeManager->save($employe);
+                    $this->addFlash('success', 'L\'employé a été ajouté.');
 
-                    return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid(), 'create_employe_success_message' => 1]));
+                    return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
                 }
+                $this->displayErrors($formCreateEmploye);
             }
         }
 
@@ -88,11 +75,12 @@ class EntrepriseViewController extends AbstractController
                     $formEditEmploye->handleRequest($request);
                     if ($formEditEmploye->isSubmitted()) {
                         if ($formEditEmploye->isValid()) {
-                            $entityManager->persist($employe);
-                            $entityManager->flush();
+                            $employeManager->save($employe);
+                            $this->addFlash('success', 'Les informations de l\'employé ont été modifiées avec succès.');
 
-                            return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid(), 'edit_employe_success_message' => 1]));
+                            return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
                         }
+                        $this->displayErrors($formEditEmploye);
                     }
                 }
                 $formsEditEmploye[$employe->getUuid()] = $formEditEmploye->createView();
@@ -104,9 +92,29 @@ class EntrepriseViewController extends AbstractController
             'formCreateEmploye' => $formCreateEmploye->createView(),
             'formEditEntreprise' => $formEditEntreprise->createView(),
             'formsEditEmploye' => $formsEditEmploye,
-            'display_employe_create_success' => '1' == $request->get('create_employe_success_message'),
-            'display_employe_edit_success' => '1' == $request->get('edit_employe_success_message'),
-            'display_entreprise_edit_success' => '1' == $request->get('edit_entreprise_success_message'),
         ]);
+    }
+
+    private function displayErrors(FormInterface $form)
+    {
+        /** @var FormError $error */
+        foreach ($form->getErrors(true) as $error) {
+            $this->addFlash('error', $error->getMessage());
+        }
+    }
+
+    private function dispatchEntrepriseUpdateEvent(
+        EventDispatcherInterface $eventDispatcher,
+        FormInterface $form,
+        Entreprise $entreprise,
+    ): void {
+        $currentEmail = $entreprise->getUser()->getEmail();
+        $newEmail = $form->getData()->getEmail();
+        if ($newEmail !== $currentEmail) {
+            $eventDispatcher->dispatch(
+                new EntrepriseUpdatedEvent($entreprise, $currentEmail),
+                EntrepriseUpdatedEvent::NAME
+            );
+        }
     }
 }
