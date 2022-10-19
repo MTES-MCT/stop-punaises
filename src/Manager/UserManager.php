@@ -82,8 +82,12 @@ class UserManager extends AbstractManager
         return $user;
     }
 
-    public function updateEmailFrom(Entreprise $entreprise, string $currentEmail): User
+    public function updateEmailFrom(Entreprise $entreprise, string $currentEmail): ?User
     {
+        if ($this->emailExists($entreprise->getEmail())) {
+            return null;
+        }
+
         /** @var User $user */
         $user = $this->findOneBy(['email' => $currentEmail]);
         $user = $this->loadUserToken($user->getEmail());
@@ -114,5 +118,12 @@ class UserManager extends AbstractManager
             );
 
         return $user;
+    }
+
+    public function emailExists(string $email): bool
+    {
+        $user = $this->findOneBy(['email' => $email]);
+
+        return null !== $user;
     }
 }

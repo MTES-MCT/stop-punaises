@@ -1,5 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    403
+    <main class="fr-container--fluid">
+        <section class="index-header fr-container fr-mt-3w fr-mt-md-12w">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-px-1w">
+                <div class="fr-col-10 fr-col-md-5 fr-col-lg-6">
+                    <h1>Accès refusé</h1>
+                    <p>Vous n'avez pas les droits nécessaires pour accéder à cette page.<br>
+                        Cliquez sur le bouton ci-dessous pour retourner à l'accueil.</p>
+                    <p class="button-container">
+                        <a href="{{ path('home') }}" class="fr-btn">Aller à l'acceuil</a>
+                    </p>
+                </div>
+                <div class="fr-col-10 fr-col-md-5 fr-col-lg-4">
+                    <img src="{{ asset('build/images/loupe-punaise.png') }}" alt="illustration punaises" width="384"
+                         height="288">
+                </div>
+            </div>
+        </section>
+    </main>
 {% endblock %}

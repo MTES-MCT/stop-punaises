@@ -1,5 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    400
+    <main class="fr-container--fluid">
+        <section class="index-header fr-container fr-mt-3w fr-mt-md-12w">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-px-1w">
+                <div class="fr-col-10 fr-col-md-5 fr-col-lg-6">
+                    <h1>Une erreur est survenue</h1>
+                    <p>  Une erreur inattendue s'est produite !<br>
+                        Notre équipe fait tout pour la corriger au plus vite.
+                        <br>Veuillez réessayer plus tard ou cliquer sur le bouton ci-dessous pour retourner à
+                        l'accueil.</p>
+                    <p class="button-container">
+                        <a href="{{ path('home') }}" class="fr-btn">Aller à l'acceuil</a>
+                    </p>
+                </div>
+                <div class="fr-col-10 fr-col-md-5 fr-col-lg-4">
+                    <img src="{{ asset('build/images/loupe-punaise.png') }}" alt="illustration punaises" width="384" height="288">
+                </div>
+            </div>
+        </section>
+    </main>
+
 {% endblock %}
