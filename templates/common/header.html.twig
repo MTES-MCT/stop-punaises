@@ -11,34 +11,34 @@
                                 <br>écologique
                             </p>
                         </div>
+                        <div class="fr-header__operator">
+                            <a href="{{ path('home') }}" title="Accueil - Stop punaises - Ministère de la transition écologique">
+                                <p class="fr-header__service-title">
+                                    <img src="{{ asset('build/images/logo-stop-punaises.svg') }}" alt="logo stop punaises" width="135">
+                                </p>
+                            </a>
+                        </div>
                         <div class="fr-header__navbar">
                             <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-499" aria-haspopup="menu" id="button-500" title="Menu">
                                 Menu
                             </button>
                         </div>
                     </div>
-                    <div class="fr-header__service">
-                        <a href="{{ path('home') }}" title="Accueil - Stop punaises - Ministère de la transition écologique">
-                            <p class="fr-header__service-title">
-                                <img src="{{ asset('build/images/logo-stop-punaises.svg') }}" alt="logo stop punaises" width="135">
-                            </p>
-                        </a>
-                    </div>
                 </div>
                 <div class="fr-header__tools">
                     <div class="fr-header__tools-links">
                         <ul class="fr-btns-group">
-                            <li>
+                            <li {% if app.request.get('_route') == 'home' %} class="active"{% endif %}>
                                 <a class="fr-btn" href="{{ path('home') }}">
                                     Accueil
                                 </a>
                             </li>
-                            <li>
+                            <li {% if app.request.get('_route') == 'app_front_information' %} class="active"{% endif %}>
                                 <a class="fr-btn" href="{{ path('app_front_information') }}">
                                     Informations
                                 </a>
                             </li>
-                            <li>
+                            <li {% if app.request.get('_route') == 'app_login' %} class="active"{% endif %}>
 
                                 {% if app.user %}
                                     <a class="fr-btn fr-icon-user-line" href="{{ path('app_signalement_list') }}">Tableau de bord</a>
