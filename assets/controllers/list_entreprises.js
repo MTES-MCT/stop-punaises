@@ -11,6 +11,7 @@ $(function() {
 var listTable = null;
 function startListeEntreprisesApp() {
   listTable = $('table#datatable').DataTable({
+    pageLength: 20,
     searching: true,
     ordering: true,
     lengthChange: false,
@@ -18,6 +19,8 @@ function startListeEntreprisesApp() {
       emptyTable: "Aucune donnée à afficher",
       info: "Résultats _START_ - _END_ sur _TOTAL_",
       infoEmpty: "Résultats 0 - 0 sur 0",
+      infoFiltered: "(sur un total de _MAX_)",
+      zeroRecords: "Aucune entreprise trouvée",
       paginate: {
         first: "|&lt;",
         previous: "&lt;",
@@ -36,4 +39,6 @@ function refreshTableWithSearch() {
   let searchText = $('#search-free').val();
   listTable.columns(1).search(searchText);
   listTable.draw();
+  let countEntreprise = listTable.rows( {search:'applied'} ).count();
+  $("span#count-entreprise").text(countEntreprise);
 }

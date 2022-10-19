@@ -11,6 +11,7 @@ $(function() {
 var listTable = null;
 function startListeSignalementsApp() {
   listTable = $('table#datatable').DataTable({
+    pageLength: 20,
     searching: true,
     ordering: true,
     lengthChange: false,
@@ -18,6 +19,8 @@ function startListeSignalementsApp() {
       emptyTable: "Aucune donnée à afficher",
       info: "Résultats _START_ - _END_ sur _TOTAL_",
       infoEmpty: "Résultats 0 - 0 sur 0",
+      infoFiltered: "(sur un total de _MAX_)",
+      zeroRecords: "Aucun signalement trouvé",
       paginate: {
         first: "|&lt;",
         previous: "&lt;",
@@ -59,6 +62,8 @@ function refreshTableWithSearch() {
   let niveauInfectation = $('#filter-infectation').val();
   listTable.columns(indexColumnInfectation).search(niveauInfectation);
   listTable.draw();
+  let countSignalement = listTable.rows( {search:'applied'} ).count();
+  $("span#count-signalement").text(countSignalement);
 }
 
 

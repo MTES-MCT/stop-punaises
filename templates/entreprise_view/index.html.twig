@@ -36,8 +36,10 @@
                 <br>
                 Téléphone : {{entreprise.telephone}}
                 <br>
+                {% if entreprise.user %}
                 Email : {{entreprise.user.email}}
                 <br>
+                {% endif %}
             </div>
             <div class="fr-col-12 fr-col-lg-6">
                 <strong>Territoires d'intervention :</strong>

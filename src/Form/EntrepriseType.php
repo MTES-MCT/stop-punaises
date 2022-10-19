@@ -90,7 +90,7 @@ class EntrepriseType extends AbstractType
                 ],
                 'label' => 'Territoires d\'intervention',
                 'placeholder' => 'Département',
-                'help' => 'Rechercher et sélectionner les départements',
+                'help' => 'Maintenez la touche CTRL enfoncée pour sélectionner plusieurs territoires',
                 'help_attr' => [
                     'class' => 'fr-hint-text',
                 ],
