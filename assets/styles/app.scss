@@ -309,7 +309,10 @@ span.niveau-infestation {
         line-height: 40px;
         font-weight: bold;
         color: #000091;
-        text-decoration: underline;
+
+        &::before {
+            margin-right: 5px;
+        }
     }
 
     .local-phone-price {
