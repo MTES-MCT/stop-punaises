@@ -55,7 +55,7 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
             ->setNiveauInfestation($row['niveau_infestation'])
             ->setDateIntervention(new \DateTimeImmutable())
             ->setAgent($this->employeRepository->findOneBy(['uuid' => $row['agent']]))
-            ->setReference($row['reference'])->setCreatedAt(new \DateTimeImmutable());
+            ->setReference($row['reference']);
 
         $manager->persist($signalement);
     }

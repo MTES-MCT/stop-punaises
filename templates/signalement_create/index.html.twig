@@ -11,16 +11,6 @@
         </div>
     </div>
 
-    <div class="fr-container">
-        {% if feedback is not empty %}
-            {% for text in feedback %}
-                <div class="fr-alert fr-alert--error">
-                    <h3 class="fr-alert__title">{{ text }}</h3>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-
     <form action="{{ path('app_signalement_create') }}" method="POST" class="fr-my-5w fr-px-5w fr-container" data-ajax="{{ path('app_liste_employes') }}">
         {{ form_row(form._token) }}
 

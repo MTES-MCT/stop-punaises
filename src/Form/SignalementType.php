@@ -4,19 +4,24 @@ namespace App\Form;
 
 use App\Entity\Employe;
 use App\Entity\Entreprise;
+use App\Entity\Enum\InfestationLevel;
 use App\Entity\Signalement;
 use App\Repository\EmployeRepository;
 use App\Repository\EntrepriseRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 
@@ -28,7 +33,6 @@ class SignalementType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $isAdmin = $options['isAdmin'];
         $builder
             ->add('adresse', TextType::class, [
                 'attr' => [
@@ -199,11 +203,15 @@ class SignalementType extends AbstractType
                 'label' => "Date de l'intervention",
                 'required' => true,
             ])
-            ->add('niveauInfestation', ChoiceType::class, [
+            ->add('niveauInfestation', EnumType::class, [
                 'attr' => [
                     'class' => 'fr-select',
                 ],
-                'choices' => [0, 1, 2, 3, 4],
+                'class' => InfestationLevel::class,
+                'choice_label' => function (InfestationLevel $infestationLevel) {
+                    return $infestationLevel ? $infestationLevel->label() : '';
+                },
+
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
@@ -323,61 +331,20 @@ class SignalementType extends AbstractType
             ])
         ;
 
-        if ($isAdmin) {
-            $builder
-                ->add('entreprise', EntityType::class, [
-                    'class' => Entreprise::class,
-                    'query_builder' => function (EntrepriseRepository $er) {
-                        return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
-                    },
-                    'attr' => [
-                        'class' => 'fr-select',
-                    ],
-                    'label_attr' => [
-                        'class' => 'fr-label',
-                    ],
-                    'label' => 'Entreprise',
-                    'placeholder' => 'Entreprise',
-                    'required' => true,
-                ])
-                ->add('agent', EntityType::class, [
-                    'class' => Employe::class,
-                    'query_builder' => function (EmployeRepository $er) {
-                        return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
-                    },
-                    'attr' => [
-                        'class' => 'fr-select',
-                    ],
-                    'label_attr' => [
-                        'class' => 'fr-label',
-                    ],
-                    'label' => "Nom de l'agent",
-                    'placeholder' => "Nom de l'agent",
-                    'required' => true,
-                ]);
-        } else {
-            $builder
-                ->add('agent', EntityType::class, [
-                    'class' => Employe::class,
-                    'query_builder' => function (EmployeRepository $er) {
-                        $entreprise = $this->security->getUser()->getEntreprise();
+        $builder->get('niveauInfestation')
+            ->addModelTransformer(new CallbackTransformer(
+                function (?int $level) {
+                    return InfestationLevel::from($level);
+                },
+                function (InfestationLevel $level) {
+                    return $level->value;
+                }
+            ));
 
-                        return $er
-                                    ->createQueryBuilder('e')
-                                    ->where('e.entreprise = :entreprise')
-                                    ->setParameter('entreprise', $entreprise)
-                                    ->orderBy('e.id', 'ASC');
-                    },
-                    'attr' => [
-                        'class' => 'fr-select',
-                    ],
-                    'label_attr' => [
-                        'class' => 'fr-label',
-                    ],
-                    'label' => "Nom de l'agent",
-                    'placeholder' => "Nom de l'agent",
-                    'required' => true,
-                ]);
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            $this->buildFieldsAdmin($builder);
+        } else {
+            $this->buildFieldsEntreprise($builder);
         }
     }
 
@@ -385,7 +352,73 @@ class SignalementType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Signalement::class,
-            'isAdmin' => false,
         ]);
+    }
+
+    private function buildFieldsAdmin(FormBuilderInterface $builder): void
+    {
+        $builder
+            ->add('entreprise', EntityType::class, [
+                'class' => Entreprise::class,
+                'query_builder' => function (EntrepriseRepository $er) {
+                    return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
+                },
+                'attr' => [
+                    'class' => 'fr-select',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Entreprise',
+                'placeholder' => 'Entreprise',
+                'required' => true,
+            ])
+            ->add('agent', EntityType::class, [
+                'class' => Employe::class,
+                'query_builder' => function (EmployeRepository $er) {
+                    return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
+                },
+                'attr' => [
+                    'class' => 'fr-select',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => "Nom de l'agent",
+                'placeholder' => "Nom de l'agent",
+                'required' => true,
+            ]);
+    }
+
+    private function buildFieldsEntreprise(FormBuilderInterface $builder): void
+    {
+        $builder
+            ->add('agent', EntityType::class, [
+                'class' => Employe::class,
+                'query_builder' => function (EmployeRepository $er) {
+                    $entreprise = $this->security->getUser()->getEntreprise();
+
+                    return $er
+                        ->createQueryBuilder('e')
+                        ->where('e.entreprise = :entreprise')
+                        ->setParameter('entreprise', $entreprise)
+                        ->orderBy('e.id', 'ASC');
+                },
+                'attr' => [
+                    'class' => 'fr-select',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => "Nom de l'agent",
+                'placeholder' => "Nom de l'agent",
+                'required' => true,
+            ]);
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            /** @var Signalement $signalement */
+            $signalement = $event->getForm()->getData();
+            $signalement->setEntreprise($this->security->getUser()->getEntreprise());
+        });
     }
 }

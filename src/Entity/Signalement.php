@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
+use App\Entity\Behaviour\ActivableTrait;
+use App\Entity\Behaviour\TimestampableTrait;
 use App\Repository\SignalementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: SignalementRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Signalement
 {
+    use ActivableTrait;
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -92,8 +99,10 @@ class Signalement
     #[ORM\Column(length: 100)]
     private ?string $reference = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    public function __construct()
+    {
+        $this->uuid = Uuid::v4();
+    }
 
     public function getId(): ?int
     {
@@ -408,18 +417,6 @@ class Signalement
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
