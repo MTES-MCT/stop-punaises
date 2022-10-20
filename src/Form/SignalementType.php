@@ -222,6 +222,7 @@ class SignalementType extends AbstractType
             ->add('typeTraitement', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-select',
+                    'size' => 5,
                 ],
                 'choices' => [
                     'Vapeur' => 'vapeur',
@@ -232,6 +233,11 @@ class SignalementType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
+                ],
+                'multiple' => true,
+                'help' => 'Maintenez la touche CTRL enfoncée pour sélectionner plusieurs types de traitement',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
                 ],
                 'label' => 'Type de traitement',
                 'row_attr' => [

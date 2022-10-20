@@ -30,7 +30,10 @@
             <br>
 
             {% if 'traitement' in signalement.typeIntervention %}
-                Type de traitement : {{ signalement.typeTraitement }}
+                Type de traitement :
+                    {% for key, typeTraitement in  signalement.typeTraitement %}
+                        {{ typeTraitement ~  ((key < signalement.typeTraitement|length - 1) ? ', ': '.') }}
+                    {% endfor %}
                 <br>
                 Nom du biocide : {{ signalement.nomBiocide }}
                 <br>
