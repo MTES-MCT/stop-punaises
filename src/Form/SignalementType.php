@@ -186,7 +186,7 @@ class SignalementType extends AbstractType
                 'required' => true,
             ])
             ->add('dateIntervention', DateType::class, [
-                'format' => 'dd/MM/yyyy',
+                'widget' => 'single_text',
                 'attr' => [
                     'class' => 'fr-input',
                 ],
@@ -297,7 +297,7 @@ class SignalementType extends AbstractType
                 'required' => false,
             ])
             ->add('dateVisitePostTraitement', DateType::class, [
-                'format' => 'dd/MM/yyyy',
+                'widget' => 'single_text',
                 'attr' => [
                     'class' => 'fr-input',
                 ],
