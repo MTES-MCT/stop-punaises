@@ -36,34 +36,30 @@ class EntrepriseViewController extends AbstractController
 
         $formEditEntreprise = $this->createForm(EntrepriseType::class, $entreprise);
         $formEditEntreprise->handleRequest($request);
-        if ($formEditEntreprise->isSubmitted()) {
-            if ($formEditEntreprise->isValid()) {
-                $entrepriseManager->save($entreprise);
-                $this->dispatchEntrepriseUpdateEvent($eventDispatcher, $formEditEntreprise, $entreprise);
-                $this->addFlash('success', 'Les informations de l\'entreprise ont été modifiées avec succès.');
+        if ($formEditEntreprise->isSubmitted() && $formEditEntreprise->isValid()) {
+            $entrepriseManager->save($entreprise);
+            $this->dispatchEntrepriseUpdateEvent($eventDispatcher, $formEditEntreprise, $entreprise);
+            $this->addFlash('success', 'Les informations de l\'entreprise ont été modifiées avec succès.');
 
-                return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
-            }
-            $this->displayErrors($formEditEntreprise);
+            return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
         }
 
-        $editEmployeUuid = $request->get('editEmploye');
+        $this->displayErrors($formEditEntreprise);
 
+        $editEmployeUuid = $request->get('editEmploye');
         $employe = new Employe();
         $employe->setUuid(uniqid());
         $formCreateEmploye = $this->createForm(EmployeType::class, $employe);
         if (empty($editEmployeUuid)) {
             $formCreateEmploye->handleRequest($request);
-            if ($formCreateEmploye->isSubmitted()) {
-                if ($formCreateEmploye->isValid()) {
-                    $employe->setEntreprise($entreprise);
-                    $employeManager->save($employe);
-                    $this->addFlash('success', 'L\'employé a été ajouté.');
+            if ($formCreateEmploye->isSubmitted() && $formCreateEmploye->isValid()) {
+                $employe->setEntreprise($entreprise);
+                $employeManager->save($employe);
+                $this->addFlash('success', 'L\'employé a été ajouté.');
 
-                    return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
-                }
-                $this->displayErrors($formCreateEmploye);
+                return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
             }
+            $this->displayErrors($formCreateEmploye);
         }
 
         $formsEditEmploye = [];
@@ -73,15 +69,13 @@ class EntrepriseViewController extends AbstractController
                 $formEditEmploye = $this->createForm(EmployeType::class, $employe);
                 if ($employe->getUuid() == $editEmployeUuid) {
                     $formEditEmploye->handleRequest($request);
-                    if ($formEditEmploye->isSubmitted()) {
-                        if ($formEditEmploye->isValid()) {
-                            $employeManager->save($employe);
-                            $this->addFlash('success', 'Les informations de l\'employé ont été modifiées avec succès.');
+                    if ($formEditEmploye->isSubmitted() && $formEditEmploye->isValid()) {
+                        $employeManager->save($employe);
+                        $this->addFlash('success', 'Les informations de l\'employé ont été modifiées avec succès.');
 
-                            return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
-                        }
-                        $this->displayErrors($formEditEmploye);
+                        return $this->redirect($this->generateUrl('app_entreprise_view', ['uuid' => $entreprise->getUuid()]));
                     }
+                    $this->displayErrors($formEditEmploye);
                 }
                 $formsEditEmploye[$employe->getUuid()] = $formEditEmploye->createView();
             }
@@ -95,7 +89,7 @@ class EntrepriseViewController extends AbstractController
         ]);
     }
 
-    private function displayErrors(FormInterface $form)
+    private function displayErrors(FormInterface $form): void
     {
         /** @var FormError $error */
         foreach ($form->getErrors(true) as $error) {
