@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Signalement;
 use App\Form\SignalementType;
+use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
-use App\Repository\SignalementRepository;
-use DateTimeImmutable;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Signalement\ReferenceGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,44 +16,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class SignalementCreateController extends AbstractController
 {
     #[Route('/bo/signalements/ajout', name: 'app_signalement_create')]
-    public function index(Request $request, EntityManagerInterface $entityManager, SignalementRepository $signalementRepository): Response
+    public function index(Request $request, SignalementManager $signalementManager, ReferenceGenerator $referenceGenerator): Response
     {
-        $isAdmin = $this->isGranted('ROLE_ADMIN');
         $signalement = new Signalement();
-        $signalement->setUuid(uniqid());
-        $feedback = [];
-        $form = $this->createForm(SignalementType::class, $signalement, [
-            'isAdmin' => $isAdmin,
-        ]);
+        $form = $this->createForm(SignalementType::class, $signalement);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $signalement->setCreatedAt(new DateTimeImmutable());
 
-                $lastReference = $signalementRepository->findLastReference();
-                if (!empty($lastReference)) {
-                    list($year, $id) = explode('-', $lastReference['reference']);
-                    $signalement->setReference($year.'-'.(int) $id + 1);
-                } else {
-                    $year = (new \DateTime())->format('Y');
-                    $signalement->setReference($year.'-'. 1);
-                }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $signalement->setReference($referenceGenerator->generate());
+            $signalementManager->save($signalement);
 
-                if (!$isAdmin) {
-                    $signalement->setEntreprise($this->getUser()->getEntreprise());
-                }
+            $this->addFlash('success', 'Le signalement a bien été enregistré.');
 
-                $entityManager->persist($signalement);
-                $entityManager->flush();
-
-                return $this->redirect($this->generateUrl('app_signalement_list').'?create_success_message=1');
-            }
-            $feedback[] = 'Il y a des erreurs dans les données transmises.';
+            return $this->redirect($this->generateUrl('app_signalement_list'));
         }
+
+        $this->displayErrors($form);
 
         return $this->render('signalement_create/index.html.twig', [
             'form' => $form->createView(),
-            'feedback' => $feedback,
         ]);
     }
 
@@ -74,5 +55,13 @@ class SignalementCreateController extends AbstractController
         }
 
         return $this->json(['success' => true, 'data' => $jsonData]);
+    }
+
+    private function displayErrors(FormInterface $form): void
+    {
+        /** @var FormError $error */
+        foreach ($form->getErrors(true) as $error) {
+            $this->addFlash('error', $error->getMessage());
+        }
     }
 }

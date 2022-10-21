@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
+use App\Entity\Behaviour\ActivableTrait;
+use App\Entity\Behaviour\TimestampableTrait;
 use App\Repository\SignalementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: SignalementRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Signalement
 {
+    use ActivableTrait;
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -44,7 +51,7 @@ class Signalement
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $emailOccupant = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 30)]
     private ?string $typeIntervention = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -53,8 +60,8 @@ class Signalement
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $niveauInfestation = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
-    private ?string $typeTraitement = null;
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $typeTraitement = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $nomBiocide = null;
@@ -92,8 +99,10 @@ class Signalement
     #[ORM\Column(length: 100)]
     private ?string $reference = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    public function __construct()
+    {
+        $this->uuid = Uuid::v4();
+    }
 
     public function getId(): ?int
     {
@@ -256,12 +265,12 @@ class Signalement
         return $this;
     }
 
-    public function getTypeTraitement(): ?string
+    public function getTypeTraitement(): ?array
     {
         return $this->typeTraitement;
     }
 
-    public function setTypeTraitement(?string $typeTraitement): self
+    public function setTypeTraitement(?array $typeTraitement): self
     {
         $this->typeTraitement = $typeTraitement;
 
@@ -408,18 +417,6 @@ class Signalement
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
