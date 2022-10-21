@@ -16,7 +16,7 @@ enum InfestationLevel: int
             InfestationLevel::NULLE => '0 - Nulle',
             InfestationLevel::FAIBLE => '1 - Faible',
             InfestationLevel::MOYENNE => '2 - Moyenne',
-            InfestationLevel::ELEVEE => '3 - Elévée',
+            InfestationLevel::ELEVEE => '3 - Elevée',
             InfestationLevel::TRES_ELEVEE => '4 - Très élevée',
         };
     }
