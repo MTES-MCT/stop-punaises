@@ -25,7 +25,7 @@
                 <br>
                 Label : {{entreprise.numeroLabel}}
                 <br>
-                Téléphone : {{entreprise.telephone}}
+                Téléphone : {{entreprise.telephone|format_phone}}
                 <br>
                 {% if entreprise.user %}
                 Email : {{entreprise.user.email}}
@@ -41,21 +41,6 @@
                 </div>
             </div>
         </div>
-
-        {% if display_employe_create_success %}
-        <div class="fr-my-3w">
-            <div class="fr-alert fr-alert--success">
-                <h3 class="fr-alert__title">L'employé a été ajouté.</h3>
-            </div>
-        </div>
-        {% endif %}
-        {% if display_employe_edit_success %}
-        <div class="fr-my-3w">
-            <div class="fr-alert fr-alert--success">
-                <h3 class="fr-alert__title">Les informations de l'employé ont été modifiées avec succès.</h3>
-            </div>
-        </div>
-        {% endif %}
     </div>
 
     <div class="sublist-employes fr-p-5w">
@@ -90,7 +75,7 @@
                                 <td>{{ employe }}</td>
                                 <td>{{ employe.numeroCertification }}</td>
                                 <td>{{ employe.email }}</td>
-                                <td>{{ employe.telephone }}</td>
+                                <td>{{ employe.telephone|format_phone }}</td>
                                 <td class="button-view">
                                     <button class="fr-btn fr-icon-pencil-line" data-fr-opened="false" aria-controls="fr-modal-edit-employe-{{employe.uuid}}"></button>
                                 </td>

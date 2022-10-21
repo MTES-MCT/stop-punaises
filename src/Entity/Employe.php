@@ -2,15 +2,22 @@
 
 namespace App\Entity;
 
+use App\Entity\Behaviour\TimestampableTrait;
 use App\Repository\EmployeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EmployeRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
+#[UniqueEntity('email', message: 'L\'email {{ value }} est déja utilisé, merci de saisir un nouvel email employé.')]
 class Employe
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,18 +27,27 @@ class Employe
     private ?string $uuid = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $numeroCertification = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Regex(
+        pattern: '/^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$/',
+        match: true,
+        message: 'Merci de saisir le numéro de téléphone au bon format'
+    )]
     private ?string $telephone = null;
 
     #[ORM\ManyToOne(inversedBy: 'employes')]
