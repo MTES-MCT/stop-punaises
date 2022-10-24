@@ -602,6 +602,14 @@ span.niveau-infestation {
 }
 
 .front-signalement {
+    .step-item {
+        display: none;
+
+        &.current-step {
+            display: block;
+        }
+    }
+
     #step-1 {
         h1 {
             font-size: 40px;
@@ -621,7 +629,7 @@ span.niveau-infestation {
             }
         }
         
-        form {
+        div {
             img {
                 max-width: 100%;
             }
