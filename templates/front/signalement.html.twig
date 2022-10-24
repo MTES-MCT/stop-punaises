@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stop punaises - Signaler un problème de punaises de lit{% endblock %}
+
+{% block body %}
+
+<div class="front-signalement fr-container fr-my-3w">
+
+    <section id="step-1">
+        <h1>Punaises de lit</h1>
+
+        <p>
+            <span class="bons-reflexes">Ayez les bons gestes&nbsp;!</span>
+            <br>
+            <span>Le site officiel de l'Etat Français pour lutter contre les infestations de punaises de lit&nbsp;!</span>
+        </p>
+
+        <form>
+            <div class="fr-input-group">
+                <input class="fr-input" id="code-postal" name="code-postal" placeholder="Code postal" required>
+            </div>
+
+            <div class="fr-input-group">
+                <button class="fr-btn">
+                    Signaler mon problème de punaises
+                </button>
+            </div>
+
+            <div>
+                <img src="{{ asset('build/images/loupe-punaise.png') }}" alt="illustration punaises">
+            </div>
+        </form>
+    </section>
+
+</div>
+
+{% endblock %}

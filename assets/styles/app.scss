@@ -600,3 +600,31 @@ span.niveau-infestation {
         }
     }
 }
+
+.front-signalement {
+    #step-1 {
+        h1 {
+            font-size: 40px;
+            font-weight: 800;
+            text-align: center;
+            color: var(--blue-france-sun-113-625);
+        }
+
+        p {
+            text-align: center;
+
+            span.bons-reflexes {
+                font-size: 26px;
+                line-height: 40px;
+                font-weight: 800;
+                color: #E2241C;
+            }
+        }
+        
+        form {
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+}
