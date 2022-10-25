@@ -41,6 +41,8 @@ function checkSignalementStep() {
       return checkSignalementStep6();
     case 7:
       return checkSignalementStep7();
+    case 9:
+      return checkSignalementStep9();
 
     default:
       return true;
@@ -127,13 +129,31 @@ function checkSignalementStep7() {
   if (!checkChoicesInput('dejectionsTrouvees', 2)) {
     canGoNext = false;
   }
-  if (!checkChoicesInput('nombrePiecesConcernees', 2)) {
+  if (!checkChoicesInput('dejectionsNombrePiecesConcernees', 2)) {
     canGoNext = false;
   }
-  if (!checkChoicesInput('faciliteDejections', 2)) {
+  if (!checkChoicesInput('dejectionsFaciliteDetections', 2)) {
     canGoNext = false;
   }
-  if (!checkChoicesInput('lieuxObservations', 4)) {
+  if (!checkChoicesInput('dejectionsLieuxObservations', 4)) {
+    canGoNext = false;
+  }
+  
+  return canGoNext;
+}
+
+function checkSignalementStep9() {
+  let canGoNext = true;
+  if (!checkChoicesInput('oeufsEtLarvesTrouves', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('oeufsEtLarvesNombrePiecesConcernees', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('oeufsEtLarvesFaciliteDetections', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('oeufsEtLarvesLieuxObservations', 4)) {
     canGoNext = false;
   }
   

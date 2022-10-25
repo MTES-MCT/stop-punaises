@@ -20,7 +20,7 @@ class SignalementFrontType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // Step 1
+            // Step 3
             ->add('typeLogement', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
@@ -95,7 +95,7 @@ class SignalementFrontType extends AbstractType
                 'required' => true,
             ])
 
-            // Step 2
+            // Step 4
             ->add('dureeInfestation', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
@@ -135,7 +135,7 @@ class SignalementFrontType extends AbstractType
                 'required' => true,
             ])
 
-            // Step 4
+            // Step 6
             ->add('piquresExistantes', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
@@ -173,7 +173,7 @@ class SignalementFrontType extends AbstractType
                 'required' => true,
             ])
 
-            // Step 5
+            // Step 7
             ->add('dejectionsTrouvees', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
@@ -192,7 +192,7 @@ class SignalementFrontType extends AbstractType
                 ],
                 'required' => true,
             ])
-            ->add('nombrePiecesConcernees', ChoiceType::class, [
+            ->add('dejectionsNombrePiecesConcernees', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
                 ],
@@ -210,7 +210,7 @@ class SignalementFrontType extends AbstractType
                 ],
                 'required' => true,
             ])
-            ->add('faciliteDejections', ChoiceType::class, [
+            ->add('dejectionsFaciliteDetections', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
                 ],
@@ -228,7 +228,88 @@ class SignalementFrontType extends AbstractType
                 ],
                 'required' => true,
             ])
-            ->add('lieuxObservations', ChoiceType::class, [
+            ->add('dejectionsLieuxObservations', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Le lit' => 'LIT',
+                    'Le canapé' => 'CANAPE',
+                    'Des meubles' => 'MEUBLES',
+                    'Les murs' => 'MURS',
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je les vois sur...',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'multiple' => true,
+                'required' => true,
+                'help' => 'Plusieurs réponses possibles',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
+            ])
+
+            // Step 9
+            ->add('oeufsEtLarvesTrouves', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'J\'ai trouvé des oeufs et des larves de punaises',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('oeufsEtLarvesNombrePiecesConcernees', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    '1 pièce' => 1,
+                    '2 pièces ou +' => 2,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Dans combien de pièces ?',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('oeufsEtLarvesFaciliteDetections', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Facilement' => 'FACILE',
+                    'En cherchant bien' => 'RECHERCHE',
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je trouve les oeufs et les larves...',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('oeufsEtLarvesLieuxObservations', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
                 ],

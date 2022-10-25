@@ -121,13 +121,25 @@ class Signalement
     private ?bool $dejectionsTrouvees = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    private ?int $nombrePiecesConcernees = null;
+    private ?int $dejectionsNombrePiecesConcernees = null;
 
     #[ORM\Column(length: 10)]
-    private ?string $faciliteDejections = null;
+    private ?string $dejectionsFaciliteDetections = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    private ?array $lieuxObservations = null;
+    private ?array $dejectionsLieuxObservations = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $oeufsEtLarvesTrouves = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $oeufsEtLarvesNombrePiecesConcernees = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $oeufsEtLarvesFaciliteDetections = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $oeufsEtLarvesLieuxObservations = null;
 
     public function __construct()
     {
@@ -535,38 +547,86 @@ class Signalement
         return $this;
     }
 
-    public function getNombrePiecesConcernees(): ?int
+    public function getDejectionsNombrePiecesConcernees(): ?int
     {
-        return $this->nombrePiecesConcernees;
+        return $this->dejectionsNombrePiecesConcernees;
     }
 
-    public function setNombrePiecesConcernees(?int $nombrePiecesConcernees): self
+    public function setDejectionsNombrePiecesConcernees(?int $dejectionsNombrePiecesConcernees): self
     {
-        $this->nombrePiecesConcernees = $nombrePiecesConcernees;
+        $this->dejectionsNombrePiecesConcernees = $dejectionsNombrePiecesConcernees;
 
         return $this;
     }
 
-    public function getFaciliteDejections(): ?string
+    public function getDejectionsFaciliteDetections(): ?string
     {
-        return $this->faciliteDejections;
+        return $this->dejectionsFaciliteDetections;
     }
 
-    public function setFaciliteDejections(string $faciliteDejections): self
+    public function setDejectionsFaciliteDetections(string $dejectionsFaciliteDetections): self
     {
-        $this->faciliteDejections = $faciliteDejections;
+        $this->dejectionsFaciliteDetections = $dejectionsFaciliteDetections;
 
         return $this;
     }
 
-    public function getLieuxObservations(): ?array
+    public function getDejectionsLieuxObservations(): ?array
     {
-        return $this->lieuxObservations;
+        return $this->dejectionsLieuxObservations;
     }
 
-    public function setLieuxObservations(?array $lieuxObservations): self
+    public function setDejectionsLieuxObservations(?array $dejectionsLieuxObservations): self
     {
-        $this->lieuxObservations = $lieuxObservations;
+        $this->dejectionsLieuxObservations = $dejectionsLieuxObservations;
+
+        return $this;
+    }
+
+    public function isOeufsEtLarvesTrouves(): ?bool
+    {
+        return $this->oeufsEtLarvesTrouves;
+    }
+
+    public function setOeufsEtLarvesTrouves(?bool $oeufsEtLarvesTrouves): self
+    {
+        $this->oeufsEtLarvesTrouves = $oeufsEtLarvesTrouves;
+
+        return $this;
+    }
+
+    public function getOeufsEtLarvesNombrePiecesConcernees(): ?int
+    {
+        return $this->oeufsEtLarvesNombrePiecesConcernees;
+    }
+
+    public function setOeufsEtLarvesNombrePiecesConcernees(?int $oeufsEtLarvesNombrePiecesConcernees): self
+    {
+        $this->oeufsEtLarvesNombrePiecesConcernees = $oeufsEtLarvesNombrePiecesConcernees;
+
+        return $this;
+    }
+
+    public function getOeufsEtLarvesFaciliteDetections(): ?string
+    {
+        return $this->oeufsEtLarvesFaciliteDetections;
+    }
+
+    public function setOeufsEtLarvesFaciliteDetections(string $oeufsEtLarvesFaciliteDetections): self
+    {
+        $this->oeufsEtLarvesFaciliteDetections = $oeufsEtLarvesFaciliteDetections;
+
+        return $this;
+    }
+
+    public function getOeufsEtLarvesLieuxObservations(): ?array
+    {
+        return $this->oeufsEtLarvesLieuxObservations;
+    }
+
+    public function setOeufsEtLarvesLieuxObservations(?array $oeufsEtLarvesLieuxObservations): self
+    {
+        $this->oeufsEtLarvesLieuxObservations = $oeufsEtLarvesLieuxObservations;
 
         return $this;
     }

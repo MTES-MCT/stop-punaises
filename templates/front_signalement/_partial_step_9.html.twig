@@ -2,23 +2,23 @@
 
 {% block content %}
     <div class="fr-stepper">
-        <div class="fr-stepper__steps" data-fr-current-step="4" data-fr-steps="8"></div>
+        <div class="fr-stepper__steps" data-fr-current-step="5" data-fr-steps="8"></div>
     </div>
 
     <div class="fr-form-group">
         <div class="fr-select-group">
-            {{ form_label(form.dejectionsTrouvees) }}
-            {{ form_widget(form.dejectionsTrouvees) }}
+            {{ form_label(form.oeufsEtLarvesTrouves) }}
+            {{ form_widget(form.oeufsEtLarvesTrouves) }}
             <p class="fr-error-text fr-hidden">
-                Veuillez renseigner si vous avez trouvé des déjections.
+                Veuillez renseigner si vous avez trouvé des oeufs et larves.
             </p>
         </div>
     </div>
 
     <div class="fr-form-group">
         <div class="fr-select-group">
-            {{ form_label(form.dejectionsNombrePiecesConcernees) }}
-            {{ form_widget(form.dejectionsNombrePiecesConcernees) }}
+            {{ form_label(form.oeufsEtLarvesNombrePiecesConcernees) }}
+            {{ form_widget(form.oeufsEtLarvesNombrePiecesConcernees) }}
             <p class="fr-error-text fr-hidden">
                 Veuillez renseigner le nombre de pièces concernées.
             </p>
@@ -27,18 +27,18 @@
 
     <div class="fr-form-group">
         <div class="fr-select-group">
-            {{ form_label(form.dejectionsFaciliteDetections) }}
-            {{ form_widget(form.dejectionsFaciliteDetections) }}
+            {{ form_label(form.oeufsEtLarvesFaciliteDetections) }}
+            {{ form_widget(form.oeufsEtLarvesFaciliteDetections) }}
             <p class="fr-error-text fr-hidden">
-                Veuillez renseigner comment vous trouvez les déjections.
+                Veuillez renseigner comment vous trouvez les oeufs et larves.
             </p>
         </div>
     </div>
 
     <div class="fr-form-group">
         <div class="fr-select-group">
-            {{ form_label(form.dejectionsLieuxObservations) }}
-            {{ form_widget(form.dejectionsLieuxObservations) }}
+            {{ form_label(form.oeufsEtLarvesLieuxObservations) }}
+            {{ form_widget(form.oeufsEtLarvesLieuxObservations) }}
             <p class="fr-error-text fr-hidden">
                 Veuillez renseigner les endroits où vous les voyez.
             </p>

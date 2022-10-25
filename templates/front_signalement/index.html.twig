@@ -6,7 +6,7 @@
 
 <form class="front-signalement fr-container fr-my-3w">
 
-    {% for i in 1..7 %}
+    {% for i in 1..9 %}
         {% include 'front_signalement/_partial_step_' ~ i ~ '.html.twig' with {'index': i} %}
     {% endfor %}
 
