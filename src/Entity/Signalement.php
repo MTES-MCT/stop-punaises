@@ -99,8 +99,35 @@ class Signalement
     #[ORM\Column(length: 100)]
     private ?string $reference = null;
 
+    #[ORM\Column(length: 10)]
+    private ?string $declarant = null;
+
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $superficie = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $dureeInfestation = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $infestationLogementsVoisins = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $piquresExistantes = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $piquresConfirmees = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $dejectionsTrouvees = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $nombrePiecesConcernees = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $faciliteDejections = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $lieuxObservations = null;
 
     public function __construct()
     {
@@ -424,6 +451,18 @@ class Signalement
         return $this;
     }
 
+    public function getDeclarant(): ?string
+    {
+        return $this->declarant;
+    }
+
+    public function setDeclarant(string $declarant): self
+    {
+        $this->declarant = $declarant;
+
+        return $this;
+    }
+
     public function getSuperficie(): ?string
     {
         return $this->superficie;
@@ -432,6 +471,102 @@ class Signalement
     public function setSuperficie(string $superficie): self
     {
         $this->superficie = $superficie;
+
+        return $this;
+    }
+
+    public function getDureeInfestation(): ?string
+    {
+        return $this->dureeInfestation;
+    }
+
+    public function setDureeInfestation(string $dureeInfestation): self
+    {
+        $this->dureeInfestation = $dureeInfestation;
+
+        return $this;
+    }
+
+    public function isInfestationLogementsVoisins(): ?bool
+    {
+        return $this->infestationLogementsVoisins;
+    }
+
+    public function setInfestationLogementsVoisins(?bool $infestationLogementsVoisins): self
+    {
+        $this->infestationLogementsVoisins = $infestationLogementsVoisins;
+
+        return $this;
+    }
+
+    public function isPiquresExistantes(): ?bool
+    {
+        return $this->piquresExistantes;
+    }
+
+    public function setPiquresExistantes(?bool $piquresExistantes): self
+    {
+        $this->piquresExistantes = $piquresExistantes;
+
+        return $this;
+    }
+
+    public function isPiquresConfirmees(): ?bool
+    {
+        return $this->piquresConfirmees;
+    }
+
+    public function setPiquresConfirmees(?bool $piquresConfirmees): self
+    {
+        $this->piquresConfirmees = $piquresConfirmees;
+
+        return $this;
+    }
+
+    public function isDejectionsTrouvees(): ?bool
+    {
+        return $this->dejectionsTrouvees;
+    }
+
+    public function setDejectionsTrouvees(?bool $dejectionsTrouvees): self
+    {
+        $this->dejectionsTrouvees = $dejectionsTrouvees;
+
+        return $this;
+    }
+
+    public function getNombrePiecesConcernees(): ?int
+    {
+        return $this->nombrePiecesConcernees;
+    }
+
+    public function setNombrePiecesConcernees(?int $nombrePiecesConcernees): self
+    {
+        $this->nombrePiecesConcernees = $nombrePiecesConcernees;
+
+        return $this;
+    }
+
+    public function getFaciliteDejections(): ?string
+    {
+        return $this->faciliteDejections;
+    }
+
+    public function setFaciliteDejections(string $faciliteDejections): self
+    {
+        $this->faciliteDejections = $faciliteDejections;
+
+        return $this;
+    }
+
+    public function getLieuxObservations(): ?array
+    {
+        return $this->lieuxObservations;
+    }
+
+    public function setLieuxObservations(?array $lieuxObservations): self
+    {
+        $this->lieuxObservations = $lieuxObservations;
 
         return $this;
     }

@@ -94,6 +94,165 @@ class SignalementFrontType extends AbstractType
                 'label' => 'Ville',
                 'required' => true,
             ])
+
+            // Step 2
+            ->add('dureeInfestation', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Moins de 3 mois' => 'LESS-3-MONTHS',
+                    'Entre 3 et 6 mois' => '3-6-MONTHS',
+                    'Plus de 6 mois' => 'MORE-6-MONTHS',
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je pense avoir un problème de punaises depuis...',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('infestationLogementsVoisins', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                    'Je ne sais pas' => null,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'L\'infestation concerne aussi les logements voisins',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+
+            // Step 4
+            ->add('piquresExistantes', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'J\'ai des piqures de punaises de lit',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('piquresConfirmees', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Un ou une professionnelle de santé a confirmé que ce sont bien des piqures de punaises de lit',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+
+            // Step 5
+            ->add('dejectionsTrouvees', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'J\'ai trouvé des déjections de punaises',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('nombrePiecesConcernees', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    '1 pièce' => 1,
+                    '2 pièces ou +' => 2,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Dans combien de pièces ?',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('faciliteDejections', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Facilement' => 'FACILE',
+                    'En cherchant bien' => 'RECHERCHE',
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je trouve les déjections...',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('lieuxObservations', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Le lit' => 'LIT',
+                    'Le canapé' => 'CANAPE',
+                    'Des meubles' => 'MEUBLES',
+                    'Les murs' => 'MURS',
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je les vois sur...',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'multiple' => true,
+                'required' => true,
+                'help' => 'Plusieurs réponses possibles',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
+            ])
         ;
     }
 

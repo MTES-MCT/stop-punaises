@@ -1,88 +1,85 @@
-<section id="step-3" class="step-item">
-    <div class="fr-grid-row fr-grid-row--center">
-        <div class="fr-col-12 fr-col-md-6">
+{% extends 'front_signalement/base_step.html.twig' %}
 
-            <div class="fr-stepper">
-                <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="8"></div>
-            </div>
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="8"></div>
+    </div>
 
-            <div class="fr-form-group">
-                <div class="fr-select-group">
-                    {{ form_label(form.typeLogement) }}
-                    {{ form_widget(form.typeLogement) }}
-                    <p class="fr-error-text fr-hidden">
-                        Veuillez renseigner le type de logement.
-                    </p>
-                </div>
-            </div>
-
-            <div class="fr-form-group">
-                <div class="fr-input-group">
-                    {{ form_label(form.superficie) }}
-                    {{ form_widget(form.superficie) }}
-                    <span class="input-precision">m²</span>
-                    <p class="fr-error-text fr-hidden">
-                        Veuillez renseigner la superficie logement.
-                    </p>
-                </div>
-            </div>
-
-            <span class="fr-label">Mon adresse</span>
-            <br>
-            <div class="search-address">
-                <p>
-                    Saisissez le début de votre adresse puis sélectionnez-la dans la liste.
-                </p>
-                <div class="fr-form-group">
-                    <div class="fr-input-group">
-                        <input id="rechercheAdresse" type="text" class="fr-input">
-                        <div id="rechercheAdresseIcon">
-                            <span class="fr-icon-map-pin-2-line" aria-hidden="true"></span>
-                            <span class="fr-icon-timer-line" aria-hidden="true"></span>
-                        </div>
-                        <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
-                        </div>
-                    </div>
-                        
-                    <a href="#" class="skip-search-address">Saisir manuellement</a>
-                </div>
-            </div>
-
-            <div class="fr-hidden address-fields">
-                <div class="fr-form-group">
-                    <div class="fr-input-group">
-                        {{ form_label(form.adresse) }}
-                        {{ form_widget(form.adresse) }}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner l'adresse.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="fr-form-group">
-                    <div class="fr-input-group">
-                        {{ form_label(form.codePostal) }}
-                        {{ form_widget(form.codePostal) }}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner le code postal.
-                        </p>
-                    </div>
-                </div>
-
-                {{ form_widget(form.codeInsee) }}
-
-                <div class="fr-form-group">
-                    <div class="fr-input-group">
-                        {{ form_label(form.ville) }}
-                        {{ form_widget(form.ville) }}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner la ville.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.typeLogement) }}
+            {{ form_widget(form.typeLogement) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner le type de logement.
+            </p>
         </div>
     </div>
-</section>
+
+    <div class="fr-form-group">
+        <div class="fr-input-group">
+            {{ form_label(form.superficie) }}
+            {{ form_widget(form.superficie) }}
+            <span class="input-precision">m²</span>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner la superficie logement.
+            </p>
+        </div>
+    </div>
+
+    <span class="fr-label">Mon adresse</span>
+    <br>
+    <div class="search-address">
+        <p>
+            Saisissez le début de votre adresse puis sélectionnez-la dans la liste.
+        </p>
+        <div class="fr-form-group">
+            <div class="fr-input-group">
+                <input id="rechercheAdresse" type="text" class="fr-input">
+                <div id="rechercheAdresseIcon">
+                    <span class="fr-icon-map-pin-2-line" aria-hidden="true"></span>
+                    <span class="fr-icon-timer-line" aria-hidden="true"></span>
+                </div>
+                <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
+                </div>
+            </div>
+                
+            <a href="#" class="skip-search-address">Saisir manuellement</a>
+        </div>
+    </div>
+
+    <div class="fr-hidden address-fields">
+        <div class="fr-form-group">
+            <div class="fr-input-group">
+                {{ form_label(form.adresse) }}
+                {{ form_widget(form.adresse) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner l'adresse.
+                </p>
+            </div>
+        </div>
+
+        <div class="fr-form-group">
+            <div class="fr-input-group">
+                {{ form_label(form.codePostal) }}
+                {{ form_widget(form.codePostal) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner le code postal.
+                </p>
+            </div>
+        </div>
+
+        {{ form_widget(form.codeInsee) }}
+
+        <div class="fr-form-group">
+            <div class="fr-input-group">
+                {{ form_label(form.ville) }}
+                {{ form_widget(form.ville) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner la ville.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
+{% endblock %}

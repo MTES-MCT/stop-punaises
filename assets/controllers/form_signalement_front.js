@@ -35,47 +35,105 @@ function checkSignalementStep() {
       return checkSignalementStep1();
     case 3:
       return checkSignalementStep3();
+    case 4:
+      return checkSignalementStep4();
+    case 6:
+      return checkSignalementStep6();
+    case 7:
+      return checkSignalementStep7();
 
     default:
       return true;
   }
 }
 
-function checkSignalementStep1() {
-  if ($('input#code-postal').val() == '' || $('input#code-postal').val().length < 5) {
-    $('input#code-postal').siblings('.fr-error-text').removeClass('fr-hidden');
+function checkSingleInput(idInput) {
+  $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
+  if ($('input#' + idInput).val() == '') {
+    $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
     return false;
   }
-  $('input#code-postal').siblings('.fr-error-text').addClass('fr-hidden');
   return true;
 }
 
-function checkSignalementStep3() {
-  $('#signalement_front_typeLogement').siblings('.fr-error-text').addClass('fr-hidden');
-  $('#signalement_front_superficie').siblings('.fr-error-text').addClass('fr-hidden');
-  $('#signalement_front_adresse').siblings('.fr-error-text').addClass('fr-hidden');
-  $('#signalement_front_codePostal').siblings('.fr-error-text').addClass('fr-hidden');
-  $('#signalement_front_ville').siblings('.fr-error-text').addClass('fr-hidden');
+function checkChoicesInput(idInput, count) {
+  $('div#signalement_front_' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
 
+  let canGoNext = false;
+  for (let i = 0; i < count; i++) {
+    if ($('input#signalement_front_' + idInput + '_' + i).prop('checked')) {
+      canGoNext = true;
+    }
+  }
+
+  if (!canGoNext) {
+    $('div#signalement_front_' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+  }
+  
+ return canGoNext;
+}
+
+function checkSignalementStep1() {
+  return checkSingleInput('code-postal');
+}
+
+function checkSignalementStep3() {
   let canGoNext = true;
-  if (!$('input#signalement_front_typeLogement_0').prop('checked') && !$('input#signalement_front_typeLogement_1').prop('checked') && !$('input#signalement_front_typeLogement_2').prop('checked')) {
-    $('#signalement_front_typeLogement').siblings('.fr-error-text').removeClass('fr-hidden');
+  if (!checkChoicesInput('typeLogement', 2)) {
     canGoNext = false;
   }
-  if ($('input#signalement_front_superficie').val() == '') {
-    $('#signalement_front_superficie').siblings('.fr-error-text').removeClass('fr-hidden');
+  if (!checkSingleInput('signalement_front_superficie')) {
     canGoNext = false;
   }
-  if ($('input#signalement_front_adresse').val() == '') {
-    $('#signalement_front_adresse').siblings('.fr-error-text').removeClass('fr-hidden');
+  if (!checkSingleInput('signalement_front_adresse')) {
     canGoNext = false;
   }
-  if ($('input#signalement_front_codePostal').val() == '') {
-    $('#signalement_front_codePostal').siblings('.fr-error-text').removeClass('fr-hidden');
+  if (!checkSingleInput('signalement_front_codePostal')) {
     canGoNext = false;
   }
-  if ($('input#signalement_front_ville').val() == '') {
-    $('#signalement_front_ville').siblings('.fr-error-text').removeClass('fr-hidden');
+  if (!checkSingleInput('signalement_front_ville')) {
+    canGoNext = false;
+  }
+  
+  return canGoNext;
+}
+
+function checkSignalementStep4() {
+  let canGoNext = true;
+  if (!checkChoicesInput('dureeInfestation', 3)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('infestationLogementsVoisins', 3)) {
+    canGoNext = false;
+  }
+  
+  return canGoNext;
+}
+
+function checkSignalementStep6() {
+  let canGoNext = true;
+  if (!checkChoicesInput('piquresExistantes', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('piquresConfirmees', 2)) {
+    canGoNext = false;
+  }
+  
+  return canGoNext;
+}
+
+function checkSignalementStep7() {
+  let canGoNext = true;
+  if (!checkChoicesInput('dejectionsTrouvees', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('nombrePiecesConcernees', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('faciliteDejections', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('lieuxObservations', 4)) {
     canGoNext = false;
   }
   

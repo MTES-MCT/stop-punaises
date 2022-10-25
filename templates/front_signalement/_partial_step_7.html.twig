@@ -1,0 +1,49 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="4" data-fr-steps="8"></div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.dejectionsTrouvees) }}
+            {{ form_widget(form.dejectionsTrouvees) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous avez trouvé des déjections.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.nombrePiecesConcernees) }}
+            {{ form_widget(form.nombrePiecesConcernees) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner le nombre de pièces concernées.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.faciliteDejections) }}
+            {{ form_widget(form.faciliteDejections) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner comment vous trouvez les déjections.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.lieuxObservations) }}
+            {{ form_widget(form.lieuxObservations) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner les endroits où vous les voyez.
+            </p>
+        </div>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
+{% endblock %}

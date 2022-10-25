@@ -1,0 +1,35 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="3" data-fr-steps="8"></div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.piquresExistantes) }}
+            {{ form_widget(form.piquresExistantes) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous avez des piqures de punaises de lit.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.piquresConfirmees) }}
+            {{ form_widget(form.piquresConfirmees) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si quelqu'un a confirmé que vous avez des piqures de punaises de lit.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <strong>Photos</strong>
+        <br>
+        <p>A venir...</p>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
+{% endblock %}
