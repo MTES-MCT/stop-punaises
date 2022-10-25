@@ -11,8 +11,14 @@ function startCreerSignalementFrontApp() {
   $('.btn-next').on('click', function(){
     refreshSignalementStep(1);
   });
+  $('.btn-next-next').on('click', function(){
+    refreshSignalementStep(2);
+  });
   $('.link-back').on('click', function(){
     refreshSignalementStep(-1);
+  });
+  $('.link-back-back').on('click', function(){
+    refreshSignalementStep(-2);
   });
 }
 
