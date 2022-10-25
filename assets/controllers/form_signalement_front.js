@@ -43,6 +43,10 @@ function checkSignalementStep() {
       return checkSignalementStep7();
     case 9:
       return checkSignalementStep9();
+    case 10:
+      return checkSignalementStep10();
+    case 11:
+      return checkSignalementStep11();
 
     default:
       return true;
@@ -154,6 +158,42 @@ function checkSignalementStep9() {
     canGoNext = false;
   }
   if (!checkChoicesInput('oeufsEtLarvesLieuxObservations', 4)) {
+    canGoNext = false;
+  }
+  
+  return canGoNext;
+}
+
+function checkSignalementStep10() {
+  let canGoNext = true;
+  if (!checkChoicesInput('punaisesTrouvees', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('punaisesNombrePiecesConcernees', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('punaisesFaciliteDetections', 2)) {
+    canGoNext = false;
+  }
+  if (!checkChoicesInput('punaisesLieuxObservations', 4)) {
+    canGoNext = false;
+  }
+  
+  return canGoNext;
+}
+
+function checkSignalementStep11() {
+  let canGoNext = true;
+  if (!checkSingleInput('nomOccupant')) {
+    canGoNext = false;
+  }
+  if (!checkSingleInput('prenomOccupant')) {
+    canGoNext = false;
+  }
+  if (!checkSingleInput('telephoneOccupant')) {
+    canGoNext = false;
+  }
+  if (!checkSingleInput('emailOccupant')) {
     canGoNext = false;
   }
   

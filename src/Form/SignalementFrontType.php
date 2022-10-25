@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\Signalement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -333,6 +335,133 @@ class SignalementFrontType extends AbstractType
                 'help_attr' => [
                     'class' => 'fr-hint-text',
                 ],
+            ])
+
+            // Step 10
+            ->add('punaisesTrouvees', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Il y a des punaises dans mon logement',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('punaisesNombrePiecesConcernees', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    '1 pièce' => 1,
+                    '2 pièces ou +' => 2,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Dans combien de pièces ?',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('punaisesFaciliteDetections', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Facilement' => 'FACILE',
+                    'En cherchant bien' => 'RECHERCHE',
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je trouve les oeufs et les larves...',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('punaisesLieuxObservations', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Le lit' => 'LIT',
+                    'Le canapé' => 'CANAPE',
+                    'Des meubles' => 'MEUBLES',
+                    'Les murs' => 'MURS',
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je les vois sur...',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'multiple' => true,
+                'required' => true,
+                'help' => 'Plusieurs réponses possibles',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
+            ])
+
+            // Step 11
+            ->add('nomOccupant', TextType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                    'maxlength' => '100',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Nom',
+                'required' => true,
+            ])
+            ->add('prenomOccupant', TextType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                    'maxlength' => '100',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Prénom',
+                'required' => true,
+            ])
+            ->add('telephoneOccupant', TelType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                    'maxlength' => '100',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Téléphone',
+                'required' => false,
+            ])
+            ->add('emailOccupant', EmailType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                    'maxlength' => '100',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Email',
+                'required' => false,
             ])
         ;
     }

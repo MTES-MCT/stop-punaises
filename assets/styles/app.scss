@@ -22,6 +22,10 @@ span.niveau-infestation {
     }
 }
 
+.align-center {
+    text-align: center;
+}
+
 .add-button-container {
     float: right;
 }
@@ -674,9 +678,5 @@ span.niveau-infestation {
                 max-width: 100%;
             }
         }
-    }
-
-    #step-2, #step-5, #step-8 {
-        text-align: center;
     }
 }

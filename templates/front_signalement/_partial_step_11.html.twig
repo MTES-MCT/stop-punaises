@@ -1,0 +1,57 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="7" data-fr-steps="8"></div>
+    </div>
+    
+    <div class="align-center">
+        <h2>C'est presque fini&nbsp;!</h2>
+
+        <p>
+            Renseignez vos coordonnées pour afficher votre recommandation personnalisée.
+        </p>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.nomOccupant) }}
+            {{ form_widget(form.nomOccupant) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner votre nom.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.prenomOccupant) }}
+            {{ form_widget(form.prenomOccupant) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner votre prénom.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.telephoneOccupant) }}
+            {{ form_widget(form.telephoneOccupant) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner votre numéro de téléphone.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.emailOccupant) }}
+            {{ form_widget(form.emailOccupant) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner votre adresse e-mail.
+            </p>
+        </div>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Voir ma recommandation', 'previous': 'Retour' } %}
+{% endblock %}

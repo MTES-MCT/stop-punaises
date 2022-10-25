@@ -141,6 +141,18 @@ class Signalement
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $oeufsEtLarvesLieuxObservations = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $punaisesTrouvees = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $punaisesNombrePiecesConcernees = null;
+
+    #[ORM\Column(length: 10)]
+    private ?string $punaisesFaciliteDetections = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $punaisesLieuxObservations = null;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -627,6 +639,54 @@ class Signalement
     public function setOeufsEtLarvesLieuxObservations(?array $oeufsEtLarvesLieuxObservations): self
     {
         $this->oeufsEtLarvesLieuxObservations = $oeufsEtLarvesLieuxObservations;
+
+        return $this;
+    }
+
+    public function isPunaisesTrouvees(): ?bool
+    {
+        return $this->punaisesTrouvees;
+    }
+
+    public function setPunaisesTrouvees(?bool $punaisesTrouvees): self
+    {
+        $this->punaisesTrouvees = $punaisesTrouvees;
+
+        return $this;
+    }
+
+    public function getPunaisesNombrePiecesConcernees(): ?int
+    {
+        return $this->punaisesNombrePiecesConcernees;
+    }
+
+    public function setPunaisesNombrePiecesConcernees(?int $punaisesNombrePiecesConcernees): self
+    {
+        $this->punaisesNombrePiecesConcernees = $punaisesNombrePiecesConcernees;
+
+        return $this;
+    }
+
+    public function getPunaisesFaciliteDetections(): ?string
+    {
+        return $this->punaisesFaciliteDetections;
+    }
+
+    public function setPunaisesFaciliteDetections(string $punaisesFaciliteDetections): self
+    {
+        $this->punaisesFaciliteDetections = $punaisesFaciliteDetections;
+
+        return $this;
+    }
+
+    public function getPunaisesLieuxObservations(): ?array
+    {
+        return $this->punaisesLieuxObservations;
+    }
+
+    public function setPunaisesLieuxObservations(?array $punaisesLieuxObservations): self
+    {
+        $this->punaisesLieuxObservations = $punaisesLieuxObservations;
 
         return $this;
     }

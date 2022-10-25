@@ -1,0 +1,49 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="6" data-fr-steps="8"></div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.punaisesTrouvees) }}
+            {{ form_widget(form.punaisesTrouvees) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous avez trouvé des punaises de lit.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.punaisesNombrePiecesConcernees) }}
+            {{ form_widget(form.punaisesNombrePiecesConcernees) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner le nombre de pièces concernées.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.punaisesFaciliteDetections) }}
+            {{ form_widget(form.punaisesFaciliteDetections) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner comment vous trouvez les punaises de lit.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.punaisesLieuxObservations) }}
+            {{ form_widget(form.punaisesLieuxObservations) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner les endroits où vous les voyez.
+            </p>
+        </div>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
+{% endblock %}
