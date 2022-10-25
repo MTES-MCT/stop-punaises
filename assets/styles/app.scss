@@ -93,6 +93,31 @@ span.niveau-infestation {
     }
 }
 
+.search-address {
+    #rechercheAdresse {
+        padding: .5rem 1.5rem;
+    }
+    #rechercheAdresseIcon {
+        margin-top: -32px;
+        .fr-icon-timer-line {
+            display: none;
+        }
+    }
+    #rechercheAdresseListe {
+        position: absolute;
+        display: none;
+        border: 1px solid;
+        background: #FFF;
+        min-width: 300px;
+        div {
+            cursor: pointer;
+            &:hover {
+                background-color: #dde5ff;
+            }
+        }
+    }
+}
+
 .index-header {
     h1 {
         font-size: 56px;
@@ -427,29 +452,6 @@ span.niveau-infestation {
     .display-if-diagnostic, .display-if-traitement, .display-if-biocide {
         display: none;
     }
-
-    #rechercheAdresse {
-        padding: .5rem 1.5rem;
-    }
-    #rechercheAdresseIcon {
-        margin-top: -32px;
-        .fr-icon-timer-line {
-            display: none;
-        }
-    }
-    #rechercheAdresseListe {
-        position: absolute;
-        display: none;
-        border: 1px solid;
-        background: #FFF;
-        min-width: 300px;
-        div {
-            cursor: pointer;
-            &:hover {
-                background-color: #dde5ff;
-            }
-        }
-    }
 }
 
 .liste-signalements {
@@ -608,6 +610,44 @@ span.niveau-infestation {
         &.current-step {
             display: block;
         }
+
+        .btn-next {
+            width: 100%;
+            justify-content: center;
+        }
+
+        nav {
+            text-align: center;
+
+            .group-previous {
+                span {
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        .fr-label {
+            font-weight: bold;
+        }
+
+        .fr-radio {
+            input {
+                margin-right: 10px;
+            }
+            label::after {
+                content: "\a";
+                white-space: pre;
+            }
+        }
+
+        .fr-input-group {
+            span.input-precision {
+                display: block;
+                float: right;
+                margin-right: 5px;
+                margin-top: -30px;
+            }
+        }
     }
 
     #step-1 {
@@ -634,5 +674,9 @@ span.niveau-infestation {
                 max-width: 100%;
             }
         }
+    }
+
+    #step-2 {
+        text-align: center;
     }
 }

@@ -99,6 +99,9 @@ class Signalement
     #[ORM\Column(length: 100)]
     private ?string $reference = null;
 
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $superficie = null;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -417,6 +420,18 @@ class Signalement
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getSuperficie(): ?string
+    {
+        return $this->superficie;
+    }
+
+    public function setSuperficie(string $superficie): self
+    {
+        $this->superficie = $superficie;
 
         return $this;
     }

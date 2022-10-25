@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stop punaises - Signaler un problème de punaises de lit{% endblock %}
+
+{% block body %}
+
+<form class="front-signalement fr-container fr-my-3w">
+
+    {% include 'front_signalement/_partial_step_1.html.twig' %}
+    {% include 'front_signalement/_partial_step_2.html.twig' %}
+    {% include 'front_signalement/_partial_step_3.html.twig' %}
+
+</form>
+
+{% endblock %}
