@@ -117,41 +117,14 @@ class Signalement
     #[ORM\Column(nullable: true)]
     private ?bool $piquresConfirmees = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $dejectionsTrouvees = null;
-
-    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    private ?int $dejectionsNombrePiecesConcernees = null;
-
-    #[ORM\Column(length: 10)]
-    private ?string $dejectionsFaciliteDetections = null;
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $dejectionsDetails = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    private ?array $dejectionsLieuxObservations = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $oeufsEtLarvesTrouves = null;
-
-    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    private ?int $oeufsEtLarvesNombrePiecesConcernees = null;
-
-    #[ORM\Column(length: 10)]
-    private ?string $oeufsEtLarvesFaciliteDetections = null;
+    private ?array $oeufsEtLarvesDetails = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
-    private ?array $oeufsEtLarvesLieuxObservations = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $punaisesTrouvees = null;
-
-    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    private ?int $punaisesNombrePiecesConcernees = null;
-
-    #[ORM\Column(length: 10)]
-    private ?string $punaisesFaciliteDetections = null;
-
-    #[ORM\Column(type: Types::JSON, nullable: true)]
-    private ?array $punaisesLieuxObservations = null;
+    private ?array $punaisesDetails = null;
 
     public function __construct()
     {
@@ -547,146 +520,38 @@ class Signalement
         return $this;
     }
 
-    public function isDejectionsTrouvees(): ?bool
+    public function getDejectionsDetails(): ?array
     {
-        return $this->dejectionsTrouvees;
+        return $this->dejectionsDetails;
     }
 
-    public function setDejectionsTrouvees(?bool $dejectionsTrouvees): self
+    public function setDejectionsDetails(?array $dejectionsDetails): self
     {
-        $this->dejectionsTrouvees = $dejectionsTrouvees;
+        $this->dejectionsDetails = $dejectionsDetails;
 
         return $this;
     }
 
-    public function getDejectionsNombrePiecesConcernees(): ?int
+    public function getOeufsEtLarvesDetails(): ?array
     {
-        return $this->dejectionsNombrePiecesConcernees;
+        return $this->oeufsEtLarvesDetails;
     }
 
-    public function setDejectionsNombrePiecesConcernees(?int $dejectionsNombrePiecesConcernees): self
+    public function setOeufsEtLarvesDetails(?array $oeufsEtLarvesDetails): self
     {
-        $this->dejectionsNombrePiecesConcernees = $dejectionsNombrePiecesConcernees;
+        $this->oeufsEtLarvesDetails = $oeufsEtLarvesDetails;
 
         return $this;
     }
 
-    public function getDejectionsFaciliteDetections(): ?string
+    public function getPunaisesDetails(): ?array
     {
-        return $this->dejectionsFaciliteDetections;
+        return $this->punaisesDetails;
     }
 
-    public function setDejectionsFaciliteDetections(string $dejectionsFaciliteDetections): self
+    public function setPunaisesDetails(?array $punaisesDetails): self
     {
-        $this->dejectionsFaciliteDetections = $dejectionsFaciliteDetections;
-
-        return $this;
-    }
-
-    public function getDejectionsLieuxObservations(): ?array
-    {
-        return $this->dejectionsLieuxObservations;
-    }
-
-    public function setDejectionsLieuxObservations(?array $dejectionsLieuxObservations): self
-    {
-        $this->dejectionsLieuxObservations = $dejectionsLieuxObservations;
-
-        return $this;
-    }
-
-    public function isOeufsEtLarvesTrouves(): ?bool
-    {
-        return $this->oeufsEtLarvesTrouves;
-    }
-
-    public function setOeufsEtLarvesTrouves(?bool $oeufsEtLarvesTrouves): self
-    {
-        $this->oeufsEtLarvesTrouves = $oeufsEtLarvesTrouves;
-
-        return $this;
-    }
-
-    public function getOeufsEtLarvesNombrePiecesConcernees(): ?int
-    {
-        return $this->oeufsEtLarvesNombrePiecesConcernees;
-    }
-
-    public function setOeufsEtLarvesNombrePiecesConcernees(?int $oeufsEtLarvesNombrePiecesConcernees): self
-    {
-        $this->oeufsEtLarvesNombrePiecesConcernees = $oeufsEtLarvesNombrePiecesConcernees;
-
-        return $this;
-    }
-
-    public function getOeufsEtLarvesFaciliteDetections(): ?string
-    {
-        return $this->oeufsEtLarvesFaciliteDetections;
-    }
-
-    public function setOeufsEtLarvesFaciliteDetections(string $oeufsEtLarvesFaciliteDetections): self
-    {
-        $this->oeufsEtLarvesFaciliteDetections = $oeufsEtLarvesFaciliteDetections;
-
-        return $this;
-    }
-
-    public function getOeufsEtLarvesLieuxObservations(): ?array
-    {
-        return $this->oeufsEtLarvesLieuxObservations;
-    }
-
-    public function setOeufsEtLarvesLieuxObservations(?array $oeufsEtLarvesLieuxObservations): self
-    {
-        $this->oeufsEtLarvesLieuxObservations = $oeufsEtLarvesLieuxObservations;
-
-        return $this;
-    }
-
-    public function isPunaisesTrouvees(): ?bool
-    {
-        return $this->punaisesTrouvees;
-    }
-
-    public function setPunaisesTrouvees(?bool $punaisesTrouvees): self
-    {
-        $this->punaisesTrouvees = $punaisesTrouvees;
-
-        return $this;
-    }
-
-    public function getPunaisesNombrePiecesConcernees(): ?int
-    {
-        return $this->punaisesNombrePiecesConcernees;
-    }
-
-    public function setPunaisesNombrePiecesConcernees(?int $punaisesNombrePiecesConcernees): self
-    {
-        $this->punaisesNombrePiecesConcernees = $punaisesNombrePiecesConcernees;
-
-        return $this;
-    }
-
-    public function getPunaisesFaciliteDetections(): ?string
-    {
-        return $this->punaisesFaciliteDetections;
-    }
-
-    public function setPunaisesFaciliteDetections(string $punaisesFaciliteDetections): self
-    {
-        $this->punaisesFaciliteDetections = $punaisesFaciliteDetections;
-
-        return $this;
-    }
-
-    public function getPunaisesLieuxObservations(): ?array
-    {
-        return $this->punaisesLieuxObservations;
-    }
-
-    public function setPunaisesLieuxObservations(?array $punaisesLieuxObservations): self
-    {
-        $this->punaisesLieuxObservations = $punaisesLieuxObservations;
+        $this->punaisesDetails = $punaisesDetails;
 
         return $this;
     }

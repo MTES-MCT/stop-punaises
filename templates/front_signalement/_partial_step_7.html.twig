@@ -5,6 +5,26 @@
         <div class="fr-stepper__steps" data-fr-current-step="4" data-fr-steps="8"></div>
     </div>
 
+
+    {#
+    ->add('dejectionsTrouvees', ChoiceType::class, [
+        'attr' => [
+            'class' => 'fr-radio',
+        ],
+        'choices' => [
+            'Oui' => true,
+            'Non' => false,
+        ],
+        'expanded' => true,
+        'label_attr' => [
+            'class' => 'fr-label',
+        ],
+        'label' => 'J\'ai trouvé des déjections de punaises',
+        'row_attr' => [
+            'class' => 'fr-select-group',
+        ],
+        'required' => true,
+    ])
     <div class="fr-form-group">
         <div class="fr-select-group">
             {{ form_label(form.dejectionsTrouvees) }}
@@ -14,7 +34,41 @@
             </p>
         </div>
     </div>
+    #}
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">J'ai trouvé des déjections de punaises</label>
+            <div id="signalement_front_dejectionsTrouvees" class="fr-radio">
+                <input type="radio" id="signalement_front_dejectionsTrouvees_0" name="signalement_front[dejectionsTrouvees]" required="required" value="true">
+                <label for="signalement_front_dejectionsTrouvees_0" class="required">Oui</label>
+                <input type="radio" id="signalement_front_dejectionsTrouvees_1" name="signalement_front[dejectionsTrouvees]" required="required" value="false">
+                <label for="signalement_front_dejectionsTrouvees_1" class="required">Non</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous avez trouvé des déjections.
+            </p>
+        </div>
+    </div>
 
+    {#
+    ->add('dejectionsNombrePiecesConcernees', ChoiceType::class, [
+        'attr' => [
+            'class' => 'fr-radio',
+        ],
+        'choices' => [
+            '1 pièce' => 1,
+            '2 pièces ou +' => 2,
+        ],
+        'expanded' => true,
+        'label_attr' => [
+            'class' => 'fr-label',
+        ],
+        'label' => 'Dans combien de pièces ?',
+        'row_attr' => [
+            'class' => 'fr-select-group',
+        ],
+        'required' => true,
+    ])
     <div class="fr-form-group">
         <div class="fr-select-group">
             {{ form_label(form.dejectionsNombrePiecesConcernees) }}
@@ -24,7 +78,42 @@
             </p>
         </div>
     </div>
+    #}
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Dans combien de pièces ?</label>
+            <div id="signalement_front_dejectionsNombrePiecesConcernees" class="fr-radio">
+                <input type="radio" id="signalement_front_dejectionsNombrePiecesConcernees_0" name="signalement_front[dejectionsNombrePiecesConcernees]" required="required" value="1">
+                <label for="signalement_front_dejectionsNombrePiecesConcernees_0" class="required">1 pièce</label>
+                <input type="radio" id="signalement_front_dejectionsNombrePiecesConcernees_1" name="signalement_front[dejectionsNombrePiecesConcernees]" required="required" value="2">
+                <label for="signalement_front_dejectionsNombrePiecesConcernees_1" class="required">2 pièces ou +</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner le nombre de pièces concernées.
+            </p>
+        </div>
+    </div>
 
+
+    {#
+    ->add('dejectionsFaciliteDetections', ChoiceType::class, [
+        'attr' => [
+            'class' => 'fr-radio',
+        ],
+        'choices' => [
+            'Facilement' => 'FACILE',
+            'En cherchant bien' => 'RECHERCHE',
+        ],
+        'expanded' => true,
+        'label_attr' => [
+            'class' => 'fr-label',
+        ],
+        'label' => 'Je trouve les déjections...',
+        'row_attr' => [
+            'class' => 'fr-select-group',
+        ],
+        'required' => true,
+    ])
     <div class="fr-form-group">
         <div class="fr-select-group">
             {{ form_label(form.dejectionsFaciliteDetections) }}
@@ -34,7 +123,49 @@
             </p>
         </div>
     </div>
+    #}
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Je trouve les déjections...</label>
+            <div id="signalement_front_dejectionsFaciliteDetections" class="fr-radio">
+                <input type="radio" id="signalement_front_dejectionsFaciliteDetections_0" name="signalement_front[dejectionsFaciliteDetections]" required="required" value="FACILE">
+                <label for="signalement_front_dejectionsFaciliteDetections_0" class="required">Facilement</label>
+                <input type="radio" id="signalement_front_dejectionsFaciliteDetections_1" name="signalement_front[dejectionsFaciliteDetections]" required="required" value="RECHERCHE">
+                <label for="signalement_front_dejectionsFaciliteDetections_1" class="required">En cherchant bien</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner comment vous trouvez les déjections.
+            </p>
+        </div>
+    </div>
 
+
+    {#
+    ->add('dejectionsLieuxObservations', ChoiceType::class, [
+        'attr' => [
+            'class' => 'fr-radio',
+        ],
+        'choices' => [
+            'Le lit' => 'LIT',
+            'Le canapé' => 'CANAPE',
+            'Des meubles' => 'MEUBLES',
+            'Les murs' => 'MURS',
+        ],
+        'expanded' => true,
+        'label_attr' => [
+            'class' => 'fr-label',
+        ],
+        'label' => 'Je les vois sur...',
+        'row_attr' => [
+            'class' => 'fr-select-group',
+        ],
+        'multiple' => true,
+        'required' => true,
+        'help' => 'Plusieurs réponses possibles',
+        'help_attr' => [
+            'class' => 'fr-hint-text',
+        ],
+    ])
     <div class="fr-form-group">
         <div class="fr-select-group">
             {{ form_label(form.dejectionsLieuxObservations) }}
@@ -44,6 +175,27 @@
             </p>
         </div>
     </div>
+    #}
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Je les vois sur...</label>
+            <div id="signalement_front_dejectionsLieuxObservations" class="fr-radio">
+                <input type="checkbox" id="signalement_front_dejectionsLieuxObservations_0" name="signalement_front[dejectionsLieuxObservations][]" value="LIT">
+                <label for="signalement_front_dejectionsLieuxObservations_0">Le lit</label>
+                <input type="checkbox" id="signalement_front_dejectionsLieuxObservations_1" name="signalement_front[dejectionsLieuxObservations][]" value="CANAPE">
+                <label for="signalement_front_dejectionsLieuxObservations_1">Le canapé</label>
+                <input type="checkbox" id="signalement_front_dejectionsLieuxObservations_2" name="signalement_front[dejectionsLieuxObservations][]" value="MEUBLES">
+                <label for="signalement_front_dejectionsLieuxObservations_2">Des meubles</label>
+                <input type="checkbox" id="signalement_front_dejectionsLieuxObservations_3" name="signalement_front[dejectionsLieuxObservations][]" value="MURS">
+                <label for="signalement_front_dejectionsLieuxObservations_3">Les murs</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner les endroits où vous les voyez.
+            </p>
+        </div>
+    </div>
+        
+        
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
 {% endblock %}
