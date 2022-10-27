@@ -6,6 +6,14 @@ $(function() {
 });
 
 var frontSignalementStep = 1;
+const TYPE_TRACES = 'traces';
+const TYPE_RECHERCHE = 'recherche';
+const TYPE_INSECTES = 'insectes';
+const TYPE_LOCALISATION = 'localisation';
+var hasTraces = false;
+var hasRechercheInsecte = false;
+var hasInsectes = false;
+var hasLocalisation = false;
 
 function startCreerSignalementFrontApp() {
   $('.btn-next').on('click', function(){
@@ -85,6 +93,57 @@ function checkChoicesInput(idInput, count) {
  return canGoNext;
 }
 
+function updateNiveauInfestation($type, $value) {
+  switch ($type) {
+    case TYPE_TRACES:
+      hasTraces = hasTraces || $value;
+      break;
+    case TYPE_RECHERCHE:
+      hasRechercheInsecte = hasRechercheInsecte || $value;
+      break;
+    case TYPE_INSECTES:
+      hasInsectes = hasInsectes || $value;
+      break;
+    case TYPE_LOCALISATION:
+      hasLocalisation = hasLocalisation || $value;
+      break;
+  }
+
+  let niveauInfestation = 0;
+  if (hasTraces) {
+    niveauInfestation = 1;
+    if (hasInsectes) {
+      niveauInfestation = 3;
+      if (hasLocalisation) {
+        niveauInfestation = 4;
+      }
+    } else if (hasRechercheInsecte) {
+      niveauInfestation = 2;
+    }
+  }
+  $('#niveau-infestation span').text(niveauInfestation);
+  $('#niveau-infestation span').removeClass('niveau-0 niveau-1 niveau-2 niveau-3 niveau-4');
+  $('#niveau-infestation span').addClass('niveau-' + niveauInfestation);
+
+  switch (niveauInfestation) {
+    case 0:
+      $('#niveau-infestation-txt').text('Aucune infestation');
+      break;
+    case 1:
+      $('#niveau-infestation-txt').text('Infestation faible');
+      break;
+    case 2:
+      $('#niveau-infestation-txt').text('Infestation moyenne');
+      break;
+    case 3:
+      $('#niveau-infestation-txt').text('Infestation élevée');
+      break;
+    case 4:
+      $('#niveau-infestation-txt').text('Infestation très élevée');
+      break;
+  }
+}
+
 function checkSignalementStep1() {
   return checkSingleInput('code-postal');
 }
@@ -118,6 +177,8 @@ function checkSignalementStep4() {
   if (!checkChoicesInput('infestationLogementsVoisins', 3)) {
     canGoNext = false;
   }
+
+  updateNiveauInfestation(TYPE_LOCALISATION, $('#signalement_front_infestationLogementsVoisins_0').prop('checked'));
   
   return canGoNext;
 }
@@ -130,6 +191,9 @@ function checkSignalementStep6() {
   if (!checkChoicesInput('piquresConfirmees', 2)) {
     canGoNext = false;
   }
+
+  updateNiveauInfestation(TYPE_TRACES, $('#signalement_front_piquresExistantes_0').prop('checked'));
+  updateNiveauInfestation(TYPE_TRACES, $('#signalement_front_piquresConfirmees_0').prop('checked'));
   
   return canGoNext;
 }
@@ -148,6 +212,8 @@ function checkSignalementStep7() {
   if (!checkChoicesInput('dejectionsLieuxObservations', 4)) {
     canGoNext = false;
   }
+
+  updateNiveauInfestation(TYPE_TRACES, $('#signalement_front_dejectionsTrouvees_0').prop('checked'));
   
   return canGoNext;
 }
@@ -165,6 +231,11 @@ function checkSignalementStep9() {
   }
   if (!checkChoicesInput('oeufsEtLarvesLieuxObservations', 4)) {
     canGoNext = false;
+  }
+
+  updateNiveauInfestation(TYPE_RECHERCHE, $('#signalement_front_oeufsEtLarvesTrouves_0').prop('checked'));
+  if ($('#signalement_front_oeufsEtLarvesTrouves_0').prop('checked')) {
+    updateNiveauInfestation(TYPE_INSECTES, $('#signalement_front_oeufsEtLarvesFaciliteDetections_0').prop('checked'));
   }
   
   return canGoNext;
@@ -184,22 +255,27 @@ function checkSignalementStep10() {
   if (!checkChoicesInput('punaisesLieuxObservations', 4)) {
     canGoNext = false;
   }
+
+  updateNiveauInfestation(TYPE_RECHERCHE, $('#signalement_front_punaisesTrouvees_0').prop('checked'));
+  if ($('#signalement_front_punaisesTrouvees_0').prop('checked')) {
+    updateNiveauInfestation(TYPE_INSECTES, $('#signalement_front_punaisesFaciliteDetections_0').prop('checked'));
+  }
   
   return canGoNext;
 }
 
 function checkSignalementStep11() {
   let canGoNext = true;
-  if (!checkSingleInput('nomOccupant')) {
+  if (!checkSingleInput('signalement_front_nomOccupant')) {
     canGoNext = false;
   }
-  if (!checkSingleInput('prenomOccupant')) {
+  if (!checkSingleInput('signalement_front_prenomOccupant')) {
     canGoNext = false;
   }
-  if (!checkSingleInput('telephoneOccupant')) {
+  if (!checkSingleInput('signalement_front_telephoneOccupant')) {
     canGoNext = false;
   }
-  if (!checkSingleInput('emailOccupant')) {
+  if (!checkSingleInput('signalement_front_emailOccupant')) {
     canGoNext = false;
   }
   
