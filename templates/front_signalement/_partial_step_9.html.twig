@@ -4,46 +4,7 @@
     <div class="fr-stepper">
         <div class="fr-stepper__steps" data-fr-current-step="5" data-fr-steps="8"></div>
     </div>
-
-    {#
-
-
-            ->add('oeufsEtLarvesLieuxObservations', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'fr-radio',
-                ],
-                'choices' => [
-                    'Le lit' => 'LIT',
-                    'Le canapé' => 'CANAPE',
-                    'Des meubles' => 'MEUBLES',
-                    'Les murs' => 'MURS',
-                ],
-                'expanded' => true,
-                'label_attr' => [
-                    'class' => 'fr-label',
-                ],
-                'label' => 'Je les vois sur...',
-                'row_attr' => [
-                    'class' => 'fr-select-group',
-                ],
-                'multiple' => true,
-                'required' => true,
-                'help' => 'Plusieurs réponses possibles',
-                'help_attr' => [
-                    'class' => 'fr-hint-text',
-                ],
-            ])
-    <div class="fr-form-group">
-        <div class="fr-select-group">
-            {{ form_label(form.oeufsEtLarvesLieuxObservations) }}
-            {{ form_widget(form.oeufsEtLarvesLieuxObservations) }}
-            <p class="fr-error-text fr-hidden">
-                Veuillez renseigner les endroits où vous les voyez.
-            </p>
-        </div>
-    </div>
-    #}
-
+    
     <div class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">J'ai trouvé des oeufs et des larves de punaises</label>

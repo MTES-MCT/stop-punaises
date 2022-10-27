@@ -176,6 +176,13 @@ class SignalementFrontType extends AbstractType
             ])
 
             // Step 11
+            ->add('niveauInfestation', HiddenType::class, [
+                'attr' => [
+                    'class' => 'fr-hidden',
+                    'pattern' => '[0-9]',
+                ],
+                'required' => false,
+            ])
             ->add('nomOccupant', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
