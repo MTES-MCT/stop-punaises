@@ -12,7 +12,8 @@ class PunaisesFrontSignalementController {
   TYPE_RECHERCHE = 'recherche';
   TYPE_INSECTES = 'insectes';
   TYPE_LOCALISATION = 'localisation';
-  frontSignalementStep = 1;
+  STEP_SUBMIT = 11;
+  step = 1;
   hasTraces = false;
   hasRechercheInsecte = false;
   hasInsectes = false;
@@ -21,7 +22,14 @@ class PunaisesFrontSignalementController {
   init() {
     self = this;
     $('.btn-next').on('click', function(){
-      self.refreshStep(1);
+      switch (self.step) {
+        case self.STEP_SUBMIT:
+          self.submitAdd();
+          break;
+        default:
+          self.refreshStep(1);
+          break;
+      }
     });
     $('.btn-next-next').on('click', function(){
       self.refreshStep(2);
@@ -32,27 +40,23 @@ class PunaisesFrontSignalementController {
     $('.link-back-back').on('click', function(){
       self.refreshStep(-2);
     });
-    $('.front-signalement').on('submit', function(event){
-      event.preventDefault();
-      self.submit();
-    });
   }
 
   refreshStep(offset) {
     if (self.checkStep()) {
-      self.frontSignalementStep += offset;
+      self.step += offset;
     
       $('.current-step').slideUp(200, function() {
         $('.current-step').removeClass('current-step');
-        $('#step-' + self.frontSignalementStep).slideDown(200, function() {
-          $('#step-' + self.frontSignalementStep).addClass('current-step');
+        $('#step-' + self.step).slideDown(200, function() {
+          $('#step-' + self.step).addClass('current-step');
         });
       });
     }
   }
 
   checkStep() {
-    switch (self.frontSignalementStep) {
+    switch (self.step) {
       case 1:
         return self.checkStep1();
       case 3:
@@ -290,8 +294,26 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
-  submit() {
-    console.log('submit');
+  submitAdd() {
+    $('.front-signalement #step-11 .btn-next').attr('disabled', 'disabled');
+    $.ajax({
+      type: 'POST',
+      url: $('.front-signalement').attr('action'),
+      data: $('.front-signalement').serialize(),
+  
+      success: function() {
+        self.refreshStep(1);  
+      },
+      error: function (xhr, desc, err) {
+        console.log(xhr);
+        if (xhr.responseJSON != undefined) {
+          alert("Erreur lors de l'ajout du signalement (" + xhr.responseJSON.errors[0].message + ")");
+        } else {
+          alert("Erreur lors de l'ajout du signalement");
+        }
+        $('.front-signalement #step-11 .btn-next').removeAttr('disabled');
+      }
+    });
   }
 }
 

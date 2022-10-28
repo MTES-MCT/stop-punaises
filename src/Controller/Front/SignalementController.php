@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use App\Form\SignalementFrontType;
 use App\Manager\SignalementManager;
@@ -31,8 +32,11 @@ class SignalementController extends AbstractController
         $form = $this->createForm(SignalementFrontType::class, $signalement);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $submittedToken = $request->request->get('_token');
+        if ($this->isCsrfTokenValid('front-add-signalement', $submittedToken)) {
             $signalement->setReference($referenceGenerator->generate());
+            $signalement->setDeclarant(Declarant::DECLARANT_OCCUPANT);
+            // TODO : Save metadata
             $signalementManager->save($signalement);
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');

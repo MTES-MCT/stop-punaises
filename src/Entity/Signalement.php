@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
+use App\Entity\Enum\Declarant;
 use App\Repository\SignalementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -51,7 +52,7 @@ class Signalement
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $emailOccupant = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30, nullable: true)]
     private ?string $typeIntervention = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -99,8 +100,8 @@ class Signalement
     #[ORM\Column(length: 100)]
     private ?string $reference = null;
 
-    #[ORM\Column(length: 10)]
-    private ?string $declarant = null;
+    #[ORM\Column(type: 'string', enumType: Declarant::class)]
+    private Declarant $declarant;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $superficie = null;
@@ -448,12 +449,12 @@ class Signalement
         return $this;
     }
 
-    public function getDeclarant(): ?string
+    public function getDeclarant(): Declarant
     {
         return $this->declarant;
     }
 
-    public function setDeclarant(string $declarant): self
+    public function setDeclarant(Declarant $declarant): self
     {
         $this->declarant = $declarant;
 
