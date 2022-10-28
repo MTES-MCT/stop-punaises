@@ -173,7 +173,7 @@ function checkSignalementFirstStep() {
   buffer = checkSignalementSingleInput('signalement_nomOccupant') && buffer;
   buffer = checkSignalementSingleInput('signalement_prenomOccupant') && buffer;
 
-  if (buffer && $('input#signalement_codeInsee' + idInput).val() == '') {
+  if (buffer && $('input#signalement_codeInsee').val() == '') {
     $('input#signalement_codeInsee' + idInput).val(0);
   }
   
