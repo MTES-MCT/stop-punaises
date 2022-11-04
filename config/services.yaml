@@ -30,3 +30,12 @@ services:
         arguments:
             $baseUrl: '%base_url%'
             $from: '%from%'
+
+    Aws\S3\S3Client:
+        arguments:
+            - endpoint: '%env(resolve:S3_ENDPOINT)%'
+              version: 'latest'
+              region: 'GRA'
+              credentials:
+                  key: '%env(resolve:S3_KEY)%'
+                  secret: '%env(resolve:S3_SECRET)%'
