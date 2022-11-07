@@ -528,15 +528,16 @@ span.niveau-infestation {
 
     .fr-signalement-photos {
         .fr-col-6 {
+            height: 200px;
             line-height: 200px;
+            text-align: center;
 
-            img {
-                max-width: 100%;
-                max-height: 200px;
-                vertical-align: middle;
-            }
-            .fr-icon-delete-line {
-                background: #E2241C;
+            form {
+                display: inline;
+
+                .fr-icon-delete-line {
+                    background: #E2241C;
+                }
             }
         }
     }
