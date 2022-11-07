@@ -99,6 +99,9 @@ class Signalement
     #[ORM\Column(length: 100)]
     private ?string $reference = null;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private $photos = [];
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -417,6 +420,18 @@ class Signalement
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getPhotos(): ?array
+    {
+        return $this->photos;
+    }
+
+    public function setPhotos(?array $photos): self
+    {
+        $this->photos = $photos;
 
         return $this;
     }

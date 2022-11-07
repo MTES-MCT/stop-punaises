@@ -525,6 +525,21 @@ span.niveau-infestation {
             font-weight: normal;
         }
     }
+
+    .fr-signalement-photos {
+        .fr-col-6 {
+            line-height: 200px;
+
+            img {
+                max-width: 100%;
+                max-height: 200px;
+                vertical-align: middle;
+            }
+            .fr-icon-delete-line {
+                background: #E2241C;
+            }
+        }
+    }
 }
 
 .liste-entreprises {

@@ -7,6 +7,8 @@ parameters:
     from: '%env(resolve:NOTIFICATIONS_EMAIL)%'
     token_lifetime: '10 minutes'
     base_url: '%env(resolve:APP_URL)%'
+    uploads_tmp_dir: '%kernel.project_dir%/tmp/'
+    url_bucket: '%env(resolve:S3_URL_BUCKET)%'
 
 services:
     # default configuration for services in *this* file
