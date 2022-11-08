@@ -51,7 +51,7 @@ class SignalementFrontType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => 'La superficie de mon logement',
+                'label' => 'La superficie de mon logement est de...',
                 'required' => true,
             ])
             ->add('adresse', TextType::class, [
