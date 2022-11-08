@@ -8,12 +8,14 @@ $(function() {
 function startCreerSignalementApp() {
   // Navigation
   $('nav.stepper-next a').on('click', function() {
-    $('.fr-stepper__state span').text('2');
-    $('.fr-stepper__title span[data-step=1]').addClass('fr-stepper__hidden');
-    $('.fr-stepper__title span[data-step=2]').removeClass('fr-stepper__hidden');
-    $('.fr-stepper__steps').attr('data-fr-current-step', '2');
-    $('#form-creer-signalement-step-1').addClass('fr-stepper__hidden');
-    $('#form-creer-signalement-step-2').removeClass('fr-stepper__hidden');
+    if (checkSignalementFirstStep()) {
+      $('.fr-stepper__state span').text('2');
+      $('.fr-stepper__title span[data-step=1]').addClass('fr-stepper__hidden');
+      $('.fr-stepper__title span[data-step=2]').removeClass('fr-stepper__hidden');
+      $('.fr-stepper__steps').attr('data-fr-current-step', '2');
+      $('#form-creer-signalement-step-1').addClass('fr-stepper__hidden');
+      $('#form-creer-signalement-step-2').removeClass('fr-stepper__hidden');
+    }
   });
 
   $('nav.stepper-previous a').on('click', function() {
@@ -91,4 +93,39 @@ function startCreerSignalementApp() {
     }
   });
     
+}
+
+function checkSignalementSingleInput(idInput) {
+  $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
+  if ($('input#' + idInput).val() == '') {
+    $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+    return false;
+  }
+  return true;
+}
+
+function checkSignalementSingleSelect(idSelect) {
+  $('select#' + idSelect).siblings('.fr-error-text').addClass('fr-hidden');
+  if ($('select#' + idSelect).val() == '') {
+    $('select#' + idSelect).siblings('.fr-error-text').removeClass('fr-hidden');
+    return false;
+  }
+  return true;
+}
+
+function checkSignalementFirstStep() {
+  let buffer = true;
+
+  buffer = checkSignalementSingleInput('signalement_adresse');
+  buffer = checkSignalementSingleInput('signalement_codePostal') && buffer;
+  buffer = checkSignalementSingleInput('signalement_ville') && buffer;
+  buffer = checkSignalementSingleSelect('signalement_typeLogement') && buffer;
+  buffer = checkSignalementSingleInput('signalement_nomOccupant') && buffer;
+  buffer = checkSignalementSingleInput('signalement_prenomOccupant') && buffer;
+
+  if (buffer && $('input#signalement_codeInsee').val() == '') {
+    $('input#signalement_codeInsee' + idInput).val(0);
+  }
+  
+  return buffer;
 }
