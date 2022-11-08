@@ -20,7 +20,7 @@ final class Version20221028080201 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE signalement ADD declarant VARCHAR(255) NOT NULL, ADD superficie SMALLINT DEFAULT NULL, ADD duree_infestation VARCHAR(20) NOT NULL, ADD infestation_logements_voisins TINYINT(1) DEFAULT NULL, ADD piqures_existantes TINYINT(1) DEFAULT NULL, ADD piqures_confirmees TINYINT(1) DEFAULT NULL, ADD dejections_details JSON DEFAULT NULL, ADD oeufs_et_larves_details JSON DEFAULT NULL, ADD punaises_details JSON DEFAULT NULL');
+        $this->addSql('ALTER TABLE signalement ADD declarant VARCHAR(255) NOT NULL, ADD superficie SMALLINT DEFAULT NULL, ADD duree_infestation VARCHAR(20) DEFAULT NULL, ADD infestation_logements_voisins TINYINT(1) DEFAULT NULL, ADD piqures_existantes TINYINT(1) DEFAULT NULL, ADD piqures_confirmees TINYINT(1) DEFAULT NULL, ADD dejections_details JSON DEFAULT NULL, ADD oeufs_et_larves_details JSON DEFAULT NULL, ADD punaises_details JSON DEFAULT NULL');
     }
 
     public function down(Schema $schema): void

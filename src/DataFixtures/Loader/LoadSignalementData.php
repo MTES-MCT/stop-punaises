@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures\Loader;
 
+use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use App\Repository\EmployeRepository;
 use App\Repository\EntrepriseRepository;
@@ -55,7 +56,8 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
             ->setNiveauInfestation($row['niveau_infestation'])
             ->setDateIntervention(new \DateTimeImmutable())
             ->setAgent($this->employeRepository->findOneBy(['uuid' => $row['agent']]))
-            ->setReference($row['reference']);
+            ->setReference($row['reference'])
+            ->setDeclarant(Declarant::from($row['declarant']));
 
         $manager->persist($signalement);
     }

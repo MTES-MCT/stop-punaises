@@ -106,7 +106,7 @@ class Signalement
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $superficie = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $dureeInfestation = null;
 
     #[ORM\Column(nullable: true)]
