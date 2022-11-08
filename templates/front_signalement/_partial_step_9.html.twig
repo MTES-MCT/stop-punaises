@@ -4,10 +4,32 @@
     <div class="fr-stepper">
         <div class="fr-stepper__steps" data-fr-current-step="5" data-fr-steps="8"></div>
     </div>
+
+    <dialog aria-labelledby="fr-modal-title-modal-oeufsetlarves" role="dialog" id="fr-modal-oeufsetlarves" class="fr-modal">
+        <div class="fr-container fr-container--fluid fr-container-md">
+            <div class="fr-grid-row fr-grid-row--center">
+                <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                    <div class="fr-modal__body">
+                        <div class="fr-modal__header">
+                            <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-1">Fermer</button>
+                        </div>
+                        <div class="fr-modal__content">
+                            <h1 id="fr-modal-title-modal-oeufsetlarves" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Les oeufs et larves</h1>
+                            <p>
+                                L'oeuf de punaise est de couleur blanche et mesure environ 1mm (la taille d'une tête d'épingle).
+                                Les œufs sont généralement disposés en grappes, entourés de déjections et de larves. Les larves
+                                de punaises sont brunes claires / transparentes et font la taille d'un grain de riz.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
     
     <div class="fr-form-group">
         <div class="fr-select-group">
-            <label class="fr-label required">J'ai trouvé des oeufs et des larves de punaises</label>
+            <label class="fr-label required">J'ai trouvé des <span class="underline">oeufs et larves</span> <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-oeufsetlarves">i</a></label>
             <div id="signalement_front_oeufsEtLarvesTrouves" class="fr-radio">
                 <input type="radio" id="signalement_front_oeufsEtLarvesTrouves_0" name="signalement_front[oeufsEtLarvesTrouves]" required="required" value="true">
                 <label for="signalement_front_oeufsEtLarvesTrouves_0" class="required">Oui</label>
@@ -20,7 +42,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-oeufsEtLarvesNombrePiecesConcernees" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Dans combien de pièces ?</label>
             <div id="signalement_front_oeufsEtLarvesNombrePiecesConcernees" class="fr-radio">
@@ -35,7 +57,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-oeufsEtLarvesFaciliteDetections" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Je trouve les oeufs et les larves...</label>
             <div id="signalement_front_oeufsEtLarvesFaciliteDetections" class="fr-radio">
@@ -50,7 +72,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-oeufsEtLarvesLieuxObservations" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Je les vois sur...</label>
             <div id="signalement_front_oeufsEtLarvesLieuxObservations" class="fr-radio">

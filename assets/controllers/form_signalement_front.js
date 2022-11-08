@@ -43,7 +43,8 @@ class PunaisesFrontSignalementController {
   }
 
   refreshStep(offset) {
-    if (self.checkStep()) {
+    let acceptRefresh = (offset > 0) ? self.checkStep() : true;
+    if (acceptRefresh) {
       self.step += offset;
     
       $('.current-step').slideUp(200, function() {
@@ -51,7 +52,23 @@ class PunaisesFrontSignalementController {
         $('#step-' + self.step).slideDown(200, function() {
           $('#step-' + self.step).addClass('current-step');
         });
+        self.initStep();
       });
+    }
+  }
+
+  initStep() {
+    switch (self.step) {
+      case 6:
+        return self.initStep6();
+      case 7:
+        return self.initStep7();
+      case 9:
+        return self.initStep9();
+      case 10:
+        return self.initStep10();
+      default:
+        return true;
     }
   }
 
@@ -162,7 +179,7 @@ class PunaisesFrontSignalementController {
 
   checkStep3() {
     let canGoNext = true;
-    if (!self.checkChoicesInput('typeLogement', 2)) {
+    if (!self.checkChoicesInput('typeLogement', 3)) {
       canGoNext = false;
     }
     if (!self.checkSingleInput('signalement_front_superficie')) {
@@ -195,12 +212,30 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
+  initStep6() {
+    self.updateStep6();
+    $('#step-6 input[name="signalement_front[piquresExistantes]"]').on('click', function() {
+      self.updateStep6();
+    });
+  }
+
+  updateStep6() {
+    let isVisible = $('#step-6 #signalement_front_piquresExistantes_0').prop('checked');
+    if (isVisible) {
+      $('#step-6 #form-group-piquresConfirmees').slideDown(200);
+      $('#step-6 #form-group-photos').slideDown(200);
+    } else {
+      $('#step-6 #form-group-piquresConfirmees').slideUp(200);
+      $('#step-6 #form-group-photos').slideUp(200);
+    }
+  }
+
   checkStep6() {
     let canGoNext = true;
     if (!self.checkChoicesInput('piquresExistantes', 2)) {
       canGoNext = false;
     }
-    if (!self.checkChoicesInput('piquresConfirmees', 2)) {
+    if ($('#signalement_front_piquresExistantes_0').prop('checked') && !self.checkChoicesInput('piquresConfirmees', 2)) {
       canGoNext = false;
     }
 
@@ -210,19 +245,41 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
+  initStep7() {
+    self.updateStep7();
+    $('#step-7 input[name="signalement_front[dejectionsTrouvees]"]').on('click', function() {
+      self.updateStep7();
+    });
+  }
+
+  updateStep7() {
+    let isVisible = $('#step-7 #signalement_front_dejectionsTrouvees_0').prop('checked');
+    if (isVisible) {
+      $('#step-7 #form-group-dejectionsNombrePiecesConcernees').slideDown(200);
+      $('#step-7 #form-group-dejectionsFaciliteDetections').slideDown(200);
+      $('#step-7 #form-group-dejectionsLieuxObservations').slideDown(200);
+    } else {
+      $('#step-7 #form-group-dejectionsNombrePiecesConcernees').slideUp(200);
+      $('#step-7 #form-group-dejectionsFaciliteDetections').slideUp(200);
+      $('#step-7 #form-group-dejectionsLieuxObservations').slideUp(200);
+    }
+  }
+
   checkStep7() {
     let canGoNext = true;
     if (!self.checkChoicesInput('dejectionsTrouvees', 2)) {
       canGoNext = false;
     }
-    if (!self.checkChoicesInput('dejectionsNombrePiecesConcernees', 2)) {
-      canGoNext = false;
-    }
-    if (!self.checkChoicesInput('dejectionsFaciliteDetections', 2)) {
-      canGoNext = false;
-    }
-    if (!self.checkChoicesInput('dejectionsLieuxObservations', 4)) {
-      canGoNext = false;
+    if ($('#signalement_front_dejectionsTrouvees_0').prop('checked')) {
+      if (!self.checkChoicesInput('dejectionsNombrePiecesConcernees', 2)) {
+        canGoNext = false;
+      }
+      if (!self.checkChoicesInput('dejectionsFaciliteDetections', 2)) {
+        canGoNext = false;
+      }
+      if (!self.checkChoicesInput('dejectionsLieuxObservations', 4)) {
+        canGoNext = false;
+      }
     }
 
     self.updateNiveauInfestation(self.TYPE_TRACES, $('#signalement_front_dejectionsTrouvees_0').prop('checked'));
@@ -230,19 +287,41 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
+  initStep9() {
+    self.updateStep9();
+    $('#step-9 input[name="signalement_front[oeufsEtLarvesTrouves]"]').on('click', function() {
+      self.updateStep9();
+    });
+  }
+
+  updateStep9() {
+    let isVisible = $('#step-9 #signalement_front_oeufsEtLarvesTrouves_0').prop('checked');
+    if (isVisible) {
+      $('#step-9 #form-group-oeufsEtLarvesNombrePiecesConcernees').slideDown(200);
+      $('#step-9 #form-group-oeufsEtLarvesFaciliteDetections').slideDown(200);
+      $('#step-9 #form-group-oeufsEtLarvesLieuxObservations').slideDown(200);
+    } else {
+      $('#step-9 #form-group-oeufsEtLarvesNombrePiecesConcernees').slideUp(200);
+      $('#step-9 #form-group-oeufsEtLarvesFaciliteDetections').slideUp(200);
+      $('#step-9 #form-group-oeufsEtLarvesLieuxObservations').slideUp(200);
+    }
+  }
+
   checkStep9() {
     let canGoNext = true;
     if (!self.checkChoicesInput('oeufsEtLarvesTrouves', 2)) {
       canGoNext = false;
     }
-    if (!self.checkChoicesInput('oeufsEtLarvesNombrePiecesConcernees', 2)) {
-      canGoNext = false;
-    }
-    if (!self.checkChoicesInput('oeufsEtLarvesFaciliteDetections', 2)) {
-      canGoNext = false;
-    }
-    if (!self.checkChoicesInput('oeufsEtLarvesLieuxObservations', 4)) {
-      canGoNext = false;
+    if ($('#signalement_front_oeufsEtLarvesTrouves_0').prop('checked')) {
+      if (!self.checkChoicesInput('oeufsEtLarvesNombrePiecesConcernees', 2)) {
+        canGoNext = false;
+      }
+      if (!self.checkChoicesInput('oeufsEtLarvesFaciliteDetections', 2)) {
+        canGoNext = false;
+      }
+      if (!self.checkChoicesInput('oeufsEtLarvesLieuxObservations', 4)) {
+        canGoNext = false;
+      }
     }
 
     self.updateNiveauInfestation(self.TYPE_RECHERCHE, $('#signalement_front_oeufsEtLarvesTrouves_0').prop('checked'));
@@ -253,19 +332,41 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
+  initStep10() {
+    self.updateStep10();
+    $('#step-10 input[name="signalement_front[punaisesTrouvees]"]').on('click', function() {
+      self.updateStep10();
+    });
+  }
+
+  updateStep10() {
+    let isVisible = $('#step-10 #signalement_front_punaisesTrouvees_0').prop('checked');
+    if (isVisible) {
+      $('#step-10 #form-group-punaisesNombrePiecesConcernees').slideDown(200);
+      $('#step-10 #form-group-punaisesFaciliteDetections').slideDown(200);
+      $('#step-10 #form-group-punaisesLieuxObservations').slideDown(200);
+    } else {
+      $('#step-10 #form-group-punaisesNombrePiecesConcernees').slideUp(200);
+      $('#step-10 #form-group-punaisesFaciliteDetections').slideUp(200);
+      $('#step-10 #form-group-punaisesLieuxObservations').slideUp(200);
+    }
+  }
+
   checkStep10() {
     let canGoNext = true;
     if (!self.checkChoicesInput('punaisesTrouvees', 2)) {
       canGoNext = false;
     }
-    if (!self.checkChoicesInput('punaisesNombrePiecesConcernees', 2)) {
-      canGoNext = false;
-    }
-    if (!self.checkChoicesInput('punaisesFaciliteDetections', 2)) {
-      canGoNext = false;
-    }
-    if (!self.checkChoicesInput('punaisesLieuxObservations', 4)) {
-      canGoNext = false;
+    if ($('#signalement_front_punaisesTrouves_0').prop('checked')) {
+      if (!self.checkChoicesInput('punaisesNombrePiecesConcernees', 2)) {
+        canGoNext = false;
+      }
+      if (!self.checkChoicesInput('punaisesFaciliteDetections', 2)) {
+        canGoNext = false;
+      }
+      if (!self.checkChoicesInput('punaisesLieuxObservations', 4)) {
+        canGoNext = false;
+      }
     }
 
     self.updateNiveauInfestation(self.TYPE_RECHERCHE, $('#signalement_front_punaisesTrouvees_0').prop('checked'));

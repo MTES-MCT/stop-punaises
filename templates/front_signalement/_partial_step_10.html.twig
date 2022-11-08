@@ -5,9 +5,31 @@
         <div class="fr-stepper__steps" data-fr-current-step="6" data-fr-steps="8"></div>
     </div>
 
+    <dialog aria-labelledby="fr-modal-title-modal-punaises" role="dialog" id="fr-modal-punaises" class="fr-modal">
+        <div class="fr-container fr-container--fluid fr-container-md">
+            <div class="fr-grid-row fr-grid-row--center">
+                <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                    <div class="fr-modal__body">
+                        <div class="fr-modal__header">
+                            <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-1">Fermer</button>
+                        </div>
+                        <div class="fr-modal__content">
+                            <h1 id="fr-modal-title-modal-punaises" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Les punaises</h1>
+                            <p>
+                                Les punaises de lit sont visibles à l'œil nu. Elles sont ovales et font la taille d’un pépin de pomme.
+                                Une punaise adulte mesure entre 5 et 7 mm de long. Elles sont de couleur brune et, une fois qu'elles vous
+                                ont piqué, elles prennent une teinte rouge foncé. Elles n'ont pas d'aile, ne sautent pas et ne volent pas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
     <div class="fr-form-group">
         <div class="fr-select-group">
-            <label class="fr-label required">Il y a des punaises dans mon logement</label>
+            <label class="fr-label required">Il y a des punaises dans mon logement <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-punaises">i</a></label>
             <div id="signalement_front_punaisesTrouvees" class="fr-radio">
                 <input type="radio" id="signalement_front_punaisesTrouvees_0" name="signalement_front[punaisesTrouvees]" required="required" value="true">
                 <label for="signalement_front_punaisesTrouvees_0" class="required">Oui</label>
@@ -20,7 +42,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-punaisesNombrePiecesConcernees" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Dans combien de pièces ?</label>
             <div id="signalement_front_punaisesNombrePiecesConcernees" class="fr-radio">
@@ -35,7 +57,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-punaisesFaciliteDetections" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Je trouve des punaises de lit...</label>
             <div id="signalement_front_punaisesFaciliteDetections" class="fr-radio">
@@ -50,7 +72,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-punaisesLieuxObservations" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Je les vois sur...</label>
             <div id="signalement_front_punaisesLieuxObservations" class="fr-radio">

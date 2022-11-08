@@ -14,7 +14,7 @@
                             <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-1">Fermer</button>
                         </div>
                         <div class="fr-modal__content">
-                            <h1 id="fr-modal-title-modal-1" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Les piqûres</h1>
+                            <h1 id="fr-modal-title-modal-piqures" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Les piqûres</h1>
                             <p>
                                 Les piqûres ressemblent à des piqûres de moustique et surviennent surtout la nuit,
                                 quand les punaises de lit sont actives. Ces piqûres peuvent se regrouper par 3 ou 4 sur la peau,
@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-piquresConfirmees" class="fr-form-group">
         <div class="fr-select-group">
             {{ form_label(form.piquresConfirmees) }}
             {{ form_widget(form.piquresConfirmees) }}
@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-photos" class="fr-form-group">
         <strong>Photos</strong>
         <br>
         <p>A venir...</p>

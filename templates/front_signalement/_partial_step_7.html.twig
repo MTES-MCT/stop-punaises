@@ -5,9 +5,32 @@
         <div class="fr-stepper__steps" data-fr-current-step="4" data-fr-steps="8"></div>
     </div>
 
+    <dialog aria-labelledby="fr-modal-title-modal-dejections" role="dialog" id="fr-modal-dejections" class="fr-modal">
+        <div class="fr-container fr-container--fluid fr-container-md">
+            <div class="fr-grid-row fr-grid-row--center">
+                <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                    <div class="fr-modal__body">
+                        <div class="fr-modal__header">
+                            <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-1">Fermer</button>
+                        </div>
+                        <div class="fr-modal__content">
+                            <h1 id="fr-modal-title-modal-dejections" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Les déjections</h1>
+                            <p>
+                                Les déjections (ou crottes) de punaises de lit ressemblent à des petits points noirs qui auraient
+                                été faits par un stylo. Leur taille est variable en fonction de l'endroit où on les trouve.
+                                Des concentrations de leurs déjections peuvent être observées sur les matelas, lattes ou fentes du
+                                sommier, bois du lit, plinthes, angles des murs…
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
     <div class="fr-form-group">
         <div class="fr-select-group">
-            <label class="fr-label required">J'ai trouvé des déjections de punaises</label>
+            <label class="fr-label required">J'ai trouvé des <span class="underline">déjections</span> de punaises <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-dejections">i</a></label>
             <div id="signalement_front_dejectionsTrouvees" class="fr-radio">
                 <input type="radio" id="signalement_front_dejectionsTrouvees_0" name="signalement_front[dejectionsTrouvees]" required="required" value="true">
                 <label for="signalement_front_dejectionsTrouvees_0" class="required">Oui</label>
@@ -20,7 +43,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-dejectionsNombrePiecesConcernees" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Dans combien de pièces ?</label>
             <div id="signalement_front_dejectionsNombrePiecesConcernees" class="fr-radio">
@@ -35,7 +58,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-dejectionsFaciliteDetections" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Je trouve les déjections...</label>
             <div id="signalement_front_dejectionsFaciliteDetections" class="fr-radio">
@@ -50,9 +73,10 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div id="form-group-dejectionsLieuxObservations" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Je les vois sur...</label>
+            <em>Plusieurs réponses possibles</em>
             <div id="signalement_front_dejectionsLieuxObservations" class="fr-radio">
                 <input type="checkbox" id="signalement_front_dejectionsLieuxObservations_0" name="signalement_front[dejectionsLieuxObservations][]" value="LIT">
                 <label for="signalement_front_dejectionsLieuxObservations_0">Le lit</label>
