@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Signalement;
 use App\Exception\File\MaxUploadSizeExceededException;
 use App\Manager\SignalementManager;
-use App\Repository\SignalementRepository;
 use App\Service\Upload\UploadHandlerService;
 use DateTimeImmutable;
 use League\Flysystem\FilesystemException;
@@ -46,18 +45,15 @@ class SignalementViewController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/signalements/ajouter-photos', name: 'app_add_photos')]
+    #[Route('/bo/signalements/{uuid}/ajouter-photos', name: 'app_add_photos')]
     public function addPhoto(
+        Signalement $signalement,
         Request $request,
         UploadHandlerService $uploadHandlerService,
-        SignalementRepository $signalementRepository,
         SignalementManager $signalementManager,
         SluggerInterface $slugger,
         LoggerInterface $logger,
         ): Response {
-        $uuidSignalement = $request->get('signalement');
-        $signalement = $signalementRepository->findOneByUuid($uuidSignalement);
-
         $filesPosted = $request->files->get('file-upload');
         $filesToSave = $signalement->getPhotos();
         if (null == $filesToSave) {
@@ -103,7 +99,7 @@ class SignalementViewController extends AbstractController
         FilesystemOperator $fileStorage): Response
     {
         $this->denyAccessUnlessGranted('FILE_DELETE', $signalement);
-        if ($this->isCsrfTokenValid('signalement_delete_file_'.$signalement->getId(), $request->get('_token'))) {
+        if ($this->isCsrfTokenValid('signalement_delete_file_'.$signalement->getId(), $request->get('_csrf_token'))) {
             $filesToSave = $signalement->getPhotos();
             foreach ($filesToSave as $k => $v) {
                 if ($filename === $v['file']) {

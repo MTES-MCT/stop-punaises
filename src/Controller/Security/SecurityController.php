@@ -35,7 +35,7 @@ class SecurityController extends AbstractController
     public function showUploadedFile(string $filename)
     {
         $request = Request::createFromGlobals();
-        if (!$this->isCsrfTokenValid('signalement_ext_file_view', $request->get('t'))) {
+        if (!$this->isCsrfTokenValid('signalement_ext_file_view', $request->get('_csrf_token'))) {
             $this->denyAccessUnlessGranted('ENTREPRISE_VIEW');
         }
 
