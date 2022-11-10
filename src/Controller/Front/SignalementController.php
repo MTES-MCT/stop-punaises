@@ -36,7 +36,39 @@ class SignalementController extends AbstractController
         if ($this->isCsrfTokenValid('front-add-signalement', $submittedToken)) {
             $signalement->setReference($referenceGenerator->generate());
             $signalement->setDeclarant(Declarant::DECLARANT_OCCUPANT);
-            // TODO : Save metadata
+
+            $data = $request->get('signalement_front');
+
+            $dejectionsDetails = [
+                'dejectionsTrouvees' => $data['dejectionsTrouvees'],
+            ];
+            if ('true' == $data['dejectionsTrouvees']) {
+                $dejectionsDetails['dejectionsNombrePiecesConcernees'] = $data['dejectionsNombrePiecesConcernees'];
+                $dejectionsDetails['dejectionsFaciliteDetections'] = $data['dejectionsFaciliteDetections'];
+                $dejectionsDetails['dejectionsLieuxObservations'] = $data['dejectionsLieuxObservations'];
+            }
+            $signalement->setDejectionsDetails($dejectionsDetails);
+
+            $oeufsEtLarvesDetails = [
+                'oeufsEtLarvesTrouves' => $data['oeufsEtLarvesTrouves'],
+            ];
+            if ('true' == $data['oeufsEtLarvesTrouves']) {
+                $oeufsEtLarvesDetails['oeufsEtLarvesNombrePiecesConcernees'] = $data['oeufsEtLarvesNombrePiecesConcernees'];
+                $oeufsEtLarvesDetails['oeufsEtLarvesFaciliteDetections'] = $data['oeufsEtLarvesFaciliteDetections'];
+                $oeufsEtLarvesDetails['oeufsEtLarvesLieuxObservations'] = $data['oeufsEtLarvesLieuxObservations'];
+            }
+            $signalement->setOeufsEtLarvesDetails($oeufsEtLarvesDetails);
+
+            $punaisesDetails = [
+                'punaisesTrouvees' => $data['punaisesTrouvees'],
+            ];
+            if ('true' == $data['punaisesTrouvees']) {
+                $punaisesDetails['punaisesNombrePiecesConcernees'] = $data['punaisesNombrePiecesConcernees'];
+                $punaisesDetails['punaisesFaciliteDetections'] = $data['punaisesFaciliteDetections'];
+                $punaisesDetails['punaisesLieuxObservations'] = $data['punaisesLieuxObservations'];
+            }
+            $signalement->setPunaisesDetails($punaisesDetails);
+
             $signalementManager->save($signalement);
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');
