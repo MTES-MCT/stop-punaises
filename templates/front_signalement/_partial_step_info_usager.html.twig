@@ -1,19 +1,41 @@
 {% extends 'front_signalement/base_step.html.twig' %}
 
 {% block content %}
-    <div class="fr-stepper">
-        <div class="fr-stepper__steps" data-fr-current-step="7" data-fr-steps="8"></div>
+    <div class="if-territory-open">
+        <div class="fr-stepper">
+            <div class="fr-stepper__steps" data-fr-current-step="7" data-fr-steps="8"></div>
+        </div>
+        
+        <div>
+            <h2>C'est presque fini&nbsp;!</h2>
+
+            <p>
+                Renseignez vos coordonnées pour afficher votre recommandation personnalisée.
+            </p>
+        </div>
+
+        {{ form_widget(form.niveauInfestation) }}
     </div>
-    
-    <div>
-        <h2>C'est presque fini&nbsp;!</h2>
+
+    <div class="if-territory-not-open">
+        <h2>Stop punaises</h2>
 
         <p>
-            Renseignez vos coordonnées pour afficher votre recommandation personnalisée.
+            Le service Stop Punaises n'est pas encore ouvert dans votre département.
+            Nous ne pouvons pas vous mettre en relation avec des entreprises locales.
+        </p>
+
+        <p>
+            Vous pouvez cependant contacter le service "Info logement indigne" au
+            0806 706 806
+            (prix d'un appel local).
+        </p>
+
+        <p>
+            Vous pouvez également renseigner vos coordonnées pour
+            <strong>recevoir le protocole d'auto-traitement par mail</strong>.
         </p>
     </div>
-
-    {{ form_widget(form.niveauInfestation) }}
 
     <div class="fr-form-group">
         <div class="fr-select-group">
@@ -35,7 +57,7 @@
         </div>
     </div>
 
-    <div class="fr-form-group">
+    <div class="fr-form-group if-territory-open">
         <div class="fr-select-group">
             {{ form_label(form.telephoneOccupant) }}
             {{ form_widget(form.telephoneOccupant) }}

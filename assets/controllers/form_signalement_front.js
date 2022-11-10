@@ -23,7 +23,7 @@ class PunaisesFrontSignalementController {
     'insectes_larves_intro',
     'insectes_larves_oeufs',
     'insectes_larves_punaises',
-    'info_usager_open',
+    'info_usager',
     'recommandation',
     'professionnel_info',
     'professionnel_sent',
@@ -32,13 +32,14 @@ class PunaisesFrontSignalementController {
   ];
   CLOSED_STEP_LIST = [
     'home',
-    'info_usager_closed',
+    'info_usager',
     'autotraitement_info',
     'autotraitement_sent',
   ];
-  STEP_SUBMIT = 11;
+  OPEN_TERRITORIES = [ '13' ];
   step = 1;
   stepStr = 'home';
+  isTerritoryOpen = true;
   hasTraces = false;
   hasRechercheInsecte = false;
   hasInsectes = false;
@@ -47,8 +48,8 @@ class PunaisesFrontSignalementController {
   init() {
     self = this;
     $('.btn-next').on('click', function(){
-      switch (self.step) {
-        case self.STEP_SUBMIT:
+      switch (self.stepStr) {
+        case 'info_usager':
           self.submitAdd();
           break;
         default:
@@ -71,7 +72,11 @@ class PunaisesFrontSignalementController {
     let acceptRefresh = (offset > 0) ? self.checkStep() : true;
     if (acceptRefresh) {
       self.step += offset;
-      self.stepStr = self.OPEN_STEP_LIST[self.step - 1];
+      if (self.isTerritoryOpen) {
+        self.stepStr = self.OPEN_STEP_LIST[self.step - 1];
+      } else {
+        self.stepStr = self.CLOSED_STEP_LIST[self.step - 1];
+      }
     
       $('.current-step').slideUp(200, function() {
         $('.current-step').removeClass('current-step');
@@ -84,38 +89,42 @@ class PunaisesFrontSignalementController {
   }
 
   initStep() {
-    switch (self.step) {
-      case 6:
-        return self.initStep6();
-      case 7:
-        return self.initStep7();
-      case 9:
-        return self.initStep9();
-      case 10:
-        return self.initStep10();
+    switch (self.stepStr) {
+      case 'traces_punaises_piqures':
+        return self.initStepTracesPunaisesPiqures();
+      case 'traces_punaises_dejections':
+        return self.initStepTracesPunaisesDejections();
+      case 'insectes_larves_oeufs':
+        return self.initStepInsectesLarvesOeufs();
+      case 'insectes_larves_punaises':
+        return self.initStepInsectesLarvesPunaises();
+      case 'insectes_larves_punaises':
+        return self.initStepInsectesLarvesPunaises();
+      case 'info_usager':
+        return self.initStepInfoUsager();
       default:
         return true;
     }
   }
 
   checkStep() {
-    switch (self.step) {
-      case 1:
-        return self.checkStep1();
-      case 3:
-        return self.checkStep3();
-      case 4:
-        return self.checkStep4();
-      case 6:
-        return self.checkStep6();
-      case 7:
-        return self.checkStep7();
-      case 9:
-        return self.checkStep9();
-      case 10:
-        return self.checkStep10();
-      case 11:
-        return self.checkStep11();
+    switch (self.stepStr) {
+      case 'home':
+        return self.checkStepHome();
+      case 'info_logement':
+        return self.checkStepInfoLogement();
+      case 'info_problemes':
+        return self.checkStepInfoProblemes();
+      case 'traces_punaises_piqures':
+        return self.checkStepTracesPunaisesPiqures();
+      case 'traces_punaises_dejections':
+        return self.checkStepTracesPunaisesDejections();
+      case 'insectes_larves_oeufs':
+        return self.checkStepInsectesLarvesOeufs();
+      case 'insectes_larves_punaises':
+        return self.checkStepInsectesLarvesPunaises();
+      case 'info_usager':
+        return self.checkStepInfoUsagerOpen();
       default:
         return true;
     }
@@ -199,11 +208,17 @@ class PunaisesFrontSignalementController {
     }
   }
 
-  checkStep1() {
-    return self.checkSingleInput('code-postal');
+  checkStepHome() {
+    let canGoNext = self.checkSingleInput('code-postal');
+    if (canGoNext) {
+      let inputContent = $('input#code-postal').val();
+      let zipCode = inputContent.substring(0, 2);
+      self.isTerritoryOpen = (self.OPEN_TERRITORIES.indexOf(zipCode) > -1);
+    }
+    return canGoNext;
   }
 
-  checkStep3() {
+  checkStepInfoLogement() {
     let canGoNext = true;
     if (!self.checkChoicesInput('typeLogement', 3)) {
       canGoNext = false;
@@ -224,7 +239,7 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
-  checkStep4() {
+  checkStepInfoProblemes() {
     let canGoNext = true;
     if (!self.checkChoicesInput('dureeInfestation', 3)) {
       canGoNext = false;
@@ -238,25 +253,25 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
-  initStep6() {
-    self.updateStep6();
-    $('#step-6 input[name="signalement_front[piquresExistantes]"]').on('click', function() {
-      self.updateStep6();
+  initStepTracesPunaisesPiqures() {
+    self.updateStepTracesPunaisesPiqures();
+    $('#step-'+self.stepStr+' input[name="signalement_front[piquresExistantes]"]').on('click', function() {
+      self.updateStepTracesPunaisesPiqures();
     });
   }
 
-  updateStep6() {
-    let isVisible = $('#step-6 #signalement_front_piquresExistantes_0').prop('checked');
+  updateStepTracesPunaisesPiqures() {
+    let isVisible = $('#step-'+self.stepStr+' #signalement_front_piquresExistantes_0').prop('checked');
     if (isVisible) {
-      $('#step-6 #form-group-piquresConfirmees').slideDown(200);
-      $('#step-6 #form-group-photos').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-piquresConfirmees').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-photos').slideDown(200);
     } else {
-      $('#step-6 #form-group-piquresConfirmees').slideUp(200);
-      $('#step-6 #form-group-photos').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-piquresConfirmees').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-photos').slideUp(200);
     }
   }
 
-  checkStep6() {
+  checkStepTracesPunaisesPiqures() {
     let canGoNext = true;
     if (!self.checkChoicesInput('piquresExistantes', 2)) {
       canGoNext = false;
@@ -271,27 +286,27 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
-  initStep7() {
-    self.updateStep7();
-    $('#step-7 input[name="signalement_front[dejectionsTrouvees]"]').on('click', function() {
-      self.updateStep7();
+  initStepTracesPunaisesDejections() {
+    self.updateStepTracesPunaisesDejections();
+    $('#step-'+self.stepStr+' input[name="signalement_front[dejectionsTrouvees]"]').on('click', function() {
+      self.updateStepTracesPunaisesDejections();
     });
   }
 
-  updateStep7() {
-    let isVisible = $('#step-7 #signalement_front_dejectionsTrouvees_0').prop('checked');
+  updateStepTracesPunaisesDejections() {
+    let isVisible = $('#step-'+self.stepStr+' #signalement_front_dejectionsTrouvees_0').prop('checked');
     if (isVisible) {
-      $('#step-7 #form-group-dejectionsNombrePiecesConcernees').slideDown(200);
-      $('#step-7 #form-group-dejectionsFaciliteDetections').slideDown(200);
-      $('#step-7 #form-group-dejectionsLieuxObservations').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-dejectionsNombrePiecesConcernees').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-dejectionsFaciliteDetections').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-dejectionsLieuxObservations').slideDown(200);
     } else {
-      $('#step-7 #form-group-dejectionsNombrePiecesConcernees').slideUp(200);
-      $('#step-7 #form-group-dejectionsFaciliteDetections').slideUp(200);
-      $('#step-7 #form-group-dejectionsLieuxObservations').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-dejectionsNombrePiecesConcernees').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-dejectionsFaciliteDetections').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-dejectionsLieuxObservations').slideUp(200);
     }
   }
 
-  checkStep7() {
+  checkStepTracesPunaisesDejections() {
     let canGoNext = true;
     if (!self.checkChoicesInput('dejectionsTrouvees', 2)) {
       canGoNext = false;
@@ -313,27 +328,27 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
-  initStep9() {
-    self.updateStep9();
-    $('#step-9 input[name="signalement_front[oeufsEtLarvesTrouves]"]').on('click', function() {
-      self.updateStep9();
+  initStepInsectesLarvesOeufs() {
+    self.updateStepInsectesLarvesOeufs();
+    $('#step-'+self.stepStr+' input[name="signalement_front[oeufsEtLarvesTrouves]"]').on('click', function() {
+      self.updateStepInsectesLarvesOeufs();
     });
   }
 
-  updateStep9() {
-    let isVisible = $('#step-9 #signalement_front_oeufsEtLarvesTrouves_0').prop('checked');
+  updateStepInsectesLarvesOeufs() {
+    let isVisible = $('#step-'+self.stepStr+' #signalement_front_oeufsEtLarvesTrouves_0').prop('checked');
     if (isVisible) {
-      $('#step-9 #form-group-oeufsEtLarvesNombrePiecesConcernees').slideDown(200);
-      $('#step-9 #form-group-oeufsEtLarvesFaciliteDetections').slideDown(200);
-      $('#step-9 #form-group-oeufsEtLarvesLieuxObservations').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-oeufsEtLarvesNombrePiecesConcernees').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-oeufsEtLarvesFaciliteDetections').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-oeufsEtLarvesLieuxObservations').slideDown(200);
     } else {
-      $('#step-9 #form-group-oeufsEtLarvesNombrePiecesConcernees').slideUp(200);
-      $('#step-9 #form-group-oeufsEtLarvesFaciliteDetections').slideUp(200);
-      $('#step-9 #form-group-oeufsEtLarvesLieuxObservations').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-oeufsEtLarvesNombrePiecesConcernees').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-oeufsEtLarvesFaciliteDetections').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-oeufsEtLarvesLieuxObservations').slideUp(200);
     }
   }
 
-  checkStep9() {
+  checkStepInsectesLarvesOeufs() {
     let canGoNext = true;
     if (!self.checkChoicesInput('oeufsEtLarvesTrouves', 2)) {
       canGoNext = false;
@@ -358,27 +373,27 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
-  initStep10() {
-    self.updateStep10();
-    $('#step-10 input[name="signalement_front[punaisesTrouvees]"]').on('click', function() {
-      self.updateStep10();
+  initStepInsectesLarvesPunaises() {
+    self.updateStepInsectesLarvesPunaises();
+    $('#step-'+self.stepStr+' input[name="signalement_front[punaisesTrouvees]"]').on('click', function() {
+      self.updateStepInsectesLarvesPunaises();
     });
   }
 
-  updateStep10() {
-    let isVisible = $('#step-10 #signalement_front_punaisesTrouvees_0').prop('checked');
+  updateStepInsectesLarvesPunaises() {
+    let isVisible = $('#step-'+self.stepStr+' #signalement_front_punaisesTrouvees_0').prop('checked');
     if (isVisible) {
-      $('#step-10 #form-group-punaisesNombrePiecesConcernees').slideDown(200);
-      $('#step-10 #form-group-punaisesFaciliteDetections').slideDown(200);
-      $('#step-10 #form-group-punaisesLieuxObservations').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-punaisesNombrePiecesConcernees').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-punaisesFaciliteDetections').slideDown(200);
+      $('#step-'+self.stepStr+' #form-group-punaisesLieuxObservations').slideDown(200);
     } else {
-      $('#step-10 #form-group-punaisesNombrePiecesConcernees').slideUp(200);
-      $('#step-10 #form-group-punaisesFaciliteDetections').slideUp(200);
-      $('#step-10 #form-group-punaisesLieuxObservations').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-punaisesNombrePiecesConcernees').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-punaisesFaciliteDetections').slideUp(200);
+      $('#step-'+self.stepStr+' #form-group-punaisesLieuxObservations').slideUp(200);
     }
   }
 
-  checkStep10() {
+  checkStepInsectesLarvesPunaises() {
     let canGoNext = true;
     if (!self.checkChoicesInput('punaisesTrouvees', 2)) {
       canGoNext = false;
@@ -403,7 +418,17 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
-  checkStep11() {
+  initStepInfoUsager() {
+    if (self.isTerritoryOpen) {
+      $('.if-territory-open').show();
+      $('.if-territory-not-open').hide();
+    } else {
+      $('.if-territory-open').hide();
+      $('.if-territory-not-open').show();
+    }
+  }
+
+  checkStepInfoUsagerOpen() {
     let canGoNext = true;
     if (!self.checkSingleInput('signalement_front_nomOccupant')) {
       canGoNext = false;
