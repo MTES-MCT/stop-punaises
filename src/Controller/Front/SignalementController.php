@@ -15,13 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class SignalementController extends AbstractController
 {
     #[Route('/signalement', name: 'app_front_signalement')]
-    public function signalement(): Response
+    public function signalement(Request $request): Response
     {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
+        $codePostal = $request->get('code-postal');
 
         return $this->render('front_signalement/index.html.twig', [
             'form' => $form->createView(),
+            'code_postal' => $codePostal,
         ]);
     }
 
@@ -39,35 +41,41 @@ class SignalementController extends AbstractController
 
             $data = $request->get('signalement_front');
 
-            $dejectionsDetails = [
-                'dejectionsTrouvees' => $data['dejectionsTrouvees'],
-            ];
-            if ('true' == $data['dejectionsTrouvees']) {
-                $dejectionsDetails['dejectionsNombrePiecesConcernees'] = $data['dejectionsNombrePiecesConcernees'];
-                $dejectionsDetails['dejectionsFaciliteDetections'] = $data['dejectionsFaciliteDetections'];
-                $dejectionsDetails['dejectionsLieuxObservations'] = $data['dejectionsLieuxObservations'];
+            if (!empty($data['dejectionsTrouvees'])) {
+                $dejectionsDetails = [
+                    'dejectionsTrouvees' => $data['dejectionsTrouvees'],
+                ];
+                if ('true' == $data['dejectionsTrouvees']) {
+                    $dejectionsDetails['dejectionsNombrePiecesConcernees'] = $data['dejectionsNombrePiecesConcernees'];
+                    $dejectionsDetails['dejectionsFaciliteDetections'] = $data['dejectionsFaciliteDetections'];
+                    $dejectionsDetails['dejectionsLieuxObservations'] = $data['dejectionsLieuxObservations'];
+                }
+                $signalement->setDejectionsDetails($dejectionsDetails);
             }
-            $signalement->setDejectionsDetails($dejectionsDetails);
 
-            $oeufsEtLarvesDetails = [
-                'oeufsEtLarvesTrouves' => $data['oeufsEtLarvesTrouves'],
-            ];
-            if ('true' == $data['oeufsEtLarvesTrouves']) {
-                $oeufsEtLarvesDetails['oeufsEtLarvesNombrePiecesConcernees'] = $data['oeufsEtLarvesNombrePiecesConcernees'];
-                $oeufsEtLarvesDetails['oeufsEtLarvesFaciliteDetections'] = $data['oeufsEtLarvesFaciliteDetections'];
-                $oeufsEtLarvesDetails['oeufsEtLarvesLieuxObservations'] = $data['oeufsEtLarvesLieuxObservations'];
+            if (!empty($data['oeufsEtLarvesTrouves'])) {
+                $oeufsEtLarvesDetails = [
+                    'oeufsEtLarvesTrouves' => $data['oeufsEtLarvesTrouves'],
+                ];
+                if ('true' == $data['oeufsEtLarvesTrouves']) {
+                    $oeufsEtLarvesDetails['oeufsEtLarvesNombrePiecesConcernees'] = $data['oeufsEtLarvesNombrePiecesConcernees'];
+                    $oeufsEtLarvesDetails['oeufsEtLarvesFaciliteDetections'] = $data['oeufsEtLarvesFaciliteDetections'];
+                    $oeufsEtLarvesDetails['oeufsEtLarvesLieuxObservations'] = $data['oeufsEtLarvesLieuxObservations'];
+                }
+                $signalement->setOeufsEtLarvesDetails($oeufsEtLarvesDetails);
             }
-            $signalement->setOeufsEtLarvesDetails($oeufsEtLarvesDetails);
 
-            $punaisesDetails = [
-                'punaisesTrouvees' => $data['punaisesTrouvees'],
-            ];
-            if ('true' == $data['punaisesTrouvees']) {
-                $punaisesDetails['punaisesNombrePiecesConcernees'] = $data['punaisesNombrePiecesConcernees'];
-                $punaisesDetails['punaisesFaciliteDetections'] = $data['punaisesFaciliteDetections'];
-                $punaisesDetails['punaisesLieuxObservations'] = $data['punaisesLieuxObservations'];
+            if (!empty($data['punaisesTrouvees'])) {
+                $punaisesDetails = [
+                    'punaisesTrouvees' => $data['punaisesTrouvees'],
+                ];
+                if ('true' == $data['punaisesTrouvees']) {
+                    $punaisesDetails['punaisesNombrePiecesConcernees'] = $data['punaisesNombrePiecesConcernees'];
+                    $punaisesDetails['punaisesFaciliteDetections'] = $data['punaisesFaciliteDetections'];
+                    $punaisesDetails['punaisesLieuxObservations'] = $data['punaisesLieuxObservations'];
+                }
+                $signalement->setPunaisesDetails($punaisesDetails);
             }
-            $signalement->setPunaisesDetails($punaisesDetails);
 
             $signalementManager->save($signalement);
 

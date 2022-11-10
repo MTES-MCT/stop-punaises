@@ -66,6 +66,10 @@ class PunaisesFrontSignalementController {
     $('.link-back-back').on('click', function(){
       self.refreshStep(-2);
     });
+    if ($('form.front-signalement').data('code-postal') !== '') {
+      $('#code-postal').val($('form.front-signalement').data('code-postal'));
+      $('#step-home button').click();
+    }
   }
 
   refreshStep(offset) {

@@ -6,12 +6,27 @@
 
     <section class="index-header fr-container fr-mt-3w fr-mt-md-12w">
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-px-1w">
-            <div class="fr-col-10 fr-col-md-5 fr-col-lg-6">
+            <div class="fr-col-12 fr-col-md-5 fr-col-lg-6">
                 <h1>Punaises de lit</h1>
                 <p class="bons-reflexes">Ayez les bons réflexes&nbsp;!</p>
                 <p>Le site officiel de l'Etat Français pour lutter contre les infestations de punaises de lit.</p>
+
+                <form action="{{ path('app_front_signalement') }}" method="GET">
+                    <div class="fr-input-group">
+                        <input class="fr-input" id="code-postal" name="code-postal" placeholder="Code postal" required>
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner votre code postal.
+                        </p>
+                    </div>
+
+                    <div class="fr-input-group">
+                        <button type="submit" class="fr-btn btn-next">
+                            Signaler mon problème
+                        </button>
+                    </div>
+                </form>
             </div>
-            <div class="fr-col-10 fr-col-md-5 fr-col-lg-4">
+            <div class="fr-col-12 fr-col-md-5 fr-col-lg-4">
                 <img src="{{ asset('build/images/loupe-punaise.png') }}" alt="illustration punaises" width="384" height="288">
             </div>
         </div>
