@@ -24,6 +24,14 @@ class SignalementViewController extends AbstractController
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
         }
+        // Not the admin
+        // and the signalement is linked to an Entreprise
+        // but its Entreprise is different than the one from the user
+        if (!$this->isGranted('ROLE_ADMIN')
+            && null !== $signalement->getEntreprise()
+            && $signalement->getEntreprise()->getId() !== $this->getUser()->getEntreprise()->getId()) {
+            return $this->render('signalement_view/not-authorized.html.twig');
+        }
 
         $signalementPhotos = $signalement->getPhotos();
         $photos = [];

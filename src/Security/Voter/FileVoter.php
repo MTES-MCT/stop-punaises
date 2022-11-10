@@ -10,20 +10,29 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class FileVoter extends Voter
 {
     public const DELETE = 'FILE_DELETE';
-    public const VIEW = 'FILE_VIEW';
-    public const CREATE = 'FILE_CREATE';
 
     protected function supports(string $attribute, $subject): bool
     {
-        return \in_array($attribute, [self::DELETE, self::VIEW, self::CREATE])
+        return \in_array($attribute, [self::DELETE])
             && ($subject instanceof Signalement || 'boolean' === \gettype($subject));
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
-        if ($user instanceof UserInterface) {
-            return \in_array('ROLE_ADMIN', $user->getRoles());
+        if ($user instanceof UserInterface && self::DELETE == $attribute) {
+            return $this->canDelete($subject, $user);
+        }
+
+        return false;
+    }
+
+    private function canDelete(Signalement $signalement, UserInterface $user): bool
+    {
+        if (\in_array('ROLE_ADMIN', $user->getRoles())) {
+            return true;
+        } elseif (null !== $user->getEntreprise() && null !== $signalement->getEntreprise()) {
+            return $user->getEntreprise()->getId() === $signalement->getEntreprise()?->getId();
         }
 
         return false;
