@@ -12,8 +12,33 @@ class PunaisesFrontSignalementController {
   TYPE_RECHERCHE = 'recherche';
   TYPE_INSECTES = 'insectes';
   TYPE_LOCALISATION = 'localisation';
+  OPEN_STEP_LIST = [
+    'home',
+    'info_intro',
+    'info_logement',
+    'info_problemes',
+    'traces_punaises_intro',
+    'traces_punaises_piqures',
+    'traces_punaises_dejections',
+    'insectes_larves_intro',
+    'insectes_larves_oeufs',
+    'insectes_larves_punaises',
+    'info_usager_open',
+    'recommandation',
+    'professionnel_info',
+    'professionnel_sent',
+    'autotraitement_info',
+    'autotraitement_sent',
+  ];
+  CLOSED_STEP_LIST = [
+    'home',
+    'info_usager_closed',
+    'autotraitement_info',
+    'autotraitement_sent',
+  ];
   STEP_SUBMIT = 11;
   step = 1;
+  stepStr = 'home';
   hasTraces = false;
   hasRechercheInsecte = false;
   hasInsectes = false;
@@ -46,11 +71,12 @@ class PunaisesFrontSignalementController {
     let acceptRefresh = (offset > 0) ? self.checkStep() : true;
     if (acceptRefresh) {
       self.step += offset;
+      self.stepStr = self.OPEN_STEP_LIST[self.step - 1];
     
       $('.current-step').slideUp(200, function() {
         $('.current-step').removeClass('current-step');
-        $('#step-' + self.step).slideDown(200, function() {
-          $('#step-' + self.step).addClass('current-step');
+        $('#step-' + self.stepStr).slideDown(200, function() {
+          $('#step-' + self.stepStr).addClass('current-step');
         });
         self.initStep();
       });

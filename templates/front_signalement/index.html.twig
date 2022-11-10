@@ -6,9 +6,29 @@
 
 <form action="{{ path('app_front_signalement_add') }}" class="front-signalement fr-container fr-my-3w">
 
-    {% for i in 1..16 %}
-        {% include 'front_signalement/_partial_step_' ~ i ~ '.html.twig' with {'index': i} %}
-    {% endfor %}
+    {% include 'front_signalement/_partial_step_home.html.twig' %}
+
+    {% include 'front_signalement/_partial_step_info_intro.html.twig' with {'step': 'info_intro'} %}
+    {% include 'front_signalement/_partial_step_info_logement.html.twig' with {'step': 'info_logement'} %}
+    {% include 'front_signalement/_partial_step_info_problemes.html.twig' with {'step': 'info_problemes'} %}
+
+    {% include 'front_signalement/_partial_step_traces_punaises_intro.html.twig' with {'step': 'traces_punaises_intro'} %}
+    {% include 'front_signalement/_partial_step_traces_punaises_piqures.html.twig' with {'step': 'traces_punaises_piqures'} %}
+    {% include 'front_signalement/_partial_step_traces_punaises_dejections.html.twig' with {'step': 'traces_punaises_dejections'} %}
+
+    {% include 'front_signalement/_partial_step_insectes_larves_intro.html.twig' with {'step': 'insectes_larves_intro'} %}
+    {% include 'front_signalement/_partial_step_insectes_larves_oeufs.html.twig' with {'step': 'insectes_larves_oeufs'} %}
+    {% include 'front_signalement/_partial_step_insectes_larves_punaises.html.twig' with {'step': 'insectes_larves_punaises'} %}
+
+    {% include 'front_signalement/_partial_step_info_usager_open.html.twig' with {'step': 'info_usager_open'} %}
+    {#% include 'front_signalement/_partial_step_info_usager_closed.html.twig' with {'step': 'info_usager_closed'} %#}
+    {% include 'front_signalement/_partial_step_recommandation.html.twig' with {'step': 'recommandation'} %}
+
+    {% include 'front_signalement/_partial_step_professionnel_info.html.twig' with {'step': 'professionnel_info'} %}
+    {% include 'front_signalement/_partial_step_professionnel_sent.html.twig' with {'step': 'professionnel_sent'} %}
+
+    {% include 'front_signalement/_partial_step_autotraitement_info.html.twig' with {'step': 'autotraitement_info'} %}
+    {% include 'front_signalement/_partial_step_autotraitement_sent.html.twig' with {'step': 'autotraitement_sent'} %}
 
 </form>
 
