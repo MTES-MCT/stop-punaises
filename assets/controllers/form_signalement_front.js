@@ -267,6 +267,17 @@ class PunaisesFrontSignalementController {
     $('#step-'+self.stepStr+' input[name="signalement_front[piquresExistantes]"]').on('click', function() {
       self.updateStepTracesPunaisesPiqures();
     });
+
+    $('#file-upload').on('change', function(event) {
+      $('.fr-front-signalement-photos').empty();
+      for (let i = 0; i < event.target.files.length; i++) {
+        let imgSrc = URL.createObjectURL(event.target.files[i]);
+        let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
+        strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
+        strAppend += '</div>';
+        $('.fr-front-signalement-photos').append(strAppend);   
+      }
+    });
   }
 
   updateStepTracesPunaisesPiqures() {
@@ -458,10 +469,14 @@ class PunaisesFrontSignalementController {
   submitAdd() {
     $('.front-signalement #step-professionnel_info .btn-next-next').attr('disabled', 'disabled');
     $('.front-signalement #step-autotraitement_info .btn-next-next').attr('disabled', 'disabled');
+    var formData = new FormData($('.front-signalement')[0]);
     $.ajax({
       type: 'POST',
       url: $('.front-signalement').attr('action'),
-      data: $('.front-signalement').serialize(),
+      data: formData,
+      contentType:false,
+      cache:false,
+      processData:false,
   
       success: function() {
         self.refreshStep(2);  

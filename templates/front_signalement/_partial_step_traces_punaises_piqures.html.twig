@@ -52,7 +52,12 @@
     <div id="form-group-photos" class="fr-form-group">
         <strong>Photos</strong>
         <br>
-        <p>A venir...</p>
+        <div class="fr-upload-group">
+            <label class="fr-label" for="file-upload">Ajouter des fichiers</label>
+            <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
+        </div>
+        <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
+        </div>
     </div>
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
