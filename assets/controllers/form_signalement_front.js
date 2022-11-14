@@ -26,8 +26,8 @@ class PunaisesFrontSignalementController {
     'info_usager',
     'recommandation',
     'professionnel_info',
-    'professionnel_sent',
     'autotraitement_info',
+    'professionnel_sent',
     'autotraitement_sent',
   ];
   CLOSED_STEP_LIST = [
@@ -48,17 +48,22 @@ class PunaisesFrontSignalementController {
   init() {
     self = this;
     $('.btn-next').on('click', function(){
+      self.refreshStep(1);
+    });
+    $('.btn-next-next').on('click', function(){
       switch (self.stepStr) {
-        case 'info_usager':
+        case 'recommandation':
+          $('#signalement_front_autotraitement').val(true);
+          self.refreshStep(2);
+          break;
+        case 'professionnel_info':
+        case 'autotraitement_info':
           self.submitAdd();
           break;
         default:
-          self.refreshStep(1);
+          self.refreshStep(2);
           break;
       }
-    });
-    $('.btn-next-next').on('click', function(){
-      self.refreshStep(2);
     });
     $('.link-back').on('click', function(){
       self.refreshStep(-1);
@@ -451,14 +456,15 @@ class PunaisesFrontSignalementController {
   }
 
   submitAdd() {
-    $('.front-signalement #step-11 .btn-next').attr('disabled', 'disabled');
+    $('.front-signalement #step-professionnel_info .btn-next-next').attr('disabled', 'disabled');
+    $('.front-signalement #step-autotraitement_info .btn-next-next').attr('disabled', 'disabled');
     $.ajax({
       type: 'POST',
       url: $('.front-signalement').attr('action'),
       data: $('.front-signalement').serialize(),
   
       success: function() {
-        self.refreshStep(1);  
+        self.refreshStep(2);  
       },
       error: function (xhr, desc, err) {
         console.log(xhr);
@@ -467,7 +473,8 @@ class PunaisesFrontSignalementController {
         } else {
           alert("Erreur lors de l'ajout du signalement");
         }
-        $('.front-signalement #step-11 .btn-next').removeAttr('disabled');
+        $('.front-signalement #step-professionnel_info .btn-next').removeAttr('disabled');
+        $('.front-signalement #step-autotraitement_info .btn-next').removeAttr('disabled');
       }
     });
   }

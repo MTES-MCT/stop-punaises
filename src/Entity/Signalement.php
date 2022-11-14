@@ -103,6 +103,9 @@ class Signalement
     #[ORM\Column(type: 'string', enumType: Declarant::class)]
     private Declarant $declarant;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $autotraitement = null;
+
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $superficie = null;
 
@@ -460,6 +463,18 @@ class Signalement
     public function setDeclarant(Declarant $declarant): self
     {
         $this->declarant = $declarant;
+
+        return $this;
+    }
+
+    public function isAutotraitement(): ?bool
+    {
+        return $this->autotraitement;
+    }
+
+    public function setAutotraitement(?bool $autotraitement): self
+    {
+        $this->autotraitement = $autotraitement;
 
         return $this;
     }

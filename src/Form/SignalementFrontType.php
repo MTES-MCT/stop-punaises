@@ -227,6 +227,13 @@ class SignalementFrontType extends AbstractType
                 'label' => 'Email',
                 'required' => false,
             ])
+            ->add('autotraitement', HiddenType::class, [
+                'attr' => [
+                    'class' => 'fr-hidden',
+                ],
+                'required' => true,
+                'empty_data' => false,
+            ])
         ;
     }
 
