@@ -21,7 +21,7 @@
 /data/
 /coverage/
 tmp/*
-!tmp/.gitgnore
+!tmp/.gitignore
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/

@@ -127,6 +127,9 @@ class Signalement
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $punaisesDetails = null;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private $photos = [];
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -553,6 +556,18 @@ class Signalement
     public function setPunaisesDetails(?array $punaisesDetails): self
     {
         $this->punaisesDetails = $punaisesDetails;
+
+        return $this;
+    }
+
+    public function getPhotos(): ?array
+    {
+        return $this->photos;
+    }
+
+    public function setPhotos(?array $photos): self
+    {
+        $this->photos = $photos;
 
         return $this;
     }

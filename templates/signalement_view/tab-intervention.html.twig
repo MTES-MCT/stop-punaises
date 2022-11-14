@@ -66,5 +66,28 @@
 
 <div class="fr-mt-2w">
     <h3>Photos de la situation</h3>
-    A venir...
+    <form action="{{ path('app_add_photos', {'uuid': signalement.uuid }) }}" method="POST" enctype="multipart/form-data" class="fr-my-3w">
+        <div class="fr-upload-group">
+            <label class="fr-label" for="file-upload">Ajouter des fichiers</label>
+            <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
+        </div>
+        <div class="fr-input-group fr-mt-1v">
+            <button class="fr-btn fr-btn--secondary" type="submit">Envoyer</button>
+        </div>
+    </form>
+    <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-signalement-photos">
+        {% for index,photo in photos %}
+            <div class="fr-col-6 fr-col-md-3">
+                <div style="background: url('{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}')no-repeat center center/cover">
+                    <a class="fr-btn fr-icon-eye-line" href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank"></a>
+                    {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_ENTREPRISE') and signalement.entreprise is not null and signalement.entreprise.id == app.user.entreprise.id) %}
+                        <form action="{{ path('app_delete_photo', {'uuid': signalement.uuid, 'filename': photo.file }) }}" method="POST">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_delete_file_'~signalement.id) }}">
+                            <button class="fr-btn fr-icon-delete-line" title="Supprimer la photo"></button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>

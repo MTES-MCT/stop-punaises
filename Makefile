@@ -45,6 +45,9 @@ composer: ## Install composer dependencies
 	@echo "\033[33mInstall tools dependencies ...\033[0m"
 	@$(DOCKER_COMP) exec -it stopunaises_phpfpm composer install --working-dir=tools/php-cs-fixer --dev --no-interaction --optimize-autoloader
 
+composer-update: ## Update composer dependencies
+	@$(DOCKER_COMP) exec -it stopunaises_phpfpm composer update
+
 clear-cache: ## Clear cache prod: make-clear-cache env=[dev|prod|test]
 	@$(DOCKER_COMP) exec -it stopunaises_phpfpm $(SYMFONY) c:c --env=$(env)
 
