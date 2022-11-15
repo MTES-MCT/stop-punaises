@@ -2,6 +2,7 @@
 
 namespace App\Service\Mailer;
 
+use App\Entity\Signalement;
 use App\Entity\User;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -57,6 +58,44 @@ class MailerProvider implements MailerProviderInterface
             ->messageFactory
             ->createInstanceFrom(Template::ACCOUNT_ACTIVATION, ['link' => $link])
             ->setTo([$user->getEmail()]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementValidationWithPro(Signalement $signalement): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        if (!filter_var($emailOccupant, \FILTER_VALIDATE_EMAIL)) {
+            return;
+        }
+        $nomUsager = $signalement->getPrenomOccupant().' '.$signalement->getNomOccupant();
+        $adresseUsager = $signalement->getAdresse().' '.$signalement->getCodePostal().' '.$signalement->getVille();
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_PROFESSIONAL, [
+                'nom_usager' => $nomUsager,
+                'adresse' => $adresseUsager,
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementValidationWithAutotraitement(Signalement $signalement): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        if (!filter_var($emailOccupant, \FILTER_VALIDATE_EMAIL)) {
+            return;
+        }
+        $nomUsager = $signalement->getPrenomOccupant().' '.$signalement->getNomOccupant();
+        $linkToPdf = 'https://stop-punaises.beta.gouv.fr/assets/pdf/autotraitement.pdf';
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_AUTO, [
+                'nom_usager' => $nomUsager,
+                'lien_pdf' => $linkToPdf,
+            ])
+            ->setTo([$emailOccupant]);
 
         $this->send($message);
     }

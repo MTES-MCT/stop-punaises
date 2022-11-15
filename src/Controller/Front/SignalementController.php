@@ -7,6 +7,7 @@ use App\Entity\Signalement;
 use App\Exception\File\MaxUploadSizeExceededException;
 use App\Form\SignalementFrontType;
 use App\Manager\SignalementManager;
+use App\Service\Mailer\MailerProviderInterface;
 use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Upload\UploadHandlerService;
 use DateTimeImmutable;
@@ -41,6 +42,7 @@ class SignalementController extends AbstractController
         UploadHandlerService $uploadHandlerService,
         SluggerInterface $slugger,
         LoggerInterface $logger,
+        MailerProviderInterface $mailerProvider,
         ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
@@ -68,6 +70,12 @@ class SignalementController extends AbstractController
             }
 
             $signalementManager->save($signalement);
+
+            if ($signalement->isAutotraitement()) {
+                $mailerProvider->sendSignalementValidationWithAutotraitement($signalement);
+            } else {
+                $mailerProvider->sendSignalementValidationWithPro($signalement);
+            }
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');
 

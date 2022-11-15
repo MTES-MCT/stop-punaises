@@ -111,6 +111,10 @@ class PunaisesFrontSignalementController {
         return self.initStepInsectesLarvesPunaises();
       case 'info_usager':
         return self.initStepInfoUsager();
+      case 'professionnel_info':
+        return self.initProfessionnelInfo();
+      case 'autotraitement_info':
+        return self.initAutotraitementInfo();
       default:
         return true;
     }
@@ -464,6 +468,14 @@ class PunaisesFrontSignalementController {
     }
     
     return canGoNext;
+  }
+
+  initProfessionnelInfo() {
+    $('#professionnel-email').text($('#signalement_front_emailOccupant').val());
+  }
+
+  initAutotraitementInfo() {
+    $('#autotraitement-email').text($('#signalement_front_emailOccupant').val());
   }
 
   submitAdd() {
