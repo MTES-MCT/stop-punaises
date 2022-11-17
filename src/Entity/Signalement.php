@@ -9,6 +9,7 @@ use App\Repository\SignalementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SignalementRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
@@ -50,6 +51,7 @@ class Signalement
     private ?string $telephoneOccupant = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Email]
     private ?string $emailOccupant = null;
 
     #[ORM\Column(length: 30, nullable: true)]
@@ -191,6 +193,11 @@ class Signalement
         return $this;
     }
 
+    public function getAdresseComplete(): string
+    {
+        return $this->getAdresse().' '.$this->getCodePostal().' '.$this->getVille();
+    }
+
     public function getTypeLogement(): ?string
     {
         return $this->typeLogement;
@@ -237,6 +244,11 @@ class Signalement
         $this->prenomOccupant = $prenomOccupant;
 
         return $this;
+    }
+
+    public function getNomCompletOccupant(): ?string
+    {
+        return $this->getPrenomOccupant().' '.$this->getNomOccupant();
     }
 
     public function getTelephoneOccupant(): ?string

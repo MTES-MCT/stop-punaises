@@ -65,34 +65,24 @@ class MailerProvider implements MailerProviderInterface
     public function sendSignalementValidationWithPro(Signalement $signalement): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
-        if (!filter_var($emailOccupant, \FILTER_VALIDATE_EMAIL)) {
-            return;
-        }
-        $nomUsager = $signalement->getPrenomOccupant().' '.$signalement->getNomOccupant();
-        $adresseUsager = $signalement->getAdresse().' '.$signalement->getCodePostal().' '.$signalement->getVille();
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_PROFESSIONAL, [
-                'nom_usager' => $nomUsager,
-                'adresse' => $adresseUsager,
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'adresse' => $signalement->getAdresseComplete(),
             ])
             ->setTo([$emailOccupant]);
 
         $this->send($message);
     }
 
-    public function sendSignalementValidationWithAutotraitement(Signalement $signalement): void
+    public function sendSignalementValidationWithAutotraitement(Signalement $signalement, string $linkToPdf): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
-        if (!filter_var($emailOccupant, \FILTER_VALIDATE_EMAIL)) {
-            return;
-        }
-        $nomUsager = $signalement->getPrenomOccupant().' '.$signalement->getNomOccupant();
-        $linkToPdf = 'https://stop-punaises.beta.gouv.fr/assets/pdf/autotraitement.pdf';
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_AUTO, [
-                'nom_usager' => $nomUsager,
+                'nom_usager' => $signalement->getNomCompletOccupant(),
                 'lien_pdf' => $linkToPdf,
             ])
             ->setTo([$emailOccupant]);
