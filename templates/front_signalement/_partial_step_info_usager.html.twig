@@ -79,7 +79,7 @@
 
     {{ form_widget(form.autotraitement) }}
 
-    <input type="hidden" name="_token" value="{{ csrf_token('front-add-signalement') }}">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('front-add-signalement') }}">
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Voir ma recommandation', 'previous': 'Retour' } %}
 {% endblock %}

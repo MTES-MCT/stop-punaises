@@ -9,6 +9,7 @@ use App\Repository\SignalementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SignalementRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
@@ -50,6 +51,7 @@ class Signalement
     private ?string $telephoneOccupant = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Email]
     private ?string $emailOccupant = null;
 
     #[ORM\Column(length: 30, nullable: true)]

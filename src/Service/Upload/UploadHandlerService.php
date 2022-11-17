@@ -3,6 +3,7 @@
 namespace App\Service\Upload;
 
 use App\Exception\File\MaxUploadSizeExceededException;
+use DateTimeImmutable;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
@@ -91,8 +92,40 @@ class UploadHandlerService
         return $this->file;
     }
 
-    public function getFile(): array
+    public function getFile(): ?array
     {
         return $this->file;
+    }
+
+    public function handleUploadFilesRequest(
+        ?array $filesPosted
+        ): array {
+        $filesToSave = [];
+        if (isset($filesPosted) && \is_array($filesPosted)) {
+            foreach ($filesPosted as $file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
+                $title = $originalFilename.'.'.$file->guessExtension();
+                $safeFilename = $this->slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+                try {
+                    $this->uploadFromFile($file, $newFilename);
+                } catch (FilesystemException $exception) {
+                    $newFilename = '';
+                    $this->logger->error($exception->getMessage());
+                } catch (MaxUploadSizeExceededException $exception) {
+                    $newFilename = '';
+                    $this->logger->error($exception->getMessage());
+                }
+                if (!empty($newFilename)) {
+                    array_push($filesToSave, [
+                        'file' => $newFilename,
+                        'title' => $title,
+                        'date' => (new DateTimeImmutable())->format('d.m.Y'),
+                    ]);
+                }
+            }
+        }
+
+        return $filesToSave;
     }
 }

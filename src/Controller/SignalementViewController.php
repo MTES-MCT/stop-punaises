@@ -3,18 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Signalement;
-use App\Exception\File\MaxUploadSizeExceededException;
 use App\Manager\SignalementManager;
 use App\Service\Upload\UploadHandlerService;
-use DateTimeImmutable;
-use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class SignalementViewController extends AbstractController
 {
@@ -59,39 +54,14 @@ class SignalementViewController extends AbstractController
         Request $request,
         UploadHandlerService $uploadHandlerService,
         SignalementManager $signalementManager,
-        SluggerInterface $slugger,
-        LoggerInterface $logger,
         ): Response {
         $filesPosted = $request->files->get('file-upload');
         $filesToSave = $signalement->getPhotos();
         if (null == $filesToSave) {
             $filesToSave = [];
         }
-        if (isset($filesPosted) && \is_array($filesPosted)) {
-            foreach ($filesPosted as $file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
-                $title = $originalFilename.'.'.$file->guessExtension();
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-                try {
-                    $uploadHandlerService->uploadFromFile($file, $newFilename);
-                } catch (FilesystemException $exception) {
-                    $newFilename = '';
-                    $logger->error($exception->getMessage());
-                } catch (MaxUploadSizeExceededException $exception) {
-                    $newFilename = '';
-                    $logger->error($exception->getMessage());
-                    $this->addFlash('error', $exception->getMessage());
-                }
-                if (!empty($newFilename)) {
-                    array_push($filesToSave, [
-                        'file' => $newFilename,
-                        'title' => $title,
-                        'date' => (new DateTimeImmutable())->format('d.m.Y'),
-                    ]);
-                }
-            }
-        }
+        $newFilesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
+        $filesToSave = array_merge($filesToSave, $newFilesToSave);
         $signalement->setPhotos($filesToSave);
         $signalementManager->save($signalement);
 

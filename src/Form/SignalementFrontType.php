@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 
@@ -235,12 +237,85 @@ class SignalementFrontType extends AbstractType
                 'empty_data' => false,
             ])
         ;
+
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            /** @var Signalement $signalement */
+            $signalement = $event->getData();
+            $form = $event->getForm();
+
+            $extraData = $form->getExtraData();
+
+            $dejectionsDetails = $this->getDejectionDetails($extraData);
+            if (!empty($dejectionsDetails)) {
+                $signalement->setDejectionsDetails($dejectionsDetails);
+            }
+            $oeufsEtLarvesDetails = $this->getOeufsEtLarvesDetails($extraData);
+            if (!empty($oeufsEtLarvesDetails)) {
+                $signalement->setOeufsEtLarvesDetails($oeufsEtLarvesDetails);
+            }
+            $punaisesDetails = $this->getPunaisesDetails($extraData);
+            if (!empty($punaisesDetails)) {
+                $signalement->setPunaisesDetails($punaisesDetails);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Signalement::class,
+            'allow_extra_fields' => true,
         ]);
+    }
+
+    private function getDejectionDetails(array $data): array
+    {
+        $dejectionsDetails = [];
+        if (!empty($data['dejectionsTrouvees'])) {
+            $dejectionsDetails = [
+                'dejectionsTrouvees' => $data['dejectionsTrouvees'],
+            ];
+            if ('true' == $data['dejectionsTrouvees']) {
+                $dejectionsDetails['dejectionsNombrePiecesConcernees'] = $data['dejectionsNombrePiecesConcernees'];
+                $dejectionsDetails['dejectionsFaciliteDetections'] = $data['dejectionsFaciliteDetections'];
+                $dejectionsDetails['dejectionsLieuxObservations'] = $data['dejectionsLieuxObservations'];
+            }
+        }
+
+        return $dejectionsDetails;
+    }
+
+    private function getOeufsEtLarvesDetails(array $data): array
+    {
+        $oeufsEtLarvesDetails = [];
+        if (!empty($data['oeufsEtLarvesTrouves'])) {
+            $oeufsEtLarvesDetails = [
+                'oeufsEtLarvesTrouves' => $data['oeufsEtLarvesTrouves'],
+            ];
+            if ('true' == $data['oeufsEtLarvesTrouves']) {
+                $oeufsEtLarvesDetails['oeufsEtLarvesNombrePiecesConcernees'] = $data['oeufsEtLarvesNombrePiecesConcernees'];
+                $oeufsEtLarvesDetails['oeufsEtLarvesFaciliteDetections'] = $data['oeufsEtLarvesFaciliteDetections'];
+                $oeufsEtLarvesDetails['oeufsEtLarvesLieuxObservations'] = $data['oeufsEtLarvesLieuxObservations'];
+            }
+        }
+
+        return $oeufsEtLarvesDetails;
+    }
+
+    private function getPunaisesDetails(array $data): array
+    {
+        $punaisesDetails = [];
+        if (!empty($data['punaisesTrouvees'])) {
+            $punaisesDetails = [
+                'punaisesTrouvees' => $data['punaisesTrouvees'],
+            ];
+            if ('true' == $data['punaisesTrouvees']) {
+                $punaisesDetails['punaisesNombrePiecesConcernees'] = $data['punaisesNombrePiecesConcernees'];
+                $punaisesDetails['punaisesFaciliteDetections'] = $data['punaisesFaciliteDetections'];
+                $punaisesDetails['punaisesLieuxObservations'] = $data['punaisesLieuxObservations'];
+            }
+        }
+
+        return $punaisesDetails;
     }
 }
