@@ -265,6 +265,7 @@ class SignalementFrontType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Signalement::class,
             'allow_extra_fields' => true,
+            'csrf_protection' => false,
         ]);
     }
 
