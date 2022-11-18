@@ -22,7 +22,7 @@ class PunaisesFrontSignalementController {
     'traces_punaises_dejections',
     'insectes_larves_intro',
     'insectes_larves_oeufs',
-    'insectes_larves_punaises',
+    'insectes_punaises',
     'info_usager',
     'recommandation',
     'professionnel_info',
@@ -105,10 +105,8 @@ class PunaisesFrontSignalementController {
         return self.initStepTracesPunaisesDejections();
       case 'insectes_larves_oeufs':
         return self.initStepInsectesLarvesOeufs();
-      case 'insectes_larves_punaises':
-        return self.initStepInsectesLarvesPunaises();
-      case 'insectes_larves_punaises':
-        return self.initStepInsectesLarvesPunaises();
+      case 'insectes_punaises':
+        return self.initStepInsectesPunaises();
       case 'info_usager':
         return self.initStepInfoUsager();
       case 'professionnel_info':
@@ -134,8 +132,8 @@ class PunaisesFrontSignalementController {
         return self.checkStepTracesPunaisesDejections();
       case 'insectes_larves_oeufs':
         return self.checkStepInsectesLarvesOeufs();
-      case 'insectes_larves_punaises':
-        return self.checkStepInsectesLarvesPunaises();
+      case 'insectes_punaises':
+        return self.checkStepInsectesPunaises();
       case 'info_usager':
         return self.checkStepInfoUsagerOpen();
       default:
@@ -397,14 +395,14 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
-  initStepInsectesLarvesPunaises() {
-    self.updateStepInsectesLarvesPunaises();
+  initStepInsectesPunaises() {
+    self.updateStepInsectesPunaises();
     $('#step-'+self.stepStr+' input[name="signalement_front[punaisesTrouvees]"]').on('click', function() {
-      self.updateStepInsectesLarvesPunaises();
+      self.updateStepInsectesPunaises();
     });
   }
 
-  updateStepInsectesLarvesPunaises() {
+  updateStepInsectesPunaises() {
     let isVisible = $('#step-'+self.stepStr+' #signalement_front_punaisesTrouvees_0').prop('checked');
     if (isVisible) {
       $('#step-'+self.stepStr+' #form-group-punaisesNombrePiecesConcernees').slideDown(200);
@@ -417,12 +415,12 @@ class PunaisesFrontSignalementController {
     }
   }
 
-  checkStepInsectesLarvesPunaises() {
+  checkStepInsectesPunaises() {
     let canGoNext = true;
     if (!self.checkChoicesInput('punaisesTrouvees', 2)) {
       canGoNext = false;
     }
-    if ($('#signalement_front_punaisesTrouves_0').prop('checked')) {
+    if ($('#signalement_front_punaisesTrouvees_0').prop('checked')) {
       if (!self.checkChoicesInput('punaisesNombrePiecesConcernees', 2)) {
         canGoNext = false;
       }

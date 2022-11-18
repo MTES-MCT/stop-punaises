@@ -277,9 +277,9 @@ class SignalementFrontType extends AbstractType
                 'dejectionsTrouvees' => $data['dejectionsTrouvees'],
             ];
             if ('true' == $data['dejectionsTrouvees']) {
-                $dejectionsDetails['dejectionsNombrePiecesConcernees'] = $data['dejectionsNombrePiecesConcernees'];
-                $dejectionsDetails['dejectionsFaciliteDetections'] = $data['dejectionsFaciliteDetections'];
-                $dejectionsDetails['dejectionsLieuxObservations'] = $data['dejectionsLieuxObservations'];
+                $dejectionsDetails['dejectionsNombrePiecesConcernees'] = $data['dejectionsNombrePiecesConcernees'] ?? null;
+                $dejectionsDetails['dejectionsFaciliteDetections'] = $data['dejectionsFaciliteDetections'] ?? null;
+                $dejectionsDetails['dejectionsLieuxObservations'] = $data['dejectionsLieuxObservations'] ?? null;
             }
         }
 
@@ -294,9 +294,9 @@ class SignalementFrontType extends AbstractType
                 'oeufsEtLarvesTrouves' => $data['oeufsEtLarvesTrouves'],
             ];
             if ('true' == $data['oeufsEtLarvesTrouves']) {
-                $oeufsEtLarvesDetails['oeufsEtLarvesNombrePiecesConcernees'] = $data['oeufsEtLarvesNombrePiecesConcernees'];
-                $oeufsEtLarvesDetails['oeufsEtLarvesFaciliteDetections'] = $data['oeufsEtLarvesFaciliteDetections'];
-                $oeufsEtLarvesDetails['oeufsEtLarvesLieuxObservations'] = $data['oeufsEtLarvesLieuxObservations'];
+                $oeufsEtLarvesDetails['oeufsEtLarvesNombrePiecesConcernees'] = $data['oeufsEtLarvesNombrePiecesConcernees'] ?? null;
+                $oeufsEtLarvesDetails['oeufsEtLarvesFaciliteDetections'] = $data['oeufsEtLarvesFaciliteDetections'] ?? null;
+                $oeufsEtLarvesDetails['oeufsEtLarvesLieuxObservations'] = $data['oeufsEtLarvesLieuxObservations'] ?? null;
             }
         }
 
@@ -311,9 +311,9 @@ class SignalementFrontType extends AbstractType
                 'punaisesTrouvees' => $data['punaisesTrouvees'],
             ];
             if ('true' == $data['punaisesTrouvees']) {
-                $punaisesDetails['punaisesNombrePiecesConcernees'] = $data['punaisesNombrePiecesConcernees'];
-                $punaisesDetails['punaisesFaciliteDetections'] = $data['punaisesFaciliteDetections'];
-                $punaisesDetails['punaisesLieuxObservations'] = $data['punaisesLieuxObservations'];
+                $punaisesDetails['punaisesNombrePiecesConcernees'] = $data['punaisesNombrePiecesConcernees'] ?? null;
+                $punaisesDetails['punaisesFaciliteDetections'] = $data['punaisesFaciliteDetections'] ?? null;
+                $punaisesDetails['punaisesLieuxObservations'] = $data['punaisesLieuxObservations'] ?? null;
             }
         }
 
