@@ -1,0 +1,10 @@
+# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
+flysystem:
+    storages:
+        file.storage:
+            adapter: 'aws'
+            options:
+                client: Aws\S3\S3Client
+                bucket: '%env(resolve:S3_BUCKET)%'
+                prefix: ''
+                streamReads: true

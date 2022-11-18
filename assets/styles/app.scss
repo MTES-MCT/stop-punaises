@@ -106,6 +106,10 @@ span.niveau-infestation {
         font-weight: 800;
         color: #E2241C;
     }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 .index-tout-le-monde {
@@ -519,6 +523,22 @@ span.niveau-infestation {
             background-color: var(--grey-1000-50);
             filter: drop-shadow(var(--raised-shadow));
             font-weight: normal;
+        }
+    }
+
+    .fr-signalement-photos {
+        .fr-col-6 {
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+
+            form {
+                display: inline;
+
+                .fr-icon-delete-line {
+                    background: #E2241C;
+                }
+            }
         }
     }
 }
