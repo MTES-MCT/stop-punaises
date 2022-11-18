@@ -1,0 +1,55 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stop punaises - Les signalements hors périmètre{% endblock %}
+
+{% block body %}
+<div class="liste-signalements fr-p-5w grey-bg">
+    <div class="fr-container">
+        <h1>Signalements hors périmètre</h1>
+
+        <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                {% include "common/components/filters/filter-territoire.html.twig" %}
+            </div>
+
+            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
+                <input type="text" class="fr-input" id="search-address" placeholder="CP...">
+            </div>
+
+            {# todo : filtre date #}
+        </div>
+    </div>
+
+    <div class="fr-container fr-mt-3w">
+        <h2><span id="count-signalement">{{ count_signalement }}</span> signalements trouvés</h2>
+
+        {% if signalements is not empty %}
+            <table id="datatable" class="liste-signalements-hors-perimetres">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Créé le</th>
+                        <th>Territoire</th>
+                        <th>Code postal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for signalement in signalements %}
+                        <tr>
+                            <td>{{ signalement.reference }} <span>{{ signalement.nomOccupant }} {{ signalement.prenomOccupant }} {{ signalement.emailOccupant }}</span></td>
+                            <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
+                            <td></td>
+                            <td>{{ signalement.codePostal }}</td>
+                            <td class="button-view"><a href="#" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        {% else %}
+            Aucun.
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

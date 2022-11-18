@@ -57,6 +57,11 @@ class Territoire
         return $this;
     }
 
+    public function getNomComplet(): ?string
+    {
+        return $this->getZip().' - '.$this->getNom();
+    }
+
     public function getZip(): ?string
     {
         return $this->zip;

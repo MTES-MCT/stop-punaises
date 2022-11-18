@@ -1,0 +1,22 @@
+{#
+TODO
+    Nouveau
+    Réception (5%)
+
+    Si à traiter  
+    Contact usager (20%)
+    Estimation envoyée (40%)
+    Estimation acceptée (60%)
+    Estimation refusée (100%) -> ferme le signalement
+    Intervention faite (80%)
+    Confirmation usager (100%)
+
+    Si auto-traitement
+    Protocole envoyé (33%)
+    Feedback envoyé (66%)
+    Confirmation usager (100%)
+#}
+{% set procedure = {'caption': 'Réception', 'percent': 5} %}
+
+<label>{{ procedure.caption }}</label>
+<progress value="{{ procedure.percent }}" max="100"></progress>

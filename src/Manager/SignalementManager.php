@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\Enum\Declarant;
 use App\Entity\Enum\Role;
 use App\Entity\Signalement;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,5 +23,21 @@ class SignalementManager extends AbstractManager
         return $this->security->isGranted(Role::ROLE_ADMIN->value)
         ? $this->findAll()
         : $this->findBy(['entreprise' => $this->security->getUser()->getEntreprise()]);
+    }
+
+    public function findFromInactiveTerritories(): ?array
+    {
+        // TODO
+        return $this->findAll();
+    }
+
+    public function findHistoriqueEntreprise(): ?array
+    {
+        $parameters = ['declarant' => Declarant::DECLARANT_ENTREPRISE];
+        if (!$this->security->isGranted(Role::ROLE_ADMIN->value)) {
+            $parameters['entreprise'] = $this->security->getUser()->getEntreprise();
+        }
+
+        return $this->findBy($parameters);
     }
 }

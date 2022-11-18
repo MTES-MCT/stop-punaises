@@ -1,14 +1,14 @@
 {% extends 'base-back.html.twig' %}
 
-{% block title %}Stop punaises - Les signalements{% endblock %}
+{% block title %}Stop punaises - Les données historiques{% endblock %}
 
 {% block body %}
-<div class="liste-signalements fr-p-5w">
+<div class="liste-signalements fr-p-5w grey-bg">
     <div class="fr-container">
         <div class="add-button-container">
             <a href="{{ path('app_signalement_create') }}" class="fr-btn fr-btn--icon-left fr-icon-add-line">Créer un signalement</a>
         </div>
-        <h1>Liste des signalements</h1>
+        <h1>Données historiques</h1>
 
         {% if display_signalement_create_success %}
         <div class="fr-mb-3w">
@@ -28,14 +28,7 @@
             </div>
 
             <div class="fr-select-group fr-col-12 fr-col-lg-3">
-                <select class="fr-select" id="filter-infectation">
-                    <option value="">Niveau infestation</option>
-                    <option value="0">0 - Nulle</option>
-                    <option value="1">1 - Faible</option>
-                    <option value="2">2 - Moyenne</option>
-                    <option value="3">3 - Elevée</option>
-                    <option value="4">4 - Très élevée</option>
-                </select>
+                {% include "common/components/filters/filter-niveau-infestation.html.twig" %}
             </div>
 
             {% if is_granted('ROLE_ADMIN') %}
@@ -50,15 +43,6 @@
                     </select>
                 </div>
             {% endif %}
-
-            <div class="fr-select-group fr-col-12 fr-col-lg-3">
-                <select class="fr-select" id="filter-type">
-                    <option value="">Type de signalement</option>
-                    <option value="Historique">Historique</option>
-                    <option value="Usager">Usager</option>
-                    <option value="Auto-traitement">Auto-traitement</option>
-                </select>
-            </div>
         </div>
     </div>
 
@@ -66,7 +50,7 @@
         <h2><span id="count-signalement">{{ count_signalement }}</span> signalements trouvés</h2>
 
         {% if signalements is not empty %}
-            <table id="datatable">
+            <table id="datatable" class="liste-signalements-historique">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -78,7 +62,6 @@
                             <th>Entreprise</th>
                         {% endif %}
                         <th>Commune</th>
-                        <th>Type</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -96,7 +79,6 @@
                                 <td>{{ signalement.entreprise ? signalement.entreprise.nom : '/' }}</td>
                             {% endif %}
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                            <td>{{ signalement|type_signalement }}</td>
                             <td class="button-view"><a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
                         </tr>
                     {% endfor %}

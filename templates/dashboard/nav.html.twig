@@ -1,0 +1,20 @@
+<div class="fr-container">
+    <nav class="fr-nav" id="header-navigation" role="navigation" aria-label="Menu du tableau de bord">
+        <ul class="fr-nav__list">
+            <li class="fr-nav__item">
+                <a class="fr-nav__link" href="{{ path('app_signalement_list') }}" target="_self" aria-current="page">Signalements</a>
+            </li>
+            <li class="fr-nav__item">
+                <a class="fr-nav__link" href="{{ path('app_signalement_list') }}" target="_self">Historique</a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="fr-nav__item">
+                    <a class="fr-nav__link" href="{{ path('app_signalement_list') }}" target="_self">Hors périmètre</a>
+                </li>
+                <li class="fr-nav__item">
+                    <a class="fr-nav__link" href="{{ path('app_entreprise_list') }}" target="_self">Les entreprises</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>

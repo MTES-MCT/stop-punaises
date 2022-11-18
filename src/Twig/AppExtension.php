@@ -2,7 +2,6 @@
 
 namespace App\Twig;
 
-use App\Entity\Enum\Declarant;
 use App\Entity\Enum\InfestationLevel;
 use App\Entity\Signalement;
 use Twig\Extension\AbstractExtension;
@@ -35,13 +34,11 @@ class AppExtension extends AbstractExtension
 
     public function formatTypeSignalement(Signalement $signalement): string
     {
-        if (Declarant::DECLARANT_ENTREPRISE == $signalement->getDeclarant()) {
-            return 'Historique';
-        } elseif ($signalement->isAutotraitement()) {
+        if ($signalement->isAutotraitement()) {
             return 'Auto-traitement';
         }
 
-        return 'Usager';
+        return 'A traiter';
     }
 
     public function formatLabelInfestation(?int $niveau = 0): string

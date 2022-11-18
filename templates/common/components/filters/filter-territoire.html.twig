@@ -1,0 +1,8 @@
+<select class="fr-select" id="filter-territoire">
+    <option value="">Territoire</option>
+    {% if territoires is not empty %}
+        {% for territoire in territoires %}
+            <option value="{{ territoire.id }}">{{ territoire.nomComplet }}</option>
+        {% endfor %}
+    {% endif %}
+</select>
