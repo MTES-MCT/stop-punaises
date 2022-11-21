@@ -10,4 +10,6 @@ enum Template: int
 {
     case ACCOUNT_ACTIVATION = 24;
     case RESET_PASSWORD = 27;
+    case SIGNALEMENT_PROFESSIONAL = 37;
+    case SIGNALEMENT_AUTO = 38;
 }

@@ -193,6 +193,11 @@ class Signalement
         return $this;
     }
 
+    public function getAdresseComplete(): string
+    {
+        return $this->getAdresse().' '.$this->getCodePostal().' '.$this->getVille();
+    }
+
     public function getTypeLogement(): ?string
     {
         return $this->typeLogement;
@@ -239,6 +244,11 @@ class Signalement
         $this->prenomOccupant = $prenomOccupant;
 
         return $this;
+    }
+
+    public function getNomCompletOccupant(): ?string
+    {
+        return $this->getPrenomOccupant().' '.$this->getNomOccupant();
     }
 
     public function getTelephoneOccupant(): ?string

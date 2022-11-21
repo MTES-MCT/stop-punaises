@@ -2,6 +2,7 @@
 
 namespace App\Service\Mailer;
 
+use App\Entity\Signalement;
 use App\Entity\User;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -57,6 +58,34 @@ class MailerProvider implements MailerProviderInterface
             ->messageFactory
             ->createInstanceFrom(Template::ACCOUNT_ACTIVATION, ['link' => $link])
             ->setTo([$user->getEmail()]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementValidationWithPro(Signalement $signalement): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_PROFESSIONAL, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'adresse' => $signalement->getAdresseComplete(),
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementValidationWithAutotraitement(Signalement $signalement, string $linkToPdf): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_AUTO, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'lien_pdf' => $linkToPdf,
+            ])
+            ->setTo([$emailOccupant]);
 
         $this->send($message);
     }

@@ -6,6 +6,7 @@ use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use App\Form\SignalementFrontType;
 use App\Manager\SignalementManager;
+use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,6 +35,7 @@ class SignalementController extends AbstractController
         SignalementManager $signalementManager,
         ReferenceGenerator $referenceGenerator,
         UploadHandlerService $uploadHandlerService,
+        MailerProvider $mailerProvider,
         ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
@@ -47,6 +49,13 @@ class SignalementController extends AbstractController
             $filesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
             $signalement->setPhotos($filesToSave);
             $signalementManager->save($signalement);
+
+            if ($signalement->isAutotraitement()) {
+                $linkToPdf = $this->getParameter('doc_autotraitement');
+                $mailerProvider->sendSignalementValidationWithAutotraitement($signalement, $linkToPdf);
+            } else {
+                $mailerProvider->sendSignalementValidationWithPro($signalement);
+            }
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');
 
