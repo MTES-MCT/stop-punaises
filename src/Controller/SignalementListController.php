@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Enum\InfestationLevel;
 use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
 use App\Repository\SignalementRepository;
@@ -22,10 +23,10 @@ class SignalementListController extends AbstractController
         $signalements = $signalementManager->findDeclaredByOccupants();
 
         return $this->render('signalement_list/signalements.html.twig', [
-            'title' => 'Signalements usagers',
             'count_signalement' => \count($signalements),
             'signalements' => $signalements,
             'territoires' => $territoires,
+            'niveaux_infestation' => InfestationLevel::getLabelList(),
         ]);
     }
 
@@ -43,11 +44,11 @@ class SignalementListController extends AbstractController
         }
 
         return $this->render('signalement_list/historique.html.twig', [
-            'title' => 'Données historiques',
             'display_signalement_create_success' => '1' == $request->get('create_success_message'),
             'count_signalement' => \count($signalements),
             'signalements' => $signalements,
             'entreprises' => $entreprises,
+            'niveaux_infestation' => InfestationLevel::getLabelList(),
         ]);
     }
 
@@ -60,7 +61,6 @@ class SignalementListController extends AbstractController
         $signalements = $signalementRepository->findFromInactiveTerritories();
 
         return $this->render('signalement_list/hors-perimetre.html.twig', [
-            'title' => 'Signalements hors périmètre',
             'count_signalement' => \count($signalements),
             'signalements' => $signalements,
             'territoires' => $territoires,

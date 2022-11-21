@@ -75,9 +75,8 @@ class SignalementRepository extends ServiceEntityRepository
     public function findDeclaredByOccupants(Entreprise|null $entreprise = null): ?array
     {
         $qb = $this->createQueryBuilder('s')
-            ->leftJoin('s.territoire', 't');
-
-        $qb->where('t.active = true')
+            ->leftJoin('s.territoire', 't')
+            ->where('t.active = true')
             ->andWhere('s.declarant = :declarant')
                 ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT);
 

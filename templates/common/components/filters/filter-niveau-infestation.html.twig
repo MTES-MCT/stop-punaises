@@ -1,8 +1,6 @@
 <select class="fr-select" id="filter-infestation">
     <option value="">Niveau infestation</option>
-    <option value="0">0 - Nulle</option>
-    <option value="1">1 - Faible</option>
-    <option value="2">2 - Moyenne</option>
-    <option value="3">3 - Elevée</option>
-    <option value="4">4 - Très élevée</option>
+    {% for niveau, niveauLabel in niveaux_infestation %}
+        <option value="{{niveau}}">{{niveauLabel}}</option>
+    {% endfor %}
 </select>
