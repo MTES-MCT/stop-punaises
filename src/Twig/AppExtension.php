@@ -11,7 +11,7 @@ class AppExtension extends AbstractExtension
 {
     public const PATTERN_REPLACE_PHONE_FR = '/^\+?33|\|?0033|\|+33 (0)|\D/';
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('format_phone', [$this, 'formatPhone']),
