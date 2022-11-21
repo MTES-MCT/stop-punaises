@@ -44,16 +44,21 @@ function startListeSignalementsApp() {
       refreshTableWithSearch();
     });
   }
+  $('#filter-type').on('change', function() {
+    refreshTableWithSearch();
+  });
 }
 
 function refreshTableWithSearch() {
   let indexColumnRef = 0;
   let indexColumnInfectation = 4;
   let indexColumnAddress = 5;
+  let indexColumnType = 6;
   if ($('#filter-entreprise').length > 0) {
     let entreprise = $('#filter-entreprise').val();
     listTable.columns(5).search(entreprise);
     indexColumnAddress = 6;
+    indexColumnType = 7;
   }
   let searchText = $('#search-free').val();
   listTable.columns(indexColumnRef).search(searchText);
@@ -61,6 +66,8 @@ function refreshTableWithSearch() {
   listTable.columns(indexColumnAddress).search(searchAddress);
   let niveauInfectation = $('#filter-infectation').val();
   listTable.columns(indexColumnInfectation).search(niveauInfectation);
+  let typeSignalement = $('#filter-type').val();
+  listTable.columns(indexColumnType).search(typeSignalement);
   listTable.draw();
   let countSignalement = listTable.rows( {search:'applied'} ).count();
   $("span#count-signalement").text(countSignalement);

@@ -1,0 +1,95 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="6" data-fr-steps="8"></div>
+    </div>
+
+    <dialog aria-labelledby="fr-modal-title-modal-punaises" role="dialog" id="fr-modal-punaises" class="fr-modal">
+        <div class="fr-container fr-container--fluid fr-container-md">
+            <div class="fr-grid-row fr-grid-row--center">
+                <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                    <div class="fr-modal__body">
+                        <div class="fr-modal__header">
+                            <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-1">Fermer</button>
+                        </div>
+                        <div class="fr-modal__content">
+                            <h1 id="fr-modal-title-modal-punaises" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Les punaises</h1>
+                            <p>
+                                Les punaises de lit sont visibles à l'œil nu. Elles sont ovales et font la taille d’un pépin de pomme.
+                                Une punaise adulte mesure entre 5 et 7 mm de long. Elles sont de couleur brune et, une fois qu'elles vous
+                                ont piqué, elles prennent une teinte rouge foncé. Elles n'ont pas d'aile, ne sautent pas et ne volent pas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Il y a des punaises dans mon logement <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-punaises">i</a></label>
+            <div id="signalement_front_punaisesTrouvees" class="fr-radio">
+                <input type="radio" id="signalement_front_punaisesTrouvees_0" name="signalement_front[punaisesTrouvees]" required="required" value="true">
+                <label for="signalement_front_punaisesTrouvees_0" class="required">Oui</label>
+                <input type="radio" id="signalement_front_punaisesTrouvees_1" name="signalement_front[punaisesTrouvees]" required="required" value="false">
+                <label for="signalement_front_punaisesTrouvees_1" class="required">Non</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous avez trouvé des punaises de lit.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-punaisesNombrePiecesConcernees" class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Dans combien de pièces ?</label>
+            <div id="signalement_front_punaisesNombrePiecesConcernees" class="fr-radio">
+                <input type="radio" id="signalement_front_punaisesNombrePiecesConcernees_0" name="signalement_front[punaisesNombrePiecesConcernees]" required="required" value="1">
+                <label for="signalement_front_punaisesNombrePiecesConcernees_0" class="required">1 pièce</label>
+                <input type="radio" id="signalement_front_punaisesNombrePiecesConcernees_1" name="signalement_front[punaisesNombrePiecesConcernees]" required="required" value="2">
+                <label for="signalement_front_punaisesNombrePiecesConcernees_1" class="required">2 pièces ou +</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner le nombre de pièces concernées.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-punaisesFaciliteDetections" class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Je trouve des punaises de lit...</label>
+            <div id="signalement_front_punaisesFaciliteDetections" class="fr-radio">
+                <input type="radio" id="signalement_front_punaisesFaciliteDetections_0" name="signalement_front[punaisesFaciliteDetections]" required="required" value="FACILE">
+                <label for="signalement_front_punaisesFaciliteDetections_0" class="required">Facilement</label>
+                <input type="radio" id="signalement_front_punaisesFaciliteDetections_1" name="signalement_front[punaisesFaciliteDetections]" required="required" value="RECHERCHE">
+                <label for="signalement_front_punaisesFaciliteDetections_1" class="required">En cherchant bien</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner comment vous trouvez les punaises de lit.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-punaisesLieuxObservations" class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Je les vois sur...</label>
+            <div id="signalement_front_punaisesLieuxObservations" class="fr-radio">
+                <input type="checkbox" id="signalement_front_punaisesLieuxObservations_0" name="signalement_front[punaisesLieuxObservations][]" value="LIT">
+                <label for="signalement_front_punaisesLieuxObservations_0">Le lit</label>
+                <input type="checkbox" id="signalement_front_punaisesLieuxObservations_1" name="signalement_front[punaisesLieuxObservations][]" value="CANAPE">
+                <label for="signalement_front_punaisesLieuxObservations_1">Le canapé</label>
+                <input type="checkbox" id="signalement_front_punaisesLieuxObservations_2" name="signalement_front[punaisesLieuxObservations][]" value="MEUBLES">
+                <label for="signalement_front_punaisesLieuxObservations_2">Des meubles</label>
+                <input type="checkbox" id="signalement_front_punaisesLieuxObservations_3" name="signalement_front[punaisesLieuxObservations][]" value="MURS">
+                <label for="signalement_front_punaisesLieuxObservations_3">Les murs</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner les endroits où vous les voyez.
+            </p>
+        </div>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
+{% endblock %}

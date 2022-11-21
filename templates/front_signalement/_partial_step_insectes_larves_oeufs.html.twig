@@ -1,0 +1,95 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="5" data-fr-steps="8"></div>
+    </div>
+
+    <dialog aria-labelledby="fr-modal-title-modal-oeufsetlarves" role="dialog" id="fr-modal-oeufsetlarves" class="fr-modal">
+        <div class="fr-container fr-container--fluid fr-container-md">
+            <div class="fr-grid-row fr-grid-row--center">
+                <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                    <div class="fr-modal__body">
+                        <div class="fr-modal__header">
+                            <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-1">Fermer</button>
+                        </div>
+                        <div class="fr-modal__content">
+                            <h1 id="fr-modal-title-modal-oeufsetlarves" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Les oeufs et larves</h1>
+                            <p>
+                                L'oeuf de punaise est de couleur blanche et mesure environ 1mm (la taille d'une tête d'épingle).
+                                Les œufs sont généralement disposés en grappes, entourés de déjections et de larves. Les larves
+                                de punaises sont brunes claires / transparentes et font la taille d'un grain de riz.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">J'ai trouvé des <span class="underline">oeufs et larves</span> <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-oeufsetlarves">i</a></label>
+            <div id="signalement_front_oeufsEtLarvesTrouves" class="fr-radio">
+                <input type="radio" id="signalement_front_oeufsEtLarvesTrouves_0" name="signalement_front[oeufsEtLarvesTrouves]" required="required" value="true">
+                <label for="signalement_front_oeufsEtLarvesTrouves_0" class="required">Oui</label>
+                <input type="radio" id="signalement_front_oeufsEtLarvesTrouves_1" name="signalement_front[oeufsEtLarvesTrouves]" required="required" value="false">
+                <label for="signalement_front_oeufsEtLarvesTrouves_1" class="required">Non</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous avez trouvé des oeufs et larves.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-oeufsEtLarvesNombrePiecesConcernees" class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Dans combien de pièces ?</label>
+            <div id="signalement_front_oeufsEtLarvesNombrePiecesConcernees" class="fr-radio">
+                <input type="radio" id="signalement_front_oeufsEtLarvesNombrePiecesConcernees_0" name="signalement_front[oeufsEtLarvesNombrePiecesConcernees]" required="required" value="1">
+                <label for="signalement_front_oeufsEtLarvesNombrePiecesConcernees_0" class="required">1 pièce</label>
+                <input type="radio" id="signalement_front_oeufsEtLarvesNombrePiecesConcernees_1" name="signalement_front[oeufsEtLarvesNombrePiecesConcernees]" required="required" value="2">
+                <label for="signalement_front_oeufsEtLarvesNombrePiecesConcernees_1" class="required">2 pièces ou +</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner le nombre de pièces concernées.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-oeufsEtLarvesFaciliteDetections" class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Je trouve les oeufs et les larves...</label>
+            <div id="signalement_front_oeufsEtLarvesFaciliteDetections" class="fr-radio">
+                <input type="radio" id="signalement_front_oeufsEtLarvesFaciliteDetections_0" name="signalement_front[oeufsEtLarvesFaciliteDetections]" required="required" value="FACILE">
+                <label for="signalement_front_oeufsEtLarvesFaciliteDetections_0" class="required">Facilement</label>
+                <input type="radio" id="signalement_front_oeufsEtLarvesFaciliteDetections_1" name="signalement_front[oeufsEtLarvesFaciliteDetections]" required="required" value="RECHERCHE">
+                <label for="signalement_front_oeufsEtLarvesFaciliteDetections_1" class="required">En cherchant bien</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner comment vous trouvez les oeufs et les larves.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-oeufsEtLarvesLieuxObservations" class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">Je les vois sur...</label>
+            <div id="signalement_front_oeufsEtLarvesLieuxObservations" class="fr-radio">
+                <input type="checkbox" id="signalement_front_oeufsEtLarvesLieuxObservations_0" name="signalement_front[oeufsEtLarvesLieuxObservations][]" value="LIT">
+                <label for="signalement_front_oeufsEtLarvesLieuxObservations_0">Le lit</label>
+                <input type="checkbox" id="signalement_front_oeufsEtLarvesLieuxObservations_1" name="signalement_front[oeufsEtLarvesLieuxObservations][]" value="CANAPE">
+                <label for="signalement_front_oeufsEtLarvesLieuxObservations_1">Le canapé</label>
+                <input type="checkbox" id="signalement_front_oeufsEtLarvesLieuxObservations_2" name="signalement_front[oeufsEtLarvesLieuxObservations][]" value="MEUBLES">
+                <label for="signalement_front_oeufsEtLarvesLieuxObservations_2">Des meubles</label>
+                <input type="checkbox" id="signalement_front_oeufsEtLarvesLieuxObservations_3" name="signalement_front[oeufsEtLarvesLieuxObservations][]" value="MURS">
+                <label for="signalement_front_oeufsEtLarvesLieuxObservations_3">Les murs</label>
+            </div>
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner les endroits où vous les voyez.
+            </p>
+        </div>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
+{% endblock %}

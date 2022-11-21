@@ -1,0 +1,35 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div>
+        <h2>Auto-traitement</h2>
+
+        <p>
+            Vous avez opté pour l'auto-traitement.
+        </p>
+
+        <p>
+            En confirmant votre option, vous recevrez un email avec des instructions détaillées
+            pour traiter vous-mêmes votre infestation de punaises de lit.
+        </p>
+
+        <p>
+            <strong>Veuillez suivre scrupuleusement l'ordre et le détail des étapes.</strong>
+        </p>
+
+        <p>
+            Attention : Stop Punaises ne peut en aucun cas garantir l'efficacité
+            de l'auto-traitement à domicile.
+        </p>
+    </div>
+
+    <nav>
+        <div class="fr-input-group group-next">
+            <button type="button" class="fr-btn btn-next-next">Recevoir les instructions</button>
+        </div>
+
+        <div class="fr-input-group group-previous">
+            <span>&lt;</span> <a href="#" class="link-back-back">Retour</a>
+        </div>
+    </nav>
+{% endblock %}

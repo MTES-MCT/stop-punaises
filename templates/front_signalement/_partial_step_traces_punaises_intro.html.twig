@@ -1,0 +1,30 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="3" data-fr-steps="8"></div>
+    </div>
+
+    <div>
+        <h2>Les traces de punaises</h2>
+
+        <p>
+            Nous allons prendre un moment pour nous intéresser aux traces laissées
+            par les punaises de lit dans votre logement.
+        </p>
+
+        <p>
+            On parle ici des éventuelles piqures et déjections (excréments) visibles chez vous.
+        </p>
+
+        <p>
+            <strong>Lisez bien les questions avant d'y répondre&nbsp;!</strong>
+        </p>
+
+        <p>
+            Toutes les questions sont obligatoires, sauf mention contraire.
+        </p>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'C\'est parti !', 'previous': 'Retour' } %}
+{% endblock %}

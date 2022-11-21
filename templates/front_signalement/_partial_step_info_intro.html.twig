@@ -1,0 +1,26 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div>
+        <h2>Avant de commencer</h2>
+
+        <p>
+            Stop Punaises vous accompagne pour choisir la meilleure solution pour
+            vous débarasser des punaises de lit&nbsp;!
+        </p>
+
+        <p>
+            Nous allons d'abord vous poser quelques questions générales sur la situation.
+        </p>
+
+        <p>
+            <strong>Temps total estimé : 15 minutes</strong>
+        </p>
+
+        <p>
+            Toutes les questions sont obligatoires, sauf mention contraire.
+        </p>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'C\'est parti !', 'previous': 'Retour' } %}
+{% endblock %}

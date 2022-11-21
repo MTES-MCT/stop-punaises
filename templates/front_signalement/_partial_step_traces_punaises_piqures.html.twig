@@ -1,0 +1,64 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="3" data-fr-steps="8"></div>
+    </div>
+
+    <dialog aria-labelledby="fr-modal-title-modal-piqures" role="dialog" id="fr-modal-piqures" class="fr-modal">
+        <div class="fr-container fr-container--fluid fr-container-md">
+            <div class="fr-grid-row fr-grid-row--center">
+                <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                    <div class="fr-modal__body">
+                        <div class="fr-modal__header">
+                            <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-1">Fermer</button>
+                        </div>
+                        <div class="fr-modal__content">
+                            <h1 id="fr-modal-title-modal-piqures" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Les piqûres</h1>
+                            <p>
+                                Les piqûres ressemblent à des piqûres de moustique et surviennent surtout la nuit,
+                                quand les punaises de lit sont actives. Ces piqûres peuvent se regrouper par 3 ou 4 sur la peau,
+                                parfois en ligne, et sont généralement situées sur les parties découvertes du corps (visage,
+                                mains, bras, jambes). Elles ne transmettent pas de maladie mais peuvent causer des démangeaisons
+                                importantes voire des réactions allergiques (urticaire).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            <label class="fr-label required">J'ai des <span class="underline">piqûres</span> de punaises de lit <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-piqures">i</a></label>
+            {{ form_widget(form.piquresExistantes) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous avez des piqûres de punaises de lit.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-piquresConfirmees" class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.piquresConfirmees) }}
+            {{ form_widget(form.piquresConfirmees) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si quelqu'un a confirmé que vous avez des piqûres de punaises de lit.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-photos" class="fr-form-group">
+        <strong>Photos</strong>
+        <br>
+        <div class="fr-upload-group">
+            <label class="fr-label" for="file-upload">Ajouter des fichiers</label>
+            <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
+        </div>
+        <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
+        </div>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
+{% endblock %}

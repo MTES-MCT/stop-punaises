@@ -19,7 +19,7 @@
             <br>
             Agent : {{ signalement.agent }}
             <br>
-            Date d'intervention : {{ signalement.dateIntervention.format('d/m/Y') }}
+            Date d'intervention : {{ signalement.dateIntervention ? signalement.dateIntervention.format('d/m/Y') : '/' }}
             <br>
             Infestation : {% include "common/components/niveau-infestation.html.twig" %}
             <br>
@@ -66,13 +66,10 @@
 
 <div class="fr-mt-2w">
     <h3>Photos de la situation</h3>
-    <form action="{{ path('app_add_photos', {'uuid': signalement.uuid }) }}" method="POST" enctype="multipart/form-data" class="fr-my-3w">
+    <form action="{{ path('app_add_photos', {'uuid': signalement.uuid }) }}" method="POST" enctype="multipart/form-data" class="fr-my-3w file-auto-submit">
         <div class="fr-upload-group">
             <label class="fr-label" for="file-upload">Ajouter des fichiers</label>
             <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
-        </div>
-        <div class="fr-input-group fr-mt-1v">
-            <button class="fr-btn fr-btn--secondary" type="submit">Envoyer</button>
         </div>
     </form>
     <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-signalement-photos">

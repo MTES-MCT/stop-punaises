@@ -6,9 +6,6 @@ $(function() {
 });
 
 function startCreerSignalementApp() {
-  var idTimeoutInputAddress = null;
-  var ajaxObject = null;
-
   // Navigation
   $('nav.stepper-next a').on('click', function() {
     if (checkSignalementFirstStep()) {
@@ -37,53 +34,6 @@ function startCreerSignalementApp() {
     } else {
       $('div#form-group-localisation-immeuble').addClass('fr-form-group-hidden')
     }
-  });
-
-  $('input#rechercheAdresse').on('input', function() {
-    if (idTimeoutInputAddress !== null) {
-      clearTimeout(idTimeoutInputAddress);
-    }
-    if (ajaxObject !== null) {
-      ajaxObject.abort();
-    }
-
-    $('#rechercheAdresseListe').empty();
-    $('#rechercheAdresseIcon .fr-icon-timer-line').show();
-    $('#rechercheAdresseIcon .fr-icon-map-pin-2-line').hide();
-
-    idTimeoutInputAddress = setTimeout(
-      () => {
-        ajaxObject = $.ajax({
-          url: 'https://api-adresse.data.gouv.fr/search/?q=' + $(this).val()
-        }).done(function(jsonData) {
-          for (let feature of jsonData.features) {
-            let adresseLabel = feature.properties.label;
-            let adresseName = feature.properties.name;
-            let adressePostCode = feature.properties.postcode;
-            let adresseCity = feature.properties.city;
-            let adresseCityCode = feature.properties.citycode;
-            let elementData = '';
-            elementData += ' data-name="'+adresseName+'"';
-            elementData += ' data-postcode="'+adressePostCode+'"';
-            elementData += ' data-city="'+adresseCity+'"';
-            elementData += ' data-citycode="'+adresseCityCode+'"';
-            $('#rechercheAdresseListe').append( '<div '+elementData+' class="fr-mb-1v fr-p-1v">'+adresseLabel+'</div>' );
-            $('#rechercheAdresseListe').show();
-            $('#rechercheAdresseIcon .fr-icon-timer-line').hide();
-            $('#rechercheAdresseIcon .fr-icon-map-pin-2-line').show();
-
-            $('#rechercheAdresseListe div').on('click', function() {
-              $('#signalement_adresse').val($(this).data('name'));
-              $('#signalement_codePostal').val($(this).data('postcode'));
-              $('#signalement_ville').val($(this).data('city'));
-              $('#signalement_codeInsee').val($(this).data('citycode'));
-              $('#rechercheAdresseListe').hide();
-            });
-          }
-        });
-      },
-      300
-    );
   });
 
   // Second tab

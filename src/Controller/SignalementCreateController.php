@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use App\Form\SignalementType;
 use App\Manager\SignalementManager;
@@ -24,6 +25,7 @@ class SignalementCreateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $signalement->setReference($referenceGenerator->generate());
+            $signalement->setDeclarant(Declarant::DECLARANT_ENTREPRISE);
             $signalementManager->save($signalement);
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');

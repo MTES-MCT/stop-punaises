@@ -1,0 +1,85 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="if-territory-open">
+        <div class="fr-stepper">
+            <div class="fr-stepper__steps" data-fr-current-step="7" data-fr-steps="8"></div>
+        </div>
+        
+        <div>
+            <h2>C'est presque fini&nbsp;!</h2>
+
+            <p>
+                Renseignez vos coordonnées pour afficher votre recommandation personnalisée.
+            </p>
+        </div>
+
+        {{ form_widget(form.niveauInfestation) }}
+    </div>
+
+    <div class="if-territory-not-open">
+        <h2>Stop punaises</h2>
+
+        <p>
+            Le service Stop Punaises n'est pas encore ouvert dans votre département.
+            Nous ne pouvons pas vous mettre en relation avec des entreprises locales.
+        </p>
+
+        <p>
+            Vous pouvez cependant contacter le service "Info logement indigne" au
+            0806 706 806
+            (prix d'un appel local).
+        </p>
+
+        <p>
+            Vous pouvez également renseigner vos coordonnées pour
+            <strong>recevoir le protocole d'auto-traitement par mail</strong>.
+        </p>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.nomOccupant) }}
+            {{ form_widget(form.nomOccupant) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner votre nom.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.prenomOccupant) }}
+            {{ form_widget(form.prenomOccupant) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner votre prénom.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group if-territory-open">
+        <div class="fr-select-group">
+            {{ form_label(form.telephoneOccupant) }}
+            {{ form_widget(form.telephoneOccupant) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner votre numéro de téléphone.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.emailOccupant) }}
+            {{ form_widget(form.emailOccupant) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner votre adresse e-mail.
+            </p>
+        </div>
+    </div>
+
+    {{ form_widget(form.autotraitement) }}
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('front-add-signalement') }}">
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Voir ma recommandation', 'previous': 'Retour' } %}
+{% endblock %}

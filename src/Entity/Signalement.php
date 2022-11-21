@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
+use App\Entity\Enum\Declarant;
 use App\Repository\SignalementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SignalementRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
@@ -49,9 +51,10 @@ class Signalement
     private ?string $telephoneOccupant = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Email]
     private ?string $emailOccupant = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 30, nullable: true)]
     private ?string $typeIntervention = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -98,6 +101,36 @@ class Signalement
 
     #[ORM\Column(length: 100)]
     private ?string $reference = null;
+
+    #[ORM\Column(type: 'string', enumType: Declarant::class)]
+    private Declarant $declarant;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $autotraitement = null;
+
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $superficie = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $dureeInfestation = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $infestationLogementsVoisins = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $piquresExistantes = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $piquresConfirmees = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $dejectionsDetails = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $oeufsEtLarvesDetails = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $punaisesDetails = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
     private $photos = [];
@@ -420,6 +453,126 @@ class Signalement
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getDeclarant(): Declarant
+    {
+        return $this->declarant;
+    }
+
+    public function setDeclarant(Declarant $declarant): self
+    {
+        $this->declarant = $declarant;
+
+        return $this;
+    }
+
+    public function isAutotraitement(): ?bool
+    {
+        return $this->autotraitement;
+    }
+
+    public function setAutotraitement(?bool $autotraitement): self
+    {
+        $this->autotraitement = $autotraitement;
+
+        return $this;
+    }
+
+    public function getSuperficie(): ?string
+    {
+        return $this->superficie;
+    }
+
+    public function setSuperficie(string $superficie): self
+    {
+        $this->superficie = $superficie;
+
+        return $this;
+    }
+
+    public function getDureeInfestation(): ?string
+    {
+        return $this->dureeInfestation;
+    }
+
+    public function setDureeInfestation(string $dureeInfestation): self
+    {
+        $this->dureeInfestation = $dureeInfestation;
+
+        return $this;
+    }
+
+    public function isInfestationLogementsVoisins(): ?bool
+    {
+        return $this->infestationLogementsVoisins;
+    }
+
+    public function setInfestationLogementsVoisins(?bool $infestationLogementsVoisins): self
+    {
+        $this->infestationLogementsVoisins = $infestationLogementsVoisins;
+
+        return $this;
+    }
+
+    public function isPiquresExistantes(): ?bool
+    {
+        return $this->piquresExistantes;
+    }
+
+    public function setPiquresExistantes(?bool $piquresExistantes): self
+    {
+        $this->piquresExistantes = $piquresExistantes;
+
+        return $this;
+    }
+
+    public function isPiquresConfirmees(): ?bool
+    {
+        return $this->piquresConfirmees;
+    }
+
+    public function setPiquresConfirmees(?bool $piquresConfirmees): self
+    {
+        $this->piquresConfirmees = $piquresConfirmees;
+
+        return $this;
+    }
+
+    public function getDejectionsDetails(): ?array
+    {
+        return $this->dejectionsDetails;
+    }
+
+    public function setDejectionsDetails(?array $dejectionsDetails): self
+    {
+        $this->dejectionsDetails = $dejectionsDetails;
+
+        return $this;
+    }
+
+    public function getOeufsEtLarvesDetails(): ?array
+    {
+        return $this->oeufsEtLarvesDetails;
+    }
+
+    public function setOeufsEtLarvesDetails(?array $oeufsEtLarvesDetails): self
+    {
+        $this->oeufsEtLarvesDetails = $oeufsEtLarvesDetails;
+
+        return $this;
+    }
+
+    public function getPunaisesDetails(): ?array
+    {
+        return $this->punaisesDetails;
+    }
+
+    public function setPunaisesDetails(?array $punaisesDetails): self
+    {
+        $this->punaisesDetails = $punaisesDetails;
 
         return $this;
     }

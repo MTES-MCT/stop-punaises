@@ -50,6 +50,15 @@
                     </select>
                 </div>
             {% endif %}
+
+            <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                <select class="fr-select" id="filter-type">
+                    <option value="">Type de signalement</option>
+                    <option value="Historique">Historique</option>
+                    <option value="Usager">Usager</option>
+                    <option value="Auto-traitement">Auto-traitement</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -69,6 +78,7 @@
                             <th>Entreprise</th>
                         {% endif %}
                         <th>Commune</th>
+                        <th>Type</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -78,14 +88,15 @@
                             <td>{{ signalement.reference }} <span>{{ signalement.nomOccupant }} {{ signalement.prenomOccupant }} {{ signalement.emailOccupant }}</span></td>
                             <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
                             <td><span>{{ signalement.typeIntervention|capitalize }}</span></td>
-                            <td>{{ signalement.dateIntervention.format('d/m/Y') }}</td>
+                            <td>{{ signalement.dateIntervention ? signalement.dateIntervention.format('d/m/Y') : '/' }}</td>
                             <td>
                                 {% include "common/components/niveau-infestation.html.twig" %}
                             </td>
                             {% if is_granted('ROLE_ADMIN') %}
-                                <td>{{ signalement.entreprise.nom }}</td>
+                                <td>{{ signalement.entreprise ? signalement.entreprise.nom : '/' }}</td>
                             {% endif %}
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
+                            <td>{{ signalement|type_signalement }}</td>
                             <td class="button-view"><a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
                         </tr>
                     {% endfor %}

@@ -1,0 +1,25 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div>
+        <h2>Instructions envoyées</h2>
+
+        <p>
+            Vous recevrez vos instructions par email d'ici quelques minutes.
+        </p>
+
+        <p>
+            N'oubliez pas de vérifier dans vos courriers indésirables.
+        </p>
+
+        <p>
+            <strong>Merci d'avoir utilisé le service Stop Punaises&nbsp;!</strong>
+        </p>
+    </div>
+
+    <nav>
+        <div class="fr-input-group">
+            <a href="{{ path('home') }}" class="fr-btn">Retour à l'accueil</a>
+        </div>
+    </nav>
+{% endblock %}

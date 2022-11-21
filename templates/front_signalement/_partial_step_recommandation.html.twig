@@ -1,0 +1,39 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="8" data-fr-steps="8"></div>
+    </div>
+    
+    <div>
+        <h2>Votre recommandation</h2>
+
+        <p>
+            D'après les informations fournies, nous estimons le niveau d'infestation de votre logement à&nbsp;:
+        </p>
+
+        <div class="align-center fr-mb-3v">
+            <div id="niveau-infestation"><span class="niveau-infestation">0</span></div>
+            <div id="niveau-infestation-txt">Aucune infestation</div>
+        </div>
+
+        <p>
+            Nous vous recommandons de transmettre votre signalement à un professionnel
+            pour planifier une intervention à votre domicile.
+        </p>
+
+        <p>
+            Toutefois, vous pouvez tenter de traiter le problème par vous-mêmes en suivant notre protocole.
+        </p>
+    </div>
+
+    <nav>
+        <div class="fr-input-group group-next">
+            <button type="button" class="fr-btn btn-next">Prise en charge professionnelle</button>
+        </div>
+
+        <div class="fr-input-group group-next">
+            <button type="button" class="fr-btn fr-btn--secondary btn-next-next">Prise en charge d'auto-traitement</button>
+        </div>
+    </nav>
+{% endblock %}
