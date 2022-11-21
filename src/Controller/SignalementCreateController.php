@@ -7,6 +7,7 @@ use App\Entity\Signalement;
 use App\Form\SignalementType;
 use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
+use App\Repository\TerritoireRepository;
 use App\Service\Signalement\ReferenceGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -17,7 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class SignalementCreateController extends AbstractController
 {
     #[Route('/bo/signalements/ajout', name: 'app_signalement_create')]
-    public function index(Request $request, SignalementManager $signalementManager, ReferenceGenerator $referenceGenerator): Response
+    public function index(
+        Request $request,
+        SignalementManager $signalementManager,
+        TerritoireRepository $territoireRepository,
+        ReferenceGenerator $referenceGenerator): Response
     {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementType::class, $signalement);
@@ -26,6 +31,14 @@ class SignalementCreateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $signalement->setReference($referenceGenerator->generate());
             $signalement->setDeclarant(Declarant::DECLARANT_ENTREPRISE);
+
+            $zipCode = substr($signalement->getCodePostal(), 0, 2);
+            if ('97' == $zipCode) {
+                $zipCode = substr($signalement->getCodePostal(), 0, 3);
+            }
+            $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
+            $signalement->setTerritoire($territoire);
+
             $signalementManager->save($signalement);
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');

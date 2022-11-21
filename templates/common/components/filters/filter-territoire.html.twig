@@ -2,7 +2,7 @@
     <option value="">Territoire</option>
     {% if territoires is not empty %}
         {% for territoire in territoires %}
-            <option value="{{ territoire.id }}">{{ territoire.nomComplet }}</option>
+            <option value="{{ territoire.nomComplet }}">{{ territoire.nomComplet }}</option>
         {% endfor %}
     {% endif %}
 </select>

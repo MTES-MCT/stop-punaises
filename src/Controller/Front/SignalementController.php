@@ -6,6 +6,7 @@ use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use App\Form\SignalementFrontType;
 use App\Manager\SignalementManager;
+use App\Repository\TerritoireRepository;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Upload\UploadHandlerService;
@@ -35,6 +36,7 @@ class SignalementController extends AbstractController
         SignalementManager $signalementManager,
         ReferenceGenerator $referenceGenerator,
         UploadHandlerService $uploadHandlerService,
+        TerritoireRepository $territoireRepository,
         MailerProvider $mailerProvider,
         ): Response {
         $signalement = new Signalement();
@@ -45,9 +47,18 @@ class SignalementController extends AbstractController
         if ($form->isValid() && $this->isCsrfTokenValid('front-add-signalement', $submittedToken)) {
             $signalement->setReference($referenceGenerator->generate());
             $signalement->setDeclarant(Declarant::DECLARANT_OCCUPANT);
+
             $filesPosted = $request->files->get('file-upload');
             $filesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
             $signalement->setPhotos($filesToSave);
+
+            $zipCode = substr($signalement->getCodePostal(), 0, 2);
+            if ('97' == $zipCode) {
+                $zipCode = substr($signalement->getCodePostal(), 0, 3);
+            }
+            $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
+            $signalement->setTerritoire($territoire);
+
             $signalementManager->save($signalement);
 
             if ($signalement->isAutotraitement()) {

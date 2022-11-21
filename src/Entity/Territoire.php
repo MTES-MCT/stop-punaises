@@ -30,9 +30,13 @@ class Territoire
     #[ORM\ManyToMany(targetEntity: Entreprise::class, mappedBy: 'territoires')]
     private Collection $entreprises;
 
+    #[ORM\OneToMany(mappedBy: 'territoire', targetEntity: Signalement::class)]
+    private Collection $signalements;
+
     public function __construct()
     {
         $this->entreprises = new ArrayCollection();
+        $this->signalements = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -108,6 +112,36 @@ class Territoire
     {
         if ($this->entreprises->removeElement($entreprise)) {
             $entreprise->removeTerritoire($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Signalement>
+     */
+    public function getSignalements(): Collection
+    {
+        return $this->signalements;
+    }
+
+    public function addSignalement(Signalement $signalement): self
+    {
+        if (!$this->signalements->contains($signalement)) {
+            $this->signalements->add($signalement);
+            $signalement->setTerritoire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalement(Signalement $signalement): self
+    {
+        if ($this->signalements->removeElement($signalement)) {
+            // set the owning side to null (unless already changed)
+            if ($signalement->getTerritoire() === $this) {
+                $signalement->setTerritoire(null);
+            }
         }
 
         return $this;

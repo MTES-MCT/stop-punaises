@@ -25,12 +25,6 @@ class SignalementManager extends AbstractManager
         : $this->findBy(['entreprise' => $this->security->getUser()->getEntreprise()]);
     }
 
-    public function findFromInactiveTerritories(): ?array
-    {
-        // TODO
-        return $this->findAll();
-    }
-
     public function findHistoriqueEntreprise(): ?array
     {
         $parameters = ['declarant' => Declarant::DECLARANT_ENTREPRISE];

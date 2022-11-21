@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
+use App\Repository\SignalementRepository;
 use App\Repository\TerritoireRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,11 +54,11 @@ class SignalementListController extends AbstractController
 
     #[Route('/bo/hors-perimetre', name: 'app_horsperimetre_list')]
     public function horsPerimetre(
-        SignalementManager $signalementManager,
+        SignalementRepository $signalementRepository,
         TerritoireRepository $territoireRepository): Response
     {
         $territoires = $territoireRepository->findAll();
-        $signalements = $signalementManager->findFromInactiveTerritories();
+        $signalements = $signalementRepository->findFromInactiveTerritories();
 
         return $this->render('signalement_list/hors-perimetre.html.twig', [
             'title' => 'Signalements hors périmètre',

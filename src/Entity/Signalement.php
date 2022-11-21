@@ -26,16 +26,16 @@ class Signalement
     #[ORM\Column(type: Types::GUID)]
     private ?string $uuid = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 10)]
     private ?string $codePostal = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $typeLogement = null;
 
     #[ORM\Column(nullable: true)]
@@ -93,7 +93,7 @@ class Signalement
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $localisationDansImmeuble = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(length: 10, nullable: true)]
     private ?string $codeInsee = null;
 
     #[ORM\ManyToOne(inversedBy: 'signalements')]
@@ -134,6 +134,9 @@ class Signalement
 
     #[ORM\Column(type: 'json', nullable: true)]
     private $photos = [];
+
+    #[ORM\ManyToOne(inversedBy: 'signalements')]
+    private ?Territoire $territoire = null;
 
     public function __construct()
     {
@@ -595,6 +598,18 @@ class Signalement
     public function setPhotos(?array $photos): self
     {
         $this->photos = $photos;
+
+        return $this;
+    }
+
+    public function getTerritoire(): ?Territoire
+    {
+        return $this->territoire;
+    }
+
+    public function setTerritoire(?Territoire $territoire): self
+    {
+        $this->territoire = $territoire;
 
         return $this;
     }

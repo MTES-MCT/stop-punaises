@@ -63,6 +63,11 @@ function initComponentsEvents() {
       refreshTableWithSearch();
     });
   }
+  if ($('#filter-territoire').length > 0) {
+    $('#filter-territoire').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
 }
 
 function refreshTableWithSearch() {

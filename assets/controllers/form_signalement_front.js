@@ -447,6 +447,7 @@ class PunaisesFrontSignalementController {
     } else {
       $('.if-territory-open').hide();
       $('.if-territory-not-open').show();
+      $('#hidden-postal-code').val($('input#code-postal').val());
     }
   }
 
@@ -458,7 +459,7 @@ class PunaisesFrontSignalementController {
     if (!self.checkSingleInput('signalement_front_prenomOccupant')) {
       canGoNext = false;
     }
-    if (!self.checkSingleInput('signalement_front_telephoneOccupant')) {
+    if (self.isTerritoryOpen && !self.checkSingleInput('signalement_front_telephoneOccupant')) {
       canGoNext = false;
     }
     if (!self.checkSingleInput('signalement_front_emailOccupant')) {

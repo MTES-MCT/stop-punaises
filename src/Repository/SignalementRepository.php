@@ -60,4 +60,13 @@ class SignalementRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
     }
+
+    public function findFromInactiveTerritories(): ?array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('t.estActif != true')
+            ->leftJoin('s.territoire', 't')
+            ->getQuery()
+            ->getResult();
+    }
 }
