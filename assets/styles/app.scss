@@ -510,6 +510,13 @@ span.niveau-infestation {
             }
         }
     }
+
+    input[type=date] {
+        width: 100%;
+        line-height: 1.5rem;
+        height: 2.5rem;
+        background-color: white;
+    }
 }
 @media (min-width: 992px) {
     .liste-signalements .fr-container .fr-input-wrap::before {

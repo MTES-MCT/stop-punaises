@@ -447,7 +447,7 @@ class PunaisesFrontSignalementController {
     } else {
       $('.if-territory-open').hide();
       $('.if-territory-not-open').show();
-      $('#hidden-postal-code').val($('input#code-postal').val());
+      $('.if-territory-not-open').append('<input type="hidden" id="hidden-postal-code" name="signalement_front[codePostal]" value="'+ $('input#code-postal').val() +'">');
     }
   }
 

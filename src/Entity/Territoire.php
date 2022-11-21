@@ -24,9 +24,6 @@ class Territoire
     #[ORM\Column(length: 3)]
     private ?string $zip = null;
 
-    #[ORM\Column]
-    private ?bool $estActif = null;
-
     #[ORM\ManyToMany(targetEntity: Entreprise::class, mappedBy: 'territoires')]
     private Collection $entreprises;
 
@@ -74,18 +71,6 @@ class Territoire
     public function setZip(string $zip): self
     {
         $this->zip = $zip;
-
-        return $this;
-    }
-
-    public function isEstActif(): ?bool
-    {
-        return $this->estActif;
-    }
-
-    public function setEstActif(bool $estActif): self
-    {
-        $this->estActif = $estActif;
 
         return $this;
     }

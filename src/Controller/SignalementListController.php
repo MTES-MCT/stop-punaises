@@ -19,8 +19,7 @@ class SignalementListController extends AbstractController
         TerritoireRepository $territoireRepository): Response
     {
         $territoires = $territoireRepository->findAll();
-        // TODO : changer requête
-        $signalements = $signalementManager->findByPrivileges();
+        $signalements = $signalementManager->findDeclaredByOccupants();
 
         return $this->render('signalement_list/signalements.html.twig', [
             'title' => 'Signalements usagers',

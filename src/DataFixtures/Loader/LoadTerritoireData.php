@@ -24,8 +24,7 @@ class LoadTerritoireData extends Fixture implements OrderedFixtureInterface
         $territoire = (new Territoire())
             ->setZip($row['zip'])
             ->setNom($row['name'])
-            ->setActive($row['active'])
-            ->setEstActif($row['active']); // @todo: to remove
+            ->setActive($row['active']);
 
         $manager->persist($territoire);
     }

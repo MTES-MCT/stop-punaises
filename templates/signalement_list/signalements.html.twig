@@ -17,15 +17,17 @@
                     <input type="text" class="fr-input" id="search-address" placeholder="Ville, CP...">
                 </div>
 
-                {# todo : date #}
+                <div class="fr-input-wrap fr-col-12 fr-col-lg-3">
+                    <input type="date" id="filter-date">
+                </div>
                 
-                {#<div class="fr-select-group fr-col-12 fr-col-lg-3">
+                <div class="fr-select-group fr-col-12 fr-col-lg-3">
                     <select class="fr-select" id="filter-type">
                         <option value="">Type</option>
                         <option value="A traiter">A traiter</option>
                         <option value="Auto-traitement">Auto-traitement</option>
                     </select>
-                </div>#}
+                </div>
 
                 <div class="fr-select-group fr-col-12 fr-col-lg-3">
                     {% include "common/components/filters/filter-niveau-infestation.html.twig" %}
@@ -46,7 +48,9 @@
                 #}
 
             {% else %}
-                {# todo : date #}
+                <div class="fr-input-wrap fr-col-12 fr-col-lg-3">
+                    <input type="date" id="filter-date">
+                </div>
 
                 <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
                     <input type="text" class="fr-input" id="search-address" placeholder="Ville, CP...">
@@ -75,10 +79,10 @@
                         <th>Créé le</th>
                         <th>Infestation</th>
                         <th>Commune</th>
-                        {#% if is_granted('ROLE_ADMIN') %}
+                        {% if is_granted('ROLE_ADMIN') %}
                             <th>Type</th>
-                            <th>Procédure</th>
-                        {% endif %#}
+                            {#<th>Procédure</th>#}
+                        {% endif %}
                         <th></th>
                     </tr>
                 </thead>
@@ -90,11 +94,14 @@
                             <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
                             <td>{% include "common/components/niveau-infestation.html.twig" %}</td>
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                            {#% if is_granted('ROLE_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <td>{{ signalement|type_signalement }}</td>
-                                <td>{% include "common/components/signalement-procedure.html.twig" %}</td>
-                            {% endif %#}
-                            <td class="button-view"><a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
+                                {#<td>{% include "common/components/signalement-procedure.html.twig" %}</td>#}
+                            {% endif %}
+                            <td class="button-view">
+                                <a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a>
+                                <span style="display: none;">{{ signalement.territoire.nomComplet }}</span>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
