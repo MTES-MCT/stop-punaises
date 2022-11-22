@@ -459,10 +459,16 @@ class PunaisesFrontSignalementController {
     if (!self.checkSingleInput('signalement_front_prenomOccupant')) {
       canGoNext = false;
     }
-    if (self.isTerritoryOpen && !self.checkSingleInput('signalement_front_telephoneOccupant')) {
-      canGoNext = false;
+    if (self.isTerritoryOpen) {
+      console.log($('#signalement_front_telephoneOccupant').val().length);
+      if (!self.checkSingleInput('signalement_front_telephoneOccupant') || $('#signalement_front_telephoneOccupant').val().length < 10 ) {
+        $('input#signalement_front_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+        canGoNext = false;
+      }
     }
-    if (!self.checkSingleInput('signalement_front_emailOccupant')) {
+    let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!self.checkSingleInput('signalement_front_emailOccupant') || !$('#signalement_front_emailOccupant').val().match(emailRegex)) {
+      $('input#signalement_front_emailOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
       canGoNext = false;
     }
     

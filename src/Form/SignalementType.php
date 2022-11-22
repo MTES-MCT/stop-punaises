@@ -153,7 +153,8 @@ class SignalementType extends AbstractType
             ->add('telephoneOccupant', TelType::class, [
                 'attr' => [
                     'class' => 'fr-input',
-                    'maxlength' => '100',
+                    'maxlength' => '15',
+                    'pattern' => '[0-9]{10}',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
