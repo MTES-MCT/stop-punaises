@@ -6,8 +6,10 @@ use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use App\Form\SignalementFrontType;
 use App\Manager\SignalementManager;
+use App\Repository\TerritoireRepository;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\ReferenceGenerator;
+use App\Service\Signalement\ZipCodeService;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +37,9 @@ class SignalementController extends AbstractController
         SignalementManager $signalementManager,
         ReferenceGenerator $referenceGenerator,
         UploadHandlerService $uploadHandlerService,
+        TerritoireRepository $territoireRepository,
         MailerProvider $mailerProvider,
+        ZipCodeService $zipCodeService,
         ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
@@ -45,9 +49,15 @@ class SignalementController extends AbstractController
         if ($form->isValid() && $this->isCsrfTokenValid('front-add-signalement', $submittedToken)) {
             $signalement->setReference($referenceGenerator->generate());
             $signalement->setDeclarant(Declarant::DECLARANT_OCCUPANT);
+
             $filesPosted = $request->files->get('file-upload');
             $filesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
             $signalement->setPhotos($filesToSave);
+
+            $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
+            $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
+            $signalement->setTerritoire($territoire);
+
             $signalementManager->save($signalement);
 
             if ($signalement->isAutotraitement()) {

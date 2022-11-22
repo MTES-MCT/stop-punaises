@@ -29,29 +29,142 @@ function startListeSignalementsApp() {
       }
     }
   });
+  initComponentsEvents();
+}
 
-  $('#search-free').on('keyup', function() {
-    refreshTableWithSearch();
-  });
-  $('#search-address').on('keyup', function() {
-    refreshTableWithSearch();
-  });
-  $('#filter-infectation').on('change', function() {
-    refreshTableWithSearch();
-  });
+function initComponentsEvents() {
+  if ($('#search-free').length > 0) {
+    $('#search-free').on('keyup', function() {
+      refreshTableWithSearch();
+    });
+  }
+  if ($('#search-address').length > 0) {
+    $('#search-address').on('keyup', function() {
+      refreshTableWithSearch();
+    });
+  }
+  if ($('#filter-infestation').length > 0) {
+    $('#filter-infestation').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
   if ($('#filter-entreprise').length > 0) {
     $('#filter-entreprise').on('change', function() {
       refreshTableWithSearch();
     });
   }
-  $('#filter-type').on('change', function() {
-    refreshTableWithSearch();
-  });
+  if ($('#filter-type').length > 0) {
+    $('#filter-type').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
+  if ($('#filter-statut').length > 0) {
+    $('#filter-statut').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
+  if ($('#filter-territoire').length > 0) {
+    $('#filter-territoire').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
+  if ($('#filter-type').length > 0) {
+    $('#filter-type').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
+  if ($('#filter-date').length > 0) {
+    $('#filter-date').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
 }
 
 function refreshTableWithSearch() {
+  if ($('.liste-signalements-hors-perimetres').length > 0) {
+    refreshTableHorsPerimetre();
+    return;
+  }
+  if ($('.liste-signalements-usagers').length > 0) {
+    refreshTableUsagers();
+    return;
+  }
+  if ($('.liste-signalements-historique').length > 0) {
+    refreshTableHistorique();
+  }
+}
+
+function refreshTableHorsPerimetre() {
+  if ($('#filter-territoire').length > 0) {
+    let territoire = $('#filter-territoire').val();
+    listTable.columns(2).search(territoire);
+  }
+  if ($('#filter-date').length > 0) {
+    let dateInput = $('#filter-date').val();
+    let dateSplit = dateInput.split('-');
+    let dateFilter = dateSplit[2] + '/' + dateSplit[1] + '/' + dateSplit[0];
+    listTable.columns(1).search(dateFilter);
+  }
+  if ($('#search-address').length > 0) {
+    let territoire = $('#search-address').val();
+    listTable.columns(3).search(territoire);
+  }
+  listTable.draw();
+  let countSignalement = listTable.rows( {search:'applied'} ).count();
+  $("span#count-signalement").text(countSignalement);
+}
+
+function refreshTableUsagers() {
+  let isAdmin = ($('#filter-type').length > 0);
+  
+  if ($('#filter-date').length > 0) {
+    let dateInput = $('#filter-date').val();
+    let dateFilter = '';
+    if (dateInput != '') {
+      let dateSplit = dateInput.split('-');
+      dateFilter = dateSplit[2] + '/' + dateSplit[1] + '/' + dateSplit[0];
+    }
+    listTable.columns(1).search(dateFilter);
+  }
+  if ($('#filter-infestation').length > 0) {
+    let niveauInfestation = $('#filter-infestation').val();
+    listTable.columns(2).search(niveauInfestation);
+  }
+  if ($('#search-address').length > 0) {
+    let address = $('#search-address').val();
+    listTable.columns(3).search(address);
+  }
+  if ($('#filter-type').length > 0) {
+    let type = $('#filter-type').val();
+    listTable.columns(4).search(type);
+  }
+  if ($('#filter-territoire').length > 0) {
+    let territoire = $('#filter-territoire').val();
+    listTable.columns(5).search(territoire);
+  }
+
+  // TODO
+  if ($('#filter-statut').length > 0) {
+    let statut = $('#filter-statut').val();
+    // listTable.columns(0).search(statut);
+  }
+  if ($('#filter-etat-infestation').length > 0) {
+    let etatInfestation = $('#filter-etat-infestation').val();
+    // listTable.columns(2).search(etatInfestation);
+  }
+  if ($('#filter-motif-cloture').length > 0) {
+    let motifCloture = $('#filter-motif-cloture').val();
+    // listTable.columns(2).search(motifCloture);
+  }
+
+  listTable.draw();
+  let countSignalement = listTable.rows( {search:'applied'} ).count();
+  $("span#count-signalement").text(countSignalement);
+}
+
+function refreshTableHistorique() {
   let indexColumnRef = 0;
-  let indexColumnInfectation = 4;
+  let indexColumnInfestation = 4;
   let indexColumnAddress = 5;
   let indexColumnType = 6;
   if ($('#filter-entreprise').length > 0) {
@@ -64,13 +177,11 @@ function refreshTableWithSearch() {
   listTable.columns(indexColumnRef).search(searchText);
   let searchAddress = $('#search-address').val();
   listTable.columns(indexColumnAddress).search(searchAddress);
-  let niveauInfectation = $('#filter-infectation').val();
-  listTable.columns(indexColumnInfectation).search(niveauInfectation);
+  let niveauInfestation = $('#filter-infestation').val();
+  listTable.columns(indexColumnInfestation).search(niveauInfestation);
   let typeSignalement = $('#filter-type').val();
   listTable.columns(indexColumnType).search(typeSignalement);
   listTable.draw();
   let countSignalement = listTable.rows( {search:'applied'} ).count();
   $("span#count-signalement").text(countSignalement);
 }
-
-

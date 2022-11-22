@@ -1,0 +1,6 @@
+<select class="fr-select" id="filter-infestation">
+    <option value="">Niveau infestation</option>
+    {% for niveau, niveauLabel in niveaux_infestation %}
+        <option value="{{niveau}}">{{niveauLabel}}</option>
+    {% endfor %}
+</select>

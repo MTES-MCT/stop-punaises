@@ -30,11 +30,15 @@ span.niveau-infestation {
     float: right;
 }
 
+.grey-bg {
+    background-color: var(--grey-975-75);
+}
+
 .dataTables_wrapper {
     table {
         width: 100%;
         td.button-view {
-            a.fr-btn.fr-icon-arrow-right-fill, button.fr-btn.fr-icon-pencil-line {
+            .fr-btn.fr-icon-arrow-right-fill, .fr-btn.fr-icon-pencil-line {
                 display: inline-block;
                 border-radius: 20px;
                 min-height: 1.5rem;
@@ -429,6 +433,13 @@ span.niveau-infestation {
     }
 }
 
+.tableau-de-bord {
+    .fr-badges-group {
+        position: relative;
+        top: 20px;
+    }
+}
+
 .creer-signalement {
     > div.fr-p-5w {
         background-color: var(--grey-975-75);
@@ -467,8 +478,6 @@ span.niveau-infestation {
 }
 
 .liste-signalements {
-    background-color: var(--grey-975-75);
-
     .fr-container {
         .fr-input-wrap::before {
             right: 1rem;
@@ -501,6 +510,13 @@ span.niveau-infestation {
             }
         }
     }
+
+    input[type=date] {
+        width: 100%;
+        line-height: 1.5rem;
+        height: 2.5rem;
+        background-color: white;
+    }
 }
 @media (min-width: 992px) {
     .liste-signalements .fr-container .fr-input-wrap::before {
@@ -515,8 +531,6 @@ span.niveau-infestation {
     }
 
     .fr-tabs__panel {
-        background-color: var(--grey-975-75);
-
         h2 {
             span.type-intervention {
                 display: inline-block;
@@ -554,8 +568,6 @@ span.niveau-infestation {
 }
 
 .liste-entreprises {
-    background-color: var(--grey-975-75);
-
     .fr-container {
         .fr-input-wrap::before {
             right: 1rem;
@@ -620,7 +632,6 @@ span.niveau-infestation {
     }
 
     .sublist-employes {
-        background-color: var(--grey-975-75);
         table {
             tr {
                 td {

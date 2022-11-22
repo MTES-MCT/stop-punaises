@@ -1,0 +1,30 @@
+<dialog aria-labelledby="fr-modal-title-modal-signalement-hors-perimetre-{{signalement.uuid}}" role="dialog" id="fr-modal-signalement-hors-perimetre-{{signalement.uuid}}" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-signalement-hors-perimetre-{{signalement.uuid}}">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-signalement-hors-perimetre-{{signalement.uuid}}" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Signalement #{{signalement.reference}}</h1>
+                        
+                        <p>Déposé le : {{signalement.createdAt.format('d/m/Y')}}</p>
+
+                        <p>
+                            Territoire : {{signalement.territoire.nomComplet}}
+                            <br>
+                            Code postal : {{signalement.codePostal}}
+                        </p>
+
+                        <p>
+                            Usager : {{signalement.nomCompletOccupant}}
+                            <br>
+                            Email : {{signalement.emailOccupant}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

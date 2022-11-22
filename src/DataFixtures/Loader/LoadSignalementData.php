@@ -6,6 +6,7 @@ use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use App\Repository\EmployeRepository;
 use App\Repository\EntrepriseRepository;
+use App\Repository\TerritoireRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -16,7 +17,8 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
 {
     public function __construct(
         private EntrepriseRepository $entrepriseRepository,
-        private EmployeRepository $employeRepository)
+        private EmployeRepository $employeRepository,
+        private TerritoireRepository $territoireRepository)
     {
     }
 
@@ -57,7 +59,8 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
             ->setDateIntervention(new \DateTimeImmutable())
             ->setAgent($this->employeRepository->findOneBy(['uuid' => $row['agent']]))
             ->setReference($row['reference'])
-            ->setDeclarant(Declarant::from($row['declarant']));
+            ->setDeclarant(Declarant::from($row['declarant']))
+            ->setTerritoire($this->territoireRepository->findOneBy(['zip' => $row['territoire']]));
 
         $manager->persist($signalement);
     }

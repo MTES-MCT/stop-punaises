@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Entreprise;
+use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -59,5 +61,32 @@ class SignalementRepository extends ServiceEntityRepository
             ->setMaxResults(1);
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
+    }
+
+    public function findFromInactiveTerritories(): ?array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('t.active != true')
+            ->leftJoin('s.territoire', 't')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findDeclaredByOccupants(Entreprise|null $entreprise = null): ?array
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->leftJoin('s.territoire', 't')
+            ->where('t.active = true')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT);
+
+        if (!empty($entreprise)) {
+            $qb->andWhere('s.autotraitement != true');
+            $qb->andWhere('s.entreprise IS NULL or s.entreprise = :entrepriseId')
+                ->setParameter('entrepriseId', $entreprise->getId());
+        }
+
+        return $qb->getQuery()
+            ->getResult();
     }
 }

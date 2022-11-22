@@ -14,6 +14,7 @@ signalements:
   agent: "00000001-0001-0000-0000-000000000000"
   reference: "2022-1"
   declarant: "DECLARANT_ENTREPRISE"
+  territoire: "13"
 -
   entreprise: "00000001-0001-0000-0000-000000000000"
   uuid: "00000001-0002-0000-0000-000000000000"
@@ -29,6 +30,7 @@ signalements:
   agent: "00000001-0002-0000-0000-000000000000"
   reference: "2022-2"
   declarant: "DECLARANT_ENTREPRISE"
+  territoire: "13"
 -
   entreprise: "00000001-0001-0000-0000-000000000000"
   uuid: "00000001-0003-0000-0000-000000000000"
@@ -44,6 +46,7 @@ signalements:
   agent: "00000001-0003-0000-0000-000000000000"
   reference: "2022-3"
   declarant: "DECLARANT_ENTREPRISE"
+  territoire: "13"
 -
   entreprise: "00000001-0002-0000-0000-000000000000"
   uuid: "00000001-0004-0000-0000-000000000000"
@@ -59,6 +62,7 @@ signalements:
   agent: "00000001-0001-0000-0000-000000000000"
   reference: "2022-4"
   declarant: "DECLARANT_ENTREPRISE"
+  territoire: "13"
 -
   entreprise: "00000001-0002-0000-0000-000000000000"
   uuid: "00000001-0005-0000-0000-000000000000"
@@ -74,6 +78,7 @@ signalements:
   agent: "00000001-0002-0000-0000-000000000000"
   reference: "2022-5"
   declarant: "DECLARANT_ENTREPRISE"
+  territoire: "13"
 -
   entreprise: "00000001-0003-0000-0000-000000000000"
   uuid: "00000001-0006-0000-0000-000000000000"
@@ -89,3 +94,4 @@ signalements:
   agent: "00000001-0003-0000-0000-000000000000"
   reference: "2022-6"
   declarant: "DECLARANT_ENTREPRISE"
+  territoire: "13"

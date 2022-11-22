@@ -17,6 +17,8 @@
             Type de logement : {{ signalement.typeLogement|capitalize }}
             <br>
             Construction avant 1948 : {{ signalement.construitAvant1948|construction_avant_1948 }}
+            <br>
+            <a href="https://www.openstreetmap.org/search?query={{ signalement.adresseComplete|url_encode }}" target="_blank">Afficher la carte</a>
         </div>
         <div class="fr-col-12 fr-col-lg-5 edit-zone">
             <strong>L'occupant</strong>

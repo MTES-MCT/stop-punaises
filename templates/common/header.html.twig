@@ -41,7 +41,7 @@
                             <li {% if app.request.get('_route') == 'app_login' %} class="active"{% endif %}>
 
                                 {% if app.user %}
-                                    <a class="fr-btn fr-icon-user-line" href="{{ path('app_signalement_list') }}">Tableau de bord</a>
+                                    <a class="fr-btn fr-icon-user-line" href="{{ path('app_dashboard_home') }}">Tableau de bord</a>
                                 {% else %}
                                     <a class="fr-btn fr-icon-lock-line" href="{{ path('app_login') }}">
                                         Espace pro

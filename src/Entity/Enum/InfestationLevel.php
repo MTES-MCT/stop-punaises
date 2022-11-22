@@ -13,11 +13,22 @@ enum InfestationLevel: int
     public function label(): string
     {
         return match ($this) {
-            InfestationLevel::NULLE => '0 - Nulle',
-            InfestationLevel::FAIBLE => '1 - Faible',
-            InfestationLevel::MOYENNE => '2 - Moyenne',
-            InfestationLevel::ELEVEE => '3 - Elevée',
-            InfestationLevel::TRES_ELEVEE => '4 - Très élevée',
+            InfestationLevel::NULLE => self::getLabelList()[0],
+            InfestationLevel::FAIBLE => self::getLabelList()[1],
+            InfestationLevel::MOYENNE => self::getLabelList()[2],
+            InfestationLevel::ELEVEE => self::getLabelList()[3],
+            InfestationLevel::TRES_ELEVEE => self::getLabelList()[4],
         };
+    }
+
+    public static function getLabelList(): array
+    {
+        return [
+            '0 - Nulle',
+            '1 - Faible',
+            '2 - Moyenne',
+            '3 - Elevée',
+            '4 - Très élevée',
+        ];
     }
 }

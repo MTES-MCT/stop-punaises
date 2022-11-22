@@ -1,0 +1,104 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stop punaises - Tableau de bord{% endblock %}
+
+{% block body %}
+{% include "dashboard/nav.html.twig" %}
+
+<div class="tableau-de-bord fr-p-5w grey-bg">
+    <div class="fr-container">
+        {% if is_granted('ROLE_ADMIN') %}
+            <h1>Tableau de bord entreprise</h1>
+        {% else %}
+            <h1>Tableau de bord administrateur</h1>
+        {% endif %}
+
+        <div class="fr-grid-row fr-grid-row--gutters fr-mb-1w">
+            <div class="fr-col fr-col-md-4">
+                <div class="fr-card fr-enlarge-link">
+                    <div class="fr-card__body">
+                        {#
+                        <ul class="fr-badges-group">
+                            <li>
+                                <p class="fr-badge fr-badge--no-icon fr-badge--warning">{{count_nouveaux}} nouveau</p>
+                            </li>
+                            <li>
+                                <p class="fr-badge fr-badge--no-icon fr-badge--success">{{count_en_cours}} en cours</p>
+                            </li>
+                        </ul>
+                        #}
+                        <div class="fr-card__content">
+                            <h3 class="fr-card__title">
+                                <a href="{{ path('app_signalement_list') }}">Signalements à traiter</a>
+                            </h3>
+                            <p class="fr-card__desc">Consultez et traitez les signalements déposés par les particuliers !</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="fr-col fr-col-md-4">
+                    <div class="fr-card fr-enlarge-link">
+                        <div class="fr-card__body">
+                        <ul class="fr-badges-group">
+                            <li>
+                                <p class="fr-badge fr-badge--no-icon fr-badge--info">{{count_hors_perimetre}} signalements</p>
+                            </li>
+                        </ul>
+                            <div class="fr-card__content">
+                                <h3 class="fr-card__title">
+                                    <a href="{{ path('app_horsperimetre_list') }}">Hors périmètre</a>
+                                </h3>
+                                <p class="fr-card__desc">Consultez les signalements déposés sur les territoires non déployés.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="fr-col fr-col-md-4">
+                <div class="fr-card fr-enlarge-link">
+                    <div class="fr-card__body">
+                        <div class="fr-card__content">
+                            <h3 class="fr-card__title">
+                                <a href="{{ path('app_historique_list') }}">Données historiques</a>
+                            </h3>
+                            <p class="fr-card__desc">Consultez et gérez la liste des interventions réalisées avant d'utiliser Stop Punaises.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="fr-col fr-col-md-4">
+                    <div class="fr-card fr-enlarge-link">
+                        <div class="fr-card__body">
+                            <div class="fr-card__content">
+                                <h3 class="fr-card__title">
+                                    <a href="{{ path('app_entreprise_list') }}">Les entreprises</a>
+                                </h3>
+                                <p class="fr-card__desc">Gérez les entreprises enregistrées sur la plateforme Stop Punaises.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="fr-col fr-col-md-4">
+                    <div class="fr-card fr-enlarge-link">
+                        <div class="fr-card__body">
+                            <div class="fr-card__content">
+                                <h3 class="fr-card__title">
+                                    <a href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}">Mon entreprise</a>
+                                </h3>
+                                <p class="fr-card__desc">Gérez les informations de votre entreprise et vos fiches employés.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

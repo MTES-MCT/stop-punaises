@@ -24,15 +24,16 @@ class Territoire
     #[ORM\Column(length: 3)]
     private ?string $zip = null;
 
-    #[ORM\Column]
-    private ?bool $estActif = null;
-
     #[ORM\ManyToMany(targetEntity: Entreprise::class, mappedBy: 'territoires')]
     private Collection $entreprises;
+
+    #[ORM\OneToMany(mappedBy: 'territoire', targetEntity: Signalement::class)]
+    private Collection $signalements;
 
     public function __construct()
     {
         $this->entreprises = new ArrayCollection();
+        $this->signalements = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -57,6 +58,11 @@ class Territoire
         return $this;
     }
 
+    public function getNomComplet(): ?string
+    {
+        return $this->getZip().' - '.$this->getNom();
+    }
+
     public function getZip(): ?string
     {
         return $this->zip;
@@ -65,18 +71,6 @@ class Territoire
     public function setZip(string $zip): self
     {
         $this->zip = $zip;
-
-        return $this;
-    }
-
-    public function isEstActif(): ?bool
-    {
-        return $this->estActif;
-    }
-
-    public function setEstActif(bool $estActif): self
-    {
-        $this->estActif = $estActif;
 
         return $this;
     }
@@ -103,6 +97,36 @@ class Territoire
     {
         if ($this->entreprises->removeElement($entreprise)) {
             $entreprise->removeTerritoire($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Signalement>
+     */
+    public function getSignalements(): Collection
+    {
+        return $this->signalements;
+    }
+
+    public function addSignalement(Signalement $signalement): self
+    {
+        if (!$this->signalements->contains($signalement)) {
+            $this->signalements->add($signalement);
+            $signalement->setTerritoire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSignalement(Signalement $signalement): self
+    {
+        if ($this->signalements->removeElement($signalement)) {
+            // set the owning side to null (unless already changed)
+            if ($signalement->getTerritoire() === $this) {
+                $signalement->setTerritoire(null);
+            }
         }
 
         return $this;

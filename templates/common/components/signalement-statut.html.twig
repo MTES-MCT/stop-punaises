@@ -1,0 +1,19 @@
+{#
+TODO
+    Nouveau : le signalement vient d'être déposé et l'entreprise ne l'a pas pris en charge
+    En cours : l'entreprise a fait une action
+    Traité : l'entreprise a marqué le signalement comme traité
+    Fermé : le signalement est fermé (plusieurs motifs possibles)
+    Refusé : l'entreprise a refusé le signalement
+#}
+{% if (signalement) %}
+    <p class="fr-badge fr-badge--orange-terre-battue fr-badge--no-icon">Nouveau</p>
+{% else %}
+    <p class="fr-badge fr-badge--success fr-badge--no-icon">En cours</p>
+{#% else %}
+    <p class="fr-badge fr-badge--green-menthe fr-badge--no-icon">Traité</p>
+{% else %}
+    <p class="fr-badge fr-badge--blue-ecume fr-badge--no-icon">Fermé</p>
+{% else %}
+    <p class="fr-badge fr-badge--beige-gris-galet fr-badge--no-icon">Refusé</p>#}
+{% endif %}

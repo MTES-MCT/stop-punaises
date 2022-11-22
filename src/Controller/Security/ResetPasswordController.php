@@ -24,7 +24,7 @@ class ResetPasswordController extends AbstractController
         UserManager $userManager
     ): Response {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_signalement_list');
+            return $this->redirectToRoute('app_dashboard_home');
         }
 
         if ($request->isMethod('POST') && $email = $request->request->get('email')) {
@@ -58,7 +58,7 @@ class ResetPasswordController extends AbstractController
         string $token
     ): Response {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_signalement_list');
+            return $this->redirectToRoute('app_dashboard_home');
         }
 
         if (false === ($user = $resetPasswordToken->validateToken($token))) {
