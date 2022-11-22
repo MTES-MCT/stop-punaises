@@ -16,6 +16,7 @@ class PunaisesFrontSignalementController {
     'home',
     'info_intro',
     'info_logement',
+    'info_locataire',
     'info_problemes',
     'traces_punaises_intro',
     'traces_punaises_piqures',
@@ -99,6 +100,8 @@ class PunaisesFrontSignalementController {
 
   initStep() {
     switch (self.stepStr) {
+      case 'info_locataire':
+        return self.initStepInfoLocataire();
       case 'traces_punaises_piqures':
         return self.initStepTracesPunaisesPiqures();
       case 'traces_punaises_dejections':
@@ -124,6 +127,8 @@ class PunaisesFrontSignalementController {
         return self.checkStepHome();
       case 'info_logement':
         return self.checkStepInfoLogement();
+      case 'info_locataire':
+        return self.checkStepInfoLocataire();
       case 'info_problemes':
         return self.checkStepInfoProblemes();
       case 'traces_punaises_piqures':
@@ -244,6 +249,56 @@ class PunaisesFrontSignalementController {
       canGoNext = false;
     }
     if (!self.checkSingleInput('signalement_front_ville')) {
+      canGoNext = false;
+    }
+    
+    return canGoNext;
+  }
+
+  initStepInfoLocataire() {
+    self.updateStepInfoLocataireProprietaire();
+    $('#step-'+self.stepStr+' input[name="signalement_front[locataire]"]').on('click', function() {
+      self.updateStepInfoLocataireProprietaire();
+    });
+    self.updateStepInfoLocataireAllocataire();
+    $('#step-'+self.stepStr+' input[name="signalement_front[allocataire]"]').on('click', function() {
+      self.updateStepInfoLocataireAllocataire();
+    });
+  }
+
+  updateStepInfoLocataireProprietaire() {
+    let isVisible = $('#step-'+self.stepStr+' #signalement_front_locataire_1').prop('checked');
+    if (isVisible) {
+      $('#step-'+self.stepStr+' #form-group-nomProprietaire').slideDown(200);
+    } else {
+      $('#step-'+self.stepStr+' #form-group-nomProprietaire').slideUp(200);
+    }
+  }
+
+  updateStepInfoLocataireAllocataire() {
+    let isVisible = $('#step-'+self.stepStr+' #signalement_front_allocataire_0').prop('checked');
+    if (isVisible) {
+      $('#step-'+self.stepStr+' #form-group-numeroAllocataire').slideDown(200);
+    } else {
+      $('#step-'+self.stepStr+' #form-group-numeroAllocataire').slideUp(200);
+    }
+  }
+
+  checkStepInfoLocataire() {
+    let canGoNext = true;
+    if (!self.checkChoicesInput('locataire', 2)) {
+      canGoNext = false;
+    }
+    if ($('#signalement_front_locataire_1').prop('checked') && !self.checkSingleInput('signalement_front_nomProprietaire')) {
+      canGoNext = false;
+    }
+    if (!self.checkChoicesInput('logementSocial', 2)) {
+      canGoNext = false;
+    }
+    if (!self.checkChoicesInput('allocataire', 2)) {
+      canGoNext = false;
+    }
+    if ($('#signalement_front_allocataire_0').prop('checked') && !self.checkSingleInput('signalement_front_numeroAllocataire')) {
       canGoNext = false;
     }
     
