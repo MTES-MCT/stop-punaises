@@ -9,6 +9,7 @@ use App\Manager\SignalementManager;
 use App\Repository\TerritoireRepository;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\ReferenceGenerator;
+use App\Service\Signalement\ZipCodeService;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +39,7 @@ class SignalementController extends AbstractController
         UploadHandlerService $uploadHandlerService,
         TerritoireRepository $territoireRepository,
         MailerProvider $mailerProvider,
+        ZipCodeService $zipCodeService,
         ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
@@ -52,10 +54,7 @@ class SignalementController extends AbstractController
             $filesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
             $signalement->setPhotos($filesToSave);
 
-            $zipCode = substr($signalement->getCodePostal(), 0, 2);
-            if ('97' == $zipCode) {
-                $zipCode = substr($signalement->getCodePostal(), 0, 3);
-            }
+            $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
             $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
             $signalement->setTerritoire($territoire);
 

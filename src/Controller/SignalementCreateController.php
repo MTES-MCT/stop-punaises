@@ -9,6 +9,7 @@ use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
 use App\Repository\TerritoireRepository;
 use App\Service\Signalement\ReferenceGenerator;
+use App\Service\Signalement\ZipCodeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ class SignalementCreateController extends AbstractController
         Request $request,
         SignalementManager $signalementManager,
         TerritoireRepository $territoireRepository,
+        ZipCodeService $zipCodeService,
         ReferenceGenerator $referenceGenerator): Response
     {
         $signalement = new Signalement();
@@ -32,10 +34,7 @@ class SignalementCreateController extends AbstractController
             $signalement->setReference($referenceGenerator->generate());
             $signalement->setDeclarant(Declarant::DECLARANT_ENTREPRISE);
 
-            $zipCode = substr($signalement->getCodePostal(), 0, 2);
-            if ('97' == $zipCode) {
-                $zipCode = substr($signalement->getCodePostal(), 0, 3);
-            }
+            $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
             $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
             $signalement->setTerritoire($territoire);
 
