@@ -6,6 +6,8 @@ use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
 use App\Entity\Enum\Declarant;
 use App\Repository\SignalementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -138,9 +140,17 @@ class Signalement
     #[ORM\ManyToOne(inversedBy: 'signalements')]
     private ?Territoire $territoire = null;
 
+    #[ORM\OneToMany(mappedBy: 'signalement', targetEntity: Message::class)]
+    private Collection $messages;
+
+    #[ORM\OneToMany(mappedBy: 'signalement', targetEntity: Intervention::class)]
+    private Collection $interventions;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
+        $this->messages = new ArrayCollection();
+        $this->interventions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -610,6 +620,66 @@ class Signalement
     public function setTerritoire(?Territoire $territoire): self
     {
         $this->territoire = $territoire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setSignalement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getSignalement() === $this) {
+                $message->setSignalement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Intervention>
+     */
+    public function getInterventions(): Collection
+    {
+        return $this->interventions;
+    }
+
+    public function addIntervention(Intervention $intervention): self
+    {
+        if (!$this->interventions->contains($intervention)) {
+            $this->interventions->add($intervention);
+            $intervention->setSignalement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIntervention(Intervention $intervention): self
+    {
+        if ($this->interventions->removeElement($intervention)) {
+            // set the owning side to null (unless already changed)
+            if ($intervention->getSignalement() === $this) {
+                $intervention->setSignalement(null);
+            }
+        }
 
         return $this;
     }
