@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stop punaises - Suivi de mon signalement{% endblock %}
+
+{% block body %}
+<div class="suivi-usager fr-container fr-my-3v">
+
+    <h2>Bonjour {{ signalement.prenomOccupant }},</h2>
+    <h3>Votre signalement #{{ signalement.reference }}</h3>
+
+    {% include "front_suivi_usager/steps.html.twig" %}
+
+    <div class="align-center">
+        <div class="fr-mb-3v">
+            <a class="fr-btn fr-btn--icon-left fr-icon-download-line" href="{{ link_pdf_autotraitement }}" target="_blank">Télécharger le protocole</a>
+        </div>
+
+        <div class="fr-mb-3v">
+            {% if signalement.autotraitement %}
+                <a class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-briefcase-line" href="#" target="_blank">Trouver une entreprise labellisée</a>
+            {% else %}
+                <a class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-close-line" href="#" target="_blank">Arrêter la procédure</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <section class="fr-accordion fr-mt-5w">
+        <h3 class="fr-accordion__title">
+            <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-info-signalement">Info du signalement</button>
+        </h3>
+        <div class="fr-collapse" id="accordion-info-signalement">
+            Référence : #{{ signalement.reference }}
+            <br>
+            Date de dépot : {{ signalement.createdAt.format('d/m/Y') }}
+            <br>
+            Infestation estimée : {{ niveau_infestation }}
+            <br>
+            Protocole choisi : {{ signalement.autotraitement ? 'auto traitement' : 'intervention professionnelle' }}
+        </div>
+    </section>
+
+    <div class="fr-mt-5w">
+        <h3>Détails des événements</h3>
+    </div>
+
+    {% for event in events %}
+        <div class="event-item fr-mb-3w fr-pb-3w">
+            <div class="even-item-date">{{ event.date.format('d/m/Y') }}</div>
+            {% if event.label is defined %}
+                <div><p class="fr-badge fr-badge--warning fr-badge--no-icon">{{ event.label }}</p></div>
+            {% endif %}
+            <h4>{{ event.title }}</h4>
+            <div>{{ event.description }}</div>
+            {% if event.actionLabel is defined %}
+                <div class="event-item-action fr-mt-3v">
+                    <a href="{{ event.actionLink }}" target="_blank">{{ event.actionLabel }}</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

@@ -749,3 +749,32 @@ span.niveau-infestation {
         }
     }
 }
+
+.suivi-usager {
+    .fr-btn {
+        width: 100%;
+        justify-content: center;
+
+        &::after {
+            --icon-size: 0rem;
+        }
+    }
+
+    .event-item {
+        border-bottom: 1px solid #E5E5E5;
+
+        .even-item-date {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--grey-625-425);
+        }
+
+        h4 {
+            margin: 0;
+        }
+
+        .event-item-action {
+            text-align: right;
+        }
+    }
+}
