@@ -545,7 +545,11 @@ class PunaisesFrontSignalementController {
       processData:false,
   
       success: function() {
-        self.refreshStep(2);  
+        let nbStep = 2;
+        if (!self.isTerritoryOpen) {
+          nbStep = 1;
+        }
+        self.refreshStep(nbStep);
       },
       error: function (xhr, desc, err) {
         console.log(xhr);
