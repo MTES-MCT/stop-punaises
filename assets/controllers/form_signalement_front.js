@@ -460,7 +460,6 @@ class PunaisesFrontSignalementController {
       canGoNext = false;
     }
     if (self.isTerritoryOpen) {
-      console.log($('#signalement_front_telephoneOccupant').val().length);
       if (!self.checkSingleInput('signalement_front_telephoneOccupant') || $('#signalement_front_telephoneOccupant').val().length < 10 ) {
         $('input#signalement_front_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
         canGoNext = false;
