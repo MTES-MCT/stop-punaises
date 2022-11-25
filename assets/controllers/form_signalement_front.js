@@ -205,9 +205,14 @@ class PunaisesFrontSignalementController {
     $('#niveau-infestation span').addClass('niveau-' + niveauInfestation);
     $('#signalement_front_niveauInfestation').val(niveauInfestation);
 
+    $('.if-recommandation-zero').hide();
+    $('.if-recommandation-not-zero').show();
+
     switch (niveauInfestation) {
       case 0:
         $('#niveau-infestation-txt').text('Aucune infestation');
+        $('.if-recommandation-zero').show();
+        $('.if-recommandation-not-zero').hide();
         break;
       case 1:
         $('#niveau-infestation-txt').text('Infestation faible');
