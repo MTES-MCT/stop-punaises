@@ -138,6 +138,21 @@ class Signalement
     #[ORM\ManyToOne(inversedBy: 'signalements')]
     private ?Territoire $territoire = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $locataire = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $nomProprietaire = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $logementSocial = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $allocataire = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $numeroAllocataire = null;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -610,6 +625,66 @@ class Signalement
     public function setTerritoire(?Territoire $territoire): self
     {
         $this->territoire = $territoire;
+
+        return $this;
+    }
+
+    public function isLocataire(): ?bool
+    {
+        return $this->locataire;
+    }
+
+    public function setLocataire(?bool $locataire): self
+    {
+        $this->locataire = $locataire;
+
+        return $this;
+    }
+
+    public function getNomProprietaire(): ?string
+    {
+        return $this->nomProprietaire;
+    }
+
+    public function setNomProprietaire(?string $nomProprietaire): self
+    {
+        $this->nomProprietaire = $nomProprietaire;
+
+        return $this;
+    }
+
+    public function isLogementSocial(): ?bool
+    {
+        return $this->logementSocial;
+    }
+
+    public function setLogementSocial(?bool $logementSocial): self
+    {
+        $this->logementSocial = $logementSocial;
+
+        return $this;
+    }
+
+    public function isAllocataire(): ?bool
+    {
+        return $this->allocataire;
+    }
+
+    public function setAllocataire(?bool $allocataire): self
+    {
+        $this->allocataire = $allocataire;
+
+        return $this;
+    }
+
+    public function getNumeroAllocataire(): ?string
+    {
+        return $this->numeroAllocataire;
+    }
+
+    public function setNumeroAllocataire(?string $numeroAllocataire): self
+    {
+        $this->numeroAllocataire = $numeroAllocataire;
 
         return $this;
     }

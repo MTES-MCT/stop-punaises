@@ -76,7 +76,7 @@
         {% for index,photo in photos %}
             <div class="fr-col-6 fr-col-md-3">
                 <div style="background: url('{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}')no-repeat center center/cover">
-                    <a class="fr-btn fr-icon-eye-line" href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank"></a>
+                    <a class="fr-btn fr-icon-eye-line" href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank" rel="noopener"></a>
                     {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_ENTREPRISE') and signalement.entreprise is not null and signalement.entreprise.id == app.user.entreprise.id) %}
                         <form action="{{ path('app_delete_photo', {'uuid': signalement.uuid, 'filename': photo.file }) }}" method="POST">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_delete_file_'~signalement.id) }}">
