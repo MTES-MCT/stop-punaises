@@ -42,7 +42,7 @@ class SignalementCreateController extends AbstractController
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');
 
-            return $this->redirect($this->generateUrl('app_signalement_list'));
+            return $this->redirect($this->generateUrl('app_historique_list'));
         }
 
         $this->displayErrors($form);

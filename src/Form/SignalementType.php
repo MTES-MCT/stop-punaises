@@ -154,7 +154,6 @@ class SignalementType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '15',
-                    'pattern' => '[0-9]{10}',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
