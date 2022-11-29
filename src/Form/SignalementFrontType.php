@@ -24,7 +24,7 @@ class SignalementFrontType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // Step 3
+            // Step info_logement
             ->add('typeLogement', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
@@ -99,7 +99,85 @@ class SignalementFrontType extends AbstractType
                 'required' => true,
             ])
 
-            // Step 4
+            // Step info_locataire
+            ->add('locataire', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Propriétaire' => false,
+                    'Locataire' => true,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je suis...',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('nomProprietaire', TextType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                    'maxlength' => '100',
+                    'placeholder' => 'Nom du bailleur',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Le nom de mon bailleur / propriétaire est',
+            ])
+            ->add('logementSocial', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je vis dans un logement social',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('allocataire', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'fr-radio',
+                ],
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+                'expanded' => true,
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Je touche une allocation logement',
+                'row_attr' => [
+                    'class' => 'fr-select-group',
+                ],
+                'required' => true,
+            ])
+            ->add('numeroAllocataire', TextType::class, [
+                'attr' => [
+                    'class' => 'fr-input',
+                    'maxlength' => '50',
+                    'placeholder' => '012345',
+                ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
+                'label' => 'Mon numéro d\'allocataire est',
+            ])
+
+            // Step info_problemes
             ->add('dureeInfestation', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
@@ -139,7 +217,7 @@ class SignalementFrontType extends AbstractType
                 'required' => true,
             ])
 
-            // Step 6
+            // Step traces_punaises_piqures
             ->add('piquresExistantes', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-radio',
@@ -177,7 +255,7 @@ class SignalementFrontType extends AbstractType
                 'required' => true,
             ])
 
-            // Step 11
+            // Step info_usager
             ->add('niveauInfestation', HiddenType::class, [
                 'attr' => [
                     'class' => 'fr-hidden',
@@ -210,7 +288,7 @@ class SignalementFrontType extends AbstractType
             ->add('telephoneOccupant', TelType::class, [
                 'attr' => [
                     'class' => 'fr-input',
-                    'maxlength' => '100',
+                    'maxlength' => '15',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',

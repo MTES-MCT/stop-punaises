@@ -3,8 +3,6 @@
 {% block title %}Stop punaises - Tableau de bord{% endblock %}
 
 {% block body %}
-{% include "dashboard/nav.html.twig" %}
-
 <div class="tableau-de-bord fr-p-5w grey-bg">
     <div class="fr-container">
         {% if is_granted('ROLE_ADMIN') %}

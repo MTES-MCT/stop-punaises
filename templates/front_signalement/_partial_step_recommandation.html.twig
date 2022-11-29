@@ -17,23 +17,38 @@
             <div id="niveau-infestation-txt">Aucune infestation</div>
         </div>
 
-        <p>
+        <p class="if-recommandation-zero">
+            Si vous le souhaitez, nous pouvons vous faire parvenir le protocole d'auto-traitement par email.
+        </p>
+
+        <p class="if-recommandation-not-zero">
             Nous vous recommandons de transmettre votre signalement à un professionnel
             pour planifier une intervention à votre domicile.
         </p>
 
-        <p>
+        <p class="if-recommandation-not-zero">
             Toutefois, vous pouvez tenter de traiter le problème par vous-mêmes en suivant notre protocole.
         </p>
     </div>
 
     <nav>
-        <div class="fr-input-group group-next">
+        <div class="fr-input-group group-next if-recommandation-not-zero">
             <button type="button" class="fr-btn btn-next">Prise en charge professionnelle</button>
         </div>
 
-        <div class="fr-input-group group-next">
+        <div class="fr-input-group group-next if-recommandation-not-zero">
             <button type="button" class="fr-btn fr-btn--secondary btn-next-next">Prise en charge d'auto-traitement</button>
         </div>
+
+        <div class="fr-input-group group-next if-recommandation-zero">
+            <button type="button" class="fr-btn fr-btn--secondary btn-next-next">Recevoir le protocole d'auto-traitement</button>
+        </div>
     </nav>
+
+    <div>
+        <p class="if-recommandation-zero fr-mt-5v">
+            Si vous rencontrez d'autres problèmes avec votre logement, n'hésitez pas à les signaler sur la plateforme
+            <a href="https://histologe.beta.gouv.fr/" target="_blank" rel="noopener">Histologe</a>.
+        </p>
+    </div>
 {% endblock %}

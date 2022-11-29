@@ -106,7 +106,10 @@ span.niveau-infestation {
         padding: .5rem 1.5rem;
     }
     #rechercheAdresseIcon {
-        margin-top: -32px;
+        position: relative;
+        top: -32px;
+        display: inline-block;
+
         .fr-icon-timer-line {
             display: none;
         }

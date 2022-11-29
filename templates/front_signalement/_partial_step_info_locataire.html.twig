@@ -1,0 +1,59 @@
+{% extends 'front_signalement/base_step.html.twig' %}
+
+{% block content %}
+    <div class="fr-stepper">
+        <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="8"></div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.locataire) }}
+            {{ form_widget(form.locataire) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous êtes propriétaire ou locataire.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-nomProprietaire" class="fr-form-group">
+        <div class="fr-input-group">
+            {{ form_label(form.nomProprietaire) }}
+            {{ form_widget(form.nomProprietaire) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner le nom du bailleur / propriétaire.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.logementSocial) }}
+            {{ form_widget(form.logementSocial) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous vivez dans un logement social.
+            </p>
+        </div>
+    </div>
+
+    <div class="fr-form-group">
+        <div class="fr-select-group">
+            {{ form_label(form.allocataire) }}
+            {{ form_widget(form.allocataire) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner si vous touchez une allocation logement.
+            </p>
+        </div>
+    </div>
+
+    <div id="form-group-numeroAllocataire" class="fr-form-group">
+        <div class="fr-input-group">
+            {{ form_label(form.numeroAllocataire) }}
+            {{ form_widget(form.numeroAllocataire) }}
+            <p class="fr-error-text fr-hidden">
+                Veuillez renseigner votre numéro d'allocataire.
+            </p>
+        </div>
+    </div>
+
+    {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
+{% endblock %}
