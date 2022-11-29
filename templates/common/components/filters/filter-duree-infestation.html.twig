@@ -1,6 +1,7 @@
-<select class="fr-select" id="filter-infestation">
-    <option value="">Niveau infestation</option>
-    {% for niveau, niveauLabel in niveaux_infestation %}
-        <option value="{{niveau}}">{{niveauLabel}}</option>
-    {% endfor %}
-</select>
+{% if signalement.dureeInfestation == 'LESS-3-MONTHS' %}
+    Moins de 3 mois
+{% elseif signalement.dureeInfestation == 'LESS-3-MONTHS' %}
+    Entre 3 et 6 mois
+{% else %}
+    Plus de 6 mois
+{% endif %}

@@ -55,7 +55,7 @@
             {% endif %}
             Allocataire : {{ signalement.allocataire ? 'Oui' : 'Non' }}
             <br>
-            {% if signalement.allocataire and can_display_adresse %}
+            {% if signalement.allocataire and is_granted('ROLE_ADMIN') %}
                 Numéro d'allocataire : {{ signalement.numeroAllocataire }}
             {% endif %}
         </div>

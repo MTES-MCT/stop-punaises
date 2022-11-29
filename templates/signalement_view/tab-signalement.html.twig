@@ -36,7 +36,7 @@
                     <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-declaration-usager">Déclaration usager</button>
                 </h3>
                 <div class="fr-collapse" id="accordion-declaration-usager">
-                    Durée de l'infestation : {{ signalement.dureeInfestation }}
+                    Durée de l'infestation : {% include "common/components/filters/filter-duree-infestation.html.twig" %}
                     <br>
                     Logements voisins touchés : {{ signalement.infestationLogementsVoisins ? 'Oui' : 'Non' }}
                     <br>
@@ -86,15 +86,42 @@
                     <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-info-logement">Informations du logement</button>
                 </h3>
                 <div class="fr-collapse" id="accordion-info-logement">
-                    Type du logement : TODO
+                    Type de logement : {{ signalement.typeLogement|capitalize }}
                     <br>
+                    Superficie : {{ signalement.superficie }} m²
+                    <br>
+                    Commune : {{ signalement.ville }}
+                    <br>
+                    Type d'occupant : {{ signalement.locataire ? 'Locataire' : 'Propriétaire' }}
+                    <br>
+                    {% if signalement.locataire and can_display_adresse %}
+                        Nom du propriétaire : {{ signalement.nomProprietaire }}
+                        <br>
+                    {% endif %}
+                    Logement social : {{ signalement.logementSocial ? 'Oui' : 'Non' }}
+                    Allocataire : {{ signalement.allocataire ? 'Oui' : 'Non' }}
+                    <br>
+                    {% if signalement.allocataire and is_granted('ROLE_ADMIN') %}
+                        Numéro d'allocataire : {{ signalement.numeroAllocataire }}
+                    {% endif %}
                 </div>
                 <h3 class="fr-accordion__title">
                     <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-photos-usager">Photos de l'usager</button>
                 </h3>
                 <div class="fr-collapse" id="accordion-photos-usager">
-                    Photos du logement : TODO
-                    <br>
+                    {% if photos %}
+                    <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-signalement-photos">
+                        {% for index,photo in photos %}
+                            <div class="fr-col-6 fr-col-md-3">
+                                <div style="background: url('{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}')no-repeat center center/cover">
+                                    <a class="fr-btn fr-icon-eye-line" href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank" rel="noopener"></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    Aucune photo
+                    {% endif %}
                 </div>
             </section>
         </div>
