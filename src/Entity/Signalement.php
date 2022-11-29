@@ -48,6 +48,11 @@ class Signalement
     private ?string $prenomOccupant = null;
 
     #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Regex(
+        pattern: '/^(\(0\))?[0-9]+$/',
+        match: true,
+        message: 'Merci de saisir le numéro de téléphone au bon format'
+    )]
     private ?string $telephoneOccupant = null;
 
     #[ORM\Column(length: 100, nullable: true)]

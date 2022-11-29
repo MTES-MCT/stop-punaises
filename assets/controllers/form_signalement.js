@@ -123,8 +123,22 @@ function checkSignalementFirstStep() {
   buffer = checkSignalementSingleInput('signalement_nomOccupant') && buffer;
   buffer = checkSignalementSingleInput('signalement_prenomOccupant') && buffer;
 
+  if ($('input#signalement_telephoneOccupant').val() != '' && $('input#signalement_telephoneOccupant').val().length < 10) {
+    $('input#signalement_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+    buffer = false;
+  } else {
+    $('input#signalement_telephoneOccupant').siblings('.fr-error-text').addClass('fr-hidden');
+  }
+  let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  if ($('input#signalement_emailOccupant').val() != '' && !$('#signalement_emailOccupant').val().match(emailRegex)) {
+    $('input#signalement_emailOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+    buffer = false;
+  } else {
+    $('input#signalement_emailOccupant').siblings('.fr-error-text').addClass('fr-hidden');
+  }
+
   if (buffer && $('input#signalement_codeInsee').val() == '') {
-    $('input#signalement_codeInsee' + idInput).val(0);
+    $('input#signalement_codeInsee').val(0);
   }
   
   return buffer;
