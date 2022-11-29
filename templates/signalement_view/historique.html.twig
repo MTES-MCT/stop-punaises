@@ -23,22 +23,22 @@
         <div class="fr-tabs">
             <ul class="fr-tabs__list" role="tablist" aria-label="Informations du signalement">
                 <li role="presentation">
-                    <button id="tabpanel-intervention" class="fr-tabs__tab" tabindex="0" role="tab" aria-selected="true" aria-controls="tabpanel-intervention-panel">Intervention</button>
+                    <button id="tabpanel-intervention" class="fr-tabs__tab" tabindex="1" role="tab" aria-selected="true" aria-controls="tabpanel-intervention-panel">Intervention</button>
                 </li>
                 <li role="presentation">
-                    <button id="tabpanel-logement" class="fr-tabs__tab" tabindex="-1" role="tab" aria-selected="false" aria-controls="tabpanel-logement-panel">Logement</button>
+                    <button id="tabpanel-logement" class="fr-tabs__tab" tabindex="2" role="tab" aria-selected="false" aria-controls="tabpanel-logement-panel">Logement</button>
                 </li>
                 <li role="presentation">
-                    <button id="tabpanel-documents" class="fr-tabs__tab" tabindex="-1" role="tab" aria-selected="false" aria-controls="tabpanel-documents-panel">Documents</button>
+                    <button id="tabpanel-documents" class="fr-tabs__tab" tabindex="3" role="tab" aria-selected="false" aria-controls="tabpanel-documents-panel">Documents</button>
                 </li>
             </ul>
-            <div id="tabpanel-intervention-panel" class="fr-tabs__panel fr-tabs__panel--selected grey-bg" role="tabpanel" aria-labelledby="tabpanel-intervention" tabindex="0">
+            <div id="tabpanel-intervention-panel" class="fr-tabs__panel fr-tabs__panel--selected grey-bg" role="tabpanel" aria-labelledby="tabpanel-intervention" tabindex="1">
                 {% include "signalement_view/tab-intervention.html.twig" %}
             </div>
-            <div id="tabpanel-logement-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-logement" tabindex="0">
+            <div id="tabpanel-logement-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-logement" tabindex="2">
                 {% include "signalement_view/tab-logement.html.twig" %}
             </div>
-            <div id="tabpanel-documents-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-documents" tabindex="0">
+            <div id="tabpanel-documents-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-documents" tabindex="3">
                 {% include "signalement_view/tab-documents.html.twig" %}
             </div>
         </div>

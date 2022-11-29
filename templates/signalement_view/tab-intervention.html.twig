@@ -9,82 +9,93 @@
     {% endif %}
 </h2>
 
-
-<div class="fr-container fr-px-2w">
-    <div class="fr-grid-row fr-grid fr-grid-row--gutters">
-        <div class="fr-col-12 fr-col-lg-5 fr-mr-3v fr-mb-3v edit-zone">
-            <strong>Infos générales</strong>
-            <br>
-            Entreprise : {{ signalement.entreprise }}
-            <br>
-            Agent : {{ signalement.agent }}
-            <br>
-            Date d'intervention : {{ signalement.dateIntervention ? signalement.dateIntervention.format('d/m/Y') : '/' }}
-            <br>
-            Infestation : {% include "common/components/niveau-infestation.html.twig" %}
-            <br>
-            Prix facturé : {{ signalement.prixFactureHT }} €
-        </div>
-        <div class="fr-col-12 fr-col-lg-5 fr-mb-3v edit-zone">
-            <strong>Détails de l'intervention</strong>
-            <br>
-
-            {% if 'traitement' in signalement.typeIntervention %}
-                Type de traitement :
-                    {% for key, typeTraitement in  signalement.typeTraitement %}
-                        {{ typeTraitement ~  ((key < signalement.typeTraitement|length - 1) ? ', ': '.') }}
-                    {% endfor %}
+{% if can_display_traitement %}
+    <div class="fr-container fr-px-2w">
+        <div class="fr-grid-row fr-grid fr-grid-row--gutters">
+            <div class="fr-col-12 fr-col-lg-5 fr-mr-3v fr-mb-3v edit-zone">
+                <strong>Infos générales</strong>
                 <br>
-                Nom du biocide : {{ signalement.nomBiocide }}
+                Entreprise : {{ signalement.entreprise }}
                 <br>
-                Type de diagnostic : {{ signalement.typeDiagnostic }}
+                Agent : {{ signalement.agent }}
                 <br>
-                Nb. pièces traitées : {{ signalement.nombrePiecesTraitees }}
+                Date d'intervention : {{ signalement.dateIntervention ? signalement.dateIntervention.format('d/m/Y') : '/' }}
                 <br>
-                Délai entre les interventions : {{ signalement.delaiEntreInterventions }} jours
+                Infestation : {% include "common/components/niveau-infestation.html.twig" %}
                 <br>
-                Visite post-traitement :
-                {% if signalement.faitVisitePostTraitement %}
-                    Oui
-                {% else %}
-                    Non
-                {% endif %}
-                <br>
-                Date de la visite :
-                {% if signalement.dateVisitePostTraitement %}
-                    {{ signalement.dateVisitePostTraitement.format('d/m/Y') }}
-                {% else %}
-                    -
-                {% endif %}
-
-            {% else %}
-                Aucun traitement pour l'instant.
-            {% endif %}
-        </div>
-    </div>
-</div>
-
-<div class="fr-mt-2w">
-    <h3>Photos de la situation</h3>
-    <form action="{{ path('app_add_photos', {'uuid': signalement.uuid }) }}" method="POST" enctype="multipart/form-data" class="fr-my-3w file-auto-submit">
-        <div class="fr-upload-group">
-            <label class="fr-label" for="file-upload">Ajouter des fichiers</label>
-            <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
-        </div>
-    </form>
-    <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-signalement-photos">
-        {% for index,photo in photos %}
-            <div class="fr-col-6 fr-col-md-3">
-                <div style="background: url('{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}')no-repeat center center/cover">
-                    <a class="fr-btn fr-icon-eye-line" href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank" rel="noopener"></a>
-                    {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_ENTREPRISE') and signalement.entreprise is not null and signalement.entreprise.id == app.user.entreprise.id) %}
-                        <form action="{{ path('app_delete_photo', {'uuid': signalement.uuid, 'filename': photo.file }) }}" method="POST">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_delete_file_'~signalement.id) }}">
-                            <button class="fr-btn fr-icon-delete-line" title="Supprimer la photo"></button>
-                        </form>
-                    {% endif %}
-                </div>
+                Prix facturé : {{ signalement.prixFactureHT }} €
             </div>
-        {% endfor %}
+            <div class="fr-col-12 fr-col-lg-5 fr-mb-3v edit-zone">
+                <strong>Détails de l'intervention</strong>
+                <br>
+
+                {% if 'traitement' in signalement.typeIntervention %}
+                    Type de traitement :
+                        {% for key, typeTraitement in  signalement.typeTraitement %}
+                            {{ typeTraitement ~  ((key < signalement.typeTraitement|length - 1) ? ', ': '.') }}
+                        {% endfor %}
+                    <br>
+                    Nom du biocide : {{ signalement.nomBiocide }}
+                    <br>
+                    Type de diagnostic : {{ signalement.typeDiagnostic }}
+                    <br>
+                    Nb. pièces traitées : {{ signalement.nombrePiecesTraitees }}
+                    <br>
+                    Délai entre les interventions : {{ signalement.delaiEntreInterventions }} jours
+                    <br>
+                    Visite post-traitement :
+                    {% if signalement.faitVisitePostTraitement %}
+                        Oui
+                    {% else %}
+                        Non
+                    {% endif %}
+                    <br>
+                    Date de la visite :
+                    {% if signalement.dateVisitePostTraitement %}
+                        {{ signalement.dateVisitePostTraitement.format('d/m/Y') }}
+                    {% else %}
+                        -
+                    {% endif %}
+
+                {% else %}
+                    Aucun traitement pour l'instant.
+                {% endif %}
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="fr-mt-2w">
+        <h3>Photos de la situation</h3>
+        <form action="{{ path('app_add_photos', {'uuid': signalement.uuid }) }}" method="POST" enctype="multipart/form-data" class="fr-my-3w file-auto-submit">
+            <div class="fr-upload-group">
+                <label class="fr-label" for="file-upload">Ajouter des fichiers</label>
+                <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
+            </div>
+        </form>
+        <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-signalement-photos">
+            {% for index,photo in photos %}
+                <div class="fr-col-6 fr-col-md-3">
+                    <div style="background: url('{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}')no-repeat center center/cover">
+                        <a class="fr-btn fr-icon-eye-line" href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank" rel="noopener"></a>
+                        {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_ENTREPRISE') and signalement.entreprise is not null and signalement.entreprise.id == app.user.entreprise.id) %}
+                            <form action="{{ path('app_delete_photo', {'uuid': signalement.uuid, 'filename': photo.file }) }}" method="POST">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_delete_file_'~signalement.id) }}">
+                                <button class="fr-btn fr-icon-delete-line" title="Supprimer la photo"></button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% else %}
+    <div class="fr-container fr-px-2w">
+        {% if is_granted('ROLE_ADMIN') %}
+        Les informations seront complétées par l'entreprise intervenante une fois le traitement effectué.
+        {% else %}
+        Vous pourrez remplir ces informations une fois le traitement effectué.
+        {% endif %}
+    </div>
+    
+{% endif %}

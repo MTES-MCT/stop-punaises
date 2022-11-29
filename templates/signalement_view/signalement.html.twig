@@ -1,0 +1,57 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stop punaises - Gérer le signalement{% endblock %}
+
+{% block body %}
+<div class="fiche-signalement fr-p-5w">
+    <div class="fr-container fr-px-2w">
+        <div class="fr-grid-row">
+            <div class="fr-col-12 fr-col-lg-4">
+                <h1>Signalement #{{signalement.reference}}</h1>
+            </div>
+            <div class="fr-col-12 fr-col-lg-4">
+                TODO : LABEL
+                <span class="date-info">Mis à jour le <strong>{{ signalement.createdAt.format('d/m/Y') }}</strong></span>
+            </div>
+            <div class="fr-col-12 fr-col-lg-4">
+                TODO : BOUTON MARQUER COMME TRAITE
+            </div>
+        </div>
+    </div>
+
+    <div class="fr-container">
+        <div class="fr-tabs">
+            <ul class="fr-tabs__list" role="tablist" aria-label="Informations du signalement">
+                <li role="presentation">
+                    <button id="tabpanel-signalement" class="fr-tabs__tab" tabindex="1" role="tab" aria-selected="true" aria-controls="tabpanel-signalement-panel">Signalement</button>
+                </li>
+                <li role="presentation">
+                    <button id="tabpanel-intervention" class="fr-tabs__tab" tabindex="2" role="tab" aria-selected="false" aria-controls="tabpanel-intervention-panel">Intervention</button>
+                </li>
+                <li role="presentation">
+                    <button id="tabpanel-logement" class="fr-tabs__tab" tabindex="3" role="tab" aria-selected="false" aria-controls="tabpanel-logement-panel">Logement</button>
+                </li>
+                {% if not is_granted('ROLE_ADMIN') %}
+                <li role="presentation">
+                    <button id="tabpanel-messages" class="fr-tabs__tab" tabindex="4" role="tab" aria-selected="false" aria-controls="tabpanel-messages-panel">Messages</button>
+                </li>
+                {% endif %}
+            </ul>
+            <div id="tabpanel-signalement-panel" class="fr-tabs__panel fr-tabs__panel--selected grey-bg" role="tabpanel" aria-labelledby="tabpanel-signalement" tabindex="1">
+                {% include "signalement_view/tab-signalement.html.twig" %}
+            </div>
+            <div id="tabpanel-intervention-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-intervention" tabindex="2">
+                {% include "signalement_view/tab-intervention.html.twig" %}
+            </div>
+            <div id="tabpanel-logement-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-logement" tabindex="3">
+                {% include "signalement_view/tab-logement.html.twig" %}
+            </div>
+            {% if not is_granted('ROLE_ADMIN') %}
+            <div id="tabpanel-messages-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-messages" tabindex="4">
+                {% include "signalement_view/tab-messages.html.twig" %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

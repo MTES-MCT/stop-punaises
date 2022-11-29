@@ -1,0 +1,104 @@
+<h2>
+    <span class="fr-icon-information-line" aria-hidden="true"></span>
+    A propos du signalement
+</h2>
+
+<div class="fr-container fr-px-2w fr-mb-15w">
+    <div class="fr-grid-row fr-grid fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-lg-6">
+            Signalement enregistré le <strong>{{ signalement.createdAt.format('d/m/Y') }}</strong>
+            <br>
+            Infestation estimée : {% include "common/components/niveau-infestation.html.twig" %}
+            <br>
+            {% if is_granted('ROLE_ADMIN') %}
+                Motif de clôture : TODO : A venir
+                <br>
+                Statut de l'infestation : TODO : A venir
+                <br>
+            {% endif %}
+            <br>
+            {% include "common/components/progression-signalement.html.twig" %}
+            <br>
+
+            {% if not is_granted('ROLE_ADMIN') %}
+                <div class="fr-grid-row fr-grid fr-grid-row--gutters">
+                    <div class="fr-col-12 fr-col-lg-6">
+                        TODO : envoyer une estimation
+                    </div>
+                    <div class="fr-col-12 fr-col-lg-6">
+                        TODO : envoyer un message
+                    </div>
+                </div>
+            {% endif %}
+
+            <section class="fr-accordion fr-mt-5w">
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-declaration-usager">Déclaration usager</button>
+                </h3>
+                <div class="fr-collapse" id="accordion-declaration-usager">
+                    Durée de l'infestation : {{ signalement.dureeInfestation }}
+                    <br>
+                    Logements voisins touchés : {{ signalement.infestationLogementsVoisins ? 'Oui' : 'Non' }}
+                    <br>
+                    Piqures : {{ signalement.piquresExistantes ? 'Oui' : 'Non' }}
+                    <br>
+                    Confirmation professionnel de santé : {{ signalement.piquresConfirmees ? 'Oui' : 'Non' }}
+                    <br>
+                    <br>
+
+                    Déjections : {{ signalement.dejectionsDetails and signalement.dejectionsDetails.dejectionsTrouvees == 'true' ? 'Oui' : 'Non' }}
+                    <br>
+                    {% if signalement.dejectionsDetails and signalement.dejectionsDetails.dejectionsTrouvees == 'true' %}
+                        Nombre de pièces : {{ signalement.dejectionsDetails.dejectionsNombrePiecesConcernees }}
+                        <br>
+                        Visibilité : {{ signalement.dejectionsDetails.dejectionsFaciliteDetections ? 'Facile' : 'Difficile' }}
+                        <br>
+                        Eléments touchés : {{ signalement.dejectionsDetails.dejectionsLieuxObservations|array_to_string }}
+                        <br>
+                    {% endif %}
+                    <br>
+
+                    Oeufs et larves : {{ signalement.oeufsEtLarvesDetails and signalement.oeufsEtLarvesDetails.oeufsEtLarvesTrouves == 'true' ? 'Oui' : 'Non' }}
+                    <br>
+                    {% if signalement.oeufsEtLarvesDetails and signalement.oeufsEtLarvesDetails.oeufsEtLarvesTrouves == 'true' %}
+                        Nombre de pièces : {{ signalement.oeufsEtLarvesDetails.oeufsEtLarvesNombrePiecesConcernees }}
+                        <br>
+                        Visibilité : {{ signalement.oeufsEtLarvesDetails.oeufsEtLarvesFaciliteDetections ? 'Facile' : 'Difficile' }}
+                        <br>
+                        Eléments touchés : {{ signalement.oeufsEtLarvesDetails.oeufsEtLarvesLieuxObservations|array_to_string }}
+                        <br>
+                    {% endif %}
+                    <br>
+
+                    Punaises : {{ signalement.punaisesDetails and signalement.punaisesDetails.punaisesTrouvees == 'true' ? 'Oui' : 'Non' }}
+                    <br>
+                    {% if signalement.punaisesDetails and signalement.punaisesDetails.punaisesTrouvees == 'true' %}
+                        Nombre de pièces : {{ signalement.punaisesDetails.punaisesNombrePiecesConcernees }}
+                        <br>
+                        Visibilité : {{ signalement.punaisesDetails.punaisesFaciliteDetections ? 'Facile' : 'Difficile' }}
+                        <br>
+                        Eléments touchés : {{ signalement.punaisesDetails.punaisesLieuxObservations|array_to_string }}
+                        <br>
+                    {% endif %}
+                    <br>
+                </div>
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-info-logement">Informations du logement</button>
+                </h3>
+                <div class="fr-collapse" id="accordion-info-logement">
+                    Type du logement : TODO
+                    <br>
+                </div>
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-photos-usager">Photos de l'usager</button>
+                </h3>
+                <div class="fr-collapse" id="accordion-photos-usager">
+                    Photos du logement : TODO
+                    <br>
+                </div>
+            </section>
+        </div>
+        <div class="fr-col-12 fr-col-lg-6">
+        </div>
+    </div>
+</div>
