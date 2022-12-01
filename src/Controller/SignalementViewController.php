@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Signalement;
 use App\Manager\SignalementManager;
+use App\Service\Signalement\EventsProvider;
 use App\Service\Upload\UploadHandlerService;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +20,8 @@ class SignalementViewController extends AbstractController
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
         }
+
+        $eventsProvider = new EventsProvider($signalement, $this->getParameter('doc_autotraitement'));
 
         $signalementPhotos = $signalement->getPhotos();
         $photos = [];
@@ -39,6 +42,7 @@ class SignalementViewController extends AbstractController
             'can_display_adresse' => false, // TODO
             'signalement' => $signalement,
             'photos' => $this->getPhotos($signalement),
+            'events' => $eventsProvider->getEvents(),
         ]);
     }
 

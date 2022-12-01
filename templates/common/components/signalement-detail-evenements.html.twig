@@ -1,0 +1,19 @@
+<div class="fr-mt-5w">
+    <h3>Détails des événements</h3>
+</div>
+
+{% for event in events %}
+    <div class="event-item fr-mb-3w fr-pb-3w">
+        <div class="even-item-date">{{ event.date.format('d/m/Y') }}</div>
+        {% if event.label is defined %}
+            <div><p class="fr-badge fr-badge--warning fr-badge--no-icon">{{ event.label }}</p></div>
+        {% endif %}
+        <h4>{{ event.title }}</h4>
+        <div>{{ event.description }}</div>
+        {% if event.actionLabel is defined %}
+            <div class="event-item-action fr-mt-3v">
+                <a href="{{ event.actionLink }}" target="_blank">{{ event.actionLabel }}</a>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
