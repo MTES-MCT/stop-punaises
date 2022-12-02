@@ -27,6 +27,22 @@ class SuiviUsagerViewController extends AbstractController
         ]);
     }
 
+    #[Route('/signalements/{uuid}/basculer-pro', name: 'app_signalement_switch_pro')]
+    public function signalement_bascule_pro(
+        Request $request,
+        Signalement $signalement,
+        SignalementManager $signalementManager
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_switch_pro', $request->get('_csrf_token'))) {
+            $this->addFlash('success', 'Votre signalement est transféré ! Les entreprises vont vous contacter au plus vite !');
+            $signalement->setAutotraitement(false);
+            $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
+            $signalementManager->save($signalement);
+        }
+
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+    }
+
     #[Route('/signalements/{uuid}/resoudre', name: 'app_signalement_resolve')]
     public function signalement_resolu(
         Request $request,
@@ -36,6 +52,21 @@ class SuiviUsagerViewController extends AbstractController
         if ($this->isCsrfTokenValid('signalement_resolve', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
             $signalement->setResolvedAt(new \DateTimeImmutable());
+            $signalementManager->save($signalement);
+        }
+
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+    }
+
+    #[Route('/signalements/{uuid}/stop', name: 'app_signalement_stop')]
+    public function signalement_stop(
+        Request $request,
+        Signalement $signalement,
+        SignalementManager $signalementManager
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_stop', $request->get('_csrf_token'))) {
+            $this->addFlash('success', 'Votre procédure est terminée !');
+            $signalement->setClosedAt(new \DateTimeImmutable());
             $signalementManager->save($signalement);
         }
 

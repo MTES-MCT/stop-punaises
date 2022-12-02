@@ -6,7 +6,7 @@ TODO
     Fermé : le signalement est fermé (plusieurs motifs possibles)
     Refusé : l'entreprise a refusé le signalement
 #}
-{% if (signalement.resolvedAt) %}
+{% if signalement.resolvedAt or signalement.closedAt %}
     <p class="fr-badge fr-badge--blue-ecume fr-badge--no-icon">Fermé</p>
 {% elseif (signalement) %}
     <p class="fr-badge fr-badge--orange-terre-battue fr-badge--no-icon">Nouveau</p>

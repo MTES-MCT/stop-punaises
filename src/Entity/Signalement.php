@@ -172,6 +172,12 @@ class Signalement
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $resolvedAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $switchedTraitementAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $closedAt = null;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -790,6 +796,30 @@ class Signalement
     public function setResolvedAt(?\DateTimeImmutable $resolvedAt): self
     {
         $this->resolvedAt = $resolvedAt;
+
+        return $this;
+    }
+
+    public function getSwitchedTraitementAt(): ?\DateTimeImmutable
+    {
+        return $this->switchedTraitementAt;
+    }
+
+    public function setSwitchedTraitementAt(?\DateTimeImmutable $switchedTraitementAt): self
+    {
+        $this->switchedTraitementAt = $switchedTraitementAt;
+
+        return $this;
+    }
+
+    public function getClosedAt(): ?\DateTimeImmutable
+    {
+        return $this->closedAt;
+    }
+
+    public function setClosedAt(?\DateTimeImmutable $closedAt): self
+    {
+        $this->closedAt = $closedAt;
 
         return $this;
     }

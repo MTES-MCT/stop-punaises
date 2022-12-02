@@ -1,8 +1,11 @@
 {% set stepMax = signalement.autotraitement ? 3 : 4 %}
 
-{% set stepIndex = 2 %}
-{% if signalement.autotraitement and signalement.resolvedAt %}
-    {% set stepIndex = 3 %}
+{% set stepIndex = 1 %}
+{% if signalement.autotraitement %}
+    {% set stepIndex = 2 %}
+    {% if signalement.resolvedAt or signalement.closedAt %}
+        {% set stepIndex = 3 %}
+    {% endif %}
 {% endif %}
 
 {% set stepLabel = '' %}

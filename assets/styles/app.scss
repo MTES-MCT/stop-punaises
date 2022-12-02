@@ -1,6 +1,7 @@
 span.niveau-infestation {
     display: inline-block;
     padding: 5px 10px;
+    margin-bottom: 2px;
     border-radius: 20px;
     color: var(--grey-1000-50);
 
@@ -19,6 +20,30 @@ span.niveau-infestation {
     }
     &.niveau-4 {
         background-color: var(--grey-50-1000);
+    }
+}
+
+span.motif-cloture {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-bottom: 2px;
+    border-radius: 20px;
+    color: var(--grey-1000-50);
+
+    &.motif-cloture-resolved {
+        background-color: #000091;
+    }
+}
+
+span.statut-infestation {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-bottom: 2px;
+    border-radius: 20px;
+    color: var(--grey-1000-50);
+
+    &.statut-infestation-resolved {
+        background-color: #000091;
     }
 }
 

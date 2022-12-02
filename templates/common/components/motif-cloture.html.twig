@@ -1,5 +1,13 @@
 {% if signalement.resolvedAt %}
-    Problème résolu
+    {% set motifLabel = 'Problème résolu' %}
+    {% set motifClass = 'resolved' %}
+{% elseif signalement.closedAt %}
+    {% set motifLabel = 'Arrêt usager' %}
+    {% set motifClass = 'resolved' %}
 {% else %}
-    TODO
+    {% set motifLabel = 'TODO' %}
+    {% set motifClass = '' %}
 {% endif %}
+<span class="motif-cloture motif-cloture-{{ motifClass }}">
+    {{ motifLabel }}
+</span>

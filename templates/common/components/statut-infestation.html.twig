@@ -1,5 +1,13 @@
 {% if signalement.resolvedAt %}
-    Résolue
+    {% set statutInfestationLabel = 'Résolue' %}
+    {% set statutInfestationClass = 'resolved' %}
+{% elseif signalement.closedAt %}
+    {% set statutInfestationLabel = 'Non résolue' %}
+    {% set statutInfestationClass = 'resolved' %}
 {% else %}
-    TODO
+    {% set statutInfestationLabel = 'TODO' %}
+    {% set statutInfestationClass = '' %}
 {% endif %}
+<span class="statut-infestation statut-infestation-{{ statutInfestationClass }}">
+    {{ statutInfestationLabel }}
+</span>

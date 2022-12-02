@@ -18,7 +18,7 @@
 
     {% include "common/components/progression-signalement.html.twig" %}
 
-    {% if not signalement.resolvedAt %}
+    {% if not signalement.resolvedAt and not signalement.closedAt %}
     <div class="align-center">
         <div class="fr-mb-3v">
             <a class="fr-btn fr-btn--icon-left fr-icon-download-line" href="{{ link_pdf_autotraitement }}" target="_blank">Télécharger le protocole</a>
