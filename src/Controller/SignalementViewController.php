@@ -74,30 +74,50 @@ class SignalementViewController extends AbstractController
             'photos' => $this->getPhotos($signalement),
             'events' => $eventsProvider->getEvents(),
             'entrepriseIntervention' => $entrepriseIntervention,
+            'entreprise' => $userEntreprise,
         ]);
     }
 
-    #[Route('/bo/signalements/{uuid}/accept', name: 'app_signalement_intervention_choice')]
-    public function signalementInterventionChoice(
+    #[Route('/bo/signalements/{uuid}/accept', name: 'app_signalement_intervention_accept')]
+    public function signalementInterventionAccept(
         Request $request,
         Signalement $signalement,
         InterventionManager $interventionManager,
         ): Response {
-        if ($this->isCsrfTokenValid('signalement_intervention_choice', $request->get('_csrf_token'))) {
+        if ($this->isCsrfTokenValid('signalement_intervention_accept', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
             $intervention->setSignalement($signalement);
             /* User $user */
             $user = $this->getUser();
             $intervention->setEntreprise($user->getEntreprise());
-            if ('accept' == $request->get('action')) {
-                $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
-                $intervention->setAccepted(true);
-            } else {
-                $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
-                $intervention->setAccepted(false);
-            }
+            $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
+            $intervention->setAccepted(true);
             $interventionManager->save($intervention);
             $this->addFlash('success', 'Le signalement a bien été accepté');
+        }
+
+        return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+    }
+
+    #[Route('/bo/signalements/{uuid}/refuse', name: 'app_signalement_intervention_refuse')]
+    public function signalementInterventionRefuse(
+        Request $request,
+        Signalement $signalement,
+        InterventionManager $interventionManager,
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
+            $intervention = new Intervention();
+            $intervention->setSignalement($signalement);
+            /* User $user */
+            $user = $this->getUser();
+            $intervention->setEntreprise($user->getEntreprise());
+            $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
+            $intervention->setAccepted(false);
+            $commentaire = htmlentities($request->get('commentaire'));
+            $intervention->setCommentaireRefus($commentaire);
+            $interventionManager->save($intervention);
+            $this->addFlash('success', 'Le signalement a bien été refusé');
+            // TODO : vérifier si des entreprises sont encore dispos ou non pour envoyer un mail à l'usager si il n'y a plus d'entreprises
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);

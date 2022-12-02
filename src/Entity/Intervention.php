@@ -25,6 +25,9 @@ class Intervention
     #[ORM\Column(nullable: true)]
     private ?bool $accepted = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $commentaireRefus = null;
+
     #[ORM\Column(nullable: true)]
     private ?int $montantEstimation = null;
 
@@ -77,6 +80,18 @@ class Intervention
     public function setAccepted(?bool $accepted): self
     {
         $this->accepted = $accepted;
+
+        return $this;
+    }
+
+    public function getCommentaireRefus(): ?string
+    {
+        return $this->commentaireRefus;
+    }
+
+    public function setCommentaireRefus(?string $commentaireRefus): self
+    {
+        $this->commentaireRefus = $commentaireRefus;
 
         return $this;
     }

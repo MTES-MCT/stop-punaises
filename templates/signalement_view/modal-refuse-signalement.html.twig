@@ -1,0 +1,40 @@
+<dialog aria-labelledby="fr-modal-title-modal-refuse-signalement" role="dialog" id="fr-modal-refuse-signalement" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-refuse-signalement" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-refuse-signalement" class="fr-modal__title">Refuser un signalement</h1>
+                        <p>
+                            Si vous refusez le signalement, vous ne pourrez pas revenir en arrière.
+                            Vous ne pourrez pas contacter ni envoyer d'estimation à l'usager.
+                        </p>
+
+                        <form action="{{ path('app_signalement_intervention_refuse',{uuid:signalement.uuid}) }}" method="POST" class="fr-my-5w">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_intervention_refuse') }}">
+
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    <label>Motif du refus</label>
+                                    <div class="fr-hint-text help-text">10 caractères minimum</div>
+                                    <textarea name="commentaire"></textarea>
+                                    <p class="fr-error-text fr-hidden">
+                                        Veuillez renseigner le nom.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p class="align-center">
+                                <button type="button" aria-controls="fr-modal-refuse-signalement" class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-close-line">Annuler</button>
+                                <button type="submit" class="fr-btn fr-btn--icon-left fr-icon-check-line color-check">Valider</button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

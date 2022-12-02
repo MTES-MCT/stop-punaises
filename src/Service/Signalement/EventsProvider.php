@@ -62,18 +62,25 @@ class EventsProvider
                 $interventions = $this->signalement->getInterventions();
                 foreach ($interventions as $intervention) {
                     $action = $intervention->isAccepted() ? 'accepté' : 'refusé';
+                    $event = [];
                     if ($this->isAdmin) {
-                        $events[] = [
+                        $event = [
                             'date' => $intervention->getChoiceByEntrepriseAt(),
                             'title' => $intervention->getEntreprise()->getNom().' a '.$action.' le signalement',
                             'description' => 'L\'entreprise a '.$action.' le signalement',
                         ];
                     } elseif ($intervention->getEntreprise()->getId() == $this->entreprise->getId()) {
-                        $events[] = [
+                        $event = [
                             'date' => $intervention->getChoiceByEntrepriseAt(),
                             'title' => 'Signalement '.$action,
                             'description' => 'Vous avez '.$action.' le signalement',
                         ];
+                    }
+                    if (!empty($event)) {
+                        if (!$intervention->isAccepted()) {
+                            $event['description'] .= ' pour le motif suivant : '.html_entity_decode($intervention->getCommentaireRefus());
+                        }
+                        $events[] = $event;
                     }
                 }
             }

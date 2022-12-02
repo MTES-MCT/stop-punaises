@@ -21,12 +21,17 @@ class SignalementListController extends AbstractController
     {
         $territoires = $territoireRepository->findAll();
         $signalements = $signalementManager->findDeclaredByOccupants();
+        $entreprise = null;
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $entreprise = $this->getUser()->getEntreprise();
+        }
 
         return $this->render('signalement_list/signalements.html.twig', [
             'count_signalement' => \count($signalements),
             'signalements' => $signalements,
             'territoires' => $territoires,
             'niveaux_infestation' => InfestationLevel::getLabelList(),
+            'entreprise' => $entreprise,
         ]);
     }
 

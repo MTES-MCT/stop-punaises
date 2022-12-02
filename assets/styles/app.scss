@@ -167,6 +167,13 @@ span.statut-infestation {
             }
         }
     }
+
+    textarea {
+        width: 100%;
+        height: 200px;
+        border: 1px solid var(--grey-625-425);
+        font-size: 0.8em;
+    }
 }
 
 .event-item {
