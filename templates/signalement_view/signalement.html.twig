@@ -3,18 +3,41 @@
 {% block title %}Stop punaises - Gérer le signalement{% endblock %}
 
 {% block body %}
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div role="alert" class="fr-alert fr-alert--{{ label }} fr-alert--sm fr-mb-3v">
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endfor %}
+
 <div class="fiche-signalement fr-p-5w">
     <div class="fr-container fr-px-2w">
         <div class="fr-grid-row">
             <div class="fr-col-12 fr-col-lg-4">
                 <h1>Signalement #{{signalement.reference}}</h1>
             </div>
-            <div class="fr-col-12 fr-col-lg-4">
+
+            <div class="fr-col-12 fr-col-lg-3">
                 {% include "common/components/signalement-statut.html.twig" %}
-                <span class="date-info">Mis à jour le <strong>{{ signalement.createdAt.format('d/m/Y') }}</strong></span>
             </div>
-            <div class="fr-col-12 fr-col-lg-4">
-                TODO : BOUTON MARQUER COMME TRAITE
+
+            <div class="fr-col-12 fr-col-lg-5">
+                {% if not is_granted('ROLE_ADMIN') %}
+                    {% if entrepriseIntervention %}
+                        TODO : BOUTON MARQUER COMME TRAITE
+                    {% else %}
+                        <form action="{{ path('app_signalement_intervention_choice', {'uuid': signalement.uuid }) }}" method="POST">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_intervention_choice') }}">
+                            <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close" name="action" value="refuse">Refuser le signalement</button>
+                            <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check" name="action" value="accept">Accepter le signalement</button>
+                        </form>
+                    {% endif %}
+
+                {% else %}
+                    <span class="date-info">Mis à jour le <strong>{{ signalement.updatedAt.format('d/m/Y') }}</strong></span>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -33,7 +56,7 @@
                 <li role="presentation">
                     <button id="tabpanel-logement" class="fr-tabs__tab" tabindex="3" role="tab" aria-selected="false" aria-controls="tabpanel-logement-panel">Logement</button>
                 </li>
-                {% if not is_granted('ROLE_ADMIN') %}
+                {% if can_display_messages %}
                 <li role="presentation">
                     <button id="tabpanel-messages" class="fr-tabs__tab" tabindex="4" role="tab" aria-selected="false" aria-controls="tabpanel-messages-panel">Messages</button>
                 </li>
@@ -50,7 +73,7 @@
             <div id="tabpanel-logement-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-logement" tabindex="3">
                 {% include "signalement_view/tab-logement.html.twig" %}
             </div>
-            {% if not is_granted('ROLE_ADMIN') %}
+            {% if can_display_messages %}
             <div id="tabpanel-messages-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-messages" tabindex="4">
                 {% include "signalement_view/tab-messages.html.twig" %}
             </div>

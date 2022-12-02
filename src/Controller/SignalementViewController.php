@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Intervention;
 use App\Entity\Signalement;
+use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
+use App\Repository\InterventionRepository;
 use App\Service\Signalement\EventsProvider;
 use App\Service\Upload\UploadHandlerService;
+use DateTimeImmutable;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,13 +19,32 @@ use Symfony\Component\Routing\Annotation\Route;
 class SignalementViewController extends AbstractController
 {
     #[Route('/bo/signalements/{uuid}', name: 'app_signalement_view')]
-    public function indexSignalement(Signalement $signalement): Response
-    {
+    public function indexSignalement(
+        Signalement $signalement,
+        InterventionRepository $interventionRepository,
+        ): Response {
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
         }
 
-        $eventsProvider = new EventsProvider($signalement, $this->getParameter('doc_autotraitement'));
+        /* User $user */
+        $user = $this->getUser();
+        $userEntreprise = null;
+        $entrepriseIntervention = null;
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $userEntreprise = $user->getEntreprise();
+            $entrepriseIntervention = $interventionRepository->findBySignalementAndEntreprise(
+                $signalement,
+                $userEntreprise
+            );
+        }
+
+        $eventsProvider = new EventsProvider(
+            signalement: $signalement,
+            pdfUrl: $this->getParameter('doc_autotraitement'),
+            isAdmin: $this->isGranted('ROLE_ADMIN'),
+            entreprise: $userEntreprise
+        );
 
         $signalementPhotos = $signalement->getPhotos();
         $photos = [];
@@ -37,13 +60,47 @@ class SignalementViewController extends AbstractController
             ];
         }
 
+        $acceptedInterventions = $interventionRepository->findBy([
+            'signalement' => $signalement,
+            'accepted' => true,
+        ]);
+
         return $this->render('signalement_view/signalement.html.twig', [
             'can_display_traitement' => false, // TODO
-            'can_display_adresse' => false, // TODO
+            'can_display_messages' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
+            'can_display_adresse' => $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
+            'accepted_interventions' => $acceptedInterventions,
             'signalement' => $signalement,
             'photos' => $this->getPhotos($signalement),
             'events' => $eventsProvider->getEvents(),
+            'entrepriseIntervention' => $entrepriseIntervention,
         ]);
+    }
+
+    #[Route('/bo/signalements/{uuid}/accept', name: 'app_signalement_intervention_choice')]
+    public function signalementInterventionChoice(
+        Request $request,
+        Signalement $signalement,
+        InterventionManager $interventionManager,
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_intervention_choice', $request->get('_csrf_token'))) {
+            $intervention = new Intervention();
+            $intervention->setSignalement($signalement);
+            /* User $user */
+            $user = $this->getUser();
+            $intervention->setEntreprise($user->getEntreprise());
+            if ('accept' == $request->get('action')) {
+                $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
+                $intervention->setAccepted(true);
+            } else {
+                $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
+                $intervention->setAccepted(false);
+            }
+            $interventionManager->save($intervention);
+            $this->addFlash('success', 'Le signalement a bien été accepté');
+        }
+
+        return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
     }
 
     #[Route('/bo/historique/{uuid}', name: 'app_signalement_historique_view')]

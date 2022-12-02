@@ -20,7 +20,7 @@
             {% include "common/components/progression-signalement.html.twig" %}
             <br>
 
-            {% if not is_granted('ROLE_ADMIN') %}
+            {% if can_display_messages %}
                 <div class="fr-grid-row fr-grid fr-grid-row--gutters">
                     <div class="fr-col-12 fr-col-lg-6">
                         TODO : envoyer une estimation

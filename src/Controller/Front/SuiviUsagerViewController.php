@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Enum\InfestationLevel;
 use App\Entity\Signalement;
 use App\Manager\SignalementManager;
+use App\Repository\InterventionRepository;
 use App\Service\Signalement\EventsProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,16 +15,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class SuiviUsagerViewController extends AbstractController
 {
     #[Route('/signalements/{uuid}', name: 'app_suivi_usager_view')]
-    public function suivi_usager(Signalement $signalement): Response
+    public function suivi_usager(Signalement $signalement, InterventionRepository $interventionRepository): Response
     {
         $eventsProvider = new EventsProvider($signalement, $this->getParameter('doc_autotraitement'));
         $events = $eventsProvider->getEvents();
+        $acceptedInterventions = $interventionRepository->findBy([
+            'signalement' => $signalement,
+            'accepted' => true,
+        ]);
 
         return $this->render('front_suivi_usager/index.html.twig', [
             'signalement' => $signalement,
             'link_pdf_autotraitement' => $this->getParameter('doc_autotraitement'),
             'niveau_infestation' => InfestationLevel::from($signalement->getNiveauInfestation())->label(),
             'events' => $events,
+            'accepted_interventions' => $acceptedInterventions,
         ]);
     }
 
@@ -37,6 +43,7 @@ class SuiviUsagerViewController extends AbstractController
             $this->addFlash('success', 'Votre signalement est transféré ! Les entreprises vont vous contacter au plus vite !');
             $signalement->setAutotraitement(false);
             $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
+            $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
         }
 
@@ -52,6 +59,7 @@ class SuiviUsagerViewController extends AbstractController
         if ($this->isCsrfTokenValid('signalement_resolve', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
             $signalement->setResolvedAt(new \DateTimeImmutable());
+            $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
         }
 
@@ -67,6 +75,7 @@ class SuiviUsagerViewController extends AbstractController
         if ($this->isCsrfTokenValid('signalement_stop', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
             $signalement->setClosedAt(new \DateTimeImmutable());
+            $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
         }
 

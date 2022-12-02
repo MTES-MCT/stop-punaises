@@ -8,10 +8,10 @@ TODO
 #}
 {% if signalement.resolvedAt or signalement.closedAt %}
     <p class="fr-badge fr-badge--blue-ecume fr-badge--no-icon">Fermé</p>
-{% elseif (signalement) %}
-    <p class="fr-badge fr-badge--orange-terre-battue fr-badge--no-icon">Nouveau</p>
-{% else %}
+{% elseif (signalement.interventions) %}
     <p class="fr-badge fr-badge--success fr-badge--no-icon">En cours</p>
+{% else %}
+    <p class="fr-badge fr-badge--orange-terre-battue fr-badge--no-icon">Nouveau</p>
 {#% else %}
     <p class="fr-badge fr-badge--green-menthe fr-badge--no-icon">Traité</p>
 {% else %}

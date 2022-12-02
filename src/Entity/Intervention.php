@@ -32,13 +32,13 @@ class Intervention
     private ?string $commentaireEstimation = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $acceptedByEntrepriseAt = null;
+    private ?\DateTimeImmutable $choiceByEntrepriseAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $acceptedByUsager = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $acceptedByUsagerAt = null;
+    private ?\DateTimeImmutable $choiceByUsagerAt = null;
 
     public function getId(): ?int
     {
@@ -105,14 +105,14 @@ class Intervention
         return $this;
     }
 
-    public function getAcceptedByEntrepriseAt(): ?\DateTimeImmutable
+    public function getChoiceByEntrepriseAt(): ?\DateTimeImmutable
     {
-        return $this->acceptedByEntrepriseAt;
+        return $this->choiceByEntrepriseAt;
     }
 
-    public function setAcceptedByEntrepriseAt(?\DateTimeImmutable $acceptedByEntrepriseAt): self
+    public function setChoiceByEntrepriseAt(?\DateTimeImmutable $choiceByEntrepriseAt): self
     {
-        $this->acceptedByEntrepriseAt = $acceptedByEntrepriseAt;
+        $this->choiceByEntrepriseAt = $choiceByEntrepriseAt;
 
         return $this;
     }
@@ -129,14 +129,14 @@ class Intervention
         return $this;
     }
 
-    public function getAcceptedByUsagerAt(): ?\DateTimeImmutable
+    public function getChoiceByUsagerAt(): ?\DateTimeImmutable
     {
-        return $this->acceptedByUsagerAt;
+        return $this->choiceByUsagerAt;
     }
 
-    public function setAcceptedByUsagerAt(?\DateTimeImmutable $acceptedByUsagerAt): self
+    public function setChoiceByUsagerAt(?\DateTimeImmutable $choiceByUsagerAt): self
     {
-        $this->acceptedByUsagerAt = $acceptedByUsagerAt;
+        $this->choiceByUsagerAt = $choiceByUsagerAt;
 
         return $this;
     }

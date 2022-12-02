@@ -2,12 +2,17 @@
 
 namespace App\Service\Signalement;
 
+use App\Entity\Entreprise;
 use App\Entity\Signalement;
 
 class EventsProvider
 {
-    public function __construct(private Signalement $signalement, private string $pdfUrl)
-    {
+    public function __construct(
+        private Signalement $signalement,
+        private string $pdfUrl,
+        private bool $isAdmin = false,
+        private ?Entreprise $entreprise = null,
+        ) {
     }
 
     public function getEvents(): array
@@ -53,6 +58,26 @@ class EventsProvider
                 'actionLink' => $this->pdfUrl,
             ];
         } else {
+            if ($this->isAdmin || $this->entreprise) {
+                $interventions = $this->signalement->getInterventions();
+                foreach ($interventions as $intervention) {
+                    $action = $intervention->isAccepted() ? 'accepté' : 'refusé';
+                    if ($this->isAdmin) {
+                        $events[] = [
+                            'date' => $intervention->getChoiceByEntrepriseAt(),
+                            'title' => $intervention->getEntreprise()->getNom().' a '.$action.' le signalement',
+                            'description' => 'L\'entreprise a '.$action.' le signalement',
+                        ];
+                    } elseif ($intervention->getEntreprise()->getId() == $this->entreprise->getId()) {
+                        $events[] = [
+                            'date' => $intervention->getChoiceByEntrepriseAt(),
+                            'title' => 'Signalement '.$action,
+                            'description' => 'Vous avez '.$action.' le signalement',
+                        ];
+                    }
+                }
+            }
+
             if ($this->signalement->getSwitchedTraitementAt()) {
                 $events[] = [
                     'date' => $this->signalement->getSwitchedTraitementAt(),

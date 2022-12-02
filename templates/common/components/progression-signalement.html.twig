@@ -6,6 +6,11 @@
     {% if signalement.resolvedAt or signalement.closedAt %}
         {% set stepIndex = 3 %}
     {% endif %}
+
+{% else %}
+    {% if accepted_interventions %}
+        {% set stepIndex = 2 %}
+    {% endif %}
 {% endif %}
 
 {% set stepLabel = '' %}

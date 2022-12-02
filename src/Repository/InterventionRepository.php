@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Entreprise;
 use App\Entity\Intervention;
+use App\Entity\Signalement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,28 +41,14 @@ class InterventionRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Intervention[] Returns an array of Intervention objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findBySignalementAndEntreprise(Signalement $signalement, Entreprise $entreprise)
+    {
+        $qb = $this->createQueryBuilder('i')
+            ->where('i.signalement = :signalement')
+                ->setParameter('signalement', $signalement)
+            ->andWhere('i.entreprise = :entreprise')
+                ->setParameter('entreprise', $entreprise);
 
-//    public function findOneBySomeField($value): ?Intervention
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }
