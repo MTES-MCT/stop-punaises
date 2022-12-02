@@ -5,11 +5,20 @@
 {% block body %}
 <div class="suivi-usager fr-container fr-my-3v">
 
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div role="alert" class="fr-alert fr-alert--{{ label }} fr-alert--sm fr-mb-3v">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <h2>Bonjour {{ signalement.prenomOccupant }},</h2>
     <h3>Votre signalement #{{ signalement.reference }}</h3>
 
     {% include "common/components/progression-signalement.html.twig" %}
 
+    {% if not signalement.resolvedAt %}
     <div class="align-center">
         <div class="fr-mb-3v">
             <a class="fr-btn fr-btn--icon-left fr-icon-download-line" href="{{ link_pdf_autotraitement }}" target="_blank">Télécharger le protocole</a>
@@ -23,6 +32,7 @@
             {% endif %}
         </div>
     </div>
+    {% endif %}
 
     <section class="fr-accordion fr-mt-5w">
         <h3 class="fr-accordion__title">

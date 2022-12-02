@@ -166,6 +166,12 @@ class Signalement
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $numeroAllocataire = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $reminderAutotraitementAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $resolvedAt = null;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -760,6 +766,30 @@ class Signalement
     public function setNumeroAllocataire(?string $numeroAllocataire): self
     {
         $this->numeroAllocataire = $numeroAllocataire;
+
+        return $this;
+    }
+
+    public function getReminderAutotraitementAt(): ?\DateTimeImmutable
+    {
+        return $this->reminderAutotraitementAt;
+    }
+
+    public function setReminderAutotraitementAt(?\DateTimeImmutable $reminderAutotraitementAt): self
+    {
+        $this->reminderAutotraitementAt = $reminderAutotraitementAt;
+
+        return $this;
+    }
+
+    public function getResolvedAt(): ?\DateTimeImmutable
+    {
+        return $this->resolvedAt;
+    }
+
+    public function setResolvedAt(?\DateTimeImmutable $resolvedAt): self
+    {
+        $this->resolvedAt = $resolvedAt;
 
         return $this;
     }

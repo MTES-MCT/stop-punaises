@@ -74,7 +74,7 @@
             <table id="datatable" class="liste-signalements-usagers">
                 <thead>
                     <tr>
-                        {#<th>Statut</th>#}
+                        <th>Statut</th>
                         <th>ID</th>
                         <th>Créé le</th>
                         <th>Infestation</th>
@@ -89,7 +89,7 @@
                 <tbody>
                     {% for signalement in signalements %}
                         <tr>
-                            {#<td>{% include "common/components/signalement-statut.html.twig" %}</td>#}
+                            <td>{% include "common/components/signalement-statut.html.twig" %}</td>
                             <td>{{ signalement.reference }}</td>
                             <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
                             <td>{% include "common/components/niveau-infestation.html.twig" %}</td>

@@ -10,7 +10,7 @@
                 <h1>Signalement #{{signalement.reference}}</h1>
             </div>
             <div class="fr-col-12 fr-col-lg-4">
-                TODO : LABEL
+                {% include "common/components/signalement-statut.html.twig" %}
                 <span class="date-info">Mis à jour le <strong>{{ signalement.createdAt.format('d/m/Y') }}</strong></span>
             </div>
             <div class="fr-col-12 fr-col-lg-4">

@@ -1,5 +1,10 @@
 {% set stepMax = signalement.autotraitement ? 3 : 4 %}
+
 {% set stepIndex = 2 %}
+{% if signalement.autotraitement and signalement.resolvedAt %}
+    {% set stepIndex = 3 %}
+{% endif %}
+
 {% set stepLabel = '' %}
 {% if signalement.autotraitement %}
     {% set stepLabel = stepIndex > 2 ? 'Signalement cloturé' : 'Traitement terminé' %}

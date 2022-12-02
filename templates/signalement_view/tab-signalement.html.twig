@@ -11,9 +11,9 @@
             Infestation estimée : {% include "common/components/niveau-infestation.html.twig" %}
             <br>
             {% if is_granted('ROLE_ADMIN') %}
-                Motif de clôture : TODO : A venir
+                Motif de clôture : {% include "common/components/motif-cloture.html.twig" %}
                 <br>
-                Statut de l'infestation : TODO : A venir
+                Statut de l'infestation : {% include "common/components/statut-infestation.html.twig" %}
                 <br>
             {% endif %}
             <br>
@@ -99,6 +99,7 @@
                         <br>
                     {% endif %}
                     Logement social : {{ signalement.logementSocial ? 'Oui' : 'Non' }}
+                    <br>
                     Allocataire : {{ signalement.allocataire ? 'Oui' : 'Non' }}
                     <br>
                     {% if signalement.allocataire and is_granted('ROLE_ADMIN') %}
