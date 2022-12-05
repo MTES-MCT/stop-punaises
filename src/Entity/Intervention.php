@@ -43,6 +43,9 @@ class Intervention
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $choiceByUsagerAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $estimationSentAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -152,6 +155,18 @@ class Intervention
     public function setChoiceByUsagerAt(?\DateTimeImmutable $choiceByUsagerAt): self
     {
         $this->choiceByUsagerAt = $choiceByUsagerAt;
+
+        return $this;
+    }
+
+    public function getEstimationSentAt(): ?\DateTimeImmutable
+    {
+        return $this->estimationSentAt;
+    }
+
+    public function setEstimationSentAt(?\DateTimeImmutable $estimationSentAt): self
+    {
+        $this->estimationSentAt = $estimationSentAt;
 
         return $this;
     }

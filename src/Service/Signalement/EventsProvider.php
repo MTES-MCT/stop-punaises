@@ -58,25 +58,43 @@ class EventsProvider
                 'actionLink' => $this->pdfUrl,
             ];
         } else {
-            if ($this->isAdmin || $this->entreprise) {
-                $interventions = $this->signalement->getInterventions();
-                foreach ($interventions as $intervention) {
+            $interventions = $this->signalement->getInterventions();
+            foreach ($interventions as $intervention) {
+                // Evénment estimation
+                if ($intervention->getEstimationSentAt()) {
+                    $event = [];
+                    $event['date'] = $intervention->getEstimationSentAt();
+                    if ($this->isAdmin) {
+                        $event['title'] = 'Estimation '.$intervention->getEntreprise()->getNom();
+                        $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation';
+                    } elseif ($this->entreprise && $intervention->getEntreprise()->getId() == $this->entreprise->getId()) {
+                        $event['title'] = 'Estimation '.$this->entreprise->getNom();
+                        $event['description'] = 'Vous avez envoyé une estimation à l\'usager.';
+                    } else {
+                        $event['title'] = 'Estimation '.$intervention->getEntreprise()->getNom();
+                        $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' vous a envoyé une estimation';
+                    }
+
+                    if (null === $intervention->isAcceptedByUsager()) {
+                        $event['label'] = 'Nouveau';
+                    }
+
+                    $events[] = $event;
+                }
+
+                if ($this->isAdmin || $this->entreprise) {
+                    // Evénment accepté / refusé
                     $action = $intervention->isAccepted() ? 'accepté' : 'refusé';
                     $event = [];
+                    $event['date'] = $intervention->getChoiceByEntrepriseAt();
                     if ($this->isAdmin) {
-                        $event = [
-                            'date' => $intervention->getChoiceByEntrepriseAt(),
-                            'title' => $intervention->getEntreprise()->getNom().' a '.$action.' le signalement',
-                            'description' => 'L\'entreprise a '.$action.' le signalement',
-                        ];
+                        $event['title'] = $intervention->getEntreprise()->getNom().' a '.$action.' le signalement';
+                        $event['description'] = 'L\'entreprise a '.$action.' le signalement';
                     } elseif ($intervention->getEntreprise()->getId() == $this->entreprise->getId()) {
-                        $event = [
-                            'date' => $intervention->getChoiceByEntrepriseAt(),
-                            'title' => 'Signalement '.$action,
-                            'description' => 'Vous avez '.$action.' le signalement',
-                        ];
+                        $event['title'] = 'Signalement '.$action;
+                        $event['description'] = 'Vous avez '.$action.' le signalement';
                     }
-                    if (!empty($event)) {
+                    if (!empty($event['title'])) {
                         if (!$intervention->isAccepted()) {
                             $event['description'] .= ' pour le motif suivant : '.html_entity_decode($intervention->getCommentaireRefus());
                         }
@@ -94,11 +112,15 @@ class EventsProvider
             }
         }
 
-        $events[] = [
+        $event = [
             'date' => $this->signalement->getCreatedAt(),
             'title' => 'Signalement déposé',
             'description' => 'Votre signalement a bien été enregistré sur Stop Punaises.',
         ];
+        if ($this->isAdmin || $this->entreprise) {
+            $event['description'] = 'Le signalement a bien été enregistré sur Stop Punaises.';
+        }
+        $events[] = $event;
 
         return $events;
     }

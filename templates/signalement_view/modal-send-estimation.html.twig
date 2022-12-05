@@ -1,0 +1,45 @@
+<dialog aria-labelledby="fr-modal-title-modal-send-estimation" role="dialog" id="fr-modal-send-estimation" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-send-estimation" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-send-estimation" class="fr-modal__title">Envoyer une estimation</h1>
+                        <p>
+                            Saisissez une estimation du tarif de l'intervention pour l'envoyer à l'usager.
+                            Si l'estimation est acceptée, vous pourrez contacter l'usager pour prendre rendez-vous.
+                        </p>
+
+                        <form action="{{ path('app_signalement_estimation_send',{uuid:signalement.uuid}) }}" method="POST" class="fr-my-5w">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_estimation_send') }}">
+
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    <label class="fr-label">Tarif estimé</label>
+                                    <div class="fr-hint-text help-text">en euros</div>
+                                    <input class="fr-input" type="text" name="montant">
+                                </div>
+                            </div>
+
+                            <div class="fr-form-group">
+                                <div class="fr-input-group">
+                                    <label class="fr-label">Commentaire</label>
+                                    <div class="fr-hint-text help-text">10 caractères minimum</div>
+                                    <textarea class="fr-input" name="commentaire"></textarea>
+                                </div>
+                            </div>
+
+                            <p class="align-center">
+                                <button type="button" aria-controls="fr-modal-send-estimation" class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-close-line">Annuler</button>
+                                <button type="submit" class="fr-btn fr-btn--icon-left fr-icon-check-line color-check">Valider</button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

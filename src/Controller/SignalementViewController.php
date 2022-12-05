@@ -68,7 +68,9 @@ class SignalementViewController extends AbstractController
         return $this->render('signalement_view/signalement.html.twig', [
             'can_display_traitement' => false, // TODO
             'can_display_messages' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
-            'can_display_adresse' => $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
+            'can_display_adresse' => $this->isGranted('ROLE_ADMIN') || ($entrepriseIntervention && $entrepriseIntervention->isAccepted()),
+            'can_send_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
+            'has_sent_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->getEstimationSentAt(),
             'accepted_interventions' => $acceptedInterventions,
             'signalement' => $signalement,
             'photos' => $this->getPhotos($signalement),
@@ -118,6 +120,34 @@ class SignalementViewController extends AbstractController
             $interventionManager->save($intervention);
             $this->addFlash('success', 'Le signalement a bien été refusé');
             // TODO : vérifier si des entreprises sont encore dispos ou non pour envoyer un mail à l'usager si il n'y a plus d'entreprises
+        }
+
+        return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+    }
+
+    #[Route('/bo/signalements/{uuid}/estimation', name: 'app_signalement_estimation_send')]
+    public function signalementInterventionEstimation(
+        Request $request,
+        Signalement $signalement,
+        InterventionManager $interventionManager,
+        InterventionRepository $interventionRepository,
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_estimation_send', $request->get('_csrf_token'))) {
+            /* User $user */
+            $user = $this->getUser();
+            $userEntreprise = null;
+            $userEntreprise = $user->getEntreprise();
+            $intervention = $interventionRepository->findBySignalementAndEntreprise(
+                $signalement,
+                $userEntreprise
+            );
+            $commentaire = htmlentities($request->get('commentaire'));
+            $intervention->setCommentaireEstimation($commentaire);
+            $intervention->setMontantEstimation($request->get('montant'));
+            $intervention->setEstimationSentAt(new DateTimeImmutable());
+            $interventionManager->save($intervention);
+            $this->addFlash('success', 'L\'estimation a bien été transmise.');
+            // TODO : envoyer mail à l'usager
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);

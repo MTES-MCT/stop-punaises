@@ -22,12 +22,16 @@
 
             {% if can_display_messages %}
                 <div class="fr-grid-row fr-grid fr-grid-row--gutters">
-                    <div class="fr-col-12 fr-col-lg-6">
-                        TODO : envoyer une estimation
-                    </div>
-                    <div class="fr-col-12 fr-col-lg-6">
-                        TODO : envoyer un message
-                    </div>
+                    {% if can_send_estimation %}
+                        <div class="fr-col-12 fr-col-lg-6">
+                            <button class="fr-btn fr-btn--icon-left fr-icon-article-line" data-fr-opened="false" aria-controls="fr-modal-send-estimation" {% if has_sent_estimation %}disabled{% endif %}>Envoyer une estimation</button>
+                        </div>
+                    {% endif %}
+                    {% if can_display_messages %}
+                        <div class="fr-col-12 fr-col-lg-6">
+                            TODO : envoyer un message
+                        </div>
+                    {% endif %}
                 </div>
             {% endif %}
 

@@ -3,6 +3,12 @@
 {% block title %}Stop punaises - Gérer le signalement{% endblock %}
 
 {% block body %}
+{% if not is_granted('ROLE_ADMIN') and not entrepriseIntervention %}
+    {% include "signalement_view/modal-refuse-signalement.html.twig" %}
+{% endif %}
+{% if can_send_estimation and not has_sent_estimation %}
+    {% include "signalement_view/modal-send-estimation.html.twig" %}
+{% endif %}
 
 {% for label, messages in app.flashes %}
     {% for message in messages %}
@@ -30,7 +36,6 @@
                             TODO : BOUTON MARQUER COMME TRAITE
                         {% endif %}
                     {% else %}
-                        {% include "signalement_view/modal-refuse-signalement.html.twig" %}
                         <form action="{{ path('app_signalement_intervention_accept', {'uuid': signalement.uuid }) }}" method="POST">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_intervention_accept') }}">
                             <button type="button" data-fr-opened="false" aria-controls="fr-modal-refuse-signalement" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close">Refuser le signalement</button>
@@ -38,7 +43,7 @@
                         </form>
                     {% endif %}
 
-                {% else %}
+                {% elseif signalement.updatedAt %}
                     <span class="date-info">Mis à jour le <strong>{{ signalement.updatedAt.format('d/m/Y') }}</strong></span>
                 {% endif %}
             </div>
