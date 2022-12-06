@@ -3,7 +3,9 @@
 namespace App\Controller\Front;
 
 use App\Entity\Enum\InfestationLevel;
+use App\Entity\Intervention;
 use App\Entity\Signalement;
+use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
 use App\Service\Signalement\EventsProvider;
@@ -23,6 +25,7 @@ class SuiviUsagerViewController extends AbstractController
             'signalement' => $signalement,
             'accepted' => true,
         ]);
+        $interventionsToAnswer = $interventionRepository->findInterventionsWithMissingAnswerFromUsager($signalement);
 
         return $this->render('front_suivi_usager/index.html.twig', [
             'signalement' => $signalement,
@@ -30,6 +33,7 @@ class SuiviUsagerViewController extends AbstractController
             'niveau_infestation' => InfestationLevel::from($signalement->getNiveauInfestation())->label(),
             'events' => $events,
             'accepted_interventions' => $acceptedInterventions,
+            'interventions_to_answer' => $interventionsToAnswer,
         ]);
     }
 
@@ -80,5 +84,42 @@ class SuiviUsagerViewController extends AbstractController
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+    }
+
+    #[Route('/interventions/{id}/choix', name: 'app_signalement_estimation_choice')]
+    public function signalement_choice(
+        Request $request,
+        Intervention $intervention,
+        InterventionManager $interventionManager,
+        InterventionRepository $interventionRepository,
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_estimation_choice', $request->get('_csrf_token'))) {
+            if ('accept' == $request->get('action')) {
+                $this->addFlash('success', 'L\'estimation a bien été acceptée');
+                $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
+                $intervention->setAcceptedByUsager(true);
+                $interventionManager->save($intervention);
+
+                // Refuser les autres estimations en attente
+                $interventionsToAnswer = $interventionRepository->findInterventionsWithMissingAnswerFromUsager($intervention->getSignalement());
+                foreach ($interventionsToAnswer as $interventionToAnswer) {
+                    $interventionToAnswer->setChoiceByUsagerAt(new \DateTimeImmutable());
+                    $interventionToAnswer->setAcceptedByUsager(false);
+                    // TODO : setMotifRefusUsager : "choix d'une autre entreprise"
+                    $interventionManager->save($interventionToAnswer);
+                }
+
+                // TODO : envoi d'un mail à l'entreprise
+                // TODO : envoi d'un mail aux autres entreprises
+            }
+            if ('refuse' == $request->get('action')) {
+                $this->addFlash('success', 'L\'estimation a bien été refusée');
+                $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
+                $intervention->setAcceptedByUsager(false);
+                $interventionManager->save($intervention);
+            }
+        }
+
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $intervention->getSignalement()->getUuid()]);
     }
 }

@@ -15,7 +15,7 @@
 
 {% set stepLabel = '' %}
 {% if signalement.autotraitement %}
-    {% set stepLabel = stepIndex > 2 ? 'Signalement cloturé' : 'Traitement terminé' %}
+    {% set stepLabel = stepIndex > 2 ? 'Traitement terminé' : 'Protocole envoyé' %}
 {% else %}
     {% if stepIndex == 1 %}
         {% set stepLabel = 'Signalement déposé' %}

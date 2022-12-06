@@ -12,7 +12,7 @@ TODO
     {% set enCours = true %}
     {% if entreprise %}
         {% for intervention in signalement.interventions %}
-            {% if intervention.entreprise.id == entreprise.id and not intervention.accepted %}
+            {% if intervention.entreprise.id == entreprise.id and (intervention.accepted is same as false or intervention.acceptedByUsager is same as false) %}
                 {% set enCours = false %}
             {% endif %}
         {% endfor %}
@@ -25,7 +25,5 @@ TODO
 {% else %}
     <p class="fr-badge fr-badge--orange-terre-battue fr-badge--no-icon">Nouveau</p>
 {#% else %}
-    <p class="fr-badge fr-badge--green-menthe fr-badge--no-icon">Traité</p>
-{% else %}
-    <p class="fr-badge fr-badge--beige-gris-galet fr-badge--no-icon">Refusé</p>#}
+    <p class="fr-badge fr-badge--green-menthe fr-badge--no-icon">Traité</p>#}
 {% endif %}

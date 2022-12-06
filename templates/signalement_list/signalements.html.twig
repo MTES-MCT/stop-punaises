@@ -81,7 +81,7 @@
                         <th>Commune</th>
                         {% if is_granted('ROLE_ADMIN') %}
                             <th>Type</th>
-                            {#<th>Procédure</th>#}
+                            <th>Procédure</th>
                         {% endif %}
                         <th></th>
                     </tr>
@@ -96,7 +96,7 @@
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <td>{{ signalement|type_signalement }}</td>
-                                {#<td>{% include "common/components/signalement-procedure.html.twig" %}</td>#}
+                                <td>{% include "common/components/signalement-procedure.html.twig" %}</td>
                             {% endif %}
                             <td class="button-view">
                                 <a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a>

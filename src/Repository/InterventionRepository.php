@@ -51,4 +51,15 @@ class InterventionRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function findInterventionsWithMissingAnswerFromUsager(Signalement $signalement)
+    {
+        $qb = $this->createQueryBuilder('i')
+            ->where('i.signalement = :signalement')
+                ->setParameter('signalement', $signalement)
+            ->andWhere('i.estimationSentAt is not null')
+            ->andWhere('i.choiceByUsagerAt is null');
+
+        return $qb->getQuery()->getResult();
+    }
 }
