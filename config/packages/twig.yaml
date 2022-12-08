@@ -4,3 +4,11 @@ twig:
 when@test:
     twig:
         strict_variables: true
+
+when@prod:
+    twig:
+        globals:
+            matomo:
+                url: https://histologe.matomo.cloud/
+                cdn: //cdn.matomo.cloud/histologe.matomo.cloud/matomo.js
+                site_id: 16
