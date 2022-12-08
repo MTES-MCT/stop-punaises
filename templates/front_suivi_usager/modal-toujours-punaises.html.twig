@@ -1,0 +1,38 @@
+<dialog aria-labelledby="fr-modal-title-modal-toujours-punaises" role="dialog" id="fr-modal-toujours-punaises" class="fr-modal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-toujours-punaises" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-toujours-punaises" class="fr-modal__title">Vous avez toujours un problème de punaises</h1>
+                        <p>
+                            Vous avez indiqué avoir toujours un problème de punaises de lit.
+                            <br>
+                            Nous pouvons vous aider à trouver une entreprise labellisée pour traiter votre logement.
+                        </p>
+                        <p>
+                            Que souhaitez-vous faire ?
+                        </p>
+                        <div>
+                            <form action="{{ path('app_signalement_switch_pro', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_switch_pro') }}">
+                                <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check">Trouver une entreprise</button>
+                            </form>
+
+                            <form action="{{ path('app_signalement_stop', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_stop') }}">
+                                <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close">Arrêter la procédure</button>
+                            </form>
+                        </div>
+                        <p class="align-center fr-mt-3v">
+                            <a aria-controls="fr-modal-toujours-punaises" href="#">&lt; Retour</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

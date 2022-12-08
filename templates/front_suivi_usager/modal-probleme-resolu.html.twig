@@ -1,0 +1,33 @@
+<dialog aria-labelledby="fr-modal-title-modal-probleme-resolu" role="dialog" id="fr-modal-probleme-resolu" class="fr-modal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-probleme-resolu" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-probleme-resolu" class="fr-modal__title">Votre problème est-il résolu ?</h1>
+                        <p>
+                            Vous avez reçu le protocole d'auto-traitement à domicile le {{ signalement.createdAt.format('d/m/Y') }}.
+                        </p>
+                        <p>
+                            A-t-il fonctionné ? Votre problème est-il résolu ?
+                        </p>
+                        <div>
+                            <form action="{{ path('app_signalement_resolve', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_resolve') }}">
+                                <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check">Mon problème est résolu</button>
+                            </form>
+
+                            <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close" data-fr-opened="false" aria-controls="fr-modal-toujours-punaises">J'ai toujours des punaises</button>
+                        </div>
+                        <p class="align-center fr-mt-3v">
+                            <a aria-controls="fr-modal-probleme-resolu" href="#">&lt; Retour</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

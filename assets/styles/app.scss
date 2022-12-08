@@ -174,6 +174,13 @@ span.statut-infestation {
         border: 1px solid var(--grey-625-425);
         font-size: 0.8em;
     }
+
+    form {
+        .fr-btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
 }
 
 .event-item {

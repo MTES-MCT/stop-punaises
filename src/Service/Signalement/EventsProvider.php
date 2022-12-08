@@ -26,6 +26,7 @@ class EventsProvider
         $this->addEventSuiviTraitement();
         $this->addEventProtocoleEnvoye();
 
+        $this->addEventEmptyEstimationList();
         $this->addEventsIntervention();
 
         $this->addEventSwitchTraitement();
@@ -86,6 +87,53 @@ class EventsProvider
         }
     }
 
+    private function addEventEmptyEstimationList()
+    {
+        if (!$this->signalement->isAutotraitement() && ($this->isAdmin || !$this->entreprise)) {
+            $isEventDisplayed = false;
+            $isEstimationReceived = false;
+            $mostRecentDate = 0;
+            $interventions = $this->signalement->getInterventions();
+            if (\count($interventions) > 0) {
+                $isEventDisplayed = true;
+                foreach ($interventions as $intervention) {
+                    if ($intervention->getEstimationSentAt()) {
+                        $isEstimationReceived = true;
+                    }
+                    if ($intervention->isAccepted() && !$intervention->getChoiceByUsagerAt()) {
+                        $isEventDisplayed = false;
+                        break;
+                    } elseif ($intervention->getChoiceByUsagerAt()) {
+                        if ($intervention->isAcceptedByUsager()) {
+                            $isEventDisplayed = false;
+                            break;
+                        }
+                        if (!$mostRecentDate || $intervention->getChoiceByUsagerAt() > $mostRecentDate) {
+                            $mostRecentDate = $intervention->getChoiceByUsagerAt();
+                        }
+                    }
+                }
+            }
+
+            if ($isEventDisplayed) {
+                $event = [];
+                $event['date'] = $mostRecentDate;
+                $event['title'] = $isEstimationReceived ? 'Plus d\'estimation disponible' : 'Aucune entreprise disponible';
+                if ($this->isAdmin) {
+                    $event['description'] = $isEstimationReceived ? 'L\'usager a refusé toutes les estimations des entreprises' : 'Aucune entreprise n\'est en capacité de traiter cette demande';
+                } else {
+                    $event['description'] = $isEstimationReceived ? 'Vous avez refusé toutes les estimations des entreprises' : 'Aucune entreprise n\'est en capacité de traiter votre demande';
+
+                    if (!$this->signalement->getClosedAt() && !$this->signalement->getResolvedAt()) {
+                        $event['actionLabel'] = 'En savoir plus';
+                        $event['modalToOpen'] = 'empty-estimations';
+                    }
+                }
+                $this->events[] = $event;
+            }
+        }
+    }
+
     private function addEventsIntervention()
     {
         if (!$this->signalement->isAutotraitement()) {
@@ -107,6 +155,9 @@ class EventsProvider
                         if (!$intervention->getChoiceByUsagerAt()) {
                             $event['actionLabel'] = 'En savoir plus';
                             $event['modalToOpen'] = 'choice-estimation-'.$intervention->getId();
+                        } elseif ($intervention->isAcceptedByUsager()) {
+                            $event['actionLabel'] = 'En savoir plus';
+                            $event['modalToOpen'] = 'estimation-accepted-'.$intervention->getId();
                         }
                     }
 

@@ -4,9 +4,13 @@
 
 {% block body %}
 
+{% include "front_suivi_usager/modal-empty-estimations.html.twig" %}
 {% for intervention in interventions_to_answer %}
     {% include "front_suivi_usager/modal-choice-estimation.html.twig" %}
 {% endfor %}
+{% if intervention_accepted_by_usager %}
+    {% include "front_suivi_usager/modal-estimation-accepted.html.twig" %}
+{% endif %}
 
 <div class="suivi-usager fr-container fr-my-3v">
 
