@@ -153,6 +153,35 @@ class SignalementViewController extends AbstractController
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
     }
 
+    #[Route('/interventions/{id}/marquer-traite', name: 'app_signalement_intervention_resolved_by_entreprise')]
+    public function intervention_resolved(
+        Request $request,
+        Intervention $intervention,
+        InterventionManager $interventionManager,
+        InterventionRepository $interventionRepository,
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_intervention_resolved_by_entreprise', $request->get('_csrf_token'))) {
+            $this->addFlash('success', 'L\'estimation a bien été acceptée');
+            $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
+            $intervention->setAcceptedByUsager(true);
+            $interventionManager->save($intervention);
+
+            // Refuser les autres estimations en attente
+            $interventionsToAnswer = $interventionRepository->findInterventionsWithMissingAnswerFromUsager($intervention->getSignalement());
+            foreach ($interventionsToAnswer as $interventionToAnswer) {
+                $interventionToAnswer->setChoiceByUsagerAt(new \DateTimeImmutable());
+                $interventionToAnswer->setAcceptedByUsager(false);
+                // TODO : setMotifRefusUsager : "choix d'une autre entreprise"
+                $interventionManager->save($interventionToAnswer);
+            }
+
+            // TODO : envoi d'un mail à l'entreprise
+            // TODO : envoi d'un mail aux autres entreprises
+        }
+
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $intervention->getSignalement()->getUuid()]);
+    }
+
     #[Route('/bo/historique/{uuid}', name: 'app_signalement_historique_view')]
     public function indexHistorique(Signalement $signalement): Response
     {
