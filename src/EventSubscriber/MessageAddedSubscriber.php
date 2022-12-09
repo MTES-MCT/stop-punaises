@@ -26,8 +26,12 @@ class MessageAddedSubscriber implements EventSubscriberInterface
         $unitOfWork = $args->getEntityManager()->getUnitOfWork();
 
         foreach ($unitOfWork->getScheduledEntityInsertions() as $entity) {
+            /** Message $entity */
             if ($entity instanceof Message) {
-                // send message
+                $this->mailerProvider->sendNotificationToUsager(
+                    $entity->getSignalement(),
+                    $entity->getEntreprise()->getNom()
+                );
             }
         }
     }

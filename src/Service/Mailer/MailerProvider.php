@@ -151,18 +151,17 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
-    public function sendSignalementNewMessage(Signalement $signalement, Intervention $intervention): void
+    public function sendNotificationToUsager(Signalement $signalement, string $nomEntreprise): void
     {
-        $emailOccupant = $signalement->getEmailOccupant();
         $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_NEW_MESSAGE, [
                 'nom_usager' => $signalement->getNomCompletOccupant(),
-                'nom_entreprise' => $intervention->getEntreprise()->getNom(),
+                'nom_entreprise' => $nomEntreprise,
                 'lien' => $link,
             ])
-            ->setTo([$emailOccupant]);
+            ->setTo([$signalement->getEmailOccupant()]);
 
         $this->send($message);
     }
