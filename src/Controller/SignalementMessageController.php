@@ -7,6 +7,7 @@ use App\Manager\MessageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -22,11 +23,16 @@ class SignalementMessageController extends AbstractController
         SerializerInterface $serializer,
     ): JsonResponse {
         $data = $request->request->all();
-        $messageFactory = $messageFactory->createInstanceFrom($data);
-        $messageResponse = $messageManager->createMessageResponse($messageFactory);
+        $message = $messageFactory->createInstanceFrom($data);
 
-        $response = $serializer->serialize($messageResponse, 'json');
+        $errors = $validator->validate($message);
+        if (0 === $errors->count() && $this->isCsrfTokenValid('send_message', $data['_token'])) {
+            $messageResponse = $messageManager->createMessageResponse($message);
+            $response = $serializer->serialize($messageResponse, 'json');
 
-        return $this->json($response);
+            return $this->json($response);
+        }
+
+        return $this->json(['message' => (string) $errors], Response::HTTP_BAD_REQUEST);
     }
 }

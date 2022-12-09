@@ -6,6 +6,7 @@ use App\Entity\Behaviour\TimestampableTrait;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
@@ -33,6 +34,8 @@ class Message
     private ?string $recipient = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 10, minMessage: 'Votre message doit avoir {{limit}} caractères minimum') ]
     private ?string $content = null;
 
     public function getId(): ?int
