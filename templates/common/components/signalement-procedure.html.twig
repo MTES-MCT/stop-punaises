@@ -9,6 +9,10 @@
 {% else %}
     {% set procedure = {'caption': 'Réception', 'percent': 5} %}
     {% if (signalement.interventions) %}
+        {% if signalement.typeIntervention %}
+            {% set procedure = {'caption': 'Intervention faite', 'percent': 80} %}
+        {% endif %}
+
         {% for intervention in signalement.interventions %}
             {% if procedure.percent < 20 %}
                 {% set procedure = {'caption': 'Contact usager', 'percent': 20} %}
@@ -20,7 +24,6 @@
                 {% set procedure = {'caption': 'Estimation acceptée', 'percent': 60} %}
             {% endif %}
 
-            {#% set procedure = {'caption': 'Intervention faite', 'percent': 80} %#}
             {#% set procedure = {'caption': 'Confirmation usager', 'percent': 100} %#}
 
             {% if intervention.acceptedByUsager is same as false and procedure.percent < 60 %}

@@ -60,9 +60,14 @@ class SignalementViewController extends AbstractController
             ];
         }
 
-        $acceptedInterventions = $interventionRepository->findBy([
+        $interventionsAcceptedByUsager = $interventionRepository->findBy([
             'signalement' => $signalement,
             'accepted' => true,
+        ]);
+
+        $acceptedEstimations = $interventionRepository->findBy([
+            'signalement' => $signalement,
+            'acceptedByUsager' => true,
         ]);
 
         return $this->render('signalement_view/signalement.html.twig', [
@@ -71,7 +76,8 @@ class SignalementViewController extends AbstractController
             'can_display_adresse' => $this->isGranted('ROLE_ADMIN') || ($entrepriseIntervention && $entrepriseIntervention->isAcceptedByUsager()),
             'can_send_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
             'has_sent_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->getEstimationSentAt(),
-            'accepted_interventions' => $acceptedInterventions,
+            'accepted_interventions' => $interventionsAcceptedByUsager,
+            'accepted_estimations' => $acceptedEstimations,
             'signalement' => $signalement,
             'photos' => $this->getPhotos($signalement),
             'events' => $eventsProvider->getEvents(),

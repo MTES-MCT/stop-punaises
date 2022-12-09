@@ -11,6 +11,9 @@
     {% if accepted_interventions %}
         {% set stepIndex = 2 %}
     {% endif %}
+    {% if accepted_estimations %}
+        {% set stepIndex = 3 %}
+    {% endif %}
 {% endif %}
 
 {% set stepLabel = '' %}

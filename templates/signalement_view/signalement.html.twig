@@ -32,7 +32,7 @@
             <div class="fr-col-12 fr-col-lg-5">
                 {% if not is_granted('ROLE_ADMIN') %}
                     {% if entrepriseIntervention %}
-                        {% if entrepriseIntervention.accepted %}
+                        {% if entrepriseIntervention.accepted and signalement.typeIntervention is null %}
                             <a href="{{ path('app_signalement_resolve', {'uuid': signalement.uuid }) }}" type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check" name="action" value="accept">Marquer comme traité</a>
                         {% endif %}
                     {% else %}

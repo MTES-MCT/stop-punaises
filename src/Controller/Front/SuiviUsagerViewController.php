@@ -47,6 +47,7 @@ class SuiviUsagerViewController extends AbstractController
             'niveau_infestation' => InfestationLevel::from($signalement->getNiveauInfestation())->label(),
             'events' => $events,
             'accepted_interventions' => $acceptedInterventions,
+            'accepted_estimations' => $interventionsAcceptedByUsager,
             'interventions_to_answer' => $interventionsToAnswer,
             'is_last_intervention_to_answer' => 1 === \count($interventionsWithoutChoiceUsager),
             'intervention_accepted_by_usager' => $interventionAcceptedByUsager,

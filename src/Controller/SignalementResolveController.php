@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Signalement;
 use App\Form\SignalementType;
+use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
+use App\Repository\InterventionRepository;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +21,8 @@ class SignalementResolveController extends AbstractController
         Request $request,
         Signalement $signalement,
         SignalementManager $signalementManager,
+        InterventionRepository $interventionRepository,
+        InterventionManager $interventionManager,
         ): Response {
         $form = $this->createForm(SignalementType::class, $signalement);
         $form->handleRequest($request);
@@ -25,7 +30,17 @@ class SignalementResolveController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $signalementManager->save($signalement);
 
-            $this->addFlash('success', 'Le signalement a bien été enregistré.');
+            $this->addFlash('success', 'Le traitement a été marqué comme effectué. Un email de suivi sera envoyé à l\'usager dans 30 jours.');
+
+            /* User $user */
+            $user = $this->getUser();
+            $userEntreprise = $user->getEntreprise();
+            $entrepriseIntervention = $interventionRepository->findBySignalementAndEntreprise(
+                $signalement,
+                $userEntreprise
+            );
+            $entrepriseIntervention->setResolvedByEntrepriseAt(new DateTimeImmutable());
+            $interventionManager->save($entrepriseIntervention);
 
             return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
         }

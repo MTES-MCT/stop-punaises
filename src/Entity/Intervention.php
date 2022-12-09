@@ -46,6 +46,9 @@ class Intervention
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $estimationSentAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $resolvedByEntrepriseAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -167,6 +170,18 @@ class Intervention
     public function setEstimationSentAt(?\DateTimeImmutable $estimationSentAt): self
     {
         $this->estimationSentAt = $estimationSentAt;
+
+        return $this;
+    }
+
+    public function getResolvedByEntrepriseAt(): ?\DateTimeImmutable
+    {
+        return $this->resolvedByEntrepriseAt;
+    }
+
+    public function setResolvedByEntrepriseAt(?\DateTimeImmutable $resolvedByEntrepriseAt): self
+    {
+        $this->resolvedByEntrepriseAt = $resolvedByEntrepriseAt;
 
         return $this;
     }
