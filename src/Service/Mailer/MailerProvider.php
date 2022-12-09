@@ -65,11 +65,13 @@ class MailerProvider implements MailerProviderInterface
     public function sendSignalementValidationWithPro(Signalement $signalement): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_PROFESSIONAL, [
                 'nom_usager' => $signalement->getNomCompletOccupant(),
                 'adresse' => $signalement->getAdresseComplete(),
+                'lien' => $link,
             ])
             ->setTo([$emailOccupant]);
 
