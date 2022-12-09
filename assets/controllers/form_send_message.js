@@ -1,7 +1,7 @@
 import $ from 'jquery';
 $(function() {
     sendMessage();
-    clickSendMessageButton();
+    displayTabMessages();
 });
 
 function sendMessage() {
@@ -56,7 +56,7 @@ function sendMessage() {
     });
 }
 
-function clickSendMessageButton() {
+function displayTabMessages() {
     $('#btn-send-message').on('click', function() {
         $('.fiche-signalement #tabpanel-messages').click();
     });
