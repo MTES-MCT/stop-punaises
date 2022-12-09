@@ -7,6 +7,7 @@ use App\Form\SignalementType;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
+use App\Service\Mailer\MailerProvider;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -23,6 +24,7 @@ class SignalementResolveController extends AbstractController
         SignalementManager $signalementManager,
         InterventionRepository $interventionRepository,
         InterventionManager $interventionManager,
+        MailerProvider $mailerProvider,
         ): Response {
         $form = $this->createForm(SignalementType::class, $signalement);
         $form->handleRequest($request);
@@ -35,12 +37,14 @@ class SignalementResolveController extends AbstractController
             /* User $user */
             $user = $this->getUser();
             $userEntreprise = $user->getEntreprise();
-            $entrepriseIntervention = $interventionRepository->findBySignalementAndEntreprise(
+            $intervention = $interventionRepository->findBySignalementAndEntreprise(
                 $signalement,
                 $userEntreprise
             );
-            $entrepriseIntervention->setResolvedByEntrepriseAt(new DateTimeImmutable());
-            $interventionManager->save($entrepriseIntervention);
+            $intervention->setResolvedByEntrepriseAt(new DateTimeImmutable());
+            $interventionManager->save($intervention);
+
+            $mailerProvider->sendSignalementTraitementResolved($signalement, $intervention);
 
             return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
         }

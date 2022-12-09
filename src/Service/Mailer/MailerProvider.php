@@ -2,6 +2,7 @@
 
 namespace App\Service\Mailer;
 
+use App\Entity\Intervention;
 use App\Entity\Signalement;
 use App\Entity\User;
 use Symfony\Component\Mailer\MailerInterface;
@@ -86,6 +87,102 @@ class MailerProvider implements MailerProviderInterface
             ->createInstanceFrom(Template::SIGNALEMENT_AUTO, [
                 'nom_usager' => $signalement->getNomCompletOccupant(),
                 'lien_pdf' => $linkToPdf,
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementNewEstimation(Signalement $signalement, Intervention $intervention): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_NEW_ESTIMATION, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'nom_entreprise' => $intervention->getEntreprise()->getNom(),
+                'reference' => $signalement->getReference(),
+                'lien' => $link,
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementNewMessage(Signalement $signalement, Intervention $intervention): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_NEW_MESSAGE, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'nom_entreprise' => $intervention->getEntreprise()->getNom(),
+                'lien' => $link,
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementTraitementResolved(Signalement $signalement, Intervention $intervention): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_TRAITEMENT_RESOLVED, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'nom_entreprise' => $intervention->getEntreprise()->getNom(),
+                'lien' => $link,
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementSuiviTraitementPro(Signalement $signalement, Intervention $intervention): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_SUIVI_TRAITEMENT_PRO, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'nom_entreprise' => $intervention->getEntreprise()->getNom(),
+                'lien' => $link,
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementSuiviTraitementAuto(Signalement $signalement): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_SUIVI_TRAITEMENT_PRO, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'date' => $signalement->getCreatedAt()->format('d/m/Y'),
+                'lien' => $link,
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementWithNoMoreEntreprise(Signalement $signalement): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_NO_MORE_ENTREPRISES, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'lien' => $link,
             ])
             ->setTo([$emailOccupant]);
 

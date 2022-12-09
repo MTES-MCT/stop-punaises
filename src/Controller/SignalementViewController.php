@@ -6,7 +6,9 @@ use App\Entity\Intervention;
 use App\Entity\Signalement;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
+use App\Repository\EntrepriseRepository;
 use App\Repository\InterventionRepository;
+use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\EventsProvider;
 use App\Service\Upload\UploadHandlerService;
 use DateTimeImmutable;
@@ -112,6 +114,9 @@ class SignalementViewController extends AbstractController
         Request $request,
         Signalement $signalement,
         InterventionManager $interventionManager,
+        MailerProvider $mailerProvider,
+        EntrepriseRepository $entrepriseRepository,
+        InterventionRepository $interventionRepository,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
@@ -125,7 +130,24 @@ class SignalementViewController extends AbstractController
             $intervention->setCommentaireRefus($commentaire);
             $interventionManager->save($intervention);
             $this->addFlash('success', 'Le signalement a bien été refusé');
-            // TODO : vérifier si des entreprises sont encore dispos ou non pour envoyer un mail à l'usager si il n'y a plus d'entreprises
+
+            // Check if entreprises are still available for this territoire
+            // If not, contact user
+            $remainingEntreprises = false;
+            $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
+            foreach ($entreprises as $entreprise) {
+                $entrepriseIntervention = $interventionRepository->findBySignalementAndEntreprise(
+                    $signalement,
+                    $entreprise
+                );
+                if (!$entrepriseIntervention || $entrepriseIntervention->isAccepted()) {
+                    $remainingEntreprises = true;
+                    break;
+                }
+            }
+            if (!$remainingEntreprises) {
+                $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
+            }
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
@@ -137,6 +159,7 @@ class SignalementViewController extends AbstractController
         Signalement $signalement,
         InterventionManager $interventionManager,
         InterventionRepository $interventionRepository,
+        MailerProvider $mailerProvider,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_estimation_send', $request->get('_csrf_token'))) {
             /* User $user */
@@ -153,39 +176,11 @@ class SignalementViewController extends AbstractController
             $intervention->setEstimationSentAt(new DateTimeImmutable());
             $interventionManager->save($intervention);
             $this->addFlash('success', 'L\'estimation a bien été transmise.');
-            // TODO : envoyer mail à l'usager
+
+            $mailerProvider->sendSignalementNewEstimation($signalement, $intervention);
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
-    }
-
-    #[Route('/interventions/{id}/marquer-traite', name: 'app_signalement_intervention_resolved_by_entreprise')]
-    public function intervention_resolved(
-        Request $request,
-        Intervention $intervention,
-        InterventionManager $interventionManager,
-        InterventionRepository $interventionRepository,
-        ): Response {
-        if ($this->isCsrfTokenValid('signalement_intervention_resolved_by_entreprise', $request->get('_csrf_token'))) {
-            $this->addFlash('success', 'L\'estimation a bien été acceptée');
-            $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
-            $intervention->setAcceptedByUsager(true);
-            $interventionManager->save($intervention);
-
-            // Refuser les autres estimations en attente
-            $interventionsToAnswer = $interventionRepository->findInterventionsWithMissingAnswerFromUsager($intervention->getSignalement());
-            foreach ($interventionsToAnswer as $interventionToAnswer) {
-                $interventionToAnswer->setChoiceByUsagerAt(new \DateTimeImmutable());
-                $interventionToAnswer->setAcceptedByUsager(false);
-                // TODO : setMotifRefusUsager : "choix d'une autre entreprise"
-                $interventionManager->save($interventionToAnswer);
-            }
-
-            // TODO : envoi d'un mail à l'entreprise
-            // TODO : envoi d'un mail aux autres entreprises
-        }
-
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $intervention->getSignalement()->getUuid()]);
     }
 
     #[Route('/bo/historique/{uuid}', name: 'app_signalement_historique_view')]
