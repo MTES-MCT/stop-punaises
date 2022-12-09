@@ -43,7 +43,7 @@ class SuiviUsagerViewController extends AbstractController
 
         return $this->render('front_suivi_usager/index.html.twig', [
             'signalement' => $signalement,
-            'link_pdf_autotraitement' => $this->getParameter('doc_autotraitement'),
+            'link_pdf' => $signalement->isAutotraitement() ? $this->getParameter('doc_autotraitement') : $this->getParameter('doc_domicile'),
             'niveau_infestation' => InfestationLevel::from($signalement->getNiveauInfestation())->label(),
             'events' => $events,
             'accepted_interventions' => $acceptedInterventions,
