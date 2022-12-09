@@ -123,6 +123,34 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
+    public function sendSignalementEstimationAccepted(string $emailEntreprise, Signalement $signalement): void
+    {
+        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_ESTIMATION_ACCEPTED, [
+                'reference' => $signalement->getReference(),
+                'lien' => $link,
+            ])
+            ->setTo([$emailEntreprise]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementEstimationRefused(string $emailEntreprise, Signalement $signalement): void
+    {
+        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_ESTIMATION_REFUSED, [
+                'reference' => $signalement->getReference(),
+                'lien' => $link,
+            ])
+            ->setTo([$emailEntreprise]);
+
+        $this->send($message);
+    }
+
     public function sendSignalementNewMessage(Signalement $signalement, Intervention $intervention): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
@@ -165,6 +193,34 @@ class MailerProvider implements MailerProviderInterface
                 'lien' => $link,
             ])
             ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementTraitementResolvedForPro(string $emailEntreprise, Signalement $signalement): void
+    {
+        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_TRAITEMENT_RESOLVED_FOR_PRO, [
+                'reference' => $signalement->getReference(),
+                'lien' => $link,
+            ])
+            ->setTo([$emailEntreprise]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementClosed(string $emailEntreprise, Signalement $signalement): void
+    {
+        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_CLOSED, [
+                'reference' => $signalement->getReference(),
+                'lien' => $link,
+            ])
+            ->setTo([$emailEntreprise]);
 
         $this->send($message);
     }
