@@ -1,16 +1,19 @@
 import $ from 'jquery';
 $(function() {
     sendMessage();
+    clickSendMessageButton();
 });
 
 function sendMessage() {
-    const form = $('.form');
+    const form = $('#form-send-message')
     form.on('submit', function(event) {
         event.preventDefault();
-        const formData = new FormData(form[0]);
+        $('#form-send-message button').attr('disabled', true);
+        const formElement = form[0];
+        const formData = new FormData(formElement);
         $.ajax({
             type: 'POST',
-            url: $('.form').attr('action'),
+            url: form.attr('action'),
             data: formData,
             contentType:false,
             cache:false,
@@ -31,13 +34,14 @@ function sendMessage() {
                 const messageList = $('.message-list');
                 messageList.append(messageItem);
                 messageList.scrollTop(messageList.prop("scrollHeight"))
-                form[0].reset();
+                formElement.reset();
                 $('.message-confirmation')
                     .addClass('fr-alert--success')
                     .removeClass('fr-alert--warning')
                     .removeClass('fr-hidden');
                 $('.message-confirmation .fr-alert__title').text('Message envoyé à l\'usager.');
                 clearAlertMessage();
+                $('#form-send-message button').attr('disabled', false);
             },
             error: function(xhr, desc, err) {
                 $('.message-confirmation')
@@ -46,8 +50,15 @@ function sendMessage() {
                 $('.message-confirmation .fr-alert__title')
                     .text('Une erreur est survenue, merci de réessayer plus tard.');
                 clearAlertMessage();
+                $('#form-send-message button').attr('disabled', false);
             }
         })
+    });
+}
+
+function clickSendMessageButton() {
+    $('#btn-send-message').on('click', function() {
+        $('.fiche-signalement #tabpanel-messages').click();
     });
 }
 
@@ -59,3 +70,5 @@ function clearAlertMessage() {
             .addClass('fr-hidden');
     }, 5000);
 }
+
+

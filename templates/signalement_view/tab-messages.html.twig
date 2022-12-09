@@ -8,7 +8,8 @@
         <div class="fr-col-12 fr-col-lg-6">
             <section>
                 <h3>Rappel sur le signalement</h3>
-                <p>Consultez les détail du signalement</p>
+                <p>Consultez les détails du signalement</p>
+                {% include 'common/components/signalement-detail.html.twig' with {'prefix_accordion_id': 'tab-messages-'} %}
             </section>
         </div>
         <div class="fr-col-12 fr-col-lg-6">
@@ -27,7 +28,7 @@
                         </div>
                     {% endfor %}
                 </div>
-                <form action="{{ path('app_signalement_message_send') }}" class="form" name="send_message" method="POST">
+                <form action="{{ path('app_signalement_message_send') }}" id="form-send-message" name="send_message" method="POST">
                     <div class="fr-input-group fr-col-12">
                         <label for="message">Votre message</label>
                         <div class="fr-hint-text help-text">10 caractères minimum</div>
@@ -37,7 +38,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token('send_message') }}"/>
                     </div>
                     <div class="fr-col-12 fr-text--center">
-                        <button type="submit" class="fr-btn fr-rounded fr-btn--icon-left"> Envoyer le
+                        <button type="submit" class="fr-btn fr-rounded fr-btn--icon-left fr-icon-send-plane-fill"> Envoyer le
                             message
                         </button>
                     </div>

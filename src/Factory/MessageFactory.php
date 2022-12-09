@@ -17,13 +17,13 @@ class MessageFactory
     public function createInstanceFrom(array $data): Message
     {
         $signalement = $this->signalementRepository->findOneBy(['uuid' => $data['signalement_uuid']]);
-        $entrprise = $this->entrepriseRepository->findOneBy(['uuid' => $data['entreprise_uuid']]);
+        $entreprise = $this->entrepriseRepository->findOneBy(['uuid' => $data['entreprise_uuid']]);
 
         return (new Message())
-            ->setSender($entrprise->getUser()->getEmail())
+            ->setSender($entreprise->getUser()->getEmail())
             ->setRecipient($signalement->getEmailOccupant())
             ->setContent($data['message'])
-            ->setEntreprise($entrprise)
+            ->setEntreprise($entreprise)
             ->setSignalement($signalement);
     }
 }
