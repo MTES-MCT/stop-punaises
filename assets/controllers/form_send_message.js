@@ -36,7 +36,7 @@ function sendMessage() {
                     .addClass('fr-alert--success')
                     .removeClass('fr-alert--warning')
                     .removeClass('fr-hidden');
-                $('.message-confirmation .fr-alert__title').text('Le message a bien envoyé à l\'usager.');
+                $('.message-confirmation .fr-alert__title').text('Message envoyé à l\'usager.');
                 clearAlertMessage();
             },
             error: function(xhr, desc, err) {
