@@ -6,6 +6,7 @@ use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use App\Form\SignalementFrontType;
 use App\Manager\SignalementManager;
+use App\Repository\EntrepriseRepository;
 use App\Repository\TerritoireRepository;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\ReferenceGenerator;
@@ -40,6 +41,7 @@ class SignalementController extends AbstractController
         TerritoireRepository $territoireRepository,
         MailerProvider $mailerProvider,
         ZipCodeService $zipCodeService,
+        EntrepriseRepository $entrepriseRepository,
         ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
@@ -65,6 +67,12 @@ class SignalementController extends AbstractController
                 $mailerProvider->sendSignalementValidationWithAutotraitement($signalement, $linkToPdf);
             } else {
                 $mailerProvider->sendSignalementValidationWithPro($signalement);
+
+                // Envoi aux entreprises concernées
+                $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
+                foreach ($entreprises as $entreprise) {
+                    $mailerProvider->sendSignalementNewForPro($entreprise->getEmail(), $signalement);
+                }
             }
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');

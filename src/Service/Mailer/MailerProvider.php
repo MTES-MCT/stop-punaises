@@ -93,6 +93,19 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
+    public function sendSignalementNewForPro(string $emailEntreprise, Signalement $signalement): void
+    {
+        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_NEW_FOR_PRO, [
+                'lien' => $link,
+            ])
+            ->setTo([$emailEntreprise]);
+
+        $this->send($message);
+    }
+
     public function sendSignalementNewEstimation(Signalement $signalement, Intervention $intervention): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
@@ -122,6 +135,20 @@ class MailerProvider implements MailerProviderInterface
                 'lien' => $link,
             ])
             ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
+    public function sendSignalementNewMessageForPro(string $emailEntreprise, Signalement $signalement): void
+    {
+        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_NEW_MESSAGE_FOR_PRO, [
+                'reference' => $signalement->getReference(),
+                'lien' => $link,
+            ])
+            ->setTo([$emailEntreprise]);
 
         $this->send($message);
     }
