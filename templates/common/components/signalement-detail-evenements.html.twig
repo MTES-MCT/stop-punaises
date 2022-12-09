@@ -2,10 +2,6 @@
     <h3>Détails des événements</h3>
 </div>
 
-{% include "front_suivi_usager/modal-probleme-resolu.html.twig" %}
-
-{% include "front_suivi_usager/modal-toujours-punaises.html.twig" %}
-
 {% for event in events %}
     <div class="event-item fr-mb-3w fr-pb-3w">
         <div class="even-item-date">{{ event.date.format('d/m/Y') }}</div>

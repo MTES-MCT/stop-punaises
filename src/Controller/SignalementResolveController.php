@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementResolveController extends AbstractController
 {
-    #[Route('/bo/signalements/{uuid}/traiter', name: 'app_signalement_resolve')]
+    #[Route('/bo/signalements/{uuid}/traiter', name: 'app_signalement_treated')]
     public function index(
         Request $request,
         Signalement $signalement,
@@ -53,7 +53,7 @@ class SignalementResolveController extends AbstractController
 
         return $this->render('signalement_create/index.html.twig', [
             'form' => $form->createView(),
-            'app_name' => 'app_signalement_resolve',
+            'app_name' => 'app_signalement_treated',
             'uuid' => $signalement->getUuid(),
         ]);
     }

@@ -106,12 +106,14 @@ class SuiviUsagerViewController extends AbstractController
             $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
 
-            $interventionsAcceptedByUsager = $interventionRepository->findBy([
-                'signalement' => $signalement,
-                'acceptedByUsager' => true,
-            ]);
-            foreach ($interventionsAcceptedByUsager as $intervention) {
-                $mailerProvider->sendSignalementTraitementResolvedForPro($intervention->getEntreprise()->getEmail(), $intervention->getSignalement());
+            if (!$signalement->isAutotraitement()) {
+                $interventionsAcceptedByUsager = $interventionRepository->findBy([
+                    'signalement' => $signalement,
+                    'acceptedByUsager' => true,
+                ]);
+                foreach ($interventionsAcceptedByUsager as $intervention) {
+                    $mailerProvider->sendSignalementTraitementResolvedForPro($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
+                }
             }
         }
 
@@ -139,7 +141,7 @@ class SuiviUsagerViewController extends AbstractController
             ]);
             foreach ($acceptedInterventions as $intervention) {
                 if (!$intervention->getChoiceByUsagerAt() || $intervention->isAcceptedByUsager()) {
-                    $mailerProvider->sendSignalementClosed($intervention->getEntreprise()->getEmail(), $intervention->getSignalement());
+                    $mailerProvider->sendSignalementClosed($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
                 }
             }
         }
@@ -162,7 +164,7 @@ class SuiviUsagerViewController extends AbstractController
                 $intervention->setAcceptedByUsager(true);
                 $interventionManager->save($intervention);
 
-                $mailerProvider->sendSignalementEstimationAccepted($intervention->getEntreprise()->getEmail(), $intervention->getSignalement());
+                $mailerProvider->sendSignalementEstimationAccepted($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
 
                 // Refuser les autres estimations en attente
                 $interventionsToAnswer = $interventionRepository->findInterventionsWithMissingAnswerFromUsager($intervention->getSignalement());
@@ -170,7 +172,7 @@ class SuiviUsagerViewController extends AbstractController
                     $interventionToAnswer->setChoiceByUsagerAt(new \DateTimeImmutable());
                     $interventionToAnswer->setAcceptedByUsager(false);
                     $interventionManager->save($interventionToAnswer);
-                    $mailerProvider->sendSignalementEstimationRefused($interventionToAnswer->getEntreprise()->getEmail(), $intervention->getSignalement());
+                    $mailerProvider->sendSignalementEstimationRefused($interventionToAnswer->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
                 }
             } elseif ('refuse' == $request->get('action')) {
                 $this->addFlash('success', 'L\'estimation a bien été refusée');
@@ -178,7 +180,7 @@ class SuiviUsagerViewController extends AbstractController
                 $intervention->setAcceptedByUsager(false);
                 $interventionManager->save($intervention);
 
-                $mailerProvider->sendSignalementEstimationRefused($intervention->getEntreprise()->getEmail(), $intervention->getSignalement());
+                $mailerProvider->sendSignalementEstimationRefused($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
             }
         }
 

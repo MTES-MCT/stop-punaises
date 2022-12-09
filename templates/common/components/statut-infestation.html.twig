@@ -4,9 +4,6 @@
 {% elseif signalement.closedAt %}
     {% set statutInfestationLabel = 'Non résolue' %}
     {% set statutInfestationClass = 'resolved' %}
-{% else %}
-    {% set statutInfestationLabel = 'TODO' %}
-    {% set statutInfestationClass = '' %}
 {% endif %}
 <span class="statut-infestation statut-infestation-{{ statutInfestationClass }}">
     {{ statutInfestationLabel }}

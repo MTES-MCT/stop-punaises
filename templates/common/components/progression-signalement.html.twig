@@ -14,6 +14,9 @@
     {% if accepted_estimations %}
         {% set stepIndex = 3 %}
     {% endif %}
+    {% if signalement.resolvedAt or signalement.closedAt %}
+        {% set stepIndex = 4 %}
+    {% endif %}
 {% endif %}
 
 {% set stepLabel = '' %}

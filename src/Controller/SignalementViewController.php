@@ -45,6 +45,7 @@ class SignalementViewController extends AbstractController
             signalement: $signalement,
             pdfUrl: $this->getParameter('doc_autotraitement'),
             isAdmin: $this->isGranted('ROLE_ADMIN'),
+            isBackOffice: true,
             entreprise: $userEntreprise
         );
 

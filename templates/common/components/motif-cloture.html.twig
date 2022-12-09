@@ -4,9 +4,6 @@
 {% elseif signalement.closedAt %}
     {% set motifLabel = 'Arrêt usager' %}
     {% set motifClass = 'resolved' %}
-{% else %}
-    {% set motifLabel = 'TODO' %}
-    {% set motifClass = '' %}
 {% endif %}
 <span class="motif-cloture motif-cloture-{{ motifClass }}">
     {{ motifLabel }}

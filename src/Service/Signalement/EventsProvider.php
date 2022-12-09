@@ -13,6 +13,7 @@ class EventsProvider
         private Signalement $signalement,
         private string $pdfUrl,
         private bool $isAdmin = false,
+        private bool $isBackOffice = false,
         private ?Entreprise $entreprise = null,
         ) {
     }
@@ -39,22 +40,31 @@ class EventsProvider
     private function addEventSignalementTermine()
     {
         if ($this->signalement->getClosedAt()) {
-            $this->events[] = [
+            $event = [
                 'date' => $this->signalement->getClosedAt(),
                 'title' => 'Signalement terminé',
-                'description' => 'Vous avez mis fin à la procédure. Merci d\'avoir utilisé Stop Punaises.',
             ];
+            if ($this->isBackOffice) {
+                $event['description'] = 'L\'usager a mis fin à la procédure';
+            } else {
+                $event['description'] = 'Vous avez mis fin à la procédure. Merci d\'avoir utilisé Stop Punaises.';
+            }
+            $this->events[] = $event;
         }
     }
 
     private function addEventSignalementResolu()
     {
         if ($this->signalement->getResolvedAt()) {
-            $events[] = [
+            $event = [
                 'date' => $this->signalement->getResolvedAt(),
                 'title' => 'Problème résolu',
                 'description' => 'Vous avez résolu votre problème ! Merci d\'avoir utilisé Stop Punaises.',
             ];
+            if ($this->isBackOffice) {
+                $event['description'] = 'L\'usager a indiqué que l\'infestation est résolue.';
+            }
+            $this->events[] = $event;
         }
     }
 
@@ -66,12 +76,41 @@ class EventsProvider
                 'title' => 'Suivi du traitement',
                 'description' => 'Votre problème de punaises est-il résolu ?',
             ];
+            if ($this->isBackOffice) {
+                $event['description'] = 'L\'email de suivi post-traitement a été envoyé à l\'usager';
+            }
             if (!$this->signalement->getResolvedAt()) {
                 $event['label'] = 'Nouveau';
-                $event['actionLabel'] = 'En savoir plus';
-                $event['modalToOpen'] = 'probleme-resolu';
+                if (!$this->isBackOffice) {
+                    $event['actionLabel'] = 'En savoir plus';
+                    $event['modalToOpen'] = 'probleme-resolu';
+                }
             }
             $this->events[] = $event;
+        }
+
+        if (!$this->signalement->isAutotraitement()) {
+            $interventions = $this->signalement->getInterventions();
+            foreach ($interventions as $intervention) {
+                if ($intervention->getReminderResolvedByEntrepriseAt()) {
+                    $event = [
+                        'date' => $intervention->getReminderResolvedByEntrepriseAt(),
+                        'title' => 'Suivi du traitement',
+                        'description' => 'Votre problème de punaises est-il résolu ?',
+                    ];
+                    if ($this->isBackOffice) {
+                        $event['description'] = 'L\'email de suivi post-traitement a été envoyé à l\'usager';
+                    }
+                    if (!$this->signalement->getResolvedAt()) {
+                        $event['label'] = 'Nouveau';
+                        if (!$this->isBackOffice) {
+                            $event['actionLabel'] = 'En savoir plus';
+                            $event['modalToOpen'] = 'probleme-resolu-pro';
+                        }
+                    }
+                    $this->events[] = $event;
+                }
+            }
         }
     }
 
