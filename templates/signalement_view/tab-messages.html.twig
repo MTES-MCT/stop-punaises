@@ -13,15 +13,30 @@
         </div>
         <div class="fr-col-12 fr-col-lg-6">
             <section>
-                <h3>Vos échanges avec l'usageer</h3>
-                <form action="" name="send_message">
+                <h3>Vos échanges avec l'usager</h3>
+                <div class="message-list">
+                    {% for message in signalement.messages %}
+                        <div class="message-item">
+                            <div class="message-item-header">
+                                <p class="fr-m-1w message-item-date">{{message.createdAt|date("m/d/Y") }}</p>
+                                <p class="fr-m-1w fr-text--sm"><strong>{{ message.sender == app.user.email ? 'Vous' : 'Usager'}}</strong></p>
+                            </div>
+                            <div class="message-item-content">
+                                <p class="fr-p-1w">{{ message.content }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <form action="{{ path('app_signalement_message_send') }}" class="form" name="send_message" method="POST">
                     <div class="fr-input-group fr-col-12">
                         <label for="message">Votre message</label>
-                        <textarea class="fr-input" name="message" id="message" cols="10" rows="10"></textarea>
-                        <input type="hidden" name="token" value="{{ csrf_token('send-message') }}"/>
+                        <textarea class="fr-input edit-zone" name="message" id="message" cols="10" rows="10" required></textarea>
+                        <input type="hidden" name="entreprise_uuid" value="{{ entreprise is not null ? entreprise.uuid : null}}"/>
+                        <input type="hidden" name="signalement_uuid" value="{{ signalement.uuid }}"/>
+                        <input type="hidden" name="_token" value="{{ csrf_token('send-message') }}"/>
                     </div>
                     <div class="fr-col-12 fr-text--center">
-                        <button class="fr-btn fr-rounded fr-btn--icon-left" form="send_message"> Envoyer le
+                        <button type="submit" class="fr-btn fr-rounded fr-btn--icon-left"> Envoyer le
                             message
                         </button>
                     </div>
