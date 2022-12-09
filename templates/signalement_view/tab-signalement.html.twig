@@ -10,7 +10,7 @@
             <br>
             Infestation estimée : {% include "common/components/niveau-infestation.html.twig" %}
             <br>
-            {% if is_granted('ROLE_ADMIN') && (signalement.resolvedAt or signalement.closedAt) %}
+            {% if is_granted('ROLE_ADMIN') and (signalement.resolvedAt or signalement.closedAt) %}
                 Motif de clôture : {% include "common/components/motif-cloture.html.twig" %}
                 <br>
                 Statut de l'infestation : {% include "common/components/statut-infestation.html.twig" %}

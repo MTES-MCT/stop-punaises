@@ -1,7 +1,10 @@
 {% if signalement.resolvedAt or signalement.closedAt %}
     <p class="fr-badge fr-badge--blue-ecume fr-badge--no-icon">Fermé</p>
 
-{% elseif (signalement.interventions) %}
+{% elseif signalement.autotraitement and not is_granted('ROLE_ADMIN') %}
+    <p class="fr-badge fr-badge--blue-ecume fr-badge--no-icon">Fermé</p>
+
+{% elseif signalement.interventions and not signalement.autotraitement %}
     {% set enCours = true %}
     {% set estTraite = false %}
     {% if entreprise %}

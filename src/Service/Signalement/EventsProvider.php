@@ -34,6 +34,8 @@ class EventsProvider
         $this->addEventSwitchTraitement();
         $this->addEventSignalementDespose();
 
+        usort($this->events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
+
         return $this->events;
     }
 
@@ -254,12 +256,20 @@ class EventsProvider
 
     private function addEventSwitchTraitement()
     {
-        if (!$this->signalement->isAutotraitement() && $this->signalement->getSwitchedTraitementAt()) {
-            $this->events[] = [
-                'date' => $this->signalement->getSwitchedTraitementAt(),
-                'title' => 'Signalement transféré',
-                'description' => 'Votre signalement a bien été transmis aux entreprises labellisées. Elles vous contacteront au plus vite.',
-            ];
+        if ($this->signalement->getSwitchedTraitementAt()) {
+            if ($this->signalement->isAutotraitement()) {
+                $this->events[] = [
+                    'date' => $this->signalement->getSwitchedTraitementAt(),
+                    'title' => 'Signalement transféré',
+                    'description' => 'Votre signalement a bien été passé en auto-traitement.',
+                ];
+            } else {
+                $this->events[] = [
+                    'date' => $this->signalement->getSwitchedTraitementAt(),
+                    'title' => 'Signalement transféré',
+                    'description' => 'Votre signalement a bien été transmis aux entreprises labellisées. Elles vous contacteront au plus vite.',
+                ];
+            }
         }
     }
 

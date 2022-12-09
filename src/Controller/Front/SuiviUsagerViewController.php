@@ -66,6 +66,26 @@ class SuiviUsagerViewController extends AbstractController
             $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
             $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
+
+            // TODO : envoyer un message aux entreprises concernées ? Non spécifié
+        }
+
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+    }
+
+    #[Route('/signalements/{uuid}/basculer-auto', name: 'app_signalement_switch_auto')]
+    public function signalement_bascule_auto(
+        Request $request,
+        Signalement $signalement,
+        SignalementManager $signalementManager
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_switch_auto', $request->get('_csrf_token'))) {
+            $this->addFlash('success', 'Votre choix a été enregistré. Vous pouvez consulter le protocole d\'auto-traitement.');
+            $signalement->setAutotraitement(true);
+            $signalement->setReminderAutotraitementAt(null);
+            $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
+            $signalement->setUpdatedAtValue();
+            $signalementManager->save($signalement);
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
