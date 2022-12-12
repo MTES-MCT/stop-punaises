@@ -13,12 +13,17 @@ class DashboardController extends AbstractController
     public function index(
         SignalementRepository $signalementRepository,
         ): Response {
-        $countNouveaux = 0; // TODO
-        $countEnCours = 0; // TODO
+        $countNouveaux = 0;
+        $countEnCours = 0;
         $countHorsPerimetres = 0;
         if ($this->isGranted('ROLE_ADMIN')) {
+            $countNouveaux = $signalementRepository->countOpenWithoutIntervention();
+            $countEnCours = $signalementRepository->countOpenWithIntervention();
             $signalements = $signalementRepository->findFromInactiveTerritories();
             $countHorsPerimetres = \count($signalements);
+        } else {
+            $countNouveaux = $signalementRepository->countAvailableForEntrepriseWithoutAnswer($this->getUser()->getEntreprise());
+            $countEnCours = $signalementRepository->countCurrentlyOpenForEntreprise($this->getUser()->getEntreprise());
         }
 
         return $this->render('dashboard/index.html.twig', [

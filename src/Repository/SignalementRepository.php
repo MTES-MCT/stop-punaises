@@ -91,4 +91,74 @@ class SignalementRepository extends ServiceEntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    public function countOpenWithoutIntervention(): int
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('COUNT(s.id) as count')
+            ->leftJoin('s.territoire', 't')
+                ->where('t.active = true')
+            ->andWhere('s.resolvedAt IS NULL')
+            ->andWhere('s.closedAt IS NULL')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT);
+        // TODO : where no intervention linked
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countOpenWithIntervention(): int
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('COUNT(s.id) as count')
+            ->leftJoin('s.territoire', 't')
+                ->where('t.active = true')
+            ->andWhere('s.resolvedAt IS NULL')
+            ->andWhere('s.closedAt IS NULL')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT);
+        // TODO : where intervention linked
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countAvailableForEntrepriseWithoutAnswer(Entreprise $entreprise): int
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('COUNT(s.id) as count')
+            ->leftJoin('s.territoire', 't')
+                ->where('t.active = true')
+            ->andWhere('s.resolvedAt IS NULL')
+            ->andWhere('s.closedAt IS NULL')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT)
+            ->andWhere('s.autotraitement != true')
+            ->andWhere('s.territoire IN (:territoires)')
+                ->setParameter('territoires', $entreprise->getTerritoires());
+        // TODO : where no intervention linked to this entreprise
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countCurrentlyOpenForEntreprise(Entreprise $entreprise): int
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('COUNT(s.id) as count')
+            ->leftJoin('s.territoire', 't')
+                ->where('t.active = true')
+            ->andWhere('s.resolvedAt IS NULL')
+            ->andWhere('s.closedAt IS NULL')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT)
+            ->andWhere('s.autotraitement != true')
+            ->andWhere('s.territoire IN (:territoires)')
+                ->setParameter('territoires', $entreprise->getTerritoires());
+        // TODO : where intervention linked to this entreprise and this signalement
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
 }
