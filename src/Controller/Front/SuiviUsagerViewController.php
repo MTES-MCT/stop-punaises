@@ -140,6 +140,20 @@ class SuiviUsagerViewController extends AbstractController
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
     }
 
+    #[Route('/signalements/{uuid}/notification-toujours-punaises', name: 'app_signalement_confirm_toujours_punaises')]
+    public function signalement_confirm_toujours_punaises(
+        Request $request,
+        Signalement $signalement,
+        MailerProvider $mailerProvider,
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_confirm_toujours_punaises', $request->get('_csrf_token'))) {
+            $this->addFlash('success', 'Stop Punaises a été prévenu de votre retour.');
+            $mailerProvider->sendAdminToujoursPunaises($this->getParameter('admin_email'), $signalement);
+        }
+
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+    }
+
     #[Route('/signalements/{uuid}/stop', name: 'app_signalement_stop')]
     public function signalement_stop(
         Request $request,
