@@ -13,6 +13,7 @@ import './bootstrap';
 
 import './controllers/form_signalement';
 import './controllers/form_signalement_front';
+import './controllers/form_send_message';
 import './controllers/component_search_address';
 import './controllers/component_file_auto_submit';
 

@@ -257,6 +257,22 @@ span.statut-infestation {
     }
 }
 
+.message-list {
+    text-overflow: hidden;
+    max-height: 30vh;
+    overflow: auto;
+    .message-item-header {
+        text-align: right;
+    }
+    .message-item-date {
+        font-size: 0.9rem;
+        font-style: italic;
+        color: var(--grey-625-425);
+    }
+    .message-item-content p {
+        background-color: var(--blue-cumulus-925-125);
+    }
+}
 
 @media (max-width: 767px) {
     .index-header {

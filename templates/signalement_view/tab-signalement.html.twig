@@ -29,106 +29,12 @@
                     {% endif %}
                     {% if can_display_messages %}
                         <div class="fr-col-12 fr-col-lg-6">
-                            TODO : envoyer un message
+                            <button class="fr-btn fr-btn--icon-left fr-icon-send-plane-fill" id="btn-send-message">Envoyer un message</button>
                         </div>
                     {% endif %}
                 </div>
             {% endif %}
-
-            <section class="fr-accordion fr-mt-5w">
-                <h3 class="fr-accordion__title">
-                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-declaration-usager">Déclaration usager</button>
-                </h3>
-                <div class="fr-collapse" id="accordion-declaration-usager">
-                    Durée de l'infestation : {% include "common/components/filters/filter-duree-infestation.html.twig" %}
-                    <br>
-                    Logements voisins touchés : {{ signalement.infestationLogementsVoisins ? 'Oui' : 'Non' }}
-                    <br>
-                    Piqures : {{ signalement.piquresExistantes ? 'Oui' : 'Non' }}
-                    <br>
-                    Confirmation professionnel de santé : {{ signalement.piquresConfirmees ? 'Oui' : 'Non' }}
-                    <br>
-                    <br>
-
-                    Déjections : {{ signalement.dejectionsDetails and signalement.dejectionsDetails.dejectionsTrouvees == 'true' ? 'Oui' : 'Non' }}
-                    <br>
-                    {% if signalement.dejectionsDetails and signalement.dejectionsDetails.dejectionsTrouvees == 'true' %}
-                        Nombre de pièces : {{ signalement.dejectionsDetails.dejectionsNombrePiecesConcernees }}
-                        <br>
-                        Visibilité : {{ signalement.dejectionsDetails.dejectionsFaciliteDetections ? 'Facile' : 'Difficile' }}
-                        <br>
-                        Eléments touchés : {{ signalement.dejectionsDetails.dejectionsLieuxObservations|array_to_string }}
-                        <br>
-                    {% endif %}
-                    <br>
-
-                    Oeufs et larves : {{ signalement.oeufsEtLarvesDetails and signalement.oeufsEtLarvesDetails.oeufsEtLarvesTrouves == 'true' ? 'Oui' : 'Non' }}
-                    <br>
-                    {% if signalement.oeufsEtLarvesDetails and signalement.oeufsEtLarvesDetails.oeufsEtLarvesTrouves == 'true' %}
-                        Nombre de pièces : {{ signalement.oeufsEtLarvesDetails.oeufsEtLarvesNombrePiecesConcernees }}
-                        <br>
-                        Visibilité : {{ signalement.oeufsEtLarvesDetails.oeufsEtLarvesFaciliteDetections ? 'Facile' : 'Difficile' }}
-                        <br>
-                        Eléments touchés : {{ signalement.oeufsEtLarvesDetails.oeufsEtLarvesLieuxObservations|array_to_string }}
-                        <br>
-                    {% endif %}
-                    <br>
-
-                    Punaises : {{ signalement.punaisesDetails and signalement.punaisesDetails.punaisesTrouvees == 'true' ? 'Oui' : 'Non' }}
-                    <br>
-                    {% if signalement.punaisesDetails and signalement.punaisesDetails.punaisesTrouvees == 'true' %}
-                        Nombre de pièces : {{ signalement.punaisesDetails.punaisesNombrePiecesConcernees }}
-                        <br>
-                        Visibilité : {{ signalement.punaisesDetails.punaisesFaciliteDetections ? 'Facile' : 'Difficile' }}
-                        <br>
-                        Eléments touchés : {{ signalement.punaisesDetails.punaisesLieuxObservations|array_to_string }}
-                        <br>
-                    {% endif %}
-                    <br>
-                </div>
-                <h3 class="fr-accordion__title">
-                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-info-logement">Informations du logement</button>
-                </h3>
-                <div class="fr-collapse" id="accordion-info-logement">
-                    Type de logement : {{ signalement.typeLogement|capitalize }}
-                    <br>
-                    Superficie : {{ signalement.superficie }} m²
-                    <br>
-                    Commune : {{ signalement.ville }}
-                    <br>
-                    Type d'occupant : {{ signalement.locataire ? 'Locataire' : 'Propriétaire' }}
-                    <br>
-                    {% if signalement.locataire and can_display_adresse %}
-                        Nom du propriétaire : {{ signalement.nomProprietaire }}
-                        <br>
-                    {% endif %}
-                    Logement social : {{ signalement.logementSocial ? 'Oui' : 'Non' }}
-                    <br>
-                    Allocataire : {{ signalement.allocataire ? 'Oui' : 'Non' }}
-                    <br>
-                    {% if signalement.allocataire and is_granted('ROLE_ADMIN') %}
-                        Numéro d'allocataire : {{ signalement.numeroAllocataire }}
-                    {% endif %}
-                </div>
-                <h3 class="fr-accordion__title">
-                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-photos-usager">Photos de l'usager</button>
-                </h3>
-                <div class="fr-collapse" id="accordion-photos-usager">
-                    {% if photos %}
-                    <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-signalement-photos">
-                        {% for index,photo in photos %}
-                            <div class="fr-col-6 fr-col-md-3">
-                                <div style="background: url('{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}')no-repeat center center/cover">
-                                    <a class="fr-btn fr-icon-eye-line" href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank" rel="noopener"></a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    Aucune photo
-                    {% endif %}
-                </div>
-            </section>
+            {% include 'common/components/signalement-detail.html.twig' with {'prefix_accordion_id': 'tab-signalement-'} %}
         </div>
         
         <div class="fr-col-12 fr-col-lg-6">
