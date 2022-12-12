@@ -1,0 +1,7 @@
+{
+  "jobs": [
+    {
+      "command": "0 6 * * * php bin/console app:send-reminders"
+    }
+  ]
+}

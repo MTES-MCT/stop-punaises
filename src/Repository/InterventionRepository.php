@@ -62,4 +62,16 @@ class InterventionRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findToNotify(): array
+    {
+        $nbDaysBeforeNotifying = 30;
+
+        return $this->createQueryBuilder('s')
+            ->where('s.reminderResolvedByEntrepriseAt IS NULL')
+            ->andWhere('s.resolvedByEntrepriseAt IS NOT NULL')
+            ->andWhere('datediff(CURRENT_DATE(), s.resolvedByEntrepriseAt) > '.$nbDaysBeforeNotifying)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -91,4 +91,18 @@ class SignalementRepository extends ServiceEntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    public function findToNotify(): ?array
+    {
+        $nbDaysBeforeNotifying = 45;
+
+        return $this->createQueryBuilder('s')
+            ->where('s.reminderAutotraitementAt IS NULL')
+            ->andWhere('s.autotraitement = true')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT)
+            ->andWhere('(s.switchedTraitementAt IS NULL AND datediff(CURRENT_DATE(), s.createdAt) > '.$nbDaysBeforeNotifying.') OR (s.switchedTraitementAt IS NOT NULL AND DATEDIFF(CURRENT_DATE(), s.switchedTraitementAt) > '.$nbDaysBeforeNotifying.')')
+            ->getQuery()
+            ->getResult();
+    }
 }
