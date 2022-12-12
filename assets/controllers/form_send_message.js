@@ -2,6 +2,7 @@ import $ from 'jquery';
 $(function() {
     sendMessage();
     displayTabMessages();
+    scrollDownMessageList();
 });
 
 function sendMessage() {
@@ -33,7 +34,7 @@ function sendMessage() {
                         </div>`
                 const messageList = $('.message-list');
                 messageList.append(messageItem);
-                messageList.scrollTop(messageList.prop("scrollHeight"))
+                messageList.scrollTop(messageList.prop("scrollHeight"));
                 formElement.reset();
                 $('.message-confirmation')
                     .addClass('fr-alert--success')
@@ -60,6 +61,13 @@ function displayTabMessages() {
     $('#btn-send-message').on('click', function() {
         $('.fiche-signalement #tabpanel-messages').click();
     });
+}
+
+function scrollDownMessageList() {
+    $('.fiche-signalement #tabpanel-messages').on('click', () => {
+        const messageList = $('.message-list');
+        messageList.scrollTop(messageList.prop("scrollHeight"));
+    })
 }
 
 function clearAlertMessage() {
