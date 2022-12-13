@@ -18,6 +18,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SignalementRepository extends ServiceEntityRepository
 {
+    private const NB_DAYS_BEFORE_NOTIFYING = 45;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Signalement::class);
@@ -94,14 +96,13 @@ class SignalementRepository extends ServiceEntityRepository
 
     public function findToNotify(): ?array
     {
-        $nbDaysBeforeNotifying = 45;
-
         return $this->createQueryBuilder('s')
             ->where('s.reminderAutotraitementAt IS NULL')
             ->andWhere('s.autotraitement = true')
             ->andWhere('s.declarant = :declarant')
                 ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT)
-            ->andWhere('(s.switchedTraitementAt IS NULL AND datediff(CURRENT_DATE(), s.createdAt) > '.$nbDaysBeforeNotifying.') OR (s.switchedTraitementAt IS NOT NULL AND DATEDIFF(CURRENT_DATE(), s.switchedTraitementAt) > '.$nbDaysBeforeNotifying.')')
+            ->andWhere('(s.switchedTraitementAt IS NULL AND datediff(CURRENT_DATE(), s.createdAt) > :nb_days_before_notifying) OR (s.switchedTraitementAt IS NOT NULL AND DATEDIFF(CURRENT_DATE(), s.switchedTraitementAt) > :nb_days_before_notifying)')
+                ->setParameter('nb_days_before_notifying', self::NB_DAYS_BEFORE_NOTIFYING)
             ->getQuery()
             ->getResult();
     }

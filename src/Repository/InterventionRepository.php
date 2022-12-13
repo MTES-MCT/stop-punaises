@@ -18,6 +18,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class InterventionRepository extends ServiceEntityRepository
 {
+    private const NB_DAYS_BEFORE_NOTIFYING = 30;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Intervention::class);
@@ -65,12 +67,11 @@ class InterventionRepository extends ServiceEntityRepository
 
     public function findToNotify(): array
     {
-        $nbDaysBeforeNotifying = 30;
-
         return $this->createQueryBuilder('s')
             ->where('s.reminderResolvedByEntrepriseAt IS NULL')
             ->andWhere('s.resolvedByEntrepriseAt IS NOT NULL')
-            ->andWhere('datediff(CURRENT_DATE(), s.resolvedByEntrepriseAt) > '.$nbDaysBeforeNotifying)
+            ->andWhere('datediff(CURRENT_DATE(), s.resolvedByEntrepriseAt) > :nb_days_before_notifying')
+                ->setParameter('nb_days_before_notifying', self::NB_DAYS_BEFORE_NOTIFYING)
             ->getQuery()
             ->getResult();
     }
