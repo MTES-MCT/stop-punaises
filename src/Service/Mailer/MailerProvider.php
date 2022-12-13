@@ -246,7 +246,7 @@ class MailerProvider implements MailerProviderInterface
         $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
         $message = $this
             ->messageFactory
-            ->createInstanceFrom(Template::SIGNALEMENT_SUIVI_TRAITEMENT_PRO, [
+            ->createInstanceFrom(Template::SIGNALEMENT_SUIVI_TRAITEMENT_AUTO, [
                 'nom_usager' => $signalement->getNomCompletOccupant(),
                 'date' => $signalement->getCreatedAt()->format('d/m/Y'),
                 'lien' => $link,
