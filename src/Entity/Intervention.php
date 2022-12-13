@@ -18,7 +18,7 @@ class Intervention
     #[ORM\JoinColumn(nullable: false)]
     private ?Signalement $signalement = null;
 
-    #[ORM\ManyToOne(inversedBy: 'accepted')]
+    #[ORM\ManyToOne(inversedBy: 'interventions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Entreprise $entreprise = null;
 
