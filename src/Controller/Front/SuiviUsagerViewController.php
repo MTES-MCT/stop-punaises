@@ -34,6 +34,7 @@ class SuiviUsagerViewController extends AbstractController
         );
 
         $events = array_merge($events, $messageEvents);
+        usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
         $acceptedInterventions = $interventionRepository->findBy([
             'signalement' => $signalement,
@@ -60,7 +61,7 @@ class SuiviUsagerViewController extends AbstractController
             'signalement' => $signalement,
             'link_pdf' => $this->getParameter('base_url').'/build/'.$docFile,
             'niveau_infestation' => InfestationLevel::from($signalement->getNiveauInfestation())->label(),
-            'events' => usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1),
+            'events' => $events,
             'accepted_interventions' => $acceptedInterventions,
             'accepted_estimations' => $interventionsAcceptedByUsager,
             'interventions_to_answer' => $interventionsToAnswer,
