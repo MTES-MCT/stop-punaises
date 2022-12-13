@@ -14,18 +14,12 @@ class Message
 {
     use TimestampableTrait;
 
+    public const DOMAIN_NAME = 'message';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Signalement $signalement = null;
-
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Entreprise $entreprise = null;
 
     #[ORM\Column(length: 50)]
     private ?string $sender = null;
@@ -35,36 +29,15 @@ class Message
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 10, minMessage: 'Votre message doit avoir {{limit}} caractères minimum') ]
+    #[Assert\Length(min: 10, minMessage: 'Votre message doit avoir {{ limit }} caractères minimum') ]
     private ?string $content = null;
+
+    #[ORM\ManyToOne(inversedBy: 'messages', cascade: ['persist'])]
+    private ?MessageThread $messagesThread = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getSignalement(): ?Signalement
-    {
-        return $this->signalement;
-    }
-
-    public function setSignalement(?Signalement $signalement): self
-    {
-        $this->signalement = $signalement;
-
-        return $this;
-    }
-
-    public function getEntreprise(): ?Entreprise
-    {
-        return $this->entreprise;
-    }
-
-    public function setEntreprise(?Entreprise $entreprise): self
-    {
-        $this->entreprise = $entreprise;
-
-        return $this;
     }
 
     public function getSender(): ?string
@@ -99,6 +72,18 @@ class Message
     public function setRecipient(?string $recipient): self
     {
         $this->recipient = $recipient;
+
+        return $this;
+    }
+
+    public function getMessagesThread(): ?MessageThread
+    {
+        return $this->messagesThread;
+    }
+
+    public function setMessagesThread(?MessageThread $messagesThread): self
+    {
+        $this->messagesThread = $messagesThread;
 
         return $this;
     }

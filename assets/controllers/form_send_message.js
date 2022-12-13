@@ -12,6 +12,7 @@ function sendMessage() {
         $('#form-send-message button').attr('disabled', true);
         const formElement = form[0];
         const formData = new FormData(formElement);
+        formData.set('message', formData.get('message').replaceAll(/(<([^>]+)>)/gi, ""));
         $.ajax({
             type: 'POST',
             url: form.attr('action'),
@@ -20,7 +21,7 @@ function sendMessage() {
             cache:false,
             processData:false,
 
-            success: function(data, status, xhr) {
+            success: function(data) {
                 const message = JSON.parse(data);
                 const messageItem = `
                         <div class="message-item">
@@ -29,7 +30,7 @@ function sendMessage() {
                                 <p class="fr-m-1w fr-text--sm"><strong>Vous</strong></p>
                             </div>
                             <div class="message-item-content">
-                                <p class="fr-p-1w">${message.content}</p>
+                                <p class="fr-p-1w bg-blue">${message.content.replace (/\n/g, "<br />")}</p>
                             </div>
                         </div>`
                 const messageList = $('.message-list');
@@ -44,12 +45,15 @@ function sendMessage() {
                 clearAlertMessage();
                 $('#form-send-message button').attr('disabled', false);
             },
-            error: function(xhr, desc, err) {
+            error: function(xhr) {
                 $('.message-confirmation')
                     .addClass('fr-alert--warning')
                     .removeClass('fr-hidden');
                 $('.message-confirmation .fr-alert__title')
-                    .text('Une erreur est survenue, merci de réessayer plus tard.');
+                    .text(400 === xhr.status ?
+                        xhr.responseJSON.message :
+                        'Une erreur est survenue, merci de réessayer plus tard.'
+                    );
                 clearAlertMessage();
                 $('#form-send-message button').attr('disabled', false);
             }

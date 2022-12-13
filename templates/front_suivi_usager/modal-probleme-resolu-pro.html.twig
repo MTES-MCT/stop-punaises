@@ -9,7 +9,7 @@
                     <div class="fr-modal__content">
                         <h1 id="fr-modal-title-modal-probleme-resolu-pro" class="fr-modal__title">Votre problème est-il résolu ?</h1>
                         <p>
-                            L'entreprise {{ intervention_accepted_by_usager.entreprise.nom }} a indiqué avoir traité votre logement le {{ intervention_accepted_by_usager.resolvedByEntrepriseAt.format('d/m/Y') }}.
+                            L'entreprise {{ intervention_accepted_by_usager.entreprise.nom ?? '' }} a indiqué avoir traité votre logement le {{ intervention_accepted_by_usager.resolvedByEntrepriseAt.format('d/m/Y') ?? null }}.
                         </p>
                         <p>
                             Le traitement a-t-il fonctionné ? Votre problème est-il résolu ?

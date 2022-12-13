@@ -4,12 +4,15 @@ namespace App\Controller\Front;
 
 use App\Entity\Enum\InfestationLevel;
 use App\Entity\Intervention;
+use App\Entity\MessageThread;
 use App\Entity\Signalement;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
+use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\EventsProvider;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +21,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class SuiviUsagerViewController extends AbstractController
 {
     #[Route('/signalements/{uuid}', name: 'app_suivi_usager_view')]
-    public function suivi_usager(Signalement $signalement, InterventionRepository $interventionRepository): Response
-    {
+    public function suivi_usager(
+        Signalement $signalement,
+        InterventionRepository $interventionRepository,
+        EventRepository $eventRepository,
+    ): Response {
         $eventsProvider = new EventsProvider($signalement, $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'));
         $events = $eventsProvider->getEvents();
+        $messageEvents = $eventRepository->findMessageEventsBySignalement(
+            $signalement->getUuid(),
+            $signalement->getEmailOccupant()
+        );
+
+        $events = array_merge($events, $messageEvents);
+        usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
+
         $acceptedInterventions = $interventionRepository->findBy([
             'signalement' => $signalement,
             'accepted' => true,
@@ -216,5 +230,19 @@ class SuiviUsagerViewController extends AbstractController
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $intervention->getSignalement()->getUuid()]);
+    }
+
+    #[Route('/signalements/{signalement_uuid}/messages-thread/{thread_uuid}',
+        name: 'app_suivi_usager_view_messages_thread')]
+    #[ParamConverter('signalement', options: ['mapping' => ['signalement_uuid' => 'uuid']])]
+    #[ParamConverter('messageThread', options: ['mapping' => ['thread_uuid' => 'uuid']])]
+    public function displayThreadMessages(Request $request, Signalement $signalement, MessageThread $messageThread)
+    {
+        return $this->render('front_suivi_usager/messages_thread.html.twig', [
+            'signalement' => $signalement,
+            'entreprise_name' => $messageThread->getEntreprise()->getNom(),
+            'messages' => $messageThread->getMessages(),
+            'messages_thread_uuid' => $messageThread->getUuid(),
+        ]);
     }
 }

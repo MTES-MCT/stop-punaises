@@ -2,37 +2,60 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Message;
+use App\Event\MessageAddedEvent;
+use App\Manager\EventManager;
 use App\Service\Mailer\MailerProvider;
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
-use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Events;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MessageAddedSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MailerProvider $mailerProvider)
-    {
+    public function __construct(
+        private MailerProvider $mailerProvider,
+        private EventManager $eventManager,
+        private UrlGeneratorInterface $urlGenerator,
+    ) {
     }
 
-    public function getSubscribedEvents(): array
+    public static function getSubscribedEvents(): array
     {
         return [
-            Events::onFlush,
+            MessageAddedEvent::NAME => 'onMessageAdded',
         ];
     }
 
-    public function onFlush(OnFlushEventArgs $args): void
+    public function onMessageAdded(MessageAddedEvent $messageAddedEvent)
     {
-        $unitOfWork = $args->getEntityManager()->getUnitOfWork();
+        $messageThread = $messageAddedEvent->getMessage()->getMessagesThread();
+        $signalement = $messageThread->getSignalement();
+        $entreprise = $messageThread->getEntreprise();
+        $entrepriseName = $entreprise->getNom();
+        $entrepriseEmail = $entreprise->getUser()->getEmail();
 
-        foreach ($unitOfWork->getScheduledEntityInsertions() as $entity) {
-            /** Message $entity */
-            if ($entity instanceof Message) {
-                $this->mailerProvider->sendNotificationToUsager(
-                    $entity->getSignalement(),
-                    $entity->getEntreprise()->getNom()
-                );
-            }
+        if (null === $messageAddedEvent->getUser()) {
+            $this->mailerProvider->sendNotificationToEntreprise($signalement, $entrepriseEmail);
+
+            $this->eventManager->createEventMessage(
+                messageThread: $messageThread,
+                title: sprintf('Message avec %s', $entrepriseName),
+                description: sprintf('L\'entreprise %s va vous contacter.', $entrepriseName),
+                recipient: $signalement->getEmailOccupant()
+            );
+        } else {
+            $this->mailerProvider->sendNotificationToUsager($signalement, $entrepriseName);
+
+            $link = $this->urlGenerator->generate('app_suivi_usager_view_messages_thread', [
+                'signalement_uuid' => $signalement->getUuid(),
+                'thread_uuid' => $messageThread->getUuid(),
+            ]);
+
+            $this->eventManager->createEventMessage(
+                messageThread: $messageThread,
+                title: sprintf('Messages avec %s', $entrepriseName),
+                description: sprintf('Vos échanges avec %s.', $entrepriseName),
+                recipient: $signalement->getEmailOccupant(),
+                actionLink: $link,
+            );
         }
     }
 }

@@ -258,9 +258,12 @@ span.statut-infestation {
 }
 
 .message-list {
-    text-overflow: hidden;
-    max-height: 30vh;
-    overflow: auto;
+
+    &.message-scroll {
+        max-height: 50vh;
+        overflow: auto;
+    }
+
     .message-item-header {
         text-align: right;
     }
@@ -269,9 +272,16 @@ span.statut-infestation {
         font-style: italic;
         color: var(--grey-625-425);
     }
-    .message-item-content p {
-        background-color: var(--blue-cumulus-925-125);
+    .message-item-content {
+        p.bg-blue {
+            background-color: var(--blue-cumulus-925-125);
+        }
+
+        p.bg-grey {
+            background-color: var(--grey-950-125);
+        }
     }
+
 }
 
 @media (max-width: 767px) {
