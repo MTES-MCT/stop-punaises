@@ -43,4 +43,21 @@ class SignalementManager extends AbstractManager
         ? $this->signalementRepository->findDeclaredByOccupants()
         : $this->signalementRepository->findDeclaredByOccupants($this->security->getUser()->getEntreprise());
     }
+
+    public function countSignalements(): ?array
+    {
+        $result = [];
+        if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
+            $result[0] = $this->signalementRepository->countOpenWithoutIntervention();
+            $result[1] = $this->signalementRepository->countOpenWithIntervention();
+            $signalements = $this->signalementRepository->findFromInactiveTerritories();
+            $result[2] = \count($signalements);
+        } else {
+            $result[0] = $this->signalementRepository->countAvailableForEntrepriseWithoutAnswer($this->security->getUser()->getEntreprise());
+            $result[1] = $this->signalementRepository->countCurrentlyOpenForEntreprise($this->security->getUser()->getEntreprise());
+            $result[2] = 0;
+        }
+
+        return $result;
+    }
 }

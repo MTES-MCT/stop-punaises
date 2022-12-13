@@ -44,18 +44,10 @@
                     Délai entre les interventions : {{ signalement.delaiEntreInterventions }} jours
                     <br>
                     Visite post-traitement :
-                    {% if signalement.faitVisitePostTraitement %}
-                        Oui
-                    {% else %}
-                        Non
-                    {% endif %}
+                    {{ signalement.faitVisitePostTraitement ? 'Oui' : 'Non' }}
                     <br>
                     Date de la visite :
-                    {% if signalement.dateVisitePostTraitement %}
-                        {{ signalement.dateVisitePostTraitement.format('d/m/Y') }}
-                    {% else %}
-                        -
-                    {% endif %}
+                    {{ signalement.dateVisitePostTraitement ? signalement.dateVisitePostTraitement.format('d/m/Y') : '-' }}
 
                 {% else %}
                     Aucun traitement pour l'instant.
@@ -92,9 +84,9 @@
 {% else %}
     <div class="fr-container fr-px-2w">
         {% if is_granted('ROLE_ADMIN') %}
-        Les informations seront complétées par l'entreprise intervenante une fois le traitement effectué.
+            Les informations seront complétées par l'entreprise intervenante une fois le traitement effectué.
         {% else %}
-        Vous pourrez remplir ces informations une fois le traitement effectué.
+            Vous pourrez remplir ces informations une fois le traitement effectué.
         {% endif %}
     </div>
     

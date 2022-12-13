@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Intervention;
 use App\Entity\Signalement;
+use App\Manager\EntrepriseManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
-use App\Repository\EntrepriseRepository;
 use App\Repository\InterventionRepository;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\EventsProvider;
@@ -29,7 +29,7 @@ class SignalementViewController extends AbstractController
             return $this->render('signalement_view/not-found.html.twig');
         }
 
-        /* User $user */
+        /** @var User $user */
         $user = $this->getUser();
         $userEntreprise = null;
         $entrepriseIntervention = null;
@@ -43,7 +43,7 @@ class SignalementViewController extends AbstractController
 
         $eventsProvider = new EventsProvider(
             signalement: $signalement,
-            pdfUrl: $this->getParameter('doc_autotraitement'),
+            pdfUrl: $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'),
             isAdmin: $this->isGranted('ROLE_ADMIN'),
             isBackOffice: true,
             entreprise: $userEntreprise
@@ -89,7 +89,7 @@ class SignalementViewController extends AbstractController
         ]);
     }
 
-    #[Route('/bo/signalements/{uuid}/accept', name: 'app_signalement_intervention_accept')]
+    #[Route('/bo/signalements/{uuid}/accept', name: 'app_signalement_intervention_accept', methods: 'POST')]
     public function signalementInterventionAccept(
         Request $request,
         Signalement $signalement,
@@ -98,7 +98,7 @@ class SignalementViewController extends AbstractController
         if ($this->isCsrfTokenValid('signalement_intervention_accept', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
             $intervention->setSignalement($signalement);
-            /* User $user */
+            /** @var User $user */
             $user = $this->getUser();
             $intervention->setEntreprise($user->getEntreprise());
             $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
@@ -110,42 +110,30 @@ class SignalementViewController extends AbstractController
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
     }
 
-    #[Route('/bo/signalements/{uuid}/refuse', name: 'app_signalement_intervention_refuse')]
+    #[Route('/bo/signalements/{uuid}/refuse', name: 'app_signalement_intervention_refuse', methods: 'POST')]
     public function signalementInterventionRefuse(
         Request $request,
         Signalement $signalement,
         InterventionManager $interventionManager,
         MailerProvider $mailerProvider,
-        EntrepriseRepository $entrepriseRepository,
+        EntrepriseManager $entrepriseManager,
         InterventionRepository $interventionRepository,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
             $intervention->setSignalement($signalement);
-            /* User $user */
+            /** @var User $user */
             $user = $this->getUser();
             $intervention->setEntreprise($user->getEntreprise());
             $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
             $intervention->setAccepted(false);
-            $commentaire = htmlentities($request->get('commentaire'));
-            $intervention->setCommentaireRefus($commentaire);
+            $intervention->setCommentaireRefus($request->get('commentaire'));
             $interventionManager->save($intervention);
             $this->addFlash('success', 'Le signalement a bien été refusé');
 
             // Check if entreprises are still available for this territoire
             // If not, contact user
-            $remainingEntreprises = false;
-            $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
-            foreach ($entreprises as $entreprise) {
-                $entrepriseIntervention = $interventionRepository->findBySignalementAndEntreprise(
-                    $signalement,
-                    $entreprise
-                );
-                if (!$entrepriseIntervention || $entrepriseIntervention->isAccepted()) {
-                    $remainingEntreprises = true;
-                    break;
-                }
-            }
+            $remainingEntreprises = $entrepriseManager->isEntrepriseRemainingForSignalement($signalement);
             if (!$remainingEntreprises) {
                 $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
             }
@@ -154,7 +142,7 @@ class SignalementViewController extends AbstractController
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
     }
 
-    #[Route('/bo/signalements/{uuid}/estimation', name: 'app_signalement_estimation_send')]
+    #[Route('/bo/signalements/{uuid}/estimation', name: 'app_signalement_estimation_send', methods: 'POST')]
     public function signalementInterventionEstimation(
         Request $request,
         Signalement $signalement,
@@ -163,16 +151,14 @@ class SignalementViewController extends AbstractController
         MailerProvider $mailerProvider,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_estimation_send', $request->get('_csrf_token'))) {
-            /* User $user */
+            /** @var User $user */
             $user = $this->getUser();
-            $userEntreprise = null;
-            $userEntreprise = $user->getEntreprise();
+            $userEntreprise = $user?->getEntreprise();
             $intervention = $interventionRepository->findBySignalementAndEntreprise(
                 $signalement,
                 $userEntreprise
             );
-            $commentaire = htmlentities($request->get('commentaire'));
-            $intervention->setCommentaireEstimation($commentaire);
+            $intervention->setCommentaireEstimation($request->get('commentaire'));
             $intervention->setMontantEstimation($request->get('montant'));
             $intervention->setEstimationSentAt(new DateTimeImmutable());
             $interventionManager->save($intervention);
@@ -226,7 +212,7 @@ class SignalementViewController extends AbstractController
         return $photos;
     }
 
-    #[Route('/bo/historique/{uuid}/ajouter-photos', name: 'app_add_photos')]
+    #[Route('/bo/historique/{uuid}/ajouter-photos', name: 'app_add_photos', methods: 'POST')]
     public function addPhoto(
         Signalement $signalement,
         Request $request,
@@ -246,7 +232,7 @@ class SignalementViewController extends AbstractController
         return $this->redirectToRoute('app_signalement_historique_view', ['uuid' => $signalement->getUuid()]);
     }
 
-    #[Route('/bo/historique/{uuid}/{filename}/supprimer-photo', name: 'app_delete_photo')]
+    #[Route('/bo/historique/{uuid}/{filename}/supprimer-photo', name: 'app_delete_photo', methods: 'POST')]
     public function deletePhoto(
         Signalement $signalement,
         string $filename,

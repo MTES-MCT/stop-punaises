@@ -33,18 +33,10 @@
                 Prénom : {{ signalement.prenomOccupant }}
                 <br>
                 Téléphone :
-                {% if signalement.telephoneOccupant %}
-                    {{ signalement.telephoneOccupant }}
-                {% else %}
-                    Non renseigné
-                {% endif %}
+                {{ signalement.telephoneOccupant ?: 'Non renseigné' }}
                 <br>
                 Email :
-                {% if signalement.emailOccupant %}
-                    {{ signalement.emailOccupant }}
-                {% else %}
-                    Non renseigné
-                {% endif %}
+                {{ signalement.emailOccupant ?: 'Non renseigné' }}
                 <br>
             {% endif %}
             Type d'occupant : {{ signalement.locataire ? 'Locataire' : 'Propriétaire' }}

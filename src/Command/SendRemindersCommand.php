@@ -7,7 +7,6 @@ use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
 use App\Repository\SignalementRepository;
 use App\Service\Mailer\MailerProvider;
-use DateTimeImmutable;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,7 +49,7 @@ class SendRemindersCommand extends Command
             $this->io->success(sprintf('%s to notify',
                 $signalement->getUuid()
             ));
-            $signalement->setReminderAutotraitementAt(new DateTimeImmutable());
+            $signalement->setReminderAutotraitementAt(new \DateTimeImmutable());
             $this->signalementManager->save($signalement);
             $this->mailerProvider->sendSignalementSuiviTraitementAuto($signalement);
         }
@@ -61,7 +60,7 @@ class SendRemindersCommand extends Command
             $this->io->success(sprintf('%s to notify',
                 $intervention->getId()
             ));
-            $intervention->setReminderResolvedByEntrepriseAt(new DateTimeImmutable());
+            $intervention->setReminderResolvedByEntrepriseAt(new \DateTimeImmutable());
             $this->interventionManager->save($intervention);
             $this->mailerProvider->sendSignalementSuiviTraitementPro($intervention, $intervention->getSignalement());
         }

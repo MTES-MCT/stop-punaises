@@ -34,7 +34,7 @@ class SignalementResolveController extends AbstractController
 
             $this->addFlash('success', 'Le traitement a été marqué comme effectué. Un email de suivi sera envoyé à l\'usager dans 30 jours.');
 
-            /* User $user */
+            /** @var User $user */
             $user = $this->getUser();
             $userEntreprise = $user->getEntreprise();
             $intervention = $interventionRepository->findBySignalementAndEntreprise(

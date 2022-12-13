@@ -20,7 +20,7 @@
             <br>
             Visibilité : {{ signalement.dejectionsDetails.dejectionsFaciliteDetections ? 'Facile' : 'Difficile' }}
             <br>
-            Eléments touchés : {{ signalement.dejectionsDetails.dejectionsLieuxObservations|array_to_string }}
+            Eléments touchés : {{ signalement.dejectionsDetails.dejectionsLieuxObservations|join(', ')|capitalize }}
             <br>
         {% endif %}
         <br>
@@ -32,7 +32,7 @@
             <br>
             Visibilité : {{ signalement.oeufsEtLarvesDetails.oeufsEtLarvesFaciliteDetections ? 'Facile' : 'Difficile' }}
             <br>
-            Eléments touchés : {{ signalement.oeufsEtLarvesDetails.oeufsEtLarvesLieuxObservations|array_to_string }}
+            Eléments touchés : {{ signalement.oeufsEtLarvesDetails.oeufsEtLarvesLieuxObservations|join(', ')|capitalize }}
             <br>
         {% endif %}
         <br>
@@ -44,7 +44,7 @@
             <br>
             Visibilité : {{ signalement.punaisesDetails.punaisesFaciliteDetections ? 'Facile' : 'Difficile' }}
             <br>
-            Eléments touchés : {{ signalement.punaisesDetails.punaisesLieuxObservations|array_to_string }}
+            Eléments touchés : {{ signalement.punaisesDetails.punaisesLieuxObservations|join(', ')|capitalize }}
             <br>
         {% endif %}
         <br>

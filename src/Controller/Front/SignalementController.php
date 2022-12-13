@@ -63,12 +63,11 @@ class SignalementController extends AbstractController
             $signalementManager->save($signalement);
 
             if ($signalement->isAutotraitement()) {
-                $linkToPdf = $this->getParameter('doc_autotraitement');
+                $linkToPdf = $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement');
                 $mailerProvider->sendSignalementValidationWithAutotraitement($signalement, $linkToPdf);
             } else {
                 $mailerProvider->sendSignalementValidationWithPro($signalement);
 
-                // Envoi aux entreprises concernées
                 $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
                 foreach ($entreprises as $entreprise) {
                     $mailerProvider->sendSignalementNewForPro($entreprise->getEmail(), $signalement);

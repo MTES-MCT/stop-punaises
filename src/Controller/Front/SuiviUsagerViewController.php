@@ -20,7 +20,7 @@ class SuiviUsagerViewController extends AbstractController
     #[Route('/signalements/{uuid}', name: 'app_suivi_usager_view')]
     public function suivi_usager(Signalement $signalement, InterventionRepository $interventionRepository): Response
     {
-        $eventsProvider = new EventsProvider($signalement, $this->getParameter('doc_autotraitement'));
+        $eventsProvider = new EventsProvider($signalement, $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'));
         $events = $eventsProvider->getEvents();
         $acceptedInterventions = $interventionRepository->findBy([
             'signalement' => $signalement,
@@ -41,9 +41,11 @@ class SuiviUsagerViewController extends AbstractController
             $interventionAcceptedByUsager = $interventionsAcceptedByUsager[0];
         }
 
+        $docFile = $signalement->isAutotraitement() ? $this->getParameter('doc_autotraitement') : $this->getParameter('doc_domicile');
+
         return $this->render('front_suivi_usager/index.html.twig', [
             'signalement' => $signalement,
-            'link_pdf' => $signalement->isAutotraitement() ? $this->getParameter('doc_autotraitement') : $this->getParameter('doc_domicile'),
+            'link_pdf' => $this->getParameter('base_url').'/build/'.$docFile,
             'niveau_infestation' => InfestationLevel::from($signalement->getNiveauInfestation())->label(),
             'events' => $events,
             'accepted_interventions' => $acceptedInterventions,
@@ -54,7 +56,7 @@ class SuiviUsagerViewController extends AbstractController
         ]);
     }
 
-    #[Route('/signalements/{uuid}/basculer-pro', name: 'app_signalement_switch_pro')]
+    #[Route('/signalements/{uuid}/basculer-pro', name: 'app_signalement_switch_pro', methods: 'POST')]
     public function signalement_bascule_pro(
         Request $request,
         Signalement $signalement,
@@ -64,7 +66,6 @@ class SuiviUsagerViewController extends AbstractController
             $this->addFlash('success', 'Votre signalement est transféré ! Les entreprises vont vous contacter au plus vite !');
             $signalement->setAutotraitement(false);
             $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
-            $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
 
             // TODO : envoyer un message aux entreprises concernées ? Non spécifié
@@ -73,7 +74,7 @@ class SuiviUsagerViewController extends AbstractController
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
     }
 
-    #[Route('/signalements/{uuid}/basculer-auto', name: 'app_signalement_switch_auto')]
+    #[Route('/signalements/{uuid}/basculer-auto', name: 'app_signalement_switch_auto', methods: 'POST')]
     public function signalement_bascule_auto(
         Request $request,
         Signalement $signalement,
@@ -84,14 +85,13 @@ class SuiviUsagerViewController extends AbstractController
             $signalement->setAutotraitement(true);
             $signalement->setReminderAutotraitementAt(null);
             $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
-            $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
     }
 
-    #[Route('/signalements/{uuid}/basculer-autotraitement', name: 'app_signalement_switch_autotraitement')]
+    #[Route('/signalements/{uuid}/basculer-autotraitement', name: 'app_signalement_switch_autotraitement', methods: 'POST')]
     public function signalement_bascule_autotraitement(
         Request $request,
         Signalement $signalement,
@@ -102,17 +102,16 @@ class SuiviUsagerViewController extends AbstractController
             $this->addFlash('success', 'Le protocole vous a été transmis !');
             $signalement->setAutotraitement(true);
             $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
-            $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
 
-            $linkToPdf = $this->getParameter('doc_autotraitement');
+            $linkToPdf = $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement');
             $mailerProvider->sendSignalementValidationWithAutotraitement($signalement, $linkToPdf);
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
     }
 
-    #[Route('/signalements/{uuid}/resoudre', name: 'app_signalement_resolve')]
+    #[Route('/signalements/{uuid}/resoudre', name: 'app_signalement_resolve', methods: 'POST')]
     public function signalement_resolu(
         Request $request,
         Signalement $signalement,
@@ -123,7 +122,6 @@ class SuiviUsagerViewController extends AbstractController
         if ($this->isCsrfTokenValid('signalement_resolve', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
             $signalement->setResolvedAt(new \DateTimeImmutable());
-            $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
 
             if (!$signalement->isAutotraitement()) {
@@ -140,7 +138,7 @@ class SuiviUsagerViewController extends AbstractController
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
     }
 
-    #[Route('/signalements/{uuid}/notification-toujours-punaises', name: 'app_signalement_confirm_toujours_punaises')]
+    #[Route('/signalements/{uuid}/notification-toujours-punaises', name: 'app_signalement_confirm_toujours_punaises', methods: 'POST')]
     public function signalement_confirm_toujours_punaises(
         Request $request,
         Signalement $signalement,
@@ -154,7 +152,7 @@ class SuiviUsagerViewController extends AbstractController
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
     }
 
-    #[Route('/signalements/{uuid}/stop', name: 'app_signalement_stop')]
+    #[Route('/signalements/{uuid}/stop', name: 'app_signalement_stop', methods: 'POST')]
     public function signalement_stop(
         Request $request,
         Signalement $signalement,
@@ -165,7 +163,6 @@ class SuiviUsagerViewController extends AbstractController
         if ($this->isCsrfTokenValid('signalement_stop', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
             $signalement->setClosedAt(new \DateTimeImmutable());
-            $signalement->setUpdatedAtValue();
             $signalementManager->save($signalement);
 
             // Notice for entreprises which are currently following the signalement
@@ -183,7 +180,7 @@ class SuiviUsagerViewController extends AbstractController
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
     }
 
-    #[Route('/interventions/{id}/choix', name: 'app_signalement_estimation_choice')]
+    #[Route('/interventions/{id}/choix', name: 'app_signalement_estimation_choice', methods: 'POST')]
     public function signalement_choice(
         Request $request,
         Intervention $intervention,
