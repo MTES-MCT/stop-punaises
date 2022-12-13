@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stop punaises - Suivi de mon signalement{% endblock %}
+
+{% block body %}
+
+{% include "front_suivi_usager/modal-empty-estimations.html.twig" %}
+{% for intervention in interventions_to_answer %}
+    {% include "front_suivi_usager/modal-choice-estimation.html.twig" %}
+{% endfor %}
+{% if intervention_accepted_by_usager %}
+    {% include "front_suivi_usager/modal-estimation-accepted.html.twig" %}
+{% endif %}
+
+{% include "front_suivi_usager/modal-probleme-resolu.html.twig" %}
+{% if intervention_accepted_by_usager and intervention_accepted_by_usager.resolvedByEntrepriseAt %}
+    {% include "front_suivi_usager/modal-probleme-resolu-pro.html.twig" %}
+{% endif %}
+
+{% include "front_suivi_usager/modal-toujours-punaises.html.twig" %}
+{% include "front_suivi_usager/modal-toujours-punaises-pro.html.twig" %}
+
+<div class="suivi-usager fr-container fr-my-3v">
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div role="alert" class="fr-alert fr-alert--{{ label }} fr-alert--sm fr-mb-3v">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <h2>Bonjour {{ signalement.prenomOccupant }},</h2>
+    <h3>Votre signalement #{{ signalement.reference }}</h3>
+
+    {% include "common/components/progression-signalement.html.twig" %}
+
+    {% if not signalement.resolvedAt and not signalement.closedAt %}
+    <div class="align-center">
+        <div class="fr-mb-3v">
+            <a class="fr-btn fr-btn--icon-left fr-icon-download-line" href="{{ link_pdf }}" target="_blank">Télécharger le protocole</a>
+        </div>
+
+        <div class="fr-mb-3v">
+            {% if signalement.autotraitement %}
+                <a class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-briefcase-line" href="#" target="_blank">Trouver une entreprise labellisée</a>
+            {% else %}
+                <a class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-close-line" href="#" target="_blank">Arrêter la procédure</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <section class="fr-accordion fr-mt-5w">
+        <h3 class="fr-accordion__title">
+            <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-info-signalement">Info du signalement</button>
+        </h3>
+        <div class="fr-collapse" id="accordion-info-signalement">
+            Référence : #{{ signalement.reference }}
+            <br>
+            Date de dépot : {{ signalement.createdAt.format('d/m/Y') }}
+            <br>
+            Infestation estimée : {{ niveau_infestation }}
+            <br>
+            Protocole choisi : {{ signalement.autotraitement ? 'auto traitement' : 'intervention professionnelle' }}
+        </div>
+    </section>
+
+    {% include "common/components/signalement-detail-evenements.html.twig" %}
+</div>
+{% endblock %}

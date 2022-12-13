@@ -1,0 +1,92 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stop punaises - Gérer le signalement{% endblock %}
+
+{% block body %}
+{% if not is_granted('ROLE_ADMIN') and not entrepriseIntervention %}
+    {% include "signalement_view/modal-refuse-signalement.html.twig" %}
+{% endif %}
+{% if can_send_estimation and not has_sent_estimation %}
+    {% include "signalement_view/modal-send-estimation.html.twig" %}
+{% endif %}
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div role="alert" class="fr-alert fr-alert--{{ label }} fr-alert--sm fr-mb-3v">
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<div class="fiche-signalement fr-p-5w">
+    <div class="fr-container fr-px-2w">
+        <div class="fr-grid-row">
+            <div class="fr-col-12 fr-col-lg-4">
+                <h1>Signalement #{{signalement.reference}}</h1>
+            </div>
+
+            <div class="fr-col-12 fr-col-lg-3">
+                {% include "common/components/signalement-statut.html.twig" %}
+            </div>
+
+            <div class="fr-col-12 fr-col-lg-5">
+                {% if not is_granted('ROLE_ADMIN') %}
+                    {% if entrepriseIntervention %}
+                        {% if entrepriseIntervention.accepted and signalement.typeIntervention is null %}
+                            <a href="{{ path('app_signalement_treated', {'uuid': signalement.uuid }) }}" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check" name="action" value="accept">Marquer comme traité</a>
+                        {% endif %}
+                    {% else %}
+                        <form action="{{ path('app_signalement_intervention_accept', {'uuid': signalement.uuid }) }}" method="POST">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_intervention_accept') }}">
+                            <button type="button" data-fr-opened="false" aria-controls="fr-modal-refuse-signalement" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close">Refuser le signalement</button>
+                            <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check" name="action" value="accept">Accepter le signalement</button>
+                        </form>
+                    {% endif %}
+
+                {% elseif signalement.updatedAt %}
+                    <span class="date-info">Mis à jour le <strong>{{ signalement.updatedAt.format('d/m/Y') }}</strong></span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="fr-container">
+        <div class="fr-tabs">
+            <ul class="fr-tabs__list" role="tablist" aria-label="Informations du signalement">
+                <li role="presentation">
+                    <button id="tabpanel-signalement" class="fr-tabs__tab" tabindex="1" role="tab" aria-selected="true" aria-controls="tabpanel-signalement-panel">Signalement</button>
+                </li>
+                {% if not signalement.autotraitement %}
+                <li role="presentation">
+                    <button id="tabpanel-intervention" class="fr-tabs__tab" tabindex="2" role="tab" aria-selected="false" aria-controls="tabpanel-intervention-panel">Intervention</button>
+                </li>
+                {% endif %}
+                <li role="presentation">
+                    <button id="tabpanel-logement" class="fr-tabs__tab" tabindex="3" role="tab" aria-selected="false" aria-controls="tabpanel-logement-panel">Logement</button>
+                </li>
+                {% if can_display_messages %}
+                <li role="presentation">
+                    <button id="tabpanel-messages" class="fr-tabs__tab" tabindex="4" role="tab" aria-selected="false" aria-controls="tabpanel-messages-panel">Messages</button>
+                </li>
+                {% endif %}
+            </ul>
+            <div id="tabpanel-signalement-panel" class="fr-tabs__panel fr-tabs__panel--selected grey-bg" role="tabpanel" aria-labelledby="tabpanel-signalement" tabindex="1">
+                {% include "signalement_view/tab-signalement.html.twig" %}
+            </div>
+            {% if not signalement.autotraitement %}
+            <div id="tabpanel-intervention-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-intervention" tabindex="2">
+                {% include "signalement_view/tab-intervention.html.twig" %}
+            </div>
+            {% endif %}
+            <div id="tabpanel-logement-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-logement" tabindex="3">
+                {% include "signalement_view/tab-logement.html.twig" %}
+            </div>
+            {% if can_display_messages %}
+            <div id="tabpanel-messages-panel" class="fr-tabs__panel grey-bg" role="tabpanel" aria-labelledby="tabpanel-messages" tabindex="4">
+                {% include "signalement_view/tab-messages.html.twig" %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+<dialog aria-labelledby="fr-modal-title-modal-choice-estimation-{{ intervention.id }}" role="dialog" id="fr-modal-choice-estimation-{{ intervention.id }}" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-choice-estimation-{{ intervention.id }}" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-choice-estimation-{{ intervention.id }}" class="fr-modal__title">Estimation {{ intervention.entreprise.nom }}</h1>
+                        
+                        <div class="fr-notice fr-notice--info">
+                            <div class="fr-container">
+                                <div class="fr-notice__body">
+                                    <p class="fr-notice__title">
+                                    Le prix peut varier après une visite de votre domicile par l'entreprise.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="fr-mt-5v">
+                            <strong>Commentaire :</strong>
+                            {{ intervention.commentaireEstimation }}
+                        </p>
+
+                        <p>
+                            <strong>Montant :</strong>
+                            {{ intervention.montantEstimation }}&nbsp;€
+                        </p>
+
+                        <p>
+                            <u>Si vous acceptez</u> cette estimation, les estimations des autres entreprises seront automatiquement refusées.
+                        </p>
+
+                        <p>
+                            <u>Si vous refusez</u> cette estimation, vous ne pourrez pas revenir en arrière.
+                        </p>
+
+                        {% if is_last_intervention_to_answer %}
+                        <div class="fr-alert fr-alert--warning">
+                            <h3 class="fr-alert__title">Dernière estimation</h3>
+                            <p>Si vous cette estimation, vous pourrez être réorienté vers l'auto-traitement ou l'arrêt de la procédure.</p>
+                        </div>
+                        {% endif %}
+
+                        <form action="{{ path('app_signalement_estimation_choice', {'id': intervention.id }) }}" method="POST" class="align-center fr-mt-3v">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_estimation_choice') }}">
+                            <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close" name="action" value="refuse">Refuser</button>
+                            <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check" name="action" value="accept">Accepter</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

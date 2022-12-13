@@ -22,6 +22,10 @@ Encore
         from: './node_modules/datatables.net-dt/css/',
         to: 'datatables/[path][name].[ext]'
     })
+    .copyFiles({
+        from: './assets/pdf',
+        to: 'pdf/[path][name].[ext]'
+    })
 
 
     // public path used by the web server to access the output path

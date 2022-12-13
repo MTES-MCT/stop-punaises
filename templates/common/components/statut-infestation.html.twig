@@ -1,0 +1,10 @@
+{% if signalement.resolvedAt %}
+    {% set statutInfestationLabel = 'Résolue' %}
+    {% set statutInfestationClass = 'resolved' %}
+{% elseif signalement.closedAt %}
+    {% set statutInfestationLabel = 'Non résolue' %}
+    {% set statutInfestationClass = 'resolved' %}
+{% endif %}
+<span class="statut-infestation statut-infestation-{{ statutInfestationClass }}">
+    {{ statutInfestationLabel }}
+</span>

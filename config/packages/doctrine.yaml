@@ -18,6 +18,7 @@ doctrine:
         dql:
             string_functions:
                 YEAR: DoctrineExtensions\Query\Mysql\Year
+                DATEDIFF: DoctrineExtensions\Query\Mysql\DateDiff
 
 when@test:
     doctrine:

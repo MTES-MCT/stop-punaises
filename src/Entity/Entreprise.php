@@ -57,11 +57,23 @@ class Entreprise
     #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'entreprise')]
     private $user;
 
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Message::class)]
+    private Collection $messages;
+
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Intervention::class)]
+    private Collection $interventions;
+
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: MessageThread::class)]
+    private Collection $messagesThread;
+
     public function __construct()
     {
         $this->territoires = new ArrayCollection();
         $this->signalements = new ArrayCollection();
         $this->employes = new ArrayCollection();
+        $this->messages = new ArrayCollection();
+        $this->interventions = new ArrayCollection();
+        $this->messagesThread = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -170,6 +182,20 @@ class Entreprise
         return $this;
     }
 
+    public function getTerritoiresIdToString(): string
+    {
+        $result = '';
+        $territoires = $this->getTerritoires();
+        foreach ($territoires as $territoire) {
+            if ('' != $result) {
+                $result .= ', ';
+            }
+            $result .= $territoire->getId();
+        }
+
+        return $result;
+    }
+
     /**
      * @return Collection<int, Signalement>
      */
@@ -230,8 +256,98 @@ class Entreprise
         return $this;
     }
 
-    public function getUser()
+    public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getEntreprise() === $this) {
+                $message->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Intervention>
+     */
+    public function getInterventions(): Collection
+    {
+        return $this->interventions;
+    }
+
+    public function addInterventions(Intervention $intervention): self
+    {
+        if (!$this->interventions->contains($intervention)) {
+            $this->interventions->add($intervention);
+            $intervention->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInterventions(Intervention $intervention): self
+    {
+        if ($this->interventions->removeElement($intervention)) {
+            // set the owning side to null (unless already changed)
+            if ($intervention->getEntreprise() === $this) {
+                $intervention->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MessageThread>
+     */
+    public function getMessagesThread(): Collection
+    {
+        return $this->messagesThread;
+    }
+
+    public function addMessagesThread(MessageThread $messagesThread): self
+    {
+        if (!$this->messagesThread->contains($messagesThread)) {
+            $this->messagesThread->add($messagesThread);
+            $messagesThread->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesThread(MessageThread $messagesThread): self
+    {
+        if ($this->messagesThread->removeElement($messagesThread)) {
+            // set the owning side to null (unless already changed)
+            if ($messagesThread->getEntreprise() === $this) {
+                $messagesThread->setEntreprise(null);
+            }
+        }
+
+        return $this;
     }
 }

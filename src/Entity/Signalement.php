@@ -6,6 +6,8 @@ use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
 use App\Entity\Enum\Declarant;
 use App\Repository\SignalementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -143,6 +145,9 @@ class Signalement
     #[ORM\ManyToOne(inversedBy: 'signalements')]
     private ?Territoire $territoire = null;
 
+    #[ORM\OneToMany(mappedBy: 'signalement', targetEntity: Intervention::class)]
+    private Collection $interventions;
+
     #[ORM\Column(nullable: true)]
     private ?bool $locataire = null;
 
@@ -158,9 +163,26 @@ class Signalement
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $numeroAllocataire = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $reminderAutotraitementAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $resolvedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $switchedTraitementAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $closedAt = null;
+
+    #[ORM\OneToMany(mappedBy: 'signalement', targetEntity: MessageThread::class)]
+    private Collection $messagesThread;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
+        $this->interventions = new ArrayCollection();
+        $this->messagesThread = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -634,6 +656,36 @@ class Signalement
         return $this;
     }
 
+    /**
+     * @return Collection<int, Intervention>
+     */
+    public function getInterventions(): Collection
+    {
+        return $this->interventions;
+    }
+
+    public function addIntervention(Intervention $intervention): self
+    {
+        if (!$this->interventions->contains($intervention)) {
+            $this->interventions->add($intervention);
+            $intervention->setSignalement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIntervention(Intervention $intervention): self
+    {
+        if ($this->interventions->removeElement($intervention)) {
+            // set the owning side to null (unless already changed)
+            if ($intervention->getSignalement() === $this) {
+                $intervention->setSignalement(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function isLocataire(): ?bool
     {
         return $this->locataire;
@@ -690,6 +742,84 @@ class Signalement
     public function setNumeroAllocataire(?string $numeroAllocataire): self
     {
         $this->numeroAllocataire = $numeroAllocataire;
+
+        return $this;
+    }
+
+    public function getReminderAutotraitementAt(): ?\DateTimeImmutable
+    {
+        return $this->reminderAutotraitementAt;
+    }
+
+    public function setReminderAutotraitementAt(?\DateTimeImmutable $reminderAutotraitementAt): self
+    {
+        $this->reminderAutotraitementAt = $reminderAutotraitementAt;
+
+        return $this;
+    }
+
+    public function getResolvedAt(): ?\DateTimeImmutable
+    {
+        return $this->resolvedAt;
+    }
+
+    public function setResolvedAt(?\DateTimeImmutable $resolvedAt): self
+    {
+        $this->resolvedAt = $resolvedAt;
+
+        return $this;
+    }
+
+    public function getSwitchedTraitementAt(): ?\DateTimeImmutable
+    {
+        return $this->switchedTraitementAt;
+    }
+
+    public function setSwitchedTraitementAt(?\DateTimeImmutable $switchedTraitementAt): self
+    {
+        $this->switchedTraitementAt = $switchedTraitementAt;
+
+        return $this;
+    }
+
+    public function getClosedAt(): ?\DateTimeImmutable
+    {
+        return $this->closedAt;
+    }
+
+    public function setClosedAt(?\DateTimeImmutable $closedAt): self
+    {
+        $this->closedAt = $closedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MessageThread>
+     */
+    public function getMessagesThread(): Collection
+    {
+        return $this->messagesThread;
+    }
+
+    public function addMessagesThread(MessageThread $messagesThread): self
+    {
+        if (!$this->messagesThread->contains($messagesThread)) {
+            $this->messagesThread->add($messagesThread);
+            $messagesThread->setSignalement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesThread(MessageThread $messagesThread): self
+    {
+        if ($this->messagesThread->removeElement($messagesThread)) {
+            // set the owning side to null (unless already changed)
+            if ($messagesThread->getSignalement() === $this) {
+                $messagesThread->setSignalement(null);
+            }
+        }
 
         return $this;
     }

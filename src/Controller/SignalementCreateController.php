@@ -49,6 +49,8 @@ class SignalementCreateController extends AbstractController
 
         return $this->render('signalement_create/index.html.twig', [
             'form' => $form->createView(),
+            'app_name' => 'app_signalement_create',
+            'uuid' => '',
         ]);
     }
 

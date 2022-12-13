@@ -18,6 +18,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SignalementRepository extends ServiceEntityRepository
 {
+    private const NB_DAYS_BEFORE_NOTIFYING = 45;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Signalement::class);
@@ -81,12 +83,116 @@ class SignalementRepository extends ServiceEntityRepository
                 ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT);
 
         if (!empty($entreprise)) {
-            $qb->andWhere('s.autotraitement != true');
-            $qb->andWhere('s.entreprise IS NULL or s.entreprise = :entrepriseId')
-                ->setParameter('entrepriseId', $entreprise->getId());
+            $qb->andWhere('s.autotraitement != true')
+                ->andWhere('s.entreprise IS NULL or s.entreprise = :entrepriseId')
+                    ->setParameter('entrepriseId', $entreprise->getId())
+                ->andWhere('s.territoire IN (:territoires)')
+                    ->setParameter('territoires', $entreprise->getTerritoires());
         }
 
         return $qb->getQuery()
             ->getResult();
+    }
+
+    public function findToNotify(): ?array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.reminderAutotraitementAt IS NULL')
+            ->andWhere('s.autotraitement = true')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT)
+            ->andWhere('(s.switchedTraitementAt IS NULL AND datediff(CURRENT_DATE(), s.createdAt) > :nb_days_before_notifying) OR (s.switchedTraitementAt IS NOT NULL AND DATEDIFF(CURRENT_DATE(), s.switchedTraitementAt) > :nb_days_before_notifying)')
+                ->setParameter('nb_days_before_notifying', self::NB_DAYS_BEFORE_NOTIFYING)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countOpenWithoutIntervention(): int
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('COUNT(s.id) as count')
+            ->leftJoin('s.territoire', 't')
+                ->where('t.active = true')
+            ->leftJoin('s.interventions', 'i')
+                ->andWhere('i.id IS NULL OR s.autotraitement = true')
+            ->andWhere('s.resolvedAt IS NULL')
+            ->andWhere('s.closedAt IS NULL')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT);
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countOpenWithIntervention(): int
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('COUNT(s.id) as count')
+            ->leftJoin('s.territoire', 't')
+                ->where('t.active = true')
+            ->leftJoin('s.interventions', 'i')
+                ->andWhere('i.id IS NOT NULL AND s.autotraitement = false')
+            ->andWhere('s.resolvedAt IS NULL')
+            ->andWhere('s.closedAt IS NULL')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT);
+
+        return $qb->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countAvailableForEntrepriseWithoutAnswer(Entreprise $entreprise): int
+    {
+        $connection = $this->getEntityManager()->getConnection();
+        $sql = '
+        SELECT COUNT(s.id)
+        FROM `signalement` s
+        WHERE
+            s.resolved_at IS NULL
+            AND s.closed_at IS NULL
+            AND s.declarant LIKE \'DECLARANT_OCCUPANT\'
+            AND s.autotraitement = FALSE
+            AND s.territoire_id IN (:territoires)
+            AND s.id not in (
+                SELECT i.signalement_id
+                FROM intervention i
+                WHERE i.entreprise_id = :entrepriseId
+            )
+        ';
+
+        $statement = $connection->prepare($sql);
+
+        return $statement->executeQuery([
+            'territoires' => $entreprise->getTerritoiresIdToString(),
+            'entrepriseId' => $entreprise->getId(),
+        ])->fetchOne();
+    }
+
+    public function countCurrentlyOpenForEntreprise(Entreprise $entreprise): int
+    {
+        $connection = $this->getEntityManager()->getConnection();
+        $sql = '
+        SELECT COUNT(s.id)
+        FROM `signalement` s
+        WHERE
+            s.resolved_at IS NULL
+            AND s.closed_at IS NULL
+            AND s.declarant LIKE \'DECLARANT_OCCUPANT\'
+            AND s.autotraitement = FALSE
+            AND s.territoire_id IN (:territoires)
+            AND s.id in (
+                SELECT i.signalement_id
+                FROM intervention i
+                WHERE i.entreprise_id = :entrepriseId
+                AND (i.accepted_by_usager = true OR i.accepted_by_usager IS NULL)
+            )
+        ';
+
+        $statement = $connection->prepare($sql);
+
+        return $statement->executeQuery([
+            'territoires' => $entreprise->getTerritoiresIdToString(),
+            'entrepriseId' => $entreprise->getId(),
+        ])->fetchOne();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Entreprise;
+use App\Entity\Territoire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,5 +38,15 @@ class EntrepriseRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByTerritoire(Territoire $territoire)
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->leftJoin('e.territoires', 'territoires')
+            ->where('territoires = :territoire')
+                ->setParameter('territoire', $territoire);
+
+        return $qb->getQuery()->getResult();
     }
 }

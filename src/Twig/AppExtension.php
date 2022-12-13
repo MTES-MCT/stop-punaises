@@ -18,6 +18,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('type_signalement', [$this, 'formatTypeSignalement']),
             new TwigFilter('label_infestation', [$this, 'formatLabelInfestation']),
             new TwigFilter('construction_avant_1948', [$this, 'formatConstructionAvant1948']),
+            new TwigFilter('array_to_string', [$this, 'formatArrayToString']),
         ];
     }
 
@@ -53,5 +54,18 @@ class AppExtension extends AbstractExtension
         }
 
         return $construitAvant1948 ? 'Oui' : 'Non';
+    }
+
+    public function formatArrayToString(?array $listData): string
+    {
+        $str = '';
+        foreach ($listData as $index => $data) {
+            if ('' != $str) {
+                $str .= ', ';
+            }
+            $str .= $data;
+        }
+
+        return $str;
     }
 }

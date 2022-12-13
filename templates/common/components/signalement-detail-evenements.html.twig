@@ -1,0 +1,24 @@
+<div class="fr-mt-5w">
+    <h3>Détails des événements</h3>
+</div>
+
+{% for event in events %}
+    <div class="event-item fr-mb-3w fr-pb-3w">
+        <div class="even-item-date">{{ event.date.format('d/m/Y') }}</div>
+        {% if event.label is defined and event.label is not null %}
+            <div><p class="fr-badge fr-badge--warning fr-badge--no-icon">{{ event.label }}</p></div>
+        {% endif %}
+        <h4>{{ event.title }}</h4>
+        <div>{{ event.description }}</div>
+        {% if event.actionLink is defined %}
+            <div class="event-item-action fr-mt-3v">
+                <a href="{{ event.actionLink }}" {% if event.domain is not defined %} target="_blank" {% endif %}>{{ event.actionLabel }}</a>
+            </div>
+        {% endif %}
+        {% if event.modalToOpen is defined %}
+            <div class="event-item-action fr-mt-3v">
+                <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-{{ event.modalToOpen }}">{{ event.actionLabel }}</a>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}

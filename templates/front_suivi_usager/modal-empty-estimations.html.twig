@@ -1,0 +1,48 @@
+<dialog aria-labelledby="fr-modal-title-modal-empty-estimations" role="dialog" id="fr-modal-empty-estimations" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-empty-estimations" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        {% if accepted_interventions|length > 0 %}
+                            <h1 id="fr-modal-title-modal-empty-estimations" class="fr-modal__title">Plus d'estimation disponible</h1>
+                            <p>
+                                Vous avez refusé toutes les estimations de nos entreprises disponibles.
+                                Votre problème ne peut donc pas être pris en charge.
+                                <br>
+                                Vous pouvez arrêter la procédure ou opter pour le traitement à domicile, à réaliser vous-même.
+                            </p>
+                        {% else %}
+                            <h1 id="fr-modal-title-modal-empty-estimations" class="fr-modal__title">Aucune entreprise disponible</h1>
+                            <p>
+                                Malheureusement, aucune entreprise n'est actuellement disponible pour prendre en charge votre problème.
+                                <br>
+                                Vous pouvez arrêter la procédure ou opter pour le traitement à domicile, à réaliser vous-même.
+                            </p>
+                        {% endif %}
+                        <p>
+                            Que souhaitez-vous faire ?
+                        </p>
+                        <div>
+                            <form action="{{ path('app_signalement_switch_autotraitement', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_switch_autotraitement') }}">
+                                <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check">Essayer l'auto-traitement</button>
+                            </form>
+
+                            <form action="{{ path('app_signalement_stop', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_stop') }}">
+                                <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close">Arrêter la procédure</button>
+                            </form>
+                        </div>
+                        <p class="align-center fr-mt-3v">
+                            <a aria-controls="fr-modal-toujours-punaises" href="#">&lt; Retour</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

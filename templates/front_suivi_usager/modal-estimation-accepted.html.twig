@@ -1,0 +1,36 @@
+<dialog aria-labelledby="fr-modal-title-modal-estimation-accepted-{{ intervention_accepted_by_usager.id }}" role="dialog" id="fr-modal-estimation-accepted-{{ intervention_accepted_by_usager.id }}" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-estimation-accepted-{{ intervention_accepted_by_usager.id }}" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-estimation-accepted-{{ intervention_accepted_by_usager.id }}" class="fr-modal__title">Estimation {{ intervention_accepted_by_usager.entreprise.nom }}</h1>
+                        
+                        <div class="fr-notice fr-notice--info">
+                            <div class="fr-container">
+                                <div class="fr-notice__body">
+                                    <p class="fr-notice__title">
+                                        Vous avez accepté l'estimation le {{ intervention_accepted_by_usager.choiceByUsagerAt.format('d/m/Y') }}.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="fr-mt-5v">
+                            <strong>Commentaire :</strong>
+                            {{ intervention_accepted_by_usager.commentaireEstimation }}
+                        </p>
+
+                        <p>
+                            <strong>Montant :</strong>
+                            {{ intervention_accepted_by_usager.montantEstimation }}&nbsp;€
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

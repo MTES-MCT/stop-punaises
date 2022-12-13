@@ -33,19 +33,26 @@
                     {% include "common/components/filters/filter-niveau-infestation.html.twig" %}
                 </div>
 
-                {#
-                todo : état infestation
-                    -> Tous / Résolu / Non résolu
-                #}
+                <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                    <select class="fr-select" id="filter-etat-infestation">
+                        <option value="">Etat infestation</option>
+                        <option value="infestation-resolu">Résolu</option>
+                        <option value="infestation-nonresolu">Non résolu</option>
+                    </select>
+                </div>
 
-                {#<div class="fr-select-group fr-col-12 fr-col-lg-3">
+                <div class="fr-select-group fr-col-12 fr-col-lg-3">
                     {% include "common/components/filters/filter-statut.html.twig" %}
-                </div>#}
+                </div>
 
-                {#
-                todo : motif de cloture
-                    -> Tous / Problème résolu / Estimations refusées / Arrêt usager
-                #}
+                <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                    <select class="fr-select" id="filter-motif-cloture">
+                        <option value="">Motif de clôture</option>
+                        <option value="motif-resolu">Problème résolu</option>
+                        <option value="motif-refuse">Estimations refusées</option>
+                        <option value="motif-arret">Arrêt usager</option>
+                    </select>
+                </div>
 
             {% else %}
                 <div class="fr-input-wrap fr-col-12 fr-col-lg-3">
@@ -56,9 +63,9 @@
                     <input type="text" class="fr-input" id="search-address" placeholder="Ville, CP...">
                 </div>
 
-                {#<div class="fr-select-group fr-col-12 fr-col-lg-3">
+                <div class="fr-select-group fr-col-12 fr-col-lg-3">
                     {% include "common/components/filters/filter-statut.html.twig" %}
-                </div>#}
+                </div>
 
                 <div class="fr-select-group fr-col-12 fr-col-lg-3">
                     {% include "common/components/filters/filter-niveau-infestation.html.twig" %}
@@ -74,14 +81,14 @@
             <table id="datatable" class="liste-signalements-usagers">
                 <thead>
                     <tr>
-                        {#<th>Statut</th>#}
+                        <th>Statut</th>
                         <th>ID</th>
                         <th>Créé le</th>
                         <th>Infestation</th>
                         <th>Commune</th>
                         {% if is_granted('ROLE_ADMIN') %}
                             <th>Type</th>
-                            {#<th>Procédure</th>#}
+                            <th>Procédure</th>
                         {% endif %}
                         <th></th>
                     </tr>
@@ -89,18 +96,38 @@
                 <tbody>
                     {% for signalement in signalements %}
                         <tr>
-                            {#<td>{% include "common/components/signalement-statut.html.twig" %}</td>#}
+                            <td>{% include "common/components/signalement-statut.html.twig" %}</td>
                             <td>{{ signalement.reference }}</td>
                             <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
                             <td>{% include "common/components/niveau-infestation.html.twig" %}</td>
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <td>{{ signalement|type_signalement }}</td>
-                                {#<td>{% include "common/components/signalement-procedure.html.twig" %}</td>#}
+                                <td>{% include "common/components/signalement-procedure.html.twig" %}</td>
                             {% endif %}
                             <td class="button-view">
                                 <a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a>
                                 <span style="display: none;">{{ signalement.territoire.nomComplet }}</span>
+                                <span style="display: none;">{{ signalement.resolvedAt ? 'infestation-resolu' : 'infestation-nonresolu' }}</span>
+                                <span style="display: none;">
+                                    {% if signalement.closedAt %}
+                                        motif-arret
+                                    {% elseif signalement.resolvedAt %}
+                                        motif-resolu
+                                    {% else %}
+                                        {% if signalement.interventions and signalement.interventions.count > 0 %}
+                                            {% set estRefuse = true %}
+                                            {% for intervention in signalement.interventions %}
+                                                {% if intervention.acceptedByUsager is same as true or intervention.acceptedByUsager is null %}
+                                                    {% set estRefuse = false %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if estRefuse %}
+                                                motif-refuse
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                </span>
                             </td>
                         </tr>
                     {% endfor %}

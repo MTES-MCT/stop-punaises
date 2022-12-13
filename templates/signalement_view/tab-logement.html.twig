@@ -8,8 +8,10 @@
         <div class="fr-col-12 fr-col-lg-5 fr-mr-3v edit-zone">
             <strong>Le logement</strong>
             <br>
-            Adresse : {{ signalement.adresse }}
-            <br>
+            {% if can_display_adresse %}
+                Adresse : {{ signalement.adresse }}
+                <br>
+            {% endif %}
             Code postal : {{ signalement.codePostal }}
             <br>
             Commune : {{ signalement.ville }}
@@ -18,27 +20,35 @@
             <br>
             Construction avant 1948 : {{ signalement.construitAvant1948|construction_avant_1948 }}
             <br>
-            <a href="https://www.openstreetmap.org/search?query={{ signalement.adresseComplete|url_encode }}" target="_blank" rel="noopener">Afficher la carte</a>
+            {% if can_display_adresse %}
+                <a href="https://www.openstreetmap.org/search?query={{ signalement.adresseComplete|url_encode }}" target="_blank" rel="noopener">Afficher la carte</a>
+            {% endif %}
         </div>
         <div class="fr-col-12 fr-col-lg-5 edit-zone">
             <strong>L'occupant</strong>
             <br>
-            Nom : {{ signalement.nomOccupant }}
-            <br>
-            Prénom : {{ signalement.prenomOccupant }}
-            <br>
-            Téléphone :
-            {% if signalement.telephoneOccupant %}
-                {{ signalement.telephoneOccupant }}
-            {% else %}
-                Non renseigné
+            {% if can_display_adresse %}
+                Nom : {{ signalement.nomOccupant }}
+                <br>
+                Prénom : {{ signalement.prenomOccupant }}
+                <br>
+                Téléphone :
+                {{ signalement.telephoneOccupant ?: 'Non renseigné' }}
+                <br>
+                Email :
+                {{ signalement.emailOccupant ?: 'Non renseigné' }}
+                <br>
             {% endif %}
+            Type d'occupant : {{ signalement.locataire ? 'Locataire' : 'Propriétaire' }}
             <br>
-            Email :
-            {% if signalement.emailOccupant %}
-                {{ signalement.emailOccupant }}
-            {% else %}
-                Non renseigné
+            {% if signalement.locataire and can_display_adresse %}
+                Nom du propriétaire : {{ signalement.nomProprietaire }}
+                <br>
+            {% endif %}
+            Allocataire : {{ signalement.allocataire ? 'Oui' : 'Non' }}
+            <br>
+            {% if signalement.allocataire and is_granted('ROLE_ADMIN') %}
+                Numéro d'allocataire : {{ signalement.numeroAllocataire }}
             {% endif %}
         </div>
     </div>

@@ -1,0 +1,9 @@
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "johndoe@yopmail.com",
+  "telephone": "0909090909",
+  "address": "5 rue d'Italie",
+  "codepostal": "13006",
+  "city": "Marseille"
+}

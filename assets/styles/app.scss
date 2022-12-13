@@ -1,6 +1,7 @@
 span.niveau-infestation {
     display: inline-block;
     padding: 5px 10px;
+    margin-bottom: 2px;
     border-radius: 20px;
     color: var(--grey-1000-50);
 
@@ -19,6 +20,30 @@ span.niveau-infestation {
     }
     &.niveau-4 {
         background-color: var(--grey-50-1000);
+    }
+}
+
+span.motif-cloture {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-bottom: 2px;
+    border-radius: 20px;
+    color: var(--grey-1000-50);
+
+    &.motif-cloture-resolved {
+        background-color: #000091;
+    }
+}
+
+span.statut-infestation {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-bottom: 2px;
+    border-radius: 20px;
+    color: var(--grey-1000-50);
+
+    &.statut-infestation-resolved {
+        background-color: #000091;
     }
 }
 
@@ -129,6 +154,66 @@ span.niveau-infestation {
     }
 }
 
+.fr-modal {
+    p.align-center {
+        a.fr-link--close {
+            display: block;
+            margin-left: 0px;
+            color: inherit;
+            background-image: none;
+
+            &::after {
+                --icon-size: 0rem;
+            }
+        }
+    }
+
+    textarea {
+        width: 100%;
+        height: 200px;
+        border: 1px solid var(--grey-625-425);
+        font-size: 0.8em;
+    }
+
+    .fr-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.event-item {
+    border-bottom: 1px solid #E5E5E5;
+
+    .even-item-date {
+        font-size: 0.9rem;
+        font-style: italic;
+        color: var(--grey-625-425);
+    }
+
+    h4 {
+        margin: 0;
+    }
+
+    .event-item-action {
+        text-align: right;
+    }
+}
+
+.fr-btn {
+    &.color-check {
+        background-color: #1F8D49;
+        &:hover {
+            background-color: #1F8D49;
+        }
+    }
+    &.color-close {
+        background-color: var(--error-425-625);
+        &:hover {
+            background-color: var(--error-425-625);
+        }
+    }
+}
+
 .index-header {
     h1 {
         font-size: 56px;
@@ -172,6 +257,32 @@ span.niveau-infestation {
     }
 }
 
+.message-list {
+
+    &.message-scroll {
+        max-height: 50vh;
+        overflow: auto;
+    }
+
+    .message-item-header {
+        text-align: right;
+    }
+    .message-item-date {
+        font-size: 0.9rem;
+        font-style: italic;
+        color: var(--grey-625-425);
+    }
+    .message-item-content {
+        p.bg-blue {
+            background-color: var(--blue-cumulus-925-125);
+        }
+
+        p.bg-grey {
+            background-color: var(--grey-950-125);
+        }
+    }
+
+}
 
 @media (max-width: 767px) {
     .index-header {
@@ -749,6 +860,17 @@ span.niveau-infestation {
         }
         div#niveau-infestation-txt {
             font-weight: bold;
+        }
+    }
+}
+
+.suivi-usager {
+    .fr-btn {
+        width: 100%;
+        justify-content: center;
+
+        &::after {
+            --icon-size: 0rem;
         }
     }
 }

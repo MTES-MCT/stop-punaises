@@ -1,22 +1,39 @@
-{#
-TODO
-    Nouveau
-    Réception (5%)
+{% if signalement.autotraitement %}
+    {% set procedure = {'caption': 'Protocole envoyé', 'percent': 33} %}
+    {% if signalement.resolvedAt or signalement.closedAt %}
+        {% set procedure = {'caption': 'Confirmation usager', 'percent': 100} %}
+    {% elseif signalement.reminderAutotraitementAt %}
+        {% set procedure = {'caption': 'Feedback envoyé', 'percent': 66} %}
+    {% endif %}
 
-    Si à traiter  
-    Contact usager (20%)
-    Estimation envoyée (40%)
-    Estimation acceptée (60%)
-    Estimation refusée (100%) -> ferme le signalement
-    Intervention faite (80%)
-    Confirmation usager (100%)
+{% else %}
+    {% set procedure = {'caption': 'Réception', 'percent': 5} %}
+    {% if (signalement.interventions) %}
+        {% if signalement.typeIntervention %}
+            {% set procedure = {'caption': 'Intervention faite', 'percent': 80} %}
+        {% endif %}
+        {% if signalement.resolvedAt %}
+            {% set procedure = {'caption': 'Confirmation usager', 'percent': 100} %}
+        {% endif %}
 
-    Si auto-traitement
-    Protocole envoyé (33%)
-    Feedback envoyé (66%)
-    Confirmation usager (100%)
-#}
-{% set procedure = {'caption': 'Réception', 'percent': 5} %}
+        {% for intervention in signalement.interventions %}
+            {% if procedure.percent < 20 %}
+                {% set procedure = {'caption': 'Contact usager', 'percent': 20} %}
+            {% endif %}
+            {% if intervention.estimationSentAt and procedure.percent < 40 %}
+                {% set procedure = {'caption': 'Estimation envoyée', 'percent': 40} %}
+            {% endif %}
+            {% if intervention.acceptedByUsager and procedure.percent < 60 %}
+                {% set procedure = {'caption': 'Estimation acceptée', 'percent': 60} %}
+            {% endif %}
+            {% if intervention.acceptedByUsager is same as false and procedure.percent < 60 %}
+                {% set procedure = {'caption': 'Estimation refusée', 'percent': 100} %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+{% endif %}
 
 <label>{{ procedure.caption }}</label>
+<br>
 <progress value="{{ procedure.percent }}" max="100"></progress>

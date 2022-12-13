@@ -1,0 +1,44 @@
+<h2>
+    <span class="fr-icon-information-line" aria-hidden="true"></span>
+    A propos du signalement
+</h2>
+
+<div class="fr-container fr-px-2w fr-mb-15w">
+    <div class="fr-grid-row fr-grid fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-lg-6">
+            Signalement enregistré le <strong>{{ signalement.createdAt.format('d/m/Y') }}</strong>
+            <br>
+            Infestation estimée : {% include "common/components/niveau-infestation.html.twig" %}
+            <br>
+            {% if is_granted('ROLE_ADMIN') and (signalement.resolvedAt or signalement.closedAt) %}
+                Motif de clôture : {% include "common/components/motif-cloture.html.twig" %}
+                <br>
+                Statut de l'infestation : {% include "common/components/statut-infestation.html.twig" %}
+                <br>
+            {% endif %}
+            <br>
+            {% include "common/components/progression-signalement.html.twig" %}
+            <br>
+
+            {% if can_display_messages %}
+                <div class="fr-grid-row fr-grid fr-grid-row--gutters">
+                    {% if can_send_estimation %}
+                        <div class="fr-col-12 fr-col-lg-6">
+                            <button class="fr-btn fr-btn--icon-left fr-icon-article-line" data-fr-opened="false" aria-controls="fr-modal-send-estimation" {% if has_sent_estimation %}disabled{% endif %}>Envoyer une estimation</button>
+                        </div>
+                    {% endif %}
+                    {% if can_display_messages %}
+                        <div class="fr-col-12 fr-col-lg-6">
+                            <button class="fr-btn fr-btn--icon-left fr-icon-send-plane-fill" id="btn-send-message">Envoyer un message</button>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% include 'common/components/signalement-detail.html.twig' with {'prefix_accordion_id': 'tab-signalement-'} %}
+        </div>
+        
+        <div class="fr-col-12 fr-col-lg-6">
+            {% include "common/components/signalement-detail-evenements.html.twig" %}
+        </div>
+    </div>
+</div>

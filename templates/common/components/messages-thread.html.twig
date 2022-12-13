@@ -1,0 +1,13 @@
+<div class="message-list {{ haveScrollbar ? 'message-scroll' : '' }}">
+    {% for message in messages %}
+        <div class="message-item">
+            <div class="{{ message.sender == sender ? 'message-item-header' : '' }}">
+                <p class="fr-m-1w message-item-date">{{ message.createdAt|date("d/m/Y") }}</p>
+                <p class="fr-m-1w fr-text--sm"><strong>{{ message.sender == sender ? 'Vous' : recipient }}</strong></p>
+            </div>
+            <div class="message-item-content">
+                <p class="fr-p-1w {{ message.sender == sender ? 'bg-blue' : 'bg-grey' }}">{{ message.content|nl2br }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>

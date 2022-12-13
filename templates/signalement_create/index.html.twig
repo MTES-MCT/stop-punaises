@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <form action="{{ path('app_signalement_create') }}" method="POST" class="fr-my-5w fr-px-5w fr-container" data-ajax="{{ path('app_liste_employes') }}">
+    <form action="{{ path(app_name, {'uuid': uuid}) }}" method="POST" class="fr-my-5w fr-px-5w fr-container" data-ajax="{{ path('app_liste_employes') }}">
         {{ form_row(form._token) }}
 
         <div class="fr-stepper">

@@ -63,6 +63,16 @@ function initComponentsEvents() {
       refreshTableWithSearch();
     });
   }
+  if ($('#filter-etat-infestation').length > 0) {
+    $('#filter-etat-infestation').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
+  if ($('#filter-motif-cloture').length > 0) {
+    $('#filter-motif-cloture').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
   if ($('#filter-territoire').length > 0) {
     $('#filter-territoire').on('change', function() {
       refreshTableWithSearch();
@@ -115,8 +125,6 @@ function refreshTableHorsPerimetre() {
 }
 
 function refreshTableUsagers() {
-  let isAdmin = ($('#filter-type').length > 0);
-  
   if ($('#filter-date').length > 0) {
     let dateInput = $('#filter-date').val();
     let dateFilter = '';
@@ -124,37 +132,36 @@ function refreshTableUsagers() {
       let dateSplit = dateInput.split('-');
       dateFilter = dateSplit[2] + '/' + dateSplit[1] + '/' + dateSplit[0];
     }
-    listTable.columns(1).search(dateFilter);
+    listTable.columns(2).search(dateFilter);
   }
   if ($('#filter-infestation').length > 0) {
     let niveauInfestation = $('#filter-infestation').val();
-    listTable.columns(2).search(niveauInfestation);
+    listTable.columns(3).search(niveauInfestation);
   }
   if ($('#search-address').length > 0) {
     let address = $('#search-address').val();
-    listTable.columns(3).search(address);
+    listTable.columns(4).search(address);
   }
   if ($('#filter-type').length > 0) {
     let type = $('#filter-type').val();
-    listTable.columns(4).search(type);
+    listTable.columns(5).search(type);
   }
-  if ($('#filter-territoire').length > 0) {
-    let territoire = $('#filter-territoire').val();
-    listTable.columns(5).search(territoire);
-  }
-
-  // TODO
   if ($('#filter-statut').length > 0) {
     let statut = $('#filter-statut').val();
-    // listTable.columns(0).search(statut);
+    listTable.columns(0).search(statut);
+  }
+
+  if ($('#filter-territoire').length > 0) {
+    let territoire = $('#filter-territoire').val();
+    listTable.columns(7).search(territoire);
   }
   if ($('#filter-etat-infestation').length > 0) {
     let etatInfestation = $('#filter-etat-infestation').val();
-    // listTable.columns(2).search(etatInfestation);
+    listTable.columns(7).search(etatInfestation);
   }
   if ($('#filter-motif-cloture').length > 0) {
     let motifCloture = $('#filter-motif-cloture').val();
-    // listTable.columns(2).search(motifCloture);
+    listTable.columns(7).search(motifCloture);
   }
 
   listTable.draw();
