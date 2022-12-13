@@ -23,6 +23,7 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        {% include 'common/analytics.html.twig' %}
     </head>
     <body>
         {% include "common/header.html.twig" %}

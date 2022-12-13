@@ -9,20 +9,14 @@
                     <div class="fr-modal__content">
                         <h1 id="fr-modal-title-modal-toujours-punaises-pro" class="fr-modal__title">Vous avez toujours un problème de punaises</h1>
                         <p>
-                            Vous avez indiqué avoir toujours un problème de punaises de lit.
-                        </p>
-                        <p>
-                            Que souhaitez-vous faire ?
+                            Nous sommes désolés d'apprendre que le problème n'est pas résolu.
+                            <br>
+                            Stop Punaises va vous re-contacter prochainement pour vous proposer une solution.
                         </p>
                         <div>
-                            <form action="{{ path('app_signalement_switch_auto', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
-                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_switch_auto') }}">
-                                <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check">Passer à l'auto-traitement</button>
-                            </form>
-
-                            <form action="{{ path('app_signalement_stop', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
-                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_stop') }}">
-                                <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close">Arrêter la procédure</button>
+                            <form action="{{ path('app_signalement_confirm_toujours_punaises', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_confirm_toujours_punaises') }}">
+                                <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check">OK, j'ai compris</button>
                             </form>
                         </div>
                         <p class="align-center fr-mt-3v">
