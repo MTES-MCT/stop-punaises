@@ -15,26 +15,21 @@
         <div class="fr-col-12 fr-col-lg-6">
             <section>
                 <h3>Vos échanges avec l'usager</h3>
-                <div class="message-list">
-                    {% for message in signalement.messages %}
-                        <div class="message-item">
-                            <div class="message-item-header">
-                                <p class="fr-m-1w message-item-date">{{message.createdAt|date("m/d/Y") }}</p>
-                                <p class="fr-m-1w fr-text--sm"><strong>{{ message.sender == app.user.email ? 'Vous' : 'Usager'}}</strong></p>
-                            </div>
-                            <div class="message-item-content">
-                                <p class="fr-p-1w">{{ message.content }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <form action="{{ path('app_signalement_message_send') }}" id="form-send-message" name="send_message" method="POST">
+                {% include 'common/components/messages-thread.html.twig' with
+                    {
+                        'haveScrollbar' : true,
+                        'sender': app.user.email,
+                        'recipient': 'Usager'
+                    }
+                %}
+                <form action="{{ path('app_private_thread_message_send',{
+                    'signalement_uuid': signalement.uuid,
+                    'entreprise_uuid': entreprise.uuid
+                }) }}" id="form-send-message" name="send_message" method="POST">
                     <div class="fr-input-group fr-col-12">
                         <label for="message">Votre message</label>
                         <div class="fr-hint-text help-text">10 caractères minimum</div>
                         <textarea class="fr-input edit-zone" name="message" id="message" cols="10" rows="3" required minlength="10"></textarea>
-                        <input type="hidden" name="entreprise_uuid" value="{{ entreprise is not null ? entreprise.uuid : null}}"/>
-                        <input type="hidden" name="signalement_uuid" value="{{ signalement.uuid }}"/>
                         <input type="hidden" name="_token" value="{{ csrf_token('send_message') }}"/>
                     </div>
                     <div class="fr-col-12 fr-text--center">

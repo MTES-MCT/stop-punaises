@@ -63,6 +63,9 @@ class Entreprise
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Intervention::class)]
     private Collection $interventions;
 
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: MessageThread::class)]
+    private Collection $messagesThread;
+
     public function __construct()
     {
         $this->territoires = new ArrayCollection();
@@ -70,6 +73,7 @@ class Entreprise
         $this->employes = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->interventions = new ArrayCollection();
+        $this->messagesThread = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -311,6 +315,36 @@ class Entreprise
             // set the owning side to null (unless already changed)
             if ($intervention->getEntreprise() === $this) {
                 $intervention->setEntreprise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MessageThread>
+     */
+    public function getMessagesThread(): Collection
+    {
+        return $this->messagesThread;
+    }
+
+    public function addMessagesThread(MessageThread $messagesThread): self
+    {
+        if (!$this->messagesThread->contains($messagesThread)) {
+            $this->messagesThread->add($messagesThread);
+            $messagesThread->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesThread(MessageThread $messagesThread): self
+    {
+        if ($this->messagesThread->removeElement($messagesThread)) {
+            // set the owning side to null (unless already changed)
+            if ($messagesThread->getEntreprise() === $this) {
+                $messagesThread->setEntreprise(null);
             }
         }
 

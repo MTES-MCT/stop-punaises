@@ -4,11 +4,15 @@ namespace App\Manager;
 
 use App\Dto\MessageResponse;
 use App\Entity\Message;
+use App\Entity\User;
+use App\Event\MessageAddedEvent;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MessageManager extends AbstractManager
 {
     public function __construct(
+        private EventDispatcherInterface $eventDispatcher,
         protected ManagerRegistry $managerRegistry,
         protected string $entityName = Message::class
     ) {
@@ -16,9 +20,10 @@ class MessageManager extends AbstractManager
         $this->entityName = $entityName;
     }
 
-    public function createMessageResponse(Message $message): MessageResponse
+    public function createMessageResponse(Message $message, ?User $user = null): MessageResponse
     {
         $this->save($message);
+        $this->eventDispatcher->dispatch(new MessageAddedEvent($message, $user), MessageAddedEvent::NAME);
 
         return (new MessageResponse())
             ->setSender($message->getSender())

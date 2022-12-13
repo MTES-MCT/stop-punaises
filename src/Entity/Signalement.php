@@ -145,9 +145,6 @@ class Signalement
     #[ORM\ManyToOne(inversedBy: 'signalements')]
     private ?Territoire $territoire = null;
 
-    #[ORM\OneToMany(mappedBy: 'signalement', targetEntity: Message::class)]
-    private Collection $messages;
-
     #[ORM\OneToMany(mappedBy: 'signalement', targetEntity: Intervention::class)]
     private Collection $interventions;
 
@@ -178,11 +175,14 @@ class Signalement
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $closedAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'signalement', targetEntity: MessageThread::class)]
+    private Collection $messagesThread;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
-        $this->messages = new ArrayCollection();
         $this->interventions = new ArrayCollection();
+        $this->messagesThread = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -657,36 +657,6 @@ class Signalement
     }
 
     /**
-     * @return Collection<int, Message>
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
-
-    public function addMessage(Message $message): self
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
-            $message->setSignalement($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): self
-    {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getSignalement() === $this) {
-                $message->setSignalement(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Intervention>
      */
     public function getInterventions(): Collection
@@ -820,6 +790,36 @@ class Signalement
     public function setClosedAt(?\DateTimeImmutable $closedAt): self
     {
         $this->closedAt = $closedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MessageThread>
+     */
+    public function getMessagesThread(): Collection
+    {
+        return $this->messagesThread;
+    }
+
+    public function addMessagesThread(MessageThread $messagesThread): self
+    {
+        if (!$this->messagesThread->contains($messagesThread)) {
+            $this->messagesThread->add($messagesThread);
+            $messagesThread->setSignalement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesThread(MessageThread $messagesThread): self
+    {
+        if ($this->messagesThread->removeElement($messagesThread)) {
+            // set the owning side to null (unless already changed)
+            if ($messagesThread->getSignalement() === $this) {
+                $messagesThread->setSignalement(null);
+            }
+        }
 
         return $this;
     }

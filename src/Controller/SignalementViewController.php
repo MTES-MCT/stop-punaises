@@ -2,16 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Entreprise;
 use App\Entity\Intervention;
+use App\Entity\MessageThread;
 use App\Entity\Signalement;
+use App\Entity\User;
 use App\Manager\EntrepriseManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
+use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
+use App\Repository\MessageThreadRepository;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\EventsProvider;
 use App\Service\Upload\UploadHandlerService;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Collection;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +26,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementViewController extends AbstractController
 {
+    public function __construct(private MessageThreadRepository $messageThreadRepository)
+    {
+    }
+
     #[Route('/bo/signalements/{uuid}', name: 'app_signalement_view')]
     public function indexSignalement(
         Signalement $signalement,
         InterventionRepository $interventionRepository,
+        EventRepository $eventRepository,
         ): Response {
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
@@ -82,6 +93,7 @@ class SignalementViewController extends AbstractController
             'accepted_interventions' => $interventionsAcceptedByUsager,
             'accepted_estimations' => $acceptedEstimations,
             'signalement' => $signalement,
+            'messages' => $this->getMessages($signalement, $userEntreprise),
             'photos' => $this->getPhotos($signalement),
             'events' => $eventsProvider->getEvents(),
             'entrepriseIntervention' => $entrepriseIntervention,
@@ -256,5 +268,16 @@ class SignalementViewController extends AbstractController
         }
 
         return $this->redirectToRoute('app_signalement_historique_view', ['uuid' => $signalement->getUuid()]);
+    }
+
+    private function getMessages(Signalement $signalement, ?Entreprise $entreprise = null): ?Collection
+    {
+        /** @var MessageThread $messagesThread */
+        $messagesThread = $this->messageThreadRepository->findOneBy([
+            'signalement' => $signalement,
+            'entreprise' => $entreprise,
+        ]);
+
+        return $messagesThread?->getMessages();
     }
 }

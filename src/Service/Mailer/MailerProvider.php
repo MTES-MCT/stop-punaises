@@ -166,7 +166,7 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
-    public function sendSignalementNewMessageForPro(string $emailEntreprise, Signalement $signalement): void
+    public function sendNotificationToEntreprise(Signalement $signalement, string $emailEntreprise): void
     {
         $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
         $message = $this
