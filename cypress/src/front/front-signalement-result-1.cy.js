@@ -1,3 +1,5 @@
+import user from '../../fixtures/user.json'
+
 describe('Post front signalement with 1 as a result', () => {
   it ('Gets 1 as a result', () => {
     cy.get('section.current-step .btn-next').click()
@@ -5,9 +7,9 @@ describe('Post front signalement with 1 as a result', () => {
     cy.get('#signalement_front_typeLogement_1').click()
     cy.get('#signalement_front_superficie').type(45)
     cy.get('.skip-search-address').click()
-    cy.get('#signalement_front_adresse').type("5 rue d'Italie")
-    cy.get('#signalement_front_codePostal').type(13006)
-    cy.get('#signalement_front_ville').type('Marseille')
+    cy.get('#signalement_front_adresse').type(user.address)
+    cy.get('#signalement_front_codePostal').type(user.codepostal)
+    cy.get('#signalement_front_ville').type(user.city)
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)
     cy.get('#signalement_front_locataire_0').click()
@@ -35,10 +37,10 @@ describe('Post front signalement with 1 as a result', () => {
     cy.get('#signalement_front_punaisesTrouvees_1').click()
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)
-    cy.get('#signalement_front_nomOccupant').type('Fragione')
-    cy.get('#signalement_front_prenomOccupant').type('Philippe')
-    cy.get('#signalement_front_telephoneOccupant').type('0612345678')
-    cy.get('#signalement_front_emailOccupant').type('akh@gmail.com')
+    cy.get('#signalement_front_nomOccupant').type(user.lastname)
+    cy.get('#signalement_front_prenomOccupant').type(user.firstname)
+    cy.get('#signalement_front_telephoneOccupant').type(user.telephone)
+    cy.get('#signalement_front_emailOccupant').type(user.email)
     cy.get('section.current-step .if-territory-open .btn-next').click()
     cy.wait(300)
     cy.get('#niveau-infestation .niveau-infestation').contains('1')
