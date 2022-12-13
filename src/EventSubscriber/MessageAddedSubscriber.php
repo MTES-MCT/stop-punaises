@@ -34,6 +34,7 @@ class MessageAddedSubscriber implements EventSubscriberInterface
 
         if (null === $messageAddedEvent->getUser()) {
             $this->mailerProvider->sendNotificationToEntreprise($signalement, $entrepriseEmail);
+
             $this->eventManager->createEventMessage(
                 messageThread: $messageThread,
                 title: sprintf('Message avec %s', $entrepriseName),

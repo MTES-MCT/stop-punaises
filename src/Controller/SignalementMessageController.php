@@ -55,8 +55,7 @@ class SignalementMessageController extends AbstractController
         return $this->json(['message' => (string) $errors], Response::HTTP_BAD_REQUEST);
     }
 
-    #[Route('messages-thread/{uuid}/send-messsage',
-        name: 'app_public_thread_message_send')]
+    #[Route('messages-thread/{uuid}/send-messsage', name: 'app_public_thread_message_send')]
     public function sendMessageToEntreprise(
         Request $request,
         MessageThread $messageThread,

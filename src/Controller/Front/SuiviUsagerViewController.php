@@ -235,7 +235,7 @@ class SuiviUsagerViewController extends AbstractController
         name: 'app_suivi_usager_view_messages_thread')]
     #[ParamConverter('signalement', options: ['mapping' => ['signalement_uuid' => 'uuid']])]
     #[ParamConverter('messageThread', options: ['mapping' => ['thread_uuid' => 'uuid']])]
-    public function displayThreadMessage(Request $request, Signalement $signalement, MessageThread $messageThread)
+    public function displayThreadMessages(Request $request, Signalement $signalement, MessageThread $messageThread)
     {
         return $this->render('front_suivi_usager/messages_thread.html.twig', [
             'signalement' => $signalement,
