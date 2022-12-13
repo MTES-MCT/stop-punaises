@@ -11,6 +11,7 @@ parameters:
     url_bucket: '%env(resolve:S3_URL_BUCKET)%'
     doc_autotraitement: 'https://stop-punaises.beta.gouv.fr/assets/pdf/stop-punaises-protocole-auto-traitement.pdf'
     doc_domicile: 'https://stop-punaises.beta.gouv.fr/assets/pdf/stop-punaise-preparer-son-domicile.pdf'
+    admin_email: 'notifications@histologe.fr'
 
 services:
     # default configuration for services in *this* file
