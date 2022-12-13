@@ -1,3 +1,5 @@
+import '../support/before'
+
 const disableSmoothScroll = () => {
   cy.document().then(document => {
     const node = document.createElement('style');
@@ -5,13 +7,6 @@ const disableSmoothScroll = () => {
     document.body.appendChild(node);
   });
 };
-
-before(() => {
-  cy.clearCookie('PHPSESSID')
-  Cypress.Cookies.defaults({
-    preserve: "PHPSESSID"
-  })
-});
 
 describe('Test the front Signalement interface and get the different possible scenarii', () => {
   it('Displays the front page', () => {
