@@ -57,9 +57,6 @@ class Entreprise
     #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'entreprise')]
     private $user;
 
-    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Message::class)]
-    private Collection $messages;
-
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Intervention::class)]
     private Collection $interventions;
 
@@ -71,7 +68,6 @@ class Entreprise
         $this->territoires = new ArrayCollection();
         $this->signalements = new ArrayCollection();
         $this->employes = new ArrayCollection();
-        $this->messages = new ArrayCollection();
         $this->interventions = new ArrayCollection();
         $this->messagesThread = new ArrayCollection();
     }
@@ -259,36 +255,6 @@ class Entreprise
     public function getUser(): ?User
     {
         return $this->user;
-    }
-
-    /**
-     * @return Collection<int, Message>
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
-
-    public function addMessage(Message $message): self
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
-            $message->setEntreprise($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): self
-    {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getEntreprise() === $this) {
-                $message->setEntreprise(null);
-            }
-        }
-
-        return $this;
     }
 
     /**
