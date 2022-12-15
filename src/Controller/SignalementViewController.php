@@ -163,20 +163,25 @@ class SignalementViewController extends AbstractController
         MailerProvider $mailerProvider,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_estimation_send', $request->get('_csrf_token'))) {
-            /** @var User $user */
-            $user = $this->getUser();
-            $userEntreprise = $user?->getEntreprise();
-            $intervention = $interventionRepository->findBySignalementAndEntreprise(
-                $signalement,
-                $userEntreprise
-            );
-            $intervention->setCommentaireEstimation($request->get('commentaire'));
-            $intervention->setMontantEstimation($request->get('montant'));
-            $intervention->setEstimationSentAt(new DateTimeImmutable());
-            $interventionManager->save($intervention);
-            $this->addFlash('success', 'L\'estimation a bien été transmise.');
+            $montant = $request->get('montant');
+            if (empty($montant) || !is_numeric($montant)) {
+                $this->addFlash('error', 'Le montant saisi n\'est pas correct.');
+            } else {
+                /** @var User $user */
+                $user = $this->getUser();
+                $userEntreprise = $user?->getEntreprise();
+                $intervention = $interventionRepository->findBySignalementAndEntreprise(
+                    $signalement,
+                    $userEntreprise
+                );
+                $intervention->setCommentaireEstimation($request->get('commentaire'));
+                $intervention->setMontantEstimation($montant);
+                $intervention->setEstimationSentAt(new DateTimeImmutable());
+                $interventionManager->save($intervention);
+                $this->addFlash('success', 'L\'estimation a bien été transmise.');
 
-            $mailerProvider->sendSignalementNewEstimation($signalement, $intervention);
+                $mailerProvider->sendSignalementNewEstimation($signalement, $intervention);
+            }
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
