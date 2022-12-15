@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\Entreprise;
 use App\Entity\Signalement;
 use App\Repository\EntrepriseRepository;
 use App\Repository\InterventionRepository;
@@ -13,7 +14,7 @@ class EntrepriseManager extends AbstractManager
         protected ManagerRegistry $managerRegistry,
         protected EntrepriseRepository $entrepriseRepository,
         protected InterventionRepository $interventionRepository,
-        protected string $entityName = Signalement::class)
+        protected string $entityName = Entreprise::class)
     {
         parent::__construct($managerRegistry, $entityName);
     }
