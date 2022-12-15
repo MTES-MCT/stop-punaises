@@ -40,14 +40,14 @@
                         {% if is_last_intervention_to_answer %}
                         <div class="fr-alert fr-alert--warning">
                             <h3 class="fr-alert__title">Dernière estimation</h3>
-                            <p>Si vous cette estimation, vous pourrez être réorienté vers l'auto-traitement ou l'arrêt de la procédure.</p>
+                            <p>Si vous refusez cette estimation, vous pourrez être réorienté vers l'auto-traitement ou l'arrêt de la procédure.</p>
                         </div>
                         {% endif %}
 
                         <form action="{{ path('app_signalement_estimation_choice', {'id': intervention.id }) }}" method="POST" class="align-center fr-mt-3v">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_estimation_choice') }}">
+                            <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check fr-mb-3v" name="action" value="accept">Accepter</button>
                             <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close" name="action" value="refuse">Refuser</button>
-                            <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check" name="action" value="accept">Accepter</button>
                         </form>
                     </div>
                 </div>
