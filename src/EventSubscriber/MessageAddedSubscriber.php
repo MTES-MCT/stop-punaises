@@ -41,6 +41,12 @@ class MessageAddedSubscriber implements EventSubscriberInterface
                 description: sprintf('L\'entreprise %s va vous contacter.', $entrepriseName),
                 recipient: $signalement->getEmailOccupant()
             );
+            $this->eventManager->createEventMessage(
+                messageThread: $messageThread,
+                title: 'Message avec l\'usager',
+                description: sprintf('Vos échanges avec %s.', $signalement->getNomCompletOccupant()),
+                recipient: $entrepriseEmail
+            );
         } else {
             $this->mailerProvider->sendNotificationToUsager($signalement, $entrepriseName);
 

@@ -23,18 +23,28 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findMessageEventsBySignalement(string $signalementUuid, string $recipient)
+    public function findMessageEvents(string $signalementUuid, string $recipient = null, $lastMessageEvent = false)
     {
         $qb = $this->createQueryBuilder('e');
         $qb->select('e.domain, e.title, e.description, e.label, e.actionLink, e.actionLabel, e.createdAt as date')
             ->where('e.entityName = :entityName')
-            ->andWhere('e.entityUuid =:entityUuid')
-            ->andWhere('e.domain = :domain_event')
-            ->andWhere('e.recipient = :recipient')
             ->setParameter('entityName', Signalement::class)
+            ->andWhere('e.entityUuid =:entityUuid')
             ->setParameter('entityUuid', $signalementUuid)
-            ->setParameter('domain_event', Message::DOMAIN_NAME)
-            ->setParameter('recipient', $recipient);
+            ->andWhere('e.domain = :domain_event')
+            ->setParameter('domain_event', Message::DOMAIN_NAME);
+
+        if (null !== $recipient) {
+            $qb->andWhere('e.recipient = :recipient')
+                ->setParameter('recipient', $recipient);
+
+            if ($lastMessageEvent) {
+                $qb->orderBy('e.createdAt', 'DESC')
+                    ->setMaxResults(1);
+            }
+        } else {
+            $qb->andWhere('e.actionLink is not null');
+        }
 
         return $qb->getQuery()->getResult();
     }
