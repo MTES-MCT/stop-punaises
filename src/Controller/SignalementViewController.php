@@ -22,6 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SignalementViewController extends AbstractController
 {
@@ -127,20 +128,20 @@ class SignalementViewController extends AbstractController
         InterventionManager $interventionManager,
         MailerProvider $mailerProvider,
         EntrepriseManager $entrepriseManager,
+        ValidatorInterface $validator,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
-            $commentaire = $request->get('commentaire');
-            if (empty($commentaire) || \strlen($commentaire) < 10) {
-                $this->addFlash('error', 'Le commentaire doit faire plus de 10 caractères.');
-            } else {
-                $intervention = new Intervention();
-                $intervention->setSignalement($signalement);
-                /** @var User $user */
-                $user = $this->getUser();
-                $intervention->setEntreprise($user->getEntreprise());
-                $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
-                $intervention->setAccepted(false);
-                $intervention->setCommentaireRefus($commentaire);
+            $intervention = new Intervention();
+            $intervention->setSignalement($signalement);
+            /** @var User $user */
+            $user = $this->getUser();
+            $intervention->setEntreprise($user->getEntreprise());
+            $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
+            $intervention->setAccepted(false);
+            $intervention->setCommentaireRefus($request->get('commentaire'));
+            $errors = $validator->validate($intervention);
+
+            if (0 === $errors->count()) {
                 $interventionManager->save($intervention);
                 $this->addFlash('success', 'Le signalement a bien été refusé');
 
@@ -149,6 +150,10 @@ class SignalementViewController extends AbstractController
                 $remainingEntreprises = $entrepriseManager->isEntrepriseRemainingForSignalement($signalement);
                 if (!$remainingEntreprises) {
                     $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
+                }
+            } else {
+                foreach ($errors as $error) {
+                    $this->addFlash('error', (string) $error->getMessage());
                 }
             }
         }
