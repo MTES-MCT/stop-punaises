@@ -18,18 +18,21 @@
     {% endfor %}
 {% endfor %}
 
-<div class="fiche-signalement fr-p-5w">
+<div class="fiche-signalement fr-py-5v fr-px-3v fr-p-md-5w">
     <div class="fr-container fr-px-2w">
         <div class="fr-grid-row">
-            <div class="fr-col-12 fr-col-lg-4">
-                <h1>Signalement #{{signalement.reference}}</h1>
+            <div class="fr-col-12 fr-col-lg-6">
+                <div class="fr-grid-row fr-mb-3v">
+                    <div class="fr-col-12 fr-col-lg-9">
+                        <h1>Signalement #{{signalement.reference}}</h1>
+                    </div>
+                    <div class="fr-col-12 fr-col-lg-3">
+                        {% include "common/components/signalement-statut.html.twig" %}
+                    </div>
+                </div>
             </div>
 
-            <div class="fr-col-12 fr-col-lg-3">
-                {% include "common/components/signalement-statut.html.twig" %}
-            </div>
-
-            <div class="fr-col-12 fr-col-lg-5">
+            <div class="fr-col-12 fr-col-lg-6">
                 {% if not is_granted('ROLE_ADMIN') %}
                     {% if entrepriseIntervention %}
                         {% if entrepriseIntervention.accepted and signalement.typeIntervention is null %}
