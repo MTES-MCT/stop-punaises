@@ -11,10 +11,11 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class EventManager extends AbstractManager
 {
-    public function __construct(private EventFactory $eventFactory, protected ManagerRegistry $managerRegistry, protected string $entityName = Event::class)
-    {
-        $this->managerRegistry = $managerRegistry;
-        $this->entityName = $entityName;
+    public function __construct(private EventFactory $eventFactory,
+                                protected ManagerRegistry $managerRegistry,
+                                protected string $entityName = Event::class
+    ) {
+        parent::__construct($managerRegistry, $entityName);
     }
 
     public function createEventMessage(
@@ -29,8 +30,8 @@ class EventManager extends AbstractManager
             title: $title,
             description: $description,
             recipient: $recipient,
-            actionLabel: null !== $actionLink ? 'En savoir plus' : null,
             actionLink: $actionLink,
+            actionLabel: null !== $actionLink ? 'En savoir plus' : null,
             entityName: Signalement::class,
             entityUuid: $messageThread->getSignalement()->getUuid()
         );
