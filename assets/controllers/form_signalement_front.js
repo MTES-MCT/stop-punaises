@@ -247,6 +247,7 @@ class PunaisesFrontSignalementController {
     if (!self.checkSingleInput('signalement_front_superficie')) {
       canGoNext = false;
     }
+    
     if (!self.checkSingleInput('signalement_front_adresse')) {
       canGoNext = false;
     }
@@ -255,6 +256,13 @@ class PunaisesFrontSignalementController {
     }
     if (!self.checkSingleInput('signalement_front_ville')) {
       canGoNext = false;
+    }
+
+    // Cas particulier du champ de recherche : erreur à afficher si les champs d'adresse sont invisibles
+    if ($('.address-fields').hasClass('fr-hidden')) {
+      $('.search-address .fr-error-text').removeClass('fr-hidden');
+    } else {
+      $('.search-address .fr-error-text').addClass('fr-hidden');
     }
     
     return canGoNext;
