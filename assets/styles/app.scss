@@ -126,6 +126,13 @@ span.statut-infestation {
     }
 }
 
+.dashboard-menu {
+    position: relative;
+    box-shadow: 0px 12px 8px -8px rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0px 12px 8px -8px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0px 12px 8px -8px rgba(0, 0, 0, 0.15);
+}
+
 .search-address {
     #rechercheAdresse {
         padding: .5rem 1.5rem;
@@ -639,6 +646,10 @@ span.statut-infestation {
 }
 
 .fiche-signalement {
+    h1 {
+        font-size: 2rem;
+    }
+
     .date-info {
         display: inline-block;
         margin-left: 10px;
