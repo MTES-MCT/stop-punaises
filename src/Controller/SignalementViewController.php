@@ -10,7 +10,6 @@ use App\Entity\User;
 use App\Manager\EntrepriseManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
-use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Repository\MessageThreadRepository;
 use App\Service\Mailer\MailerProvider;
@@ -34,7 +33,6 @@ class SignalementViewController extends AbstractController
     public function indexSignalement(
         Signalement $signalement,
         InterventionRepository $interventionRepository,
-        EventRepository $eventRepository,
         ): Response {
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
@@ -129,25 +127,29 @@ class SignalementViewController extends AbstractController
         InterventionManager $interventionManager,
         MailerProvider $mailerProvider,
         EntrepriseManager $entrepriseManager,
-        InterventionRepository $interventionRepository,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
-            $intervention = new Intervention();
-            $intervention->setSignalement($signalement);
-            /** @var User $user */
-            $user = $this->getUser();
-            $intervention->setEntreprise($user->getEntreprise());
-            $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
-            $intervention->setAccepted(false);
-            $intervention->setCommentaireRefus($request->get('commentaire'));
-            $interventionManager->save($intervention);
-            $this->addFlash('success', 'Le signalement a bien été refusé');
+            $commentaire = $request->get('commentaire');
+            if (empty($commentaire) || \strlen($commentaire) < 10) {
+                $this->addFlash('error', 'Le commentaire doit faire plus de 10 caractères.');
+            } else {
+                $intervention = new Intervention();
+                $intervention->setSignalement($signalement);
+                /** @var User $user */
+                $user = $this->getUser();
+                $intervention->setEntreprise($user->getEntreprise());
+                $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
+                $intervention->setAccepted(false);
+                $intervention->setCommentaireRefus($commentaire);
+                $interventionManager->save($intervention);
+                $this->addFlash('success', 'Le signalement a bien été refusé');
 
-            // Check if entreprises are still available for this territoire
-            // If not, contact user
-            $remainingEntreprises = $entrepriseManager->isEntrepriseRemainingForSignalement($signalement);
-            if (!$remainingEntreprises) {
-                $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
+                // Check if entreprises are still available for this territoire
+                // If not, contact user
+                $remainingEntreprises = $entrepriseManager->isEntrepriseRemainingForSignalement($signalement);
+                if (!$remainingEntreprises) {
+                    $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
+                }
             }
         }
 
