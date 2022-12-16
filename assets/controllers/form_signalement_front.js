@@ -505,6 +505,7 @@ class PunaisesFrontSignalementController {
       $('.if-territory-open').show();
       $('.if-territory-not-open').hide();
     } else {
+      $('#signalement_front_autotraitement').val(true);
       $('.if-territory-open').hide();
       $('.if-territory-not-open').show();
       $('.if-territory-not-open').append('<input type="hidden" id="hidden-postal-code" name="signalement_front[codePostal]" value="'+ $('input#code-postal').val() +'">');
