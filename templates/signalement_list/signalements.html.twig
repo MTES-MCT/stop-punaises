@@ -97,18 +97,22 @@
                     {% for signalement in signalements %}
                         <tr>
                             <td>{% include "common/components/signalement-statut.html.twig" %}</td>
-                            <td>{{ signalement.reference }}</td>
+                            <td>
+                                {{ signalement.reference }}
+                                <span style="display: none;">{{ signalement.territoire.nomComplet }}</span>
+                            </td>
                             <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
                             <td>{% include "common/components/niveau-infestation.html.twig" %}</td>
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <td>{{ signalement|type_signalement }}</td>
-                                <td>{% include "common/components/signalement-procedure.html.twig" %}</td>
+                                <td>
+                                    {% include "common/components/signalement-procedure.html.twig" %}
+                                    <span style="display: none;">{{ signalement.resolvedAt ? 'infestation-resolu' : 'infestation-nonresolu' }}</span>
+                                </td>
                             {% endif %}
                             <td class="button-view">
                                 <a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a>
-                                <span style="display: none;">{{ signalement.territoire.nomComplet }}</span>
-                                <span style="display: none;">{{ signalement.resolvedAt ? 'infestation-resolu' : 'infestation-nonresolu' }}</span>
                                 <span style="display: none;">
                                     {% if signalement.closedAt %}
                                         motif-arret

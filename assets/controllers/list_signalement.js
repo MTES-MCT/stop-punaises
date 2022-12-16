@@ -153,11 +153,11 @@ function refreshTableUsagers() {
 
   if ($('#filter-territoire').length > 0) {
     let territoire = $('#filter-territoire').val();
-    listTable.columns(7).search(territoire);
+    listTable.columns(1).search(territoire);
   }
   if ($('#filter-etat-infestation').length > 0) {
     let etatInfestation = $('#filter-etat-infestation').val();
-    listTable.columns(7).search(etatInfestation);
+    listTable.columns(6).search(etatInfestation);
   }
   if ($('#filter-motif-cloture').length > 0) {
     let motifCloture = $('#filter-motif-cloture').val();
