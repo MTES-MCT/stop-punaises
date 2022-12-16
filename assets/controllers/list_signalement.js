@@ -111,8 +111,11 @@ function refreshTableHorsPerimetre() {
   }
   if ($('#filter-date').length > 0) {
     let dateInput = $('#filter-date').val();
-    let dateSplit = dateInput.split('-');
-    let dateFilter = dateSplit[2] + '/' + dateSplit[1] + '/' + dateSplit[0];
+    let dateFilter = '';
+    if (dateInput != '') {
+      let dateSplit = dateInput.split('-');
+      dateFilter = dateSplit[2] + '/' + dateSplit[1] + '/' + dateSplit[0];
+    }
     listTable.columns(1).search(dateFilter);
   }
   if ($('#search-address').length > 0) {
