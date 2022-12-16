@@ -10,7 +10,7 @@
            ? path('app_signalement_view', {'uuid': signalement.uuid})
            : path('app_suivi_usager_view', {'uuid': signalement.uuid})
            }}">Retour</a>
-        <h2 class="fr-my-3v">Vos échanges avec {{ entreprise_name }}</h2>
+        <h2 class="fr-my-3v"> {{ is_granted('ROLE_ADMIN') ? 'Les échanges' : 'Vos échanges'  }} avec {{ entreprise_name }}</h2>
         <section>
             {% include 'common/components/messages-thread.html.twig' with
                 {
