@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectRepository;
 
 abstract class AbstractManager implements ManagerInterface
 {
@@ -46,7 +47,7 @@ abstract class AbstractManager implements ManagerInterface
         return $this->getRepository()->findAll();
     }
 
-    public function getRepository()
+    public function getRepository(): ObjectRepository
     {
         return $this->managerRegistry->getRepository($this->entityName);
     }

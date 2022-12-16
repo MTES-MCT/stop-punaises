@@ -95,7 +95,7 @@ class SignalementViewController extends AbstractController
             'signalement' => $signalement,
             'messages' => $this->getMessages($signalement, $userEntreprise),
             'photos' => $this->getPhotos($signalement),
-            'events' => $eventsProvider->getEvents(),
+            'events' => $this->getMergeEvents($eventsProvider, $eventRepository, $signalement, $userEntreprise),
             'entrepriseIntervention' => $entrepriseIntervention,
             'entreprise' => $userEntreprise,
         ]);
@@ -284,5 +284,23 @@ class SignalementViewController extends AbstractController
         ]);
 
         return $messagesThread?->getMessages();
+    }
+
+    private function getMergeEvents(
+        EventsProvider $eventsProvider,
+        EventRepository $eventRepository,
+        Signalement $signalement,
+        ?Entreprise $entreprise = null,
+    ): array {
+        $events = $eventsProvider->getEvents();
+        $messageEvents = $eventRepository->findMessageEvents(
+            signalementUuid: $signalement->getUuid(),
+            recipient: $entreprise?->getUser()?->getEmail(),
+            lastMessageEvent: true
+        );
+        $events = array_merge($events, $messageEvents);
+        usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
+
+        return $events;
     }
 }

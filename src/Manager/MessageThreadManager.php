@@ -16,8 +16,7 @@ class MessageThreadManager extends AbstractManager
         protected ManagerRegistry $managerRegistry,
         protected string $entityName = MessageThread::class
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->entityName = $entityName;
+        parent::__construct($managerRegistry, $entityName);
     }
 
     public function createOrGet(Signalement $signalement, Entreprise $entreprise)

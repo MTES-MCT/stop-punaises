@@ -16,8 +16,7 @@ class MessageManager extends AbstractManager
         protected ManagerRegistry $managerRegistry,
         protected string $entityName = Message::class
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->entityName = $entityName;
+        parent::__construct($managerRegistry, $entityName);
     }
 
     public function createMessageResponse(Message $message, ?User $user = null): MessageResponse

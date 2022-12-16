@@ -28,7 +28,7 @@ class SuiviUsagerViewController extends AbstractController
     ): Response {
         $eventsProvider = new EventsProvider($signalement, $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'));
         $events = $eventsProvider->getEvents();
-        $messageEvents = $eventRepository->findMessageEventsBySignalement(
+        $messageEvents = $eventRepository->findMessageEvents(
             $signalement->getUuid(),
             $signalement->getEmailOccupant()
         );
@@ -236,7 +236,7 @@ class SuiviUsagerViewController extends AbstractController
         name: 'app_suivi_usager_view_messages_thread')]
     #[ParamConverter('signalement', options: ['mapping' => ['signalement_uuid' => 'uuid']])]
     #[ParamConverter('messageThread', options: ['mapping' => ['thread_uuid' => 'uuid']])]
-    public function displayThreadMessages(Request $request, Signalement $signalement, MessageThread $messageThread)
+    public function displayThreadMessages(Request $request, Signalement $signalement, MessageThread $messageThread): Response
     {
         return $this->render('front_suivi_usager/messages_thread.html.twig', [
             'signalement' => $signalement,
