@@ -20,7 +20,7 @@
                 }
             %}
 
-            {% if app.user is null %}
+            {% if not is_granted('ROLE_ADMIN') %}
                 <form action="{{ path('app_public_thread_message_send',{
                     'uuid': messages_thread_uuid,
                 }) }}" id="form-send-message" name="send_message" method="POST">

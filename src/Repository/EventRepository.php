@@ -23,10 +23,10 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findMessageEvents(string $signalementUuid, string $recipient = null, $lastMessageEvent = false)
+    public function findMessageEvents(string $signalementUuid, string $recipient = null, $lastMessageEvent = false): array
     {
         $qb = $this->createQueryBuilder('e');
-        $qb->select('e.domain, e.title, e.description, e.label, e.actionLink, e.actionLabel, e.createdAt as date')
+        $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel')
             ->where('e.entityName = :entityName')
             ->setParameter('entityName', Signalement::class)
             ->andWhere('e.entityUuid =:entityUuid')
@@ -35,15 +35,28 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('domain_event', Message::DOMAIN_NAME);
 
         if (null !== $recipient) {
-            $qb->andWhere('e.recipient = :recipient')
+            $qb->addSelect('e.createdAt as date')
+                ->andWhere('e.recipient = :recipient')
                 ->setParameter('recipient', $recipient);
-
             if ($lastMessageEvent) {
                 $qb->orderBy('e.createdAt', 'DESC')
                     ->setMaxResults(1);
             }
         } else {
-            $qb->andWhere('e.actionLink is not null');
+            $qb->addSelect('MAX(e.createdAt) as date')
+                ->andWhere('e.actionLink is not null')
+                ->groupBy('e.title, e.description, e.actionLink, e.actionLabel');
+
+            return array_map(function ($item) {
+                return [
+                    'domain' => $item['domain'],
+                    'title' => $item['title'],
+                    'description' => $item['description'],
+                    'actionLink' => $item['actionLink'],
+                    'actionLabel' => $item['actionLabel'],
+                    'date' => new \DateTimeImmutable($item['date']),
+                ];
+            }, $qb->getQuery()->getResult());
         }
 
         return $qb->getQuery()->getResult();
