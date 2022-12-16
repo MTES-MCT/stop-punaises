@@ -10,7 +10,6 @@ use App\Entity\User;
 use App\Manager\EntrepriseManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
-use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Repository\MessageThreadRepository;
 use App\Service\Mailer\MailerProvider;
@@ -23,6 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SignalementViewController extends AbstractController
 {
@@ -34,7 +34,6 @@ class SignalementViewController extends AbstractController
     public function indexSignalement(
         Signalement $signalement,
         InterventionRepository $interventionRepository,
-        EventRepository $eventRepository,
         ): Response {
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
@@ -129,7 +128,7 @@ class SignalementViewController extends AbstractController
         InterventionManager $interventionManager,
         MailerProvider $mailerProvider,
         EntrepriseManager $entrepriseManager,
-        InterventionRepository $interventionRepository,
+        ValidatorInterface $validator,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
@@ -140,14 +139,22 @@ class SignalementViewController extends AbstractController
             $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
             $intervention->setAccepted(false);
             $intervention->setCommentaireRefus($request->get('commentaire'));
-            $interventionManager->save($intervention);
-            $this->addFlash('success', 'Le signalement a bien été refusé');
+            $errors = $validator->validate($intervention);
 
-            // Check if entreprises are still available for this territoire
-            // If not, contact user
-            $remainingEntreprises = $entrepriseManager->isEntrepriseRemainingForSignalement($signalement);
-            if (!$remainingEntreprises) {
-                $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
+            if (0 === $errors->count()) {
+                $interventionManager->save($intervention);
+                $this->addFlash('success', 'Le signalement a bien été refusé');
+
+                // Check if entreprises are still available for this territoire
+                // If not, contact user
+                $remainingEntreprises = $entrepriseManager->isEntrepriseRemainingForSignalement($signalement);
+                if (!$remainingEntreprises) {
+                    $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
+                }
+            } else {
+                foreach ($errors as $error) {
+                    $this->addFlash('error', (string) $error->getMessage());
+                }
             }
         }
 

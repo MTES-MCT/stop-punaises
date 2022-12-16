@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\InterventionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InterventionRepository::class)]
 class Intervention
@@ -26,6 +27,7 @@ class Intervention
     private ?bool $accepted = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(min: 10, minMessage: 'Le commentaire doit faire plus de {{ limit }} caractères.') ]
     private ?string $commentaireRefus = null;
 
     #[ORM\Column(nullable: true)]
