@@ -3,17 +3,17 @@
         <nav class="fr-nav" id="header-navigation" role="navigation" aria-label="Menu du tableau de bord">
             <ul class="fr-nav__list">
                 <li class="fr-nav__item">
-                    <a class="fr-nav__link" href="{{ path('app_signalement_list') }}" target="_self" {% if app.request.get('_route') == 'app_signalement_list' %}aria-current="page"{% endif %}>Signalements</a>
+                    <a class="fr-nav__link" href="{{ path('app_signalement_list') }}" target="_self" {% if app.request.get('_route') == 'app_signalement_list' or app.request.get('_route') == 'app_signalement_view' %}aria-current="page"{% endif %}>Signalements</a>
                 </li>
                 <li class="fr-nav__item">
-                    <a class="fr-nav__link" href="{{ path('app_historique_list') }}" target="_self" {% if app.request.get('_route') == 'app_historique_list' %}aria-current="page"{% endif %}>Historique</a>
+                    <a class="fr-nav__link" href="{{ path('app_historique_list') }}" target="_self" {% if app.request.get('_route') == 'app_historique_list' or app.request.get('_route') == 'app_signalement_historique_view' %}aria-current="page"{% endif %}>Historique</a>
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ path('app_horsperimetre_list') }}" target="_self" {% if app.request.get('_route') == 'app_horsperimetre_list' %}aria-current="page"{% endif %}>Hors périmètre</a>
                     </li>
                     <li class="fr-nav__item">
-                        <a class="fr-nav__link" href="{{ path('app_entreprise_list') }}" target="_self" {% if app.request.get('_route') == 'app_entreprise_list' %}aria-current="page"{% endif %}>Les entreprises</a>
+                        <a class="fr-nav__link" href="{{ path('app_entreprise_list') }}" target="_self" {% if app.request.get('_route') == 'app_entreprise_list' or app.request.get('_route') == 'app_entreprise_view' %}aria-current="page"{% endif %}>Les entreprises</a>
                     </li>
                 {% endif %}
             </ul>
