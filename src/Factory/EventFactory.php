@@ -10,6 +10,7 @@ class EventFactory
         string $domain,
         string $title,
         string $description,
+        ?int $userId = null,
         ?string $recipient = null,
         ?string $label = null,
         ?string $actionLink = null,
@@ -21,6 +22,7 @@ class EventFactory
             ->setDomain($domain)
             ->setTitle($title)
             ->setDescription($description)
+            ->setUserId($userId)
             ->setRecipient($recipient)
             ->setLabel($label ?? null)
             ->setActionLabel($actionLabel ?? null)

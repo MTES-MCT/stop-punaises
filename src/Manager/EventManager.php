@@ -23,12 +23,14 @@ class EventManager extends AbstractManager
         string $title,
         string $description,
         string $recipient,
+        ?int $userId = null,
         ?string $actionLink = null
     ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Message::DOMAIN_NAME,
             title: $title,
             description: $description,
+            userId: $userId,
             recipient: $recipient,
             actionLink: $actionLink,
             actionLabel: null !== $actionLink ? 'En savoir plus' : null,
