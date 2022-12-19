@@ -65,6 +65,11 @@ function displayTabMessages() {
     $('#btn-send-message').on('click', function() {
         $('.fiche-signalement #tabpanel-messages').click();
     });
+
+    $('a.link-send-message').click(function(event) {
+        event.preventDefault();
+        $('.fiche-signalement #tabpanel-messages').click();
+    });
 }
 
 function scrollDownMessageList() {

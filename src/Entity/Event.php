@@ -44,6 +44,9 @@ class Event
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $recipient = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $userId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +156,18 @@ class Event
     public function setRecipient(?string $recipient): self
     {
         $this->recipient = $recipient;
+
+        return $this;
+    }
+
+    public function getUserId(): ?int
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(?int $userId): self
+    {
+        $this->userId = $userId;
 
         return $this;
     }

@@ -35,31 +35,26 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('domain_event', Message::DOMAIN_NAME);
 
         if (null !== $recipient) {
-            $qb->addSelect('e.createdAt as date')
+            $qb->addSelect('MAX(e.createdAt) as date')
                 ->andWhere('e.recipient = :recipient')
-                ->setParameter('recipient', $recipient);
-            if ($lastMessageEvent) {
-                $qb->orderBy('e.createdAt', 'DESC')
-                    ->setMaxResults(1);
-            }
+                ->setParameter('recipient', $recipient)
+                ->groupBy('e.domain, e.title, e.description, e.actionLink, e.actionLabel');
         } else {
             $qb->addSelect('MAX(e.createdAt) as date')
-                ->andWhere('e.actionLink is not null')
-                ->groupBy('e.title, e.description, e.actionLink, e.actionLabel');
-
-            return array_map(function ($item) {
-                return [
-                    'domain' => $item['domain'],
-                    'title' => $item['title'],
-                    'description' => $item['description'],
-                    'actionLink' => $item['actionLink'],
-                    'actionLabel' => $item['actionLabel'],
-                    'date' => new \DateTimeImmutable($item['date']),
-                ];
-            }, $qb->getQuery()->getResult());
+                ->andWhere('e.actionLink is not null and e.userId is null')
+                ->groupBy('e.domain, e.title, e.description, e.actionLink, e.actionLabel');
         }
 
-        return $qb->getQuery()->getResult();
+        return array_map(function ($item) {
+            return [
+                'domain' => $item['domain'],
+                'title' => $item['title'],
+                'description' => $item['description'],
+                'actionLink' => $item['actionLink'],
+                'actionLabel' => $item['actionLabel'],
+                'date' => new \DateTimeImmutable($item['date']),
+            ];
+        }, $qb->getQuery()->getResult());
     }
 
     public function save(Event $entity, bool $flush = false): void
