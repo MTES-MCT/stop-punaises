@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Manager\EntrepriseManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
+use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Repository\MessageThreadRepository;
 use App\Service\Mailer\MailerProvider;
@@ -26,8 +27,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SignalementViewController extends AbstractController
 {
-    public function __construct(private MessageThreadRepository $messageThreadRepository)
-    {
+    public function __construct(
+        private MessageThreadRepository $messageThreadRepository,
+        private EventRepository $eventRepository,
+    ) {
     }
 
     #[Route('/bo/signalements/{uuid}', name: 'app_signalement_view')]
@@ -94,7 +97,7 @@ class SignalementViewController extends AbstractController
             'signalement' => $signalement,
             'messages' => $this->getMessages($signalement, $userEntreprise),
             'photos' => $this->getPhotos($signalement),
-            'events' => $this->getMergeEvents($eventsProvider, $eventRepository, $signalement, $userEntreprise),
+            'events' => $this->getMergeEvents($eventsProvider, $signalement, $userEntreprise),
             'entrepriseIntervention' => $entrepriseIntervention,
             'entreprise' => $userEntreprise,
         ]);
@@ -295,12 +298,11 @@ class SignalementViewController extends AbstractController
 
     private function getMergeEvents(
         EventsProvider $eventsProvider,
-        EventRepository $eventRepository,
         Signalement $signalement,
         ?Entreprise $entreprise = null,
     ): array {
         $events = $eventsProvider->getEvents();
-        $messageEvents = $eventRepository->findMessageEvents(
+        $messageEvents = $this->eventRepository->findMessageEvents(
             signalementUuid: $signalement->getUuid(),
             recipient: $entreprise?->getUser()?->getEmail(),
             lastMessageEvent: true
