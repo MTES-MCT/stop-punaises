@@ -5,6 +5,7 @@ namespace App\Service\Mailer;
 use App\Entity\Intervention;
 use App\Entity\Signalement;
 use App\Entity\User;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -12,10 +13,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MailerProvider implements MailerProviderInterface
 {
-    public function __construct(private MailerInterface $mailer,
-                                private UrlGeneratorInterface $urlGenerator,
-                                private MessageFactory $messageFactory)
-    {
+    public function __construct(
+        private MailerInterface $mailer,
+        private UrlGeneratorInterface $urlGenerator,
+        private MessageFactory $messageFactory,
+        private ParameterBagInterface $parameterBag,
+    ) {
     }
 
     public function send(MessageInterface $message): void
@@ -244,7 +247,8 @@ class MailerProvider implements MailerProviderInterface
     public function sendSignalementSuiviTraitementAuto(Signalement $signalement): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
-        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
+        $baseUrl = $this->parameterBag->get('base_url');
+        $link = $baseUrl.$this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_SUIVI_TRAITEMENT_AUTO, [
