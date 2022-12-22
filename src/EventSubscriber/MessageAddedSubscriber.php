@@ -2,6 +2,10 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Event;
+use App\Entity\Message;
+use App\Entity\MessageThread;
+use App\Entity\Signalement;
 use App\Event\MessageAddedEvent;
 use App\Manager\EventManager;
 use App\Service\Mailer\MailerProvider;
@@ -63,6 +67,32 @@ class MessageAddedSubscriber implements EventSubscriberInterface
                 recipient: $signalement->getEmailOccupant(),
                 actionLink: $link,
             );
+
+            if (!$this->messageEventExists($messageThread)) {
+                $this->eventManager->createEventMessage(
+                    messageThread: $messageThread,
+                    title: 'Message avec l\'usager',
+                    description: sprintf('Vos échanges avec %s.', $signalement->getNomCompletOccupant()),
+                    recipient: $entrepriseEmail,
+                    userId: $entreprise->getUser()->getId(),
+                    actionLink: 'link-send-message',
+                );
+            }
         }
+    }
+
+    private function messageEventExists(MessageThread $messageThread): bool
+    {
+        $entreprise = $messageThread->getEntreprise();
+        $signalement = $messageThread->getSignalement();
+        $event = $this->eventManager->findOneBy([
+            'domain' => Message::DOMAIN_NAME,
+            'title' => 'Message avec l\'usager',
+            'description' => sprintf('Vos échanges avec %s.', $entreprise->getNom()),
+            'entityName' => Signalement::class,
+            'entityUuid' => $signalement->getUuid(),
+        ]);
+
+        return $event instanceof Event;
     }
 }
