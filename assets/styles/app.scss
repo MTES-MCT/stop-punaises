@@ -416,6 +416,11 @@ span.image-caption {
             color: #666;
         }
     }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 .information-evaluer {

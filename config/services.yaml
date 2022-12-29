@@ -10,7 +10,7 @@ parameters:
     uploads_tmp_dir: '%kernel.project_dir%/tmp/'
     url_bucket: '%env(resolve:S3_URL_BUCKET)%'
     doc_autotraitement: 'pdf/stop-punaises-protocole-auto-traitement.pdf'
-    doc_domicile: 'pdf/stop-punaise-preparer-son-domicile.pdf'
+    doc_domicile: 'pdf/stop-punaises-preparer-son-domicile.pdf'
     admin_email: 'notifications@histologe.fr'
 
 services:
