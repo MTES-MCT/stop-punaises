@@ -253,6 +253,14 @@ span.statut-infestation {
         text-align: center;
         color: var(--grey-50-1000);
     }
+
+    .video-container {
+        text-align: center;
+        
+        video {
+            max-width: 100%;
+        }
+    }
 }
 
 .index-cest-quoi {
@@ -309,7 +317,6 @@ span.statut-infestation {
             flex-direction: column-reverse;
 
             .video-container {
-                text-align: center;
                 margin-bottom: 12px;
             }
 

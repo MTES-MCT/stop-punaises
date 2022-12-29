@@ -15,6 +15,10 @@ Encore
         to: 'images/[path][name].[ext]'
     })
     .copyFiles({
+        from: './assets/video',
+        to: 'video/[path][name].[ext]'
+    })
+    .copyFiles({
         from: './node_modules/@gouvfr/dsfr/dist/',
         to: 'dsfr/[path][name].[ext]'
     })
