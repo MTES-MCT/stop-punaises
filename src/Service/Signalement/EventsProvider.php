@@ -202,21 +202,24 @@ class EventsProvider
                 if ($intervention->getEstimationSentAt()) {
                     $event = [];
                     $event['date'] = $intervention->getEstimationSentAt();
+                    $event['actionLabel'] = 'En savoir plus';
                     if ($this->isAdmin) {
                         $event['title'] = 'Estimation '.$intervention->getEntreprise()->getNom();
                         $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation';
+                        $event['modalToOpen'] = 'view-estimation-'.$intervention->getId();
                     } elseif ($this->entreprise && $intervention->getEntreprise()->getId() == $this->entreprise->getId()) {
                         $event['title'] = 'Estimation '.$this->entreprise->getNom();
                         $event['description'] = 'Vous avez envoyé une estimation à l\'usager.';
+                        $event['modalToOpen'] = 'view-estimation-'.$intervention->getId();
                     } else {
                         $event['title'] = 'Estimation '.$intervention->getEntreprise()->getNom();
                         $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' vous a envoyé une estimation';
                         if (!$intervention->getChoiceByUsagerAt()) {
-                            $event['actionLabel'] = 'En savoir plus';
                             $event['modalToOpen'] = 'choice-estimation-'.$intervention->getId();
                         } elseif ($intervention->isAcceptedByUsager()) {
-                            $event['actionLabel'] = 'En savoir plus';
                             $event['modalToOpen'] = 'estimation-accepted-'.$intervention->getId();
+                        } else {
+                            $event['actionLabel'] = '';
                         }
                     }
 

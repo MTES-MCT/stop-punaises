@@ -81,6 +81,8 @@ class SignalementViewController extends AbstractController
             'accepted' => true,
         ]);
 
+        $estimations = $interventionRepository->findInterventionsWithEstimation($signalement);
+
         $acceptedEstimations = $interventionRepository->findBy([
             'signalement' => $signalement,
             'acceptedByUsager' => true,
@@ -94,6 +96,7 @@ class SignalementViewController extends AbstractController
             'has_sent_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->getEstimationSentAt(),
             'accepted_interventions' => $interventionsAcceptedByUsager,
             'accepted_estimations' => $acceptedEstimations,
+            'estimations' => $estimations,
             'signalement' => $signalement,
             'messages' => $this->getMessages($signalement, $userEntreprise),
             'photos' => $this->getPhotos($signalement),

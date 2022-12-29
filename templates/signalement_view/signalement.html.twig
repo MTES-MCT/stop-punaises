@@ -9,6 +9,9 @@
 {% if can_send_estimation and not has_sent_estimation %}
     {% include "signalement_view/modal-send-estimation.html.twig" %}
 {% endif %}
+{% for intervention in estimations %}
+    {% include "signalement_view/modal-view-estimation.html.twig" %}
+{% endfor %}
 
 {% for label, messages in app.flashes %}
     {% for message in messages %}

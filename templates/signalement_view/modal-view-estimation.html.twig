@@ -1,0 +1,26 @@
+<dialog aria-labelledby="fr-modal-title-modal-view-estimation-{{ intervention.id }}" role="dialog" id="fr-modal-view-estimation-{{ intervention.id }}" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-view-estimation-{{ intervention.id }}" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-view-estimation-{{ intervention.id }}" class="fr-modal__title">Estimation {{ intervention.entreprise.nom }}</h1>
+                        
+                        <p class="fr-mt-5v">
+                            <strong>Commentaire :</strong>
+                            {{ intervention.commentaireEstimation }}
+                        </p>
+
+                        <p>
+                            <strong>Montant :</strong>
+                            {{ intervention.montantEstimation }}&nbsp;€
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

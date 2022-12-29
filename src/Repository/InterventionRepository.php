@@ -65,6 +65,16 @@ class InterventionRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findInterventionsWithEstimation(Signalement $signalement)
+    {
+        $qb = $this->createQueryBuilder('i')
+            ->where('i.signalement = :signalement')
+                ->setParameter('signalement', $signalement)
+            ->andWhere('i.estimationSentAt is not null');
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findToNotify(): array
     {
         return $this->createQueryBuilder('s')
