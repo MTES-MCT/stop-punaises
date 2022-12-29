@@ -30,49 +30,55 @@
         {% endfor %}
     {% endfor %}
 
-    <h2>Bonjour {{ signalement.prenomOccupant }},</h2>
-    <h3>Votre signalement #{{ signalement.reference }}</h3>
+    <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col fr-col-12 fr-col-lg-6">
+            <h2>Bonjour {{ signalement.prenomOccupant }},</h2>
+            <h3>Votre signalement #{{ signalement.reference }}</h3>
 
-    {% include "common/components/progression-signalement.html.twig" %}
+            {% include "common/components/progression-signalement.html.twig" %}
 
-    {% if not signalement.resolvedAt and not signalement.closedAt %}
-    <div class="align-center">
-        <div class="fr-mb-3v">
-            <a class="fr-btn fr-btn--icon-left fr-icon-download-line" href="{{ link_pdf }}" target="_blank">Télécharger le protocole</a>
+            {% if not signalement.resolvedAt and not signalement.closedAt %}
+            <div class="fr-grid-row fr-grid-row--gutters align-center">
+                <div class="fr-col fr-col-12 fr-col-lg-6 fr-mb-3v">
+                    <a class="fr-btn fr-btn--icon-left fr-icon-download-line" href="{{ link_pdf }}" target="_blank">Télécharger le protocole</a>
+                </div>
+
+                <div class="fr-col fr-col-12 fr-col-lg-6 fr-mb-3v">
+                    {% if signalement.autotraitement %}
+                        <form action="{{ path('app_signalement_switch_pro', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_switch_pro') }}">
+                            <button class="fr-btn fr-btn--icon-left fr-icon-check-line color-check">Trouver une entreprise labellisée</button>
+                        </form>
+
+                    {% else %}
+                        <form action="{{ path('app_signalement_stop', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_stop') }}">
+                            <button class="fr-btn fr-btn--icon-left fr-icon-close-line color-close">Arrêter la procédure</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <section class="fr-accordion fr-mt-5w">
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-info-signalement">Info du signalement</button>
+                </h3>
+                <div class="fr-collapse" id="accordion-info-signalement">
+                    Référence : #{{ signalement.reference }}
+                    <br>
+                    Date de dépot : {{ signalement.createdAt.format('d/m/Y') }}
+                    <br>
+                    Infestation estimée : {{ niveau_infestation }}
+                    <br>
+                    Protocole choisi : {{ signalement.autotraitement ? 'auto traitement' : 'intervention professionnelle' }}
+                </div>
+            </section>
         </div>
 
-        <div class="fr-mb-3v">
-            {% if signalement.autotraitement %}
-                <form action="{{ path('app_signalement_switch_pro', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_switch_pro') }}">
-                    <button class="fr-btn fr-btn--icon-left fr-icon-check-line color-check">Trouver une entreprise labellisée</button>
-                </form>
-
-            {% else %}
-                <form action="{{ path('app_signalement_stop', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_stop') }}">
-                    <button class="fr-btn fr-btn--icon-left fr-icon-close-line color-close">Arrêter la procédure</button>
-                </form>
-            {% endif %}
+        <div class="fr-col fr-col-12 fr-col-lg-6">
+            {% include "common/components/signalement-detail-evenements.html.twig" %}
         </div>
     </div>
-    {% endif %}
-
-    <section class="fr-accordion fr-mt-5w">
-        <h3 class="fr-accordion__title">
-            <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-info-signalement">Info du signalement</button>
-        </h3>
-        <div class="fr-collapse" id="accordion-info-signalement">
-            Référence : #{{ signalement.reference }}
-            <br>
-            Date de dépot : {{ signalement.createdAt.format('d/m/Y') }}
-            <br>
-            Infestation estimée : {{ niveau_infestation }}
-            <br>
-            Protocole choisi : {{ signalement.autotraitement ? 'auto traitement' : 'intervention professionnelle' }}
-        </div>
-    </section>
-
-    {% include "common/components/signalement-detail-evenements.html.twig" %}
 </div>
 {% endblock %}
