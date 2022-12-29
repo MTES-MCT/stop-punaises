@@ -83,14 +83,15 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
-    public function sendSignalementValidationWithAutotraitement(Signalement $signalement, string $linkToPdf): void
+    public function sendSignalementValidationWithAutotraitement(Signalement $signalement): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_AUTO, [
                 'nom_usager' => $signalement->getNomCompletOccupant(),
-                'lien_pdf' => $linkToPdf,
+                'lien' => $link,
             ])
             ->setTo([$emailOccupant]);
 
