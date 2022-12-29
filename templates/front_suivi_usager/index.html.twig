@@ -43,9 +43,16 @@
 
         <div class="fr-mb-3v">
             {% if signalement.autotraitement %}
-                <a class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-briefcase-line" href="#" target="_blank">Trouver une entreprise labellisée</a>
+                <form action="{{ path('app_signalement_switch_pro', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_switch_pro') }}">
+                    <button class="fr-btn fr-btn--icon-left fr-icon-check-line color-check">Trouver une entreprise labellisée</button>
+                </form>
+
             {% else %}
-                <a class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-close-line" href="#" target="_blank">Arrêter la procédure</a>
+                <form action="{{ path('app_signalement_stop', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_stop') }}">
+                    <button class="fr-btn fr-btn--icon-left fr-icon-close-line color-close">Arrêter la procédure</button>
+                </form>
             {% endif %}
         </div>
     </div>
