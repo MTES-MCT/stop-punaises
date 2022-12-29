@@ -62,7 +62,7 @@ class SendRemindersCommand extends Command
             ));
             $intervention->setReminderResolvedByEntrepriseAt(new \DateTimeImmutable());
             $this->interventionManager->save($intervention);
-            $this->mailerProvider->sendSignalementSuiviTraitementPro($intervention, $intervention->getSignalement());
+            $this->mailerProvider->sendSignalementSuiviTraitementPro($intervention);
         }
 
         $this->io->success(sprintf('%s signalements were notified, %s interventions were notified',

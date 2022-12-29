@@ -228,8 +228,9 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
-    public function sendSignalementSuiviTraitementPro(Signalement $signalement, Intervention $intervention): void
+    public function sendSignalementSuiviTraitementPro(Intervention $intervention): void
     {
+        $signalement = $intervention->getSignalement();
         $emailOccupant = $signalement->getEmailOccupant();
         $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
         $message = $this
