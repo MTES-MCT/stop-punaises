@@ -16,7 +16,7 @@
                 {% elseif intervention.accepted is same as true and intervention.acceptedByUsager is same as true and signalement.typeIntervention is not null %}
                     {% set estTraite = true %}
                 {% endif %}
-            {% elseif intervention.accepted is same as true and intervention.acceptedByUsager is same as true %}
+            {% elseif not is_granted('ROLE_ADMIN') and intervention.accepted is same as true and intervention.acceptedByUsager is same as true %}
                 {% set autreEntrepriseChoisie = true %}
             {% endif %}
         {% endfor %}

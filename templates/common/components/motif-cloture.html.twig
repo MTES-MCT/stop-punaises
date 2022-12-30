@@ -1,4 +1,4 @@
-{% if has_other_entreprise %}
+{% if not is_granted('ROLE_ADMIN') and has_other_entreprise %}
     {% set motifLabel = 'Choix d\'une autre entreprise' %}
     {% set motifClass = 'other-entreprise' %}
 {% elseif signalement.resolvedAt %}
@@ -8,6 +8,8 @@
     {% set motifLabel = 'Arrêt usager' %}
     {% set motifClass = 'resolved' %}
 {% endif %}
+{% if motifLabel %}
 <span class="motif-cloture motif-cloture-{{ motifClass }}">
     {{ motifLabel }}
 </span>
+{% endif %}
