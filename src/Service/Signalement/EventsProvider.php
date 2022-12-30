@@ -186,11 +186,12 @@ class EventsProvider
                     $event = [];
                     $event['date'] = $intervention->getEstimationSentAt();
                     $event['title'] = 'Intervention faite';
+                    $event['description'] = '';
                     if ($this->isAdmin) {
                         $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a marqué le signalement comme traité';
                     } elseif ($this->entreprise && $intervention->getEntreprise()->getId() == $this->entreprise->getId()) {
                         $event['description'] = 'Vous avez marqué le signalement comme traité';
-                    } else {
+                    } elseif (!$this->entreprise) {
                         $event['title'] = 'Traitement effectué';
                         $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a indiqué avoir traité votre domicile';
                     }
@@ -211,7 +212,7 @@ class EventsProvider
                         $event['title'] = 'Estimation '.$this->entreprise->getNom();
                         $event['description'] = 'Vous avez envoyé une estimation à l\'usager.';
                         $event['modalToOpen'] = 'view-estimation-'.$intervention->getId();
-                    } else {
+                    } elseif (!$this->entreprise) {
                         $event['title'] = 'Estimation '.$intervention->getEntreprise()->getNom();
                         $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' vous a envoyé une estimation';
                         if (!$intervention->getChoiceByUsagerAt()) {
@@ -221,6 +222,9 @@ class EventsProvider
                         } else {
                             $event['actionLabel'] = '';
                         }
+                    } elseif ($intervention->isAcceptedByUsager()) {
+                        $event['title'] = 'Estimation '.$intervention->getEntreprise()->getNom();
+                        $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation';
                     }
 
                     if (!$intervention->getChoiceByUsagerAt()) {

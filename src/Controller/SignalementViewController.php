@@ -76,7 +76,7 @@ class SignalementViewController extends AbstractController
             ];
         }
 
-        $interventionsAcceptedByUsager = $interventionRepository->findBy([
+        $interventionsAccepted = $interventionRepository->findBy([
             'signalement' => $signalement,
             'accepted' => true,
         ]);
@@ -94,7 +94,8 @@ class SignalementViewController extends AbstractController
             'can_display_adresse' => $this->isGranted('ROLE_ADMIN') || ($entrepriseIntervention && $entrepriseIntervention->isAcceptedByUsager()),
             'can_send_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
             'has_sent_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->getEstimationSentAt(),
-            'accepted_interventions' => $interventionsAcceptedByUsager,
+            'has_other_entreprise' => \count($acceptedEstimations) > 0 && !$entrepriseIntervention,
+            'accepted_interventions' => $interventionsAccepted,
             'accepted_estimations' => $acceptedEstimations,
             'estimations' => $estimations,
             'signalement' => $signalement,
