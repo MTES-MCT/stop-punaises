@@ -178,15 +178,12 @@ class Entreprise
         return $this;
     }
 
-    public function getTerritoiresIdToString(): string
+    public function getTerritoireIds(): array
     {
-        $result = '';
+        $result = [];
         $territoires = $this->getTerritoires();
         foreach ($territoires as $territoire) {
-            if ('' != $result) {
-                $result .= ', ';
-            }
-            $result .= $territoire->getId();
+            $result[] = $territoire->getId();
         }
 
         return $result;

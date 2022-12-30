@@ -6,6 +6,7 @@ use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -157,15 +158,20 @@ class SignalementRepository extends ServiceEntityRepository
                 SELECT i.signalement_id
                 FROM intervention i
                 WHERE i.entreprise_id = :entrepriseId
+                    OR i.accepted_by_usager = true
             )
         ';
 
-        $statement = $connection->prepare($sql);
-
-        return $statement->executeQuery([
-            'territoires' => $entreprise->getTerritoiresIdToString(),
-            'entrepriseId' => $entreprise->getId(),
-        ])->fetchOne();
+        return $connection->executeQuery(
+            $sql,
+            [
+                'territoires' => $entreprise->getTerritoireIds(),
+                'entrepriseId' => $entreprise->getId(),
+            ],
+            [
+                'territoires' => Connection::PARAM_INT_ARRAY,
+            ]
+        )->fetchOne();
     }
 
     public function countCurrentlyOpenForEntreprise(Entreprise $entreprise): int
@@ -188,11 +194,15 @@ class SignalementRepository extends ServiceEntityRepository
             )
         ';
 
-        $statement = $connection->prepare($sql);
-
-        return $statement->executeQuery([
-            'territoires' => $entreprise->getTerritoiresIdToString(),
-            'entrepriseId' => $entreprise->getId(),
-        ])->fetchOne();
+        return $connection->executeQuery(
+            $sql,
+            [
+                'territoires' => $entreprise->getTerritoireIds(),
+                'entrepriseId' => $entreprise->getId(),
+            ],
+            [
+                'territoires' => Connection::PARAM_INT_ARRAY,
+            ]
+        )->fetchOne();
     }
 }

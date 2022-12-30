@@ -6,9 +6,9 @@
 <div class="tableau-de-bord fr-p-5w grey-bg">
     <div class="fr-container">
         {% if is_granted('ROLE_ADMIN') %}
-            <h1>Tableau de bord entreprise</h1>
-        {% else %}
             <h1>Tableau de bord administrateur</h1>
+        {% else %}
+            <h1>Tableau de bord entreprise</h1>
         {% endif %}
 
         <div class="fr-grid-row fr-grid-row--gutters fr-mb-1w">
