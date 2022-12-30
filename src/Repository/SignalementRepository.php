@@ -85,8 +85,6 @@ class SignalementRepository extends ServiceEntityRepository
 
         if (!empty($entreprise)) {
             $qb->andWhere('s.autotraitement != true')
-                ->andWhere('s.entreprise IS NULL or s.entreprise = :entrepriseId')
-                    ->setParameter('entrepriseId', $entreprise->getId())
                 ->andWhere('s.territoire IN (:territoires)')
                     ->setParameter('territoires', $entreprise->getTerritoires());
         }
