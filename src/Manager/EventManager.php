@@ -42,4 +42,21 @@ class EventManager extends AbstractManager
 
         return $event;
     }
+
+    public function createEventAdminNotice(Signalement $signalement, string $recipient): Event
+    {
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_ADMIN_NOTICE,
+            title: 'Infestation non résolue',
+            description: 'L\'usager a indiqué que le problème de punaises n\'est pas résolu. L\'administrateur va le contacter.',
+            userId: null,
+            recipient: $recipient,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
 }

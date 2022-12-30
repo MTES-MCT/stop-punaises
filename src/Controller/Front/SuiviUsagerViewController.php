@@ -6,6 +6,7 @@ use App\Entity\Enum\InfestationLevel;
 use App\Entity\Intervention;
 use App\Entity\MessageThread;
 use App\Entity\Signalement;
+use App\Manager\EventManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\EventRepository;
@@ -157,10 +158,12 @@ class SuiviUsagerViewController extends AbstractController
         Request $request,
         Signalement $signalement,
         MailerProvider $mailerProvider,
+        EventManager $eventManager,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_confirm_toujours_punaises', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Stop Punaises a été prévenu de votre retour.');
             $mailerProvider->sendAdminToujoursPunaises($this->getParameter('admin_email'), $signalement);
+            $eventManager->createEventAdminNotice($signalement, $this->getParameter('admin_email'));
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
