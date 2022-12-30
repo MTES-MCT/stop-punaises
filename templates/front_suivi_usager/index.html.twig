@@ -19,6 +19,7 @@
 
 {% include "front_suivi_usager/modal-toujours-punaises.html.twig" %}
 {% include "front_suivi_usager/modal-toujours-punaises-pro.html.twig" %}
+{% include "front_suivi_usager/modal-close-signalement.html.twig" %}
 
 <div class="suivi-usager fr-container fr-my-3v">
 
@@ -51,10 +52,7 @@
                         </form>
 
                     {% else %}
-                        <form action="{{ path('app_signalement_stop', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_stop') }}">
-                            <button class="fr-btn fr-btn--icon-left fr-icon-close-line color-close">Arrêter la procédure</button>
-                        </form>
+                        <a href="#" class="fr-btn fr-btn--icon-left fr-icon-close-line color-close" data-fr-opened="false" aria-controls="fr-modal-close-signalement">Arrêter la procédure</a>
                     {% endif %}
                 </div>
             </div>

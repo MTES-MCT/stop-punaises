@@ -1,0 +1,34 @@
+<dialog aria-labelledby="fr-modal-title-modal-close-signalement" role="dialog" id="fr-modal-close-signalement" class="fr-modal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-close-signalement" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-close-signalement" class="fr-modal__title">Arrêter la procédure</h1>
+                        <p>
+                            En arrêtant la procédure :<br>
+                            - Votre signalement sera clôturé<br>
+                            - Les estimations acceptées ou en attente seront refusées<br>
+                            - Vous ne pourrez plus répondre aux entreprises<br>
+                            - Les entreprises ne pourront plus vous contacter<br>
+                            <br>
+                            Voulez-vous vraiment arrêter la procédure ?
+                        </p>
+                        <div>
+                            <form action="{{ path('app_signalement_stop', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_stop') }}">
+                                <button class="fr-btn fr-btn--icon-left fr-icon-close-line">Oui, arrêter la procédure</button>
+                            </form>
+                        </div>
+                        <p class="align-center fr-mt-3v">
+                            <a aria-controls="fr-modal-close-signalement" href="#">&lt; Retour</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
