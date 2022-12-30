@@ -281,7 +281,7 @@ class MailerProvider implements MailerProviderInterface
 
     public function sendAdminToujoursPunaises($email, Signalement $signalement): void
     {
-        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::ADMIN_TOUJOURS_PUNAISES, [
