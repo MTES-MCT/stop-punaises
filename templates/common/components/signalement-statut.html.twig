@@ -7,6 +7,7 @@
 {% elseif signalement.interventions and signalement.interventions.count > 0 and not signalement.autotraitement %}
     {% set enCours = true %}
     {% set estTraite = false %}
+    {% set autreEntrepriseChoisie = false %}
     {% if entreprise %}
         {% for intervention in signalement.interventions %}
             {% if intervention.entreprise.id == entreprise.id %}
@@ -15,6 +16,8 @@
                 {% elseif intervention.accepted is same as true and intervention.acceptedByUsager is same as true and signalement.typeIntervention is not null %}
                     {% set estTraite = true %}
                 {% endif %}
+            {% elseif intervention.accepted is same as true and intervention.acceptedByUsager is same as true %}
+                {% set autreEntrepriseChoisie = true %}
             {% endif %}
         {% endfor %}
 
@@ -24,6 +27,8 @@
 
     {% if estTraite %}
         <p class="fr-badge fr-badge--green-menthe fr-badge--no-icon">Traité</p>
+    {% elseif autreEntrepriseChoisie %}
+        <p class="fr-badge fr-badge--blue-ecume fr-badge--no-icon">Fermé</p>
     {% elseif enCours %}
         <p class="fr-badge fr-badge--success fr-badge--no-icon">En cours</p>
     {% else %}

@@ -1,4 +1,7 @@
-{% if signalement.resolvedAt %}
+{% if has_other_entreprise %}
+    {% set motifLabel = 'Choix d\'une autre entreprise' %}
+    {% set motifClass = 'other-entreprise' %}
+{% elseif signalement.resolvedAt %}
     {% set motifLabel = 'Problème résolu' %}
     {% set motifClass = 'resolved' %}
 {% elseif signalement.closedAt %}
