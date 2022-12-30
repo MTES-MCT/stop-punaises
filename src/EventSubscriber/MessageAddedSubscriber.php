@@ -40,7 +40,7 @@ class MessageAddedSubscriber implements EventSubscriberInterface
             $this->mailerProvider->sendNotificationToEntreprise($signalement, $entrepriseEmail);
             $this->eventManager->createEventMessage(
                 messageThread: $messageThread,
-                title: sprintf('Message avec %s', $entrepriseName),
+                title: sprintf('Messages avec %s', $entrepriseName),
                 description: sprintf('L\'entreprise %s va vous contacter.', $entrepriseName),
                 recipient: $signalement->getEmailOccupant(),
             );
