@@ -12,6 +12,8 @@ class Event
 {
     use TimestampableTrait;
 
+    public const DOMAIN_ADMIN_NOTICE = 'admin-notice';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

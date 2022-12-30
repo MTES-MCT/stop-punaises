@@ -308,10 +308,12 @@ class SignalementViewController extends AbstractController
         $events = $eventsProvider->getEvents();
         $messageEvents = $this->eventRepository->findMessageEvents(
             signalementUuid: $signalement->getUuid(),
-            recipient: $entreprise?->getUser()?->getEmail(),
-            lastMessageEvent: true
+            recipient: $entreprise?->getUser()?->getEmail()
         );
-        $events = array_merge($events, $messageEvents);
+        $adminEvents = $this->eventRepository->findAdminEvents(
+            signalementUuid: $signalement->getUuid(),
+        );
+        $events = array_merge($events, $messageEvents, $adminEvents);
         usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
         return $events;

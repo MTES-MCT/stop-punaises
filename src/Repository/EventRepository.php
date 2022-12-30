@@ -23,7 +23,7 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findMessageEvents(string $signalementUuid, string $recipient = null, $lastMessageEvent = false): array
+    public function findMessageEvents(string $signalementUuid, string $recipient = null): array
     {
         $qb = $this->createQueryBuilder('e');
         $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel')
@@ -53,6 +53,29 @@ class EventRepository extends ServiceEntityRepository
                 'actionLink' => $item['actionLink'],
                 'actionLabel' => $item['actionLabel'],
                 'date' => new \DateTimeImmutable($item['date']),
+            ];
+        }, $qb->getQuery()->getResult());
+    }
+
+    public function findAdminEvents(string $signalementUuid): array
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel, e.createdAt')
+            ->where('e.entityName = :entityName')
+            ->setParameter('entityName', Signalement::class)
+            ->andWhere('e.entityUuid =:entityUuid')
+            ->setParameter('entityUuid', $signalementUuid)
+            ->andWhere('e.domain = :domain_event')
+            ->setParameter('domain_event', Event::DOMAIN_ADMIN_NOTICE);
+
+        return array_map(function ($item) {
+            return [
+                'domain' => $item['domain'],
+                'title' => $item['title'],
+                'description' => $item['description'],
+                'actionLink' => $item['actionLink'],
+                'actionLabel' => $item['actionLabel'],
+                'date' => $item['createdAt'],
             ];
         }, $qb->getQuery()->getResult());
     }
