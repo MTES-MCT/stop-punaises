@@ -233,7 +233,8 @@ class MailerProvider implements MailerProviderInterface
     {
         $signalement = $intervention->getSignalement();
         $emailOccupant = $signalement->getEmailOccupant();
-        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
+        $baseUrl = $this->parameterBag->get('base_url');
+        $link = $baseUrl.$this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_SUIVI_TRAITEMENT_PRO, [
