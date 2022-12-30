@@ -15,6 +15,7 @@ import './controllers/form_signalement';
 import './controllers/form_signalement_front';
 import './controllers/form_send_message';
 import './controllers/form_send_estimation';
+import './controllers/form_refuse_signalement';
 import './controllers/component_search_address';
 import './controllers/component_file_auto_submit';
 
