@@ -70,7 +70,7 @@ class MailerProvider implements MailerProviderInterface
     public function sendSignalementValidationWithPro(Signalement $signalement): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
-        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()], UrlGenerator::ABSOLUTE_URL);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_PROFESSIONAL, [
@@ -86,7 +86,7 @@ class MailerProvider implements MailerProviderInterface
     public function sendSignalementValidationWithAutotraitement(Signalement $signalement): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
-        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()], UrlGenerator::ABSOLUTE_URL);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_AUTO, [
@@ -114,7 +114,7 @@ class MailerProvider implements MailerProviderInterface
     public function sendSignalementNewEstimation(Signalement $signalement, Intervention $intervention): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
-        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()], UrlGenerator::ABSOLUTE_URL);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_NEW_ESTIMATION, [
@@ -158,7 +158,7 @@ class MailerProvider implements MailerProviderInterface
 
     public function sendNotificationToUsager(Signalement $signalement, string $nomEntreprise): void
     {
-        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()], UrlGenerator::ABSOLUTE_URL);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_NEW_MESSAGE, [
@@ -188,7 +188,7 @@ class MailerProvider implements MailerProviderInterface
     public function sendSignalementTraitementResolved(Signalement $signalement, Intervention $intervention): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
-        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()], UrlGenerator::ABSOLUTE_URL);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_TRAITEMENT_RESOLVED, [
@@ -234,7 +234,7 @@ class MailerProvider implements MailerProviderInterface
         $signalement = $intervention->getSignalement();
         $emailOccupant = $signalement->getEmailOccupant();
         $baseUrl = $this->parameterBag->get('base_url');
-        $link = $baseUrl.$this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        $link = $baseUrl.$this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_SUIVI_TRAITEMENT_PRO, [
@@ -251,7 +251,7 @@ class MailerProvider implements MailerProviderInterface
     {
         $emailOccupant = $signalement->getEmailOccupant();
         $baseUrl = $this->parameterBag->get('base_url');
-        $link = $baseUrl.$this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        $link = $baseUrl.$this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_SUIVI_TRAITEMENT_AUTO, [
@@ -267,7 +267,7 @@ class MailerProvider implements MailerProviderInterface
     public function sendSignalementWithNoMoreEntreprise(Signalement $signalement): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
-        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuid' => $signalement->getUuid()], UrlGenerator::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()], UrlGenerator::ABSOLUTE_URL);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_NO_MORE_ENTREPRISES, [

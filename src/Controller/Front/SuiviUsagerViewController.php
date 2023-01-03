@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SuiviUsagerViewController extends AbstractController
 {
-    #[Route('/signalements/{uuid}', name: 'app_suivi_usager_view')]
+    #[Route('/signalements/{uuidPublic}', name: 'app_suivi_usager_view')]
     public function suivi_usager(
         Signalement $signalement,
         InterventionRepository $interventionRepository,
@@ -86,7 +86,7 @@ class SuiviUsagerViewController extends AbstractController
             // TODO : envoyer un message aux entreprises concernées ? Non spécifié
         }
 
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
     }
 
     #[Route('/signalements/{uuid}/basculer-auto', name: 'app_signalement_switch_auto', methods: 'POST')]
@@ -103,7 +103,7 @@ class SuiviUsagerViewController extends AbstractController
             $signalementManager->save($signalement);
         }
 
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
     }
 
     #[Route('/signalements/{uuid}/basculer-autotraitement', name: 'app_signalement_switch_autotraitement', methods: 'POST')]
@@ -123,7 +123,7 @@ class SuiviUsagerViewController extends AbstractController
             $mailerProvider->sendSignalementValidationWithAutotraitement($signalement, $linkToPdf);
         }
 
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
     }
 
     #[Route('/signalements/{uuid}/resoudre', name: 'app_signalement_resolve', methods: 'POST')]
@@ -137,6 +137,7 @@ class SuiviUsagerViewController extends AbstractController
         if ($this->isCsrfTokenValid('signalement_resolve', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
             $signalement->setResolvedAt(new \DateTimeImmutable());
+            $signalement->setUuidPublic(uniqid());
             $signalementManager->save($signalement);
 
             if (!$signalement->isAutotraitement()) {
@@ -150,7 +151,7 @@ class SuiviUsagerViewController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
     }
 
     #[Route('/signalements/{uuid}/notification-toujours-punaises', name: 'app_signalement_confirm_toujours_punaises', methods: 'POST')]
@@ -166,7 +167,7 @@ class SuiviUsagerViewController extends AbstractController
             $eventManager->createEventAdminNotice($signalement, $this->getParameter('admin_email'));
         }
 
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
     }
 
     #[Route('/signalements/{uuid}/stop', name: 'app_signalement_stop', methods: 'POST')]
@@ -194,7 +195,7 @@ class SuiviUsagerViewController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $signalement->getUuid()]);
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
     }
 
     #[Route('/interventions/{id}/choix', name: 'app_signalement_estimation_choice', methods: 'POST')]
@@ -232,7 +233,7 @@ class SuiviUsagerViewController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuid' => $intervention->getSignalement()->getUuid()]);
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
     }
 
     #[Route('/signalements/{signalement_uuid}/messages-thread/{thread_uuid}',
