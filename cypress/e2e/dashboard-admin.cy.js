@@ -1,0 +1,7 @@
+import '../src/front/front-page.cy'
+import '../src/bo/bo-connect-to-dashboard-admin.cy'
+import '../src/bo/bo-check-dashboard-admin.cy'
+import '../src/bo/bo-list-signalements.cy'
+import '../src/bo/bo-view-signalement.cy'
+import '../src/bo/bo-list-historique.cy'
+import '../src/bo/bo-view-historique.cy'
