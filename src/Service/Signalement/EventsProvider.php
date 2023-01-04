@@ -235,7 +235,9 @@ class EventsProvider
                         $event['label'] = 'Estimation refusée';
                     }
 
-                    $this->events[] = $event;
+                    if (!empty($event['title'])) {
+                        $this->events[] = $event;
+                    }
                 }
 
                 if ($this->isAdmin || $this->entreprise) {
