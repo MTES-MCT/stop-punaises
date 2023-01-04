@@ -70,7 +70,9 @@ class SignalementController extends AbstractController
 
                 $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
                 foreach ($entreprises as $entreprise) {
-                    $mailerProvider->sendSignalementNewForPro($entreprise->getUser()->getEmail(), $signalement);
+                    if ($entreprise->getUser()->getEmail()) {
+                        $mailerProvider->sendSignalementNewForPro($entreprise->getUser()->getEmail(), $signalement);
+                    }
                 }
             }
 
