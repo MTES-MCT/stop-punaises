@@ -30,6 +30,7 @@ class SignalementResolveController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $signalement->setUuidPublic(uniqid());
             $signalementManager->save($signalement);
 
             $this->addFlash('success', 'Le traitement a été marqué comme effectué. Un email de suivi sera envoyé à l\'usager dans 30 jours.');
