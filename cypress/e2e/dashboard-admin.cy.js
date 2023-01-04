@@ -5,3 +5,8 @@ import '../src/bo/bo-list-signalements.cy'
 import '../src/bo/bo-view-signalement.cy'
 import '../src/bo/bo-list-historique.cy'
 import '../src/bo/bo-view-historique.cy'
+import '../src/bo/bo-list-hors-perimetre.cy'
+import '../src/bo/bo-view-hors-perimetre.cy'
+import '../src/bo/bo-list-entreprises.cy'
+import '../src/bo/bo-view-entreprise.cy'
+
