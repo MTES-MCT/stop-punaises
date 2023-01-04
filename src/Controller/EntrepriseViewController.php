@@ -102,7 +102,7 @@ class EntrepriseViewController extends AbstractController
         FormInterface $form,
         Entreprise $entreprise,
     ): void {
-        $currentEmail = $entreprise->getUser()->getEmail();
+        $currentEmail = $entreprise->getUser() ? $entreprise->getUser()->getEmail() : '';
         $newEmail = $form->getData()->getEmail();
         if ($newEmail !== $currentEmail) {
             $eventDispatcher->dispatch(
