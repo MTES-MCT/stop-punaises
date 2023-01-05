@@ -26,13 +26,9 @@ class EventsProvider
         $this->addEventSignalementResolu();
 
         $this->addEventSuiviTraitement();
-        $this->addEventProtocoleEnvoye();
 
         $this->addEventEmptyEstimationList();
         $this->addEventsIntervention();
-
-        $this->addEventSwitchTraitement();
-        $this->addEventSignalementDespose();
 
         usort($this->events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
@@ -113,19 +109,6 @@ class EventsProvider
                     $this->events[] = $event;
                 }
             }
-        }
-    }
-
-    private function addEventProtocoleEnvoye()
-    {
-        if ($this->signalement->isAutotraitement()) {
-            $this->events[] = [
-                'date' => $this->signalement->getCreatedAt(),
-                'title' => 'Protocole envoyé',
-                'description' => 'Le protocole d\'auto traitement a bien été envoyé.',
-                'actionLabel' => 'Télécharger le protocole',
-                'actionLink' => $this->pdfUrl,
-            ];
         }
     }
 
@@ -261,37 +244,5 @@ class EventsProvider
                 }
             }
         }
-    }
-
-    private function addEventSwitchTraitement()
-    {
-        if ($this->signalement->getSwitchedTraitementAt()) {
-            if ($this->signalement->isAutotraitement()) {
-                $this->events[] = [
-                    'date' => $this->signalement->getSwitchedTraitementAt(),
-                    'title' => 'Signalement transféré',
-                    'description' => 'Votre signalement a bien été passé en auto-traitement.',
-                ];
-            } else {
-                $this->events[] = [
-                    'date' => $this->signalement->getSwitchedTraitementAt(),
-                    'title' => 'Signalement transféré',
-                    'description' => 'Votre signalement a bien été transmis aux entreprises labellisées. Elles vous contacteront au plus vite.',
-                ];
-            }
-        }
-    }
-
-    private function addEventSignalementDespose()
-    {
-        $event = [
-            'date' => $this->signalement->getCreatedAt(),
-            'title' => 'Signalement déposé',
-            'description' => 'Votre signalement a bien été enregistré sur Stop Punaises.',
-        ];
-        if ($this->isAdmin || $this->entreprise) {
-            $event['description'] = 'Le signalement a bien été enregistré sur Stop Punaises.';
-        }
-        $this->events[] = $event;
     }
 }

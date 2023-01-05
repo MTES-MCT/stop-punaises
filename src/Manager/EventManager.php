@@ -3,7 +3,6 @@
 namespace App\Manager;
 
 use App\Entity\Event;
-use App\Entity\Message;
 use App\Entity\MessageThread;
 use App\Entity\Signalement;
 use App\Factory\EventFactory;
@@ -18,6 +17,71 @@ class EventManager extends AbstractManager
         parent::__construct($managerRegistry, $entityName);
     }
 
+    public function createEventNewSignalement(
+        Signalement $signalement,
+        string $description,
+        ?string $recipient,
+        ?int $userId
+    ): Event {
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_NEW_SIGNALEMENT,
+            title: 'Signalement déposé',
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
+    public function createEventProtocole(
+        Signalement $signalement,
+        ?string $recipient,
+        ?int $userId,
+        ?string $pdfUrl,
+    ): Event {
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_PROTOCOLE,
+            title: 'Protocole envoyé',
+            description: 'Le protocole d\'auto traitement a bien été envoyé.',
+            userId: $userId,
+            recipient: $recipient,
+            actionLink: $pdfUrl ? $pdfUrl : null,
+            actionLabel: $pdfUrl ? 'Télécharger le protocole' : null,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
+    public function createEventSwitchTraitement(
+        Signalement $signalement,
+        string $description,
+        ?string $recipient,
+        ?int $userId
+    ): Event {
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_SWITCH_TRAITEMENT,
+            title: 'Signalement transféré',
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
     public function createEventMessage(
         MessageThread $messageThread,
         string $title,
@@ -27,7 +91,7 @@ class EventManager extends AbstractManager
         ?string $actionLink = null
     ): Event {
         $event = $this->eventFactory->createInstance(
-            domain: Message::DOMAIN_NAME,
+            domain: Event::DOMAIN_MESSAGE,
             title: $title,
             description: $description,
             userId: $userId,
@@ -43,13 +107,17 @@ class EventManager extends AbstractManager
         return $event;
     }
 
-    public function createEventAdminNotice(Signalement $signalement, string $recipient): Event
-    {
+    public function createEventAdminNotice(
+        Signalement $signalement,
+        string $description,
+        ?string $recipient,
+        ?int $userId
+    ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_ADMIN_NOTICE,
             title: 'Infestation non résolue',
-            description: 'L\'usager a indiqué que le problème de punaises n\'est pas résolu. L\'administrateur va le contacter.',
-            userId: null,
+            description: $description,
+            userId: $userId,
             recipient: $recipient,
             entityName: Signalement::class,
             entityUuid: $signalement->getUuid()

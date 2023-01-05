@@ -13,6 +13,13 @@ class Event
     use TimestampableTrait;
 
     public const DOMAIN_ADMIN_NOTICE = 'admin-notice';
+    public const DOMAIN_MESSAGE = 'message';
+    public const DOMAIN_NEW_SIGNALEMENT = 'new-signalement';
+    public const DOMAIN_PROTOCOLE = 'protocole-autotraitement';
+    public const DOMAIN_SWITCH_TRAITEMENT = 'switch-traitement';
+
+    public const USER_ADMIN = -1;
+    public const USER_ALL = 0;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -46,8 +53,11 @@ class Event
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $recipient = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: true, options: ['comment' => 'null if usager, -1 if admin, 0 if all, id if entreprise'])]
     private ?int $userId = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $userIdExcluded = null;
 
     public function getId(): ?int
     {
@@ -170,6 +180,18 @@ class Event
     public function setUserId(?int $userId): self
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function getUserIdExcluded(): ?int
+    {
+        return $this->userIdExcluded;
+    }
+
+    public function setUserIdExcluded(?int $userIdExcluded): self
+    {
+        $this->userIdExcluded = $userIdExcluded;
 
         return $this;
     }

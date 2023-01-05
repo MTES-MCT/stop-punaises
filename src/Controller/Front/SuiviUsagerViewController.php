@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Entity\Enum\InfestationLevel;
+use App\Entity\Event;
 use App\Entity\Intervention;
 use App\Entity\MessageThread;
 use App\Entity\Signalement;
@@ -33,8 +34,11 @@ class SuiviUsagerViewController extends AbstractController
             $signalement->getUuid(),
             $signalement->getEmailOccupant()
         );
+        $usagerEvents = $eventRepository->findUsagerEvents(
+            signalementUuid: $signalement->getUuid(),
+        );
 
-        $events = array_merge($events, $messageEvents);
+        $events = array_merge($events, $messageEvents, $usagerEvents);
         usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
         $acceptedInterventions = $interventionRepository->findBy([
@@ -75,7 +79,8 @@ class SuiviUsagerViewController extends AbstractController
     public function signalement_bascule_pro(
         Request $request,
         Signalement $signalement,
-        SignalementManager $signalementManager
+        SignalementManager $signalementManager,
+        EventManager $eventManager,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_switch_pro', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre signalement est transféré ! Les entreprises vont vous contacter au plus vite !');
@@ -84,23 +89,19 @@ class SuiviUsagerViewController extends AbstractController
             $signalementManager->save($signalement);
 
             // TODO : envoyer un message aux entreprises concernées ? Non spécifié
-        }
 
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
-    }
-
-    #[Route('/signalements/{uuid}/basculer-auto', name: 'app_signalement_switch_auto', methods: 'POST')]
-    public function signalement_bascule_auto(
-        Request $request,
-        Signalement $signalement,
-        SignalementManager $signalementManager
-        ): Response {
-        if ($this->isCsrfTokenValid('signalement_switch_auto', $request->get('_csrf_token'))) {
-            $this->addFlash('success', 'Votre choix a été enregistré. Vous pouvez consulter le protocole d\'auto-traitement.');
-            $signalement->setAutotraitement(true);
-            $signalement->setReminderAutotraitementAt(null);
-            $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
-            $signalementManager->save($signalement);
+            $eventManager->createEventSwitchTraitement(
+                signalement: $signalement,
+                description: 'Votre signalement a été transmis aux entreprises labellisées. Elles vous contacteront au plus vite.',
+                recipient: $signalement->getEmailOccupant(),
+                userId: null,
+            );
+            $eventManager->createEventSwitchTraitement(
+                signalement: $signalement,
+                description: 'Le signalement a été passé en traitement professionnel.',
+                recipient: null,
+                userId: Event::USER_ALL,
+            );
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
@@ -112,15 +113,30 @@ class SuiviUsagerViewController extends AbstractController
         Signalement $signalement,
         SignalementManager $signalementManager,
         MailerProvider $mailerProvider,
+        EventManager $eventManager,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_switch_autotraitement', $request->get('_csrf_token'))) {
-            $this->addFlash('success', 'Le protocole vous a été transmis !');
+            $this->addFlash('success', 'Votre choix a été enregistré. Vous pouvez consulter le protocole d\'auto-traitement.');
             $signalement->setAutotraitement(true);
+            $signalement->setReminderAutotraitementAt(null);
             $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
             $signalementManager->save($signalement);
 
             $linkToPdf = $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement');
             $mailerProvider->sendSignalementValidationWithAutotraitement($signalement, $linkToPdf);
+
+            $eventManager->createEventSwitchTraitement(
+                signalement: $signalement,
+                description: 'Votre signalement a été passé en auto-traitement.',
+                recipient: $signalement->getEmailOccupant(),
+                userId: null,
+            );
+            $eventManager->createEventSwitchTraitement(
+                signalement: $signalement,
+                description: 'Le signalement a été passé en auto-traitement.',
+                recipient: null,
+                userId: Event::USER_ALL,
+            );
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
@@ -164,7 +180,34 @@ class SuiviUsagerViewController extends AbstractController
         if ($this->isCsrfTokenValid('signalement_confirm_toujours_punaises', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Stop Punaises a été prévenu de votre retour.');
             $mailerProvider->sendAdminToujoursPunaises($this->getParameter('admin_email'), $signalement);
-            $eventManager->createEventAdminNotice($signalement, $this->getParameter('admin_email'));
+            // Event for usager
+            $eventManager->createEventAdminNotice(
+                signalement: $signalement,
+                description: 'Vous avez indiqué que le problème de punaises n\'est pas résolu. L\'administrateur va vous contacter.',
+                recipient: $signalement->getEmailOccupant(),
+                userId: null,
+            );
+            // Event for admin
+            $eventManager->createEventAdminNotice(
+                signalement: $signalement,
+                description: 'L\'usager a indiqué que le problème de punaises n\'est pas résolu. L\'administrateur va le contacter.',
+                recipient: null,
+                userId: Event::USER_ADMIN,
+            );
+            // Event for entreprise which resolved
+            $userId = null;
+            $interventions = $signalement->getInterventions();
+            foreach ($interventions as $intervention) {
+                if ($intervention->isAcceptedByUsager() && $intervention->getResolvedByEntrepriseAt()) {
+                    $userId = $intervention->getEntreprise()->getId();
+                }
+            }
+            $eventManager->createEventAdminNotice(
+                signalement: $signalement,
+                description: 'L\'usager a indiqué que le problème de punaises n\'est pas résolu. L\'administrateur va le contacter.',
+                recipient: null,
+                userId: $userId,
+            );
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
