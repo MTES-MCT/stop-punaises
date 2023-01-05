@@ -6,15 +6,36 @@ use App\Entity\Event;
 use App\Entity\MessageThread;
 use App\Entity\Signalement;
 use App\Factory\EventFactory;
+use App\Repository\EventRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 class EventManager extends AbstractManager
 {
     public function __construct(private EventFactory $eventFactory,
+                                private EventRepository $eventRepository,
                                 protected ManagerRegistry $managerRegistry,
                                 protected string $entityName = Event::class
     ) {
         parent::__construct($managerRegistry, $entityName);
+    }
+
+    private function setPreviousInactive(
+        Signalement $signalement,
+        string $domain,
+        ?int $userId,
+        ?string $recipient,
+    ) {
+        $activeEvents = $this->eventRepository->findActiveDomainEvents(
+            $signalement->getUuid(),
+            $domain,
+            $userId,
+            $recipient
+        );
+
+        foreach ($activeEvents as $activeEvent) {
+            $activeEvent->setActive(false);
+            $this->save($activeEvent);
+        }
     }
 
     public function createEventNewSignalement(
@@ -90,6 +111,8 @@ class EventManager extends AbstractManager
         ?int $userId = null,
         ?string $actionLink = null
     ): Event {
+        $this->setPreviousInactive($messageThread->getSignalement(), Event::DOMAIN_MESSAGE, $userId, $recipient);
+
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_MESSAGE,
             title: $title,

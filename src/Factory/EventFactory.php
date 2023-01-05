@@ -19,6 +19,7 @@ class EventFactory
         ?string $entityUuid = null
     ) {
         return (new Event())
+            ->setActive(true)
             ->setDomain($domain)
             ->setTitle($title)
             ->setDescription($description)

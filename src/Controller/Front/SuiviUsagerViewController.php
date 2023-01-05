@@ -30,15 +30,11 @@ class SuiviUsagerViewController extends AbstractController
     ): Response {
         $eventsProvider = new EventsProvider($signalement, $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'));
         $events = $eventsProvider->getEvents();
-        $messageEvents = $eventRepository->findMessageEvents(
-            $signalement->getUuid(),
-            $signalement->getEmailOccupant()
-        );
         $usagerEvents = $eventRepository->findUsagerEvents(
             signalementUuid: $signalement->getUuid(),
         );
 
-        $events = array_merge($events, $messageEvents, $usagerEvents);
+        $events = array_merge($events, $usagerEvents);
         usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
         $acceptedInterventions = $interventionRepository->findBy([

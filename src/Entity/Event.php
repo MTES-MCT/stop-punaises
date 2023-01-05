@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
 use App\Repository\EventRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks()]
 class Event
 {
+    use ActivableTrait;
     use TimestampableTrait;
 
     public const DOMAIN_ADMIN_NOTICE = 'admin-notice';

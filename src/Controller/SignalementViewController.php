@@ -306,10 +306,6 @@ class SignalementViewController extends AbstractController
         ?Entreprise $entreprise = null,
     ): array {
         $events = $eventsProvider->getEvents();
-        $messageEvents = $this->eventRepository->findMessageEvents(
-            signalementUuid: $signalement->getUuid(),
-            recipient: $entreprise?->getUser()?->getEmail()
-        );
         $dbEvents = [];
         if ($this->isGranted('ROLE_ADMIN')) {
             $dbEvents = $this->eventRepository->findAdminEvents(
@@ -321,7 +317,7 @@ class SignalementViewController extends AbstractController
                 userId: $entreprise?->getUser()?->getId()
             );
         }
-        $events = array_merge($events, $messageEvents, $dbEvents);
+        $events = array_merge($events, $dbEvents);
         usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
         return $events;

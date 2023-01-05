@@ -22,38 +22,31 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findMessageEvents(string $signalementUuid, string $recipient = null): array
+    public function findActiveDomainEvents(string $signalementUuid, string $domain, ?int $userId, ?string $recipient): array
     {
         $qb = $this->createQueryBuilder('e');
-        $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel')
-            ->where('e.entityName = :entityName')
+        $qb->where('e.entityName = :entityName')
             ->setParameter('entityName', Signalement::class)
-            ->andWhere('e.entityUuid =:entityUuid')
+            ->andWhere('e.entityUuid = :entityUuid')
             ->setParameter('entityUuid', $signalementUuid)
-            ->andWhere('e.domain = :domain_event')
-            ->setParameter('domain_event', Event::DOMAIN_MESSAGE);
+            ->andWhere('e.domain = :domainEvent')
+            ->setParameter('domainEvent', $domain);
 
-        if (null !== $recipient) {
-            $qb->addSelect('MAX(e.createdAt) as date')
-                ->andWhere('e.recipient = :recipient')
-                ->setParameter('recipient', $recipient)
-                ->groupBy('e.domain, e.title, e.description, e.actionLink, e.actionLabel');
+        if (null !== $userId) {
+            $qb->andWhere('e.userId = :userId')
+                ->setParameter('userId', $userId);
         } else {
-            $qb->addSelect('MAX(e.createdAt) as date')
-                ->andWhere('e.actionLink is not null and e.userId is null')
-                ->groupBy('e.domain, e.title, e.description, e.actionLink, e.actionLabel');
+            $qb->andWhere('e.userId IS NULL');
         }
 
-        return array_map(function ($item) {
-            return [
-                'domain' => $item['domain'],
-                'title' => $item['title'],
-                'description' => $item['description'],
-                'actionLink' => $item['actionLink'],
-                'actionLabel' => $item['actionLabel'],
-                'date' => new \DateTimeImmutable($item['date']),
-            ];
-        }, $qb->getQuery()->getResult());
+        if (null !== $recipient) {
+            $qb->andWhere('e.recipient = :recipient')
+                ->setParameter('recipient', $recipient);
+        } else {
+            $qb->andWhere('e.recipient IS NULL');
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     public function findAdminEvents(string $signalementUuid): array
@@ -62,13 +55,12 @@ class EventRepository extends ServiceEntityRepository
         $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel, e.createdAt')
             ->where('e.entityName = :entityName')
             ->setParameter('entityName', Signalement::class)
-            ->andWhere('e.entityUuid =:entityUuid')
+            ->andWhere('e.entityUuid = :entityUuid')
             ->setParameter('entityUuid', $signalementUuid)
-            ->andWhere('(e.userId =:userIdAdmin or e.userId =:userIdAll)')
+            ->andWhere('e.userId = :userIdAdmin OR e.userId = :userIdAll')
             ->setParameter('userIdAll', Event::USER_ALL)
             ->setParameter('userIdAdmin', Event::USER_ADMIN)
-            ->andWhere('e.domain != :domain_event')
-            ->setParameter('domain_event', Event::DOMAIN_MESSAGE);
+            ->andWhere('e.active = 1');
 
         return array_map(function ($item) {
             return [
@@ -88,15 +80,14 @@ class EventRepository extends ServiceEntityRepository
         $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel, e.createdAt')
             ->where('e.entityName = :entityName')
             ->setParameter('entityName', Signalement::class)
-            ->andWhere('e.entityUuid =:entityUuid')
+            ->andWhere('e.entityUuid = :entityUuid')
             ->setParameter('entityUuid', $signalementUuid)
-            ->andWhere('(e.userId =:userId or e.userId =:userIdAll)')
+            ->andWhere('e.userId = :userId OR e.userId = :userIdAll')
             ->setParameter('userId', $userId)
             ->setParameter('userIdAll', Event::USER_ALL)
-            ->andWhere('e.userIdExcluded =:userIdExcluded)')
+            ->andWhere('e.userIdExcluded IS NULL OR e.userIdExcluded != :userIdExcluded')
             ->setParameter('userIdExcluded', $userId)
-            ->andWhere('e.domain != :domain_event')
-            ->setParameter('domain_event', Event::DOMAIN_MESSAGE);
+            ->andWhere('e.active = 1');
 
         return array_map(function ($item) {
             return [
@@ -116,11 +107,10 @@ class EventRepository extends ServiceEntityRepository
         $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel, e.createdAt')
             ->where('e.entityName = :entityName')
             ->setParameter('entityName', Signalement::class)
-            ->andWhere('e.entityUuid =:entityUuid')
+            ->andWhere('e.entityUuid = :entityUuid')
             ->setParameter('entityUuid', $signalementUuid)
             ->andWhere('e.userId IS NULL')
-            ->andWhere('e.domain != :domain_event')
-            ->setParameter('domain_event', Event::DOMAIN_MESSAGE);
+            ->andWhere('e.active = 1');
 
         return array_map(function ($item) {
             return [
