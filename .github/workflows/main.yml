@@ -50,6 +50,15 @@ jobs:
       - name: Check PHP Version
         run: php -v
 
+      - name: NPM install
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - run: npm install
+
+      - name: NPM build
+        run: npm run build
+
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
