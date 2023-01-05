@@ -127,4 +127,46 @@ class EventManager extends AbstractManager
 
         return $event;
     }
+
+    public function createEventResolveSignalement(
+        Signalement $signalement,
+        string $description,
+        ?string $recipient,
+        ?int $userId
+    ): Event {
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_RESOLVE_SIGNALEMENT,
+            title: 'Problème résolu',
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
+    public function createEventCloseSignalement(
+        Signalement $signalement,
+        string $description,
+        ?string $recipient,
+        ?int $userId
+    ): Event {
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_CLOSE_SIGNALEMENT,
+            title: 'Signalement terminé',
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
 }

@@ -149,6 +149,7 @@ class SuiviUsagerViewController extends AbstractController
         SignalementManager $signalementManager,
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
+        EventManager $eventManager,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_resolve', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
@@ -165,6 +166,19 @@ class SuiviUsagerViewController extends AbstractController
                     $mailerProvider->sendSignalementTraitementResolvedForPro($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
                 }
             }
+
+            $eventManager->createEventResolveSignalement(
+                signalement: $signalement,
+                description: 'L\'usager a indiqué que l\'infestation est résolue.',
+                recipient: null,
+                userId: Event::USER_ALL,
+            );
+            $eventManager->createEventResolveSignalement(
+                signalement: $signalement,
+                description: 'Vous avez résolu votre problème ! Merci d\'avoir utilisé Stop Punaises.',
+                recipient: $signalement->getEmailOccupant(),
+                userId: null,
+            );
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
@@ -220,6 +234,7 @@ class SuiviUsagerViewController extends AbstractController
         SignalementManager $signalementManager,
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
+        EventManager $eventManager,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_stop', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
@@ -236,6 +251,19 @@ class SuiviUsagerViewController extends AbstractController
                     $mailerProvider->sendSignalementClosed($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
                 }
             }
+
+            $eventManager->createEventCloseSignalement(
+                signalement: $signalement,
+                description: 'L\'usager a mis fin à la procédure',
+                recipient: null,
+                userId: Event::USER_ALL,
+            );
+            $eventManager->createEventCloseSignalement(
+                signalement: $signalement,
+                description: 'Vous avez mis fin à la procédure. Merci d\'avoir utilisé Stop Punaises.',
+                recipient: $signalement->getEmailOccupant(),
+                userId: null,
+            );
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);

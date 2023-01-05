@@ -22,9 +22,6 @@ class EventsProvider
     {
         $this->events = [];
 
-        $this->addEventSignalementTermine();
-        $this->addEventSignalementResolu();
-
         $this->addEventSuiviTraitement();
 
         $this->addEventEmptyEstimationList();
@@ -33,37 +30,6 @@ class EventsProvider
         usort($this->events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
         return $this->events;
-    }
-
-    private function addEventSignalementTermine()
-    {
-        if ($this->signalement->getClosedAt()) {
-            $event = [
-                'date' => $this->signalement->getClosedAt(),
-                'title' => 'Signalement terminé',
-            ];
-            if ($this->isBackOffice) {
-                $event['description'] = 'L\'usager a mis fin à la procédure';
-            } else {
-                $event['description'] = 'Vous avez mis fin à la procédure. Merci d\'avoir utilisé Stop Punaises.';
-            }
-            $this->events[] = $event;
-        }
-    }
-
-    private function addEventSignalementResolu()
-    {
-        if ($this->signalement->getResolvedAt()) {
-            $event = [
-                'date' => $this->signalement->getResolvedAt(),
-                'title' => 'Problème résolu',
-                'description' => 'Vous avez résolu votre problème ! Merci d\'avoir utilisé Stop Punaises.',
-            ];
-            if ($this->isBackOffice) {
-                $event['description'] = 'L\'usager a indiqué que l\'infestation est résolue.';
-            }
-            $this->events[] = $event;
-        }
     }
 
     private function addEventSuiviTraitement()

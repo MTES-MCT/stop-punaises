@@ -13,9 +13,11 @@ class Event
     use TimestampableTrait;
 
     public const DOMAIN_ADMIN_NOTICE = 'admin-notice';
+    public const DOMAIN_CLOSE_SIGNALEMENT = 'close-signalement';
     public const DOMAIN_MESSAGE = 'message';
     public const DOMAIN_NEW_SIGNALEMENT = 'new-signalement';
     public const DOMAIN_PROTOCOLE = 'protocole-autotraitement';
+    public const DOMAIN_RESOLVE_SIGNALEMENT = 'resolve-signalement';
     public const DOMAIN_SWITCH_TRAITEMENT = 'switch-traitement';
 
     public const USER_ADMIN = -1;
