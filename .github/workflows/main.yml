@@ -96,6 +96,6 @@ jobs:
           composer require --dev dama/doctrine-test-bundle
           ./vendor/bin/phpunit --stop-on-failure --testdox -d memory_limit=-1
         env:
-          DATABASE_URL: mysql://root:stopunaises@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/histologe_db
+          DATABASE_URL: mysql://root:stopunaises@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/stopunaises_db
           NOTIFICATIONS_EMAIL: notifications@stop-punaises.beta.gouv.fr
           APP_URL: http://localhost:8080
