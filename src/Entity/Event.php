@@ -19,6 +19,7 @@ class Event
     public const DOMAIN_MESSAGE = 'message';
     public const DOMAIN_NEW_SIGNALEMENT = 'new-signalement';
     public const DOMAIN_PROTOCOLE = 'protocole-autotraitement';
+    public const DOMAIN_REMINDER_AUTOTRAITEMENT = 'reminder-autotraitement';
     public const DOMAIN_RESOLVE_SIGNALEMENT = 'resolve-signalement';
     public const DOMAIN_SWITCH_TRAITEMENT = 'switch-traitement';
 

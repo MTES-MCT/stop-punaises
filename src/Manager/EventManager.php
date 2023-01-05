@@ -130,6 +130,35 @@ class EventManager extends AbstractManager
         return $event;
     }
 
+    public function createEventReminderAutotraitement(
+        Signalement $signalement,
+        string $description,
+        ?string $recipient,
+        ?int $userId,
+        ?string $label,
+        ?string $actionLabel,
+        ?string $modalToOpen,
+    ): Event {
+        $this->setPreviousInactive($signalement, Event::DOMAIN_REMINDER_AUTOTRAITEMENT, $userId, $recipient);
+
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_REMINDER_AUTOTRAITEMENT,
+            title: 'Suivi du traitement',
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            label: $label,
+            actionLabel: $actionLabel,
+            actionLink: 'modalToOpen:'.$modalToOpen,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
     public function createEventAdminNotice(
         Signalement $signalement,
         string $description,

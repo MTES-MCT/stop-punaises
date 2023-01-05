@@ -34,25 +34,6 @@ class EventsProvider
 
     private function addEventSuiviTraitement()
     {
-        if ($this->signalement->isAutotraitement() && $this->signalement->getReminderAutotraitementAt()) {
-            $event = [
-                'date' => $this->signalement->getReminderAutotraitementAt(),
-                'title' => 'Suivi du traitement',
-                'description' => 'Votre problème de punaises est-il résolu ?',
-            ];
-            if ($this->isBackOffice) {
-                $event['description'] = 'L\'email de suivi post-traitement a été envoyé à l\'usager';
-            }
-            if (!$this->signalement->getResolvedAt()) {
-                $event['label'] = 'Nouveau';
-                if (!$this->isBackOffice) {
-                    $event['actionLabel'] = 'En savoir plus';
-                    $event['modalToOpen'] = 'probleme-resolu';
-                }
-            }
-            $this->events[] = $event;
-        }
-
         if (!$this->signalement->isAutotraitement()) {
             $interventions = $this->signalement->getInterventions();
             foreach ($interventions as $intervention) {

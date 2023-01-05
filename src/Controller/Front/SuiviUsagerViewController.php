@@ -149,6 +149,17 @@ class SuiviUsagerViewController extends AbstractController
         ): Response {
         if ($this->isCsrfTokenValid('signalement_resolve', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
+
+            $eventManager->createEventReminderAutotraitement(
+                signalement: $signalement,
+                description: 'Votre problème de punaises est-il résolu ?',
+                recipient: $signalement->getEmailOccupant(),
+                userId: null,
+                label: null,
+                actionLabel: null,
+                modalToOpen: null,
+            );
+
             $signalement->setResolvedAt(new \DateTimeImmutable());
             $signalement->setUuidPublic(uniqid());
             $signalementManager->save($signalement);

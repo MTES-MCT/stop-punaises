@@ -52,7 +52,7 @@ class EventRepository extends ServiceEntityRepository
     public function findAdminEvents(string $signalementUuid): array
     {
         $qb = $this->createQueryBuilder('e');
-        $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel, e.createdAt')
+        $qb->select('e.domain, e.title, e.description, e.label, e.actionLink, e.actionLabel, e.createdAt')
             ->where('e.entityName = :entityName')
             ->setParameter('entityName', Signalement::class)
             ->andWhere('e.entityUuid = :entityUuid')
@@ -67,6 +67,7 @@ class EventRepository extends ServiceEntityRepository
                 'domain' => $item['domain'],
                 'title' => $item['title'],
                 'description' => $item['description'],
+                'label' => $item['label'],
                 'actionLink' => $item['actionLink'],
                 'actionLabel' => $item['actionLabel'],
                 'date' => $item['createdAt'],
@@ -77,7 +78,7 @@ class EventRepository extends ServiceEntityRepository
     public function findEntrepriseEvents(string $signalementUuid, int $userId): array
     {
         $qb = $this->createQueryBuilder('e');
-        $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel, e.createdAt')
+        $qb->select('e.domain, e.title, e.description, e.label, e.actionLink, e.actionLabel, e.createdAt')
             ->where('e.entityName = :entityName')
             ->setParameter('entityName', Signalement::class)
             ->andWhere('e.entityUuid = :entityUuid')
@@ -94,6 +95,7 @@ class EventRepository extends ServiceEntityRepository
                 'domain' => $item['domain'],
                 'title' => $item['title'],
                 'description' => $item['description'],
+                'label' => $item['label'],
                 'actionLink' => $item['actionLink'],
                 'actionLabel' => $item['actionLabel'],
                 'date' => $item['createdAt'],
@@ -104,7 +106,7 @@ class EventRepository extends ServiceEntityRepository
     public function findUsagerEvents(string $signalementUuid): array
     {
         $qb = $this->createQueryBuilder('e');
-        $qb->select('e.domain, e.title, e.description, e.actionLink, e.actionLabel, e.createdAt')
+        $qb->select('e.domain, e.title, e.description, e.label, e.actionLink, e.actionLabel, e.createdAt')
             ->where('e.entityName = :entityName')
             ->setParameter('entityName', Signalement::class)
             ->andWhere('e.entityUuid = :entityUuid')
@@ -117,6 +119,7 @@ class EventRepository extends ServiceEntityRepository
                 'domain' => $item['domain'],
                 'title' => $item['title'],
                 'description' => $item['description'],
+                'label' => $item['label'],
                 'actionLink' => $item['actionLink'],
                 'actionLabel' => $item['actionLabel'],
                 'date' => $item['createdAt'],
