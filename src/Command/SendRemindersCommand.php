@@ -85,6 +85,25 @@ class SendRemindersCommand extends Command
             $intervention->setReminderResolvedByEntrepriseAt(new \DateTimeImmutable());
             $this->interventionManager->save($intervention);
             $this->mailerProvider->sendSignalementSuiviTraitementPro($intervention);
+
+            $this->eventManager->createEventReminderPro(
+                signalement: $intervention->getSignalement(),
+                description: 'Votre problème de punaises est-il résolu ?',
+                recipient: $intervention->getSignalement()->getEmailOccupant(),
+                userId: null,
+                label: 'Nouveau',
+                actionLabel: 'En savoir plus',
+                modalToOpen: 'probleme-resolu-pro',
+            );
+            $this->eventManager->createEventReminderPro(
+                signalement: $intervention->getSignalement(),
+                description: 'L\'email de suivi post-traitement a été envoyé à l\'usager',
+                recipient: null,
+                userId: Event::USER_ADMIN,
+                label: null,
+                actionLabel: null,
+                modalToOpen: null,
+            );
         }
 
         $this->io->success(sprintf('%s signalements were notified, %s interventions were notified',

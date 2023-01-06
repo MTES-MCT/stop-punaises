@@ -22,41 +22,12 @@ class EventsProvider
     {
         $this->events = [];
 
-        $this->addEventSuiviTraitement();
-
         $this->addEventEmptyEstimationList();
         $this->addEventsIntervention();
 
         usort($this->events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
         return $this->events;
-    }
-
-    private function addEventSuiviTraitement()
-    {
-        if (!$this->signalement->isAutotraitement()) {
-            $interventions = $this->signalement->getInterventions();
-            foreach ($interventions as $intervention) {
-                if ($intervention->getReminderResolvedByEntrepriseAt()) {
-                    $event = [
-                        'date' => $intervention->getReminderResolvedByEntrepriseAt(),
-                        'title' => 'Suivi du traitement',
-                        'description' => 'Votre problème de punaises est-il résolu ?',
-                    ];
-                    if ($this->isBackOffice) {
-                        $event['description'] = 'L\'email de suivi post-traitement a été envoyé à l\'usager';
-                    }
-                    if (!$this->signalement->getResolvedAt()) {
-                        $event['label'] = 'Nouveau';
-                        if (!$this->isBackOffice) {
-                            $event['actionLabel'] = 'En savoir plus';
-                            $event['modalToOpen'] = 'probleme-resolu-pro';
-                        }
-                    }
-                    $this->events[] = $event;
-                }
-            }
-        }
     }
 
     private function addEventEmptyEstimationList()

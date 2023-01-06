@@ -93,18 +93,20 @@ class SignalementController extends AbstractController
                 userId: Event::USER_ALL,
             );
 
-            $eventManager->createEventProtocole(
-                signalement: $signalement,
-                recipient: $signalement->getEmailOccupant(),
-                userId: null,
-                pdfUrl: $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'),
-            );
-            $eventManager->createEventProtocole(
-                signalement: $signalement,
-                recipient: null,
-                userId: Event::USER_ALL,
-                pdfUrl: null,
-            );
+            if ($signalement->isAutotraitement()) {
+                $eventManager->createEventProtocole(
+                    signalement: $signalement,
+                    recipient: $signalement->getEmailOccupant(),
+                    userId: null,
+                    pdfUrl: $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'),
+                );
+                $eventManager->createEventProtocole(
+                    signalement: $signalement,
+                    recipient: null,
+                    userId: Event::USER_ALL,
+                    pdfUrl: null,
+                );
+            }
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');
 

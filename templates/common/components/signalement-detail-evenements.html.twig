@@ -15,7 +15,7 @@
             {% if event.modalToOpen is defined %}
                 {% set modalToOpen = event.modalToOpen %}
             {% else %}
-                {% set modalToOpen = event.actionLink[11:] %}
+                {% set modalToOpen = event.actionLink[12:] %}
             {% endif %}
             <div class="event-item-action fr-mt-3v">
                 <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-{{ modalToOpen }}">{{ event.actionLabel }}</a>

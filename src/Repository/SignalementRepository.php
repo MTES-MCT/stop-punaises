@@ -95,7 +95,7 @@ class SignalementRepository extends ServiceEntityRepository
 
     public function findToNotify(): ?array
     {
-        return $this->createQueryBuilder('s') // TODO : ici on n'a pas le uuidPublic
+        return $this->createQueryBuilder('s')
             ->where('s.reminderAutotraitementAt IS NULL')
             ->andWhere('s.autotraitement = true')
             ->andWhere('s.declarant = :declarant')
