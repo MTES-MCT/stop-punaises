@@ -17,6 +17,7 @@ class Event
     public const DOMAIN_ADMIN_NOTICE = 'admin-notice';
     public const DOMAIN_CLOSE_SIGNALEMENT = 'close-signalement';
     public const DOMAIN_ESTIMATIONS_ALL_REFUSED = 'estimations-all-refused';
+    public const DOMAIN_ESTIMATION_SENT = 'estimation-sent';
     public const DOMAIN_MESSAGE = 'message';
     public const DOMAIN_NEW_SIGNALEMENT = 'new-signalement';
     public const DOMAIN_NO_ENTREPRISE_AVAILABLE = 'no-entreprise-available';

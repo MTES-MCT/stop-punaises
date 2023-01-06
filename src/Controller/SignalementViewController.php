@@ -16,7 +16,6 @@ use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Repository\MessageThreadRepository;
 use App\Service\Mailer\MailerProvider;
-use App\Service\Signalement\EventsProvider;
 use App\Service\Upload\UploadHandlerService;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
@@ -55,14 +54,6 @@ class SignalementViewController extends AbstractController
                 $userEntreprise
             );
         }
-
-        $eventsProvider = new EventsProvider(
-            signalement: $signalement,
-            pdfUrl: $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'),
-            isAdmin: $this->isGranted('ROLE_ADMIN'),
-            isBackOffice: true,
-            entreprise: $userEntreprise
-        );
 
         $signalementPhotos = $signalement->getPhotos();
         $photos = [];
@@ -103,7 +94,7 @@ class SignalementViewController extends AbstractController
             'signalement' => $signalement,
             'messages' => $this->getMessages($signalement, $userEntreprise),
             'photos' => $this->getPhotos($signalement),
-            'events' => $this->getMergeEvents($eventsProvider, $signalement, $userEntreprise),
+            'events' => $this->getEvents($signalement, $userEntreprise),
             'entrepriseIntervention' => $entrepriseIntervention,
             'entreprise' => $userEntreprise,
         ]);
@@ -240,6 +231,7 @@ class SignalementViewController extends AbstractController
         InterventionManager $interventionManager,
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
+        EventManager $eventManager,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_estimation_send', $request->get('_csrf_token'))) {
             $montant = $request->get('montant');
@@ -260,6 +252,40 @@ class SignalementViewController extends AbstractController
                 $this->addFlash('success', 'L\'estimation a bien été transmise.');
 
                 $mailerProvider->sendSignalementNewEstimation($signalement, $intervention);
+
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation',
+                    recipient: null,
+                    userId: Event::USER_ADMIN,
+                    userIdExcluded: null,
+                    label: 'Nouveau',
+                    actionLabel: 'En savoir plus',
+                    actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
+                );
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'Vous avez envoyé une estimation à l\'usager.',
+                    recipient: null,
+                    userId: $user->getId(),
+                    userIdExcluded: null,
+                    label: 'Nouveau',
+                    actionLabel: 'En savoir plus',
+                    actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
+                );
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' vous a envoyé une estimation',
+                    recipient: $intervention->getSignalement()->getEmailOccupant(),
+                    userId: null,
+                    userIdExcluded: null,
+                    label: 'Nouveau',
+                    actionLabel: 'En savoir plus',
+                    actionLink: 'modalToOpen:choice-estimation-'.$intervention->getId(),
+                );
             }
         }
 
@@ -365,12 +391,10 @@ class SignalementViewController extends AbstractController
         return $messagesThread?->getMessages();
     }
 
-    private function getMergeEvents(
-        EventsProvider $eventsProvider,
+    private function getEvents(
         Signalement $signalement,
         ?Entreprise $entreprise = null,
     ): array {
-        $events = $eventsProvider->getEvents();
         $dbEvents = [];
         if ($this->isGranted('ROLE_ADMIN')) {
             $dbEvents = $this->eventRepository->findAdminEvents(
@@ -382,9 +406,8 @@ class SignalementViewController extends AbstractController
                 userId: $entreprise?->getUser()?->getId()
             );
         }
-        $events = array_merge($events, $dbEvents);
-        usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
+        usort($dbEvents, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
-        return $events;
+        return $dbEvents;
     }
 }

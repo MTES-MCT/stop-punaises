@@ -11,6 +11,7 @@ class EventFactory
         string $title,
         string $description,
         ?int $userId = null,
+        ?int $userIdExcluded = null,
         ?string $recipient = null,
         ?string $label = null,
         ?string $actionLink = null,
@@ -24,6 +25,7 @@ class EventFactory
             ->setTitle($title)
             ->setDescription($description)
             ->setUserId($userId)
+            ->setUserIdExcluded($userIdExcluded)
             ->setRecipient($recipient)
             ->setLabel($label ?? null)
             ->setActionLabel($actionLabel ?? null)

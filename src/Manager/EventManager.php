@@ -174,6 +174,38 @@ class EventManager extends AbstractManager
         return $event;
     }
 
+    public function createEventEstimationSent(
+        Signalement $signalement,
+        string $title,
+        string $description,
+        ?string $recipient,
+        ?int $userId,
+        ?int $userIdExcluded,
+        ?string $label,
+        ?string $actionLabel,
+        ?string $actionLink,
+    ): Event {
+        $this->setPreviousInactive($signalement, Event::DOMAIN_ESTIMATION_SENT, $userId, $recipient);
+
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_ESTIMATION_SENT,
+            title: $title,
+            description: $description,
+            userId: $userId,
+            userIdExcluded: $userIdExcluded,
+            recipient: $recipient,
+            label: $label,
+            actionLabel: $actionLabel,
+            actionLink: $actionLink,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
     public function createEventEstimationsAllRefused(
         Signalement $signalement,
         string $description,

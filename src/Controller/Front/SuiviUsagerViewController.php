@@ -13,7 +13,6 @@ use App\Manager\SignalementManager;
 use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Service\Mailer\MailerProvider;
-use App\Service\Signalement\EventsProvider;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,13 +27,9 @@ class SuiviUsagerViewController extends AbstractController
         InterventionRepository $interventionRepository,
         EventRepository $eventRepository,
     ): Response {
-        $eventsProvider = new EventsProvider($signalement, $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'));
-        $events = $eventsProvider->getEvents();
-        $usagerEvents = $eventRepository->findUsagerEvents(
+        $events = $eventRepository->findUsagerEvents(
             signalementUuid: $signalement->getUuid(),
         );
-
-        $events = array_merge($events, $usagerEvents);
         usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
         $acceptedInterventions = $interventionRepository->findBy([
@@ -302,11 +297,92 @@ class SuiviUsagerViewController extends AbstractController
                     $interventionManager->save($interventionToAnswer);
                     $mailerProvider->sendSignalementEstimationRefused($interventionToAnswer->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
                 }
+
+                $signalement = $intervention->getSignalement();
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation',
+                    recipient: null,
+                    userId: Event::USER_ADMIN,
+                    userIdExcluded: null,
+                    label: 'Estimation acceptée',
+                    actionLabel: 'En savoir plus',
+                    actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
+                );
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation',
+                    recipient: null,
+                    userId: Event::USER_ALL,
+                    userIdExcluded: $intervention->getEntreprise()->getUser()->getId(),
+                    label: 'Estimation acceptée',
+                    actionLabel: null,
+                    actionLink: null,
+                );
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'Vous avez envoyé une estimation à l\'usager.',
+                    recipient: null,
+                    userId: $intervention->getEntreprise()->getUser()->getId(),
+                    userIdExcluded: null,
+                    label: 'Estimation acceptée',
+                    actionLabel: 'En savoir plus',
+                    actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
+                );
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' vous a envoyé une estimation',
+                    recipient: $intervention->getSignalement()->getEmailOccupant(),
+                    userId: null,
+                    userIdExcluded: null,
+                    label: 'Estimation acceptée',
+                    actionLabel: 'En savoir plus',
+                    actionLink: 'modalToOpen:estimation-accepted-'.$intervention->getId(),
+                );
             } elseif ('refuse' == $request->get('action')) {
                 $this->addFlash('success', 'L\'estimation a bien été refusée');
                 $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
                 $intervention->setAcceptedByUsager(false);
                 $interventionManager->save($intervention);
+
+                $signalement = $intervention->getSignalement();
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation',
+                    recipient: null,
+                    userId: Event::USER_ADMIN,
+                    userIdExcluded: null,
+                    label: 'Estimation refusée',
+                    actionLabel: 'En savoir plus',
+                    actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
+                );
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'Vous avez envoyé une estimation à l\'usager.',
+                    recipient: null,
+                    userId: $intervention->getEntreprise()->getUser()->getId(),
+                    userIdExcluded: null,
+                    label: 'Estimation refusée',
+                    actionLabel: 'En savoir plus',
+                    actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
+                );
+                $eventManager->createEventEstimationSent(
+                    signalement: $signalement,
+                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
+                    description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' vous a envoyé une estimation',
+                    recipient: $intervention->getSignalement()->getEmailOccupant(),
+                    userId: null,
+                    userIdExcluded: null,
+                    label: 'Estimation refusée',
+                    actionLabel: null,
+                    actionLink: null,
+                );
 
                 // On considère que toutes les interventions ne sont pas encore refusées si
                 // - il en reste sans estimation
