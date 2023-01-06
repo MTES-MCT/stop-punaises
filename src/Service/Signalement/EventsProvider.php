@@ -72,26 +72,6 @@ class EventsProvider
                         $this->events[] = $event;
                     }
                 }
-
-                if ($this->isAdmin || $this->entreprise) {
-                    // Signalement accepté / refusé
-                    $action = $intervention->isAccepted() ? 'accepté' : 'refusé';
-                    $event = [];
-                    $event['date'] = $intervention->getChoiceByEntrepriseAt();
-                    if ($this->isAdmin) {
-                        $event['title'] = $intervention->getEntreprise()->getNom().' a '.$action.' le signalement';
-                        $event['description'] = 'L\'entreprise a '.$action.' le signalement';
-                    } elseif ($intervention->getEntreprise()->getId() == $this->entreprise->getId()) {
-                        $event['title'] = 'Signalement '.$action;
-                        $event['description'] = 'Vous avez '.$action.' le signalement';
-                    }
-                    if (!empty($event['title'])) {
-                        if (!$intervention->isAccepted()) {
-                            $event['description'] .= ' pour le motif suivant : '.html_entity_decode($intervention->getCommentaireRefus());
-                        }
-                        $this->events[] = $event;
-                    }
-                }
             }
         }
     }

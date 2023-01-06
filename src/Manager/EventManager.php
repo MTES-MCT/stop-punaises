@@ -103,6 +103,50 @@ class EventManager extends AbstractManager
         return $event;
     }
 
+    public function createEventSignalementAcceptedByEntreprise(
+        Signalement $signalement,
+        string $title,
+        string $description,
+        ?string $recipient,
+        ?int $userId
+    ): Event {
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_SIGNALEMENT_ACCEPTED_BY_ENTREPRISE,
+            title: $title,
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
+    public function createEventSignalementRefusedByEntreprise(
+        Signalement $signalement,
+        string $title,
+        string $description,
+        ?string $recipient,
+        ?int $userId
+    ): Event {
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_SIGNALEMENT_REFUSED_BY_ENTREPRISE,
+            title: $title,
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
     public function createEventMessage(
         MessageThread $messageThread,
         string $title,

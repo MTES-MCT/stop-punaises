@@ -127,6 +127,21 @@ class SignalementViewController extends AbstractController
             $interventionManager->save($intervention);
             $this->addFlash('success', 'Le signalement a bien été accepté');
 
+            $eventManager->createEventSignalementAcceptedByEntreprise(
+                signalement: $intervention->getSignalement(),
+                title: $intervention->getEntreprise()->getNom().' a accepté le signalement',
+                description: 'L\'entreprise a accepté le signalement',
+                recipient: null,
+                userId: Event::USER_ADMIN,
+            );
+            $eventManager->createEventSignalementAcceptedByEntreprise(
+                signalement: $intervention->getSignalement(),
+                title: 'Signalement accepté',
+                description: 'Vous avez accepté le signalement',
+                recipient: null,
+                userId: $user->getId(),
+            );
+
             // On supprime un éventuel événement qui disait que les estimations étaient toutes refusées
             $eventManager->setPreviousInactive(
                 signalement: $intervention->getSignalement(),
@@ -169,6 +184,21 @@ class SignalementViewController extends AbstractController
             if (0 === $errors->count()) {
                 $interventionManager->save($intervention);
                 $this->addFlash('success', 'Le signalement a bien été refusé');
+
+                $eventManager->createEventSignalementRefusedByEntreprise(
+                    signalement: $intervention->getSignalement(),
+                    title: $intervention->getEntreprise()->getNom().' a refusé le signalement',
+                    description: 'L\'entreprise a refusé le signalement',
+                    recipient: null,
+                    userId: Event::USER_ADMIN,
+                );
+                $eventManager->createEventSignalementRefusedByEntreprise(
+                    signalement: $intervention->getSignalement(),
+                    title: 'Signalement refusé',
+                    description: 'Vous avez refusé le signalement',
+                    recipient: null,
+                    userId: $user->getId(),
+                );
 
                 // Check if entreprises are still available for this territoire
                 // If not, contact user
