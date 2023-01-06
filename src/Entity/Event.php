@@ -23,7 +23,8 @@ class Event
     public const DOMAIN_PROTOCOLE = 'protocole-autotraitement';
     public const DOMAIN_REMINDER_AUTOTRAITEMENT = 'reminder-autotraitement';
     public const DOMAIN_REMINDER_PRO = 'reminder-pro';
-    public const DOMAIN_RESOLVE_SIGNALEMENT = 'resolve-signalement';
+    public const DOMAIN_SIGNALEMENT_RESOLVED_BY_ENTREPRISE = 'signalement-resolved-by-entreprise';
+    public const DOMAIN_SIGNALEMENT_RESOLVED_ACCEPTED_BY_USAGER = 'signalement-resolved-accepted-by-usager';
     public const DOMAIN_SWITCH_TRAITEMENT = 'switch-traitement';
 
     public const USER_ADMIN = -1;

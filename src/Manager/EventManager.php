@@ -263,6 +263,28 @@ class EventManager extends AbstractManager
         return $event;
     }
 
+    public function createEventSignalementResolvedByEntreprise(
+        Signalement $signalement,
+        string $title,
+        string $description,
+        ?string $recipient,
+        ?int $userId
+    ): Event {
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_SIGNALEMENT_RESOLVED_BY_ENTREPRISE,
+            title: $title,
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
     public function createEventResolveSignalement(
         Signalement $signalement,
         string $description,
@@ -270,7 +292,7 @@ class EventManager extends AbstractManager
         ?int $userId
     ): Event {
         $event = $this->eventFactory->createInstance(
-            domain: Event::DOMAIN_RESOLVE_SIGNALEMENT,
+            domain: Event::DOMAIN_SIGNALEMENT_RESOLVED_ACCEPTED_BY_USAGER,
             title: 'Problème résolu',
             description: $description,
             userId: $userId,

@@ -32,24 +32,6 @@ class EventsProvider
         if (!$this->signalement->isAutotraitement()) {
             $interventions = $this->signalement->getInterventions();
             foreach ($interventions as $intervention) {
-                // Traité
-                if ($intervention->getResolvedByEntrepriseAt()) {
-                    $event = [];
-                    $event['date'] = $intervention->getEstimationSentAt();
-                    $event['title'] = 'Intervention faite';
-                    $event['description'] = '';
-                    if ($this->isAdmin) {
-                        $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a marqué le signalement comme traité';
-                    } elseif ($this->entreprise && $intervention->getEntreprise()->getId() == $this->entreprise->getId()) {
-                        $event['description'] = 'Vous avez marqué le signalement comme traité';
-                    } elseif (!$this->entreprise) {
-                        $event['title'] = 'Traitement effectué';
-                        $event['description'] = 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a indiqué avoir traité votre domicile';
-                    }
-
-                    $this->events[] = $event;
-                }
-
                 // Estimation envoyée
                 if ($intervention->getEstimationSentAt()) {
                     $event = [];
