@@ -19,7 +19,7 @@ class EventManager extends AbstractManager
         parent::__construct($managerRegistry, $entityName);
     }
 
-    private function setPreviousInactive(
+    public function setPreviousInactive(
         Signalement $signalement,
         string $domain,
         ?int $userId,
@@ -123,6 +123,60 @@ class EventManager extends AbstractManager
             actionLabel: null !== $actionLink ? 'En savoir plus' : null,
             entityName: Signalement::class,
             entityUuid: $messageThread->getSignalement()->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
+    public function createEventEstimationsAllRefused(
+        Signalement $signalement,
+        string $description,
+        ?string $recipient,
+        ?int $userId,
+        ?string $actionLabel,
+        ?string $actionLink,
+    ): Event {
+        $this->setPreviousInactive($signalement, Event::DOMAIN_ESTIMATIONS_ALL_REFUSED, $userId, $recipient);
+
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_ESTIMATIONS_ALL_REFUSED,
+            title: 'Plus d\'estimation disponible',
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            actionLabel: $actionLabel,
+            actionLink: $actionLink,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
+        );
+
+        $this->save($event);
+
+        return $event;
+    }
+
+    public function createEventNoEntrepriseAvailable(
+        Signalement $signalement,
+        string $description,
+        ?string $recipient,
+        ?int $userId,
+        ?string $actionLabel,
+        ?string $actionLink,
+    ): Event {
+        $this->setPreviousInactive($signalement, Event::DOMAIN_NO_ENTREPRISE_AVAILABLE, $userId, $recipient);
+
+        $event = $this->eventFactory->createInstance(
+            domain: Event::DOMAIN_NO_ENTREPRISE_AVAILABLE,
+            title: 'Aucune entreprise disponible',
+            description: $description,
+            userId: $userId,
+            recipient: $recipient,
+            actionLabel: $actionLabel,
+            actionLink: $actionLink,
+            entityName: Signalement::class,
+            entityUuid: $signalement->getUuid()
         );
 
         $this->save($event);

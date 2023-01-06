@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Entreprise;
+use App\Entity\Event;
 use App\Entity\Intervention;
 use App\Entity\MessageThread;
 use App\Entity\Signalement;
 use App\Entity\User;
 use App\Manager\EntrepriseManager;
+use App\Manager\EventManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\EventRepository;
@@ -112,6 +114,7 @@ class SignalementViewController extends AbstractController
         Request $request,
         Signalement $signalement,
         InterventionManager $interventionManager,
+        EventManager $eventManager,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_accept', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
@@ -123,6 +126,20 @@ class SignalementViewController extends AbstractController
             $intervention->setAccepted(true);
             $interventionManager->save($intervention);
             $this->addFlash('success', 'Le signalement a bien été accepté');
+
+            // On supprime un éventuel événement qui disait que les estimations étaient toutes refusées
+            $eventManager->setPreviousInactive(
+                signalement: $intervention->getSignalement(),
+                domain: Event::DOMAIN_ESTIMATIONS_ALL_REFUSED,
+                recipient: null,
+                userId: Event::USER_ALL,
+            );
+            $eventManager->setPreviousInactive(
+                signalement: $intervention->getSignalement(),
+                domain: Event::DOMAIN_ESTIMATIONS_ALL_REFUSED,
+                recipient: $intervention->getSignalement()->getEmailOccupant(),
+                userId: null,
+            );
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
@@ -136,6 +153,7 @@ class SignalementViewController extends AbstractController
         MailerProvider $mailerProvider,
         EntrepriseManager $entrepriseManager,
         ValidatorInterface $validator,
+        EventManager $eventManager,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
@@ -157,6 +175,23 @@ class SignalementViewController extends AbstractController
                 $remainingEntreprises = $entrepriseManager->isEntrepriseRemainingForSignalement($signalement);
                 if (!$remainingEntreprises) {
                     $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
+
+                    $eventManager->createEventNoEntrepriseAvailable(
+                        signalement: $intervention->getSignalement(),
+                        description: 'Aucune entreprise n\'est en capacité de traiter cette demande',
+                        recipient: null,
+                        userId: Event::USER_ALL,
+                        actionLabel: null,
+                        actionLink: null,
+                    );
+                    $eventManager->createEventNoEntrepriseAvailable(
+                        signalement: $intervention->getSignalement(),
+                        description: 'Aucune entreprise n\'est en capacité de traiter votre demande',
+                        recipient: $intervention->getSignalement()->getEmailOccupant(),
+                        userId: null,
+                        actionLabel: 'En savoir plus',
+                        actionLink: 'modalToOpen:empty-estimations',
+                    );
                 }
             } else {
                 foreach ($errors as $error) {

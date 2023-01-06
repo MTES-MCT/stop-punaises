@@ -283,6 +283,7 @@ class SuiviUsagerViewController extends AbstractController
         InterventionManager $interventionManager,
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
+        EventManager $eventManager,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_estimation_choice', $request->get('_csrf_token'))) {
             if ('accept' == $request->get('action')) {
@@ -293,7 +294,7 @@ class SuiviUsagerViewController extends AbstractController
 
                 $mailerProvider->sendSignalementEstimationAccepted($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
 
-                // Refuser les autres estimations en attente
+                // On refuse les autres estimations en attente
                 $interventionsToAnswer = $interventionRepository->findInterventionsWithMissingAnswerFromUsager($intervention->getSignalement());
                 foreach ($interventionsToAnswer as $interventionToAnswer) {
                     $interventionToAnswer->setChoiceByUsagerAt(new \DateTimeImmutable());
@@ -306,6 +307,47 @@ class SuiviUsagerViewController extends AbstractController
                 $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
                 $intervention->setAcceptedByUsager(false);
                 $interventionManager->save($intervention);
+
+                // On considère que toutes les interventions ne sont pas encore refusées si
+                // - il en reste sans estimation
+                // - il en reste sans que l'usager n'ait répondu
+                // - il en reste où l'usager a répondu positivement
+                $isAllRefusedEstimations = true;
+                $interventions = $intervention->getSignalement()->getInterventions();
+                if (\count($interventions) > 0) {
+                    foreach ($interventions as $intervention) {
+                        if ($intervention->isAccepted()) {
+                            if (!$intervention->getEstimationSentAt()) {
+                                $isAllRefusedEstimations = false;
+                                break;
+                            } elseif (!$intervention->getChoiceByUsagerAt()) {
+                                $isAllRefusedEstimations = false;
+                                break;
+                            } elseif ($intervention->isAcceptedByUsager()) {
+                                $isAllRefusedEstimations = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if ($isAllRefusedEstimations) {
+                    $eventManager->createEventEstimationsAllRefused(
+                        signalement: $intervention->getSignalement(),
+                        description: 'L\'usager a refusé toutes les estimations des entreprises',
+                        recipient: null,
+                        userId: Event::USER_ALL,
+                        actionLabel: null,
+                        actionLink: null,
+                    );
+                    $eventManager->createEventEstimationsAllRefused(
+                        signalement: $intervention->getSignalement(),
+                        description: 'Vous avez refusé toutes les estimations des entreprises',
+                        recipient: $intervention->getSignalement()->getEmailOccupant(),
+                        userId: null,
+                        actionLabel: 'En savoir plus',
+                        actionLink: 'modalToOpen:empty-estimations',
+                    );
+                }
 
                 $mailerProvider->sendSignalementEstimationRefused($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
             }
