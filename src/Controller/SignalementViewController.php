@@ -406,7 +406,6 @@ class SignalementViewController extends AbstractController
                 userId: $entreprise?->getUser()?->getId()
             );
         }
-        usort($dbEvents, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
 
         return $dbEvents;
     }

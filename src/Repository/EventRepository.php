@@ -60,7 +60,8 @@ class EventRepository extends ServiceEntityRepository
             ->andWhere('e.userId = :userIdAdmin OR e.userId = :userIdAll')
             ->setParameter('userIdAll', Event::USER_ALL)
             ->setParameter('userIdAdmin', Event::USER_ADMIN)
-            ->andWhere('e.active = 1');
+            ->andWhere('e.active = 1')
+            ->orderBy('e.createdAt', 'DESC');
 
         return array_map(function ($item) {
             return [
@@ -88,7 +89,8 @@ class EventRepository extends ServiceEntityRepository
             ->setParameter('userIdAll', Event::USER_ALL)
             ->andWhere('e.userIdExcluded IS NULL OR e.userIdExcluded != :userIdExcluded')
             ->setParameter('userIdExcluded', $userId)
-            ->andWhere('e.active = 1');
+            ->andWhere('e.active = 1')
+            ->orderBy('e.createdAt', 'DESC');
 
         return array_map(function ($item) {
             return [
@@ -112,7 +114,8 @@ class EventRepository extends ServiceEntityRepository
             ->andWhere('e.entityUuid = :entityUuid')
             ->setParameter('entityUuid', $signalementUuid)
             ->andWhere('e.userId IS NULL')
-            ->andWhere('e.active = 1');
+            ->andWhere('e.active = 1')
+            ->orderBy('e.createdAt', 'DESC');
 
         return array_map(function ($item) {
             return [

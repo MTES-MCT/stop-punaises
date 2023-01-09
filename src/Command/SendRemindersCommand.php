@@ -2,8 +2,8 @@
 
 namespace App\Command;
 
-use App\Entity\Event;
-use App\Manager\EventManager;
+use App\Event\InterventionRemindedEvent;
+use App\Event\SignalementRemindedEvent;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
@@ -14,6 +14,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand(
     name: 'app:send-reminders',
@@ -29,7 +30,7 @@ class SendRemindersCommand extends Command
         private InterventionRepository $interventionRepository,
         private InterventionManager $interventionManager,
         private MailerProvider $mailerProvider,
-        private EventManager $eventManager,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
         parent::__construct();
     }
@@ -56,23 +57,11 @@ class SendRemindersCommand extends Command
             $this->signalementManager->save($signalement);
             $this->mailerProvider->sendSignalementSuiviTraitementAuto($signalement);
 
-            $this->eventManager->createEventReminderAutotraitement(
-                signalement: $signalement,
-                description: 'Votre problème de punaises est-il résolu ?',
-                recipient: $signalement->getEmailOccupant(),
-                userId: null,
-                label: 'Nouveau',
-                actionLabel: 'En savoir plus',
-                modalToOpen: 'probleme-resolu',
-            );
-            $this->eventManager->createEventReminderAutotraitement(
-                signalement: $signalement,
-                description: 'L\'email de suivi post-traitement a été envoyé à l\'usager',
-                recipient: null,
-                userId: Event::USER_ADMIN,
-                label: null,
-                actionLabel: null,
-                modalToOpen: null,
+            $this->eventDispatcher->dispatch(
+                new SignalementRemindedEvent(
+                    $signalement
+                ),
+                SignalementRemindedEvent::NAME
             );
         }
 
@@ -86,23 +75,11 @@ class SendRemindersCommand extends Command
             $this->interventionManager->save($intervention);
             $this->mailerProvider->sendSignalementSuiviTraitementPro($intervention);
 
-            $this->eventManager->createEventReminderPro(
-                signalement: $intervention->getSignalement(),
-                description: 'Votre problème de punaises est-il résolu ?',
-                recipient: $intervention->getSignalement()->getEmailOccupant(),
-                userId: null,
-                label: 'Nouveau',
-                actionLabel: 'En savoir plus',
-                modalToOpen: 'probleme-resolu-pro',
-            );
-            $this->eventManager->createEventReminderPro(
-                signalement: $intervention->getSignalement(),
-                description: 'L\'email de suivi post-traitement a été envoyé à l\'usager',
-                recipient: null,
-                userId: Event::USER_ADMIN,
-                label: null,
-                actionLabel: null,
-                modalToOpen: null,
+            $this->eventDispatcher->dispatch(
+                new InterventionRemindedEvent(
+                    $intervention
+                ),
+                InterventionRemindedEvent::NAME
             );
         }
 

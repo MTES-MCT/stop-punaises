@@ -3,10 +3,9 @@
 namespace App\Controller\Front;
 
 use App\Entity\Enum\Declarant;
-use App\Entity\Event;
 use App\Entity\Signalement;
+use App\Event\SignalementAddedEvent;
 use App\Form\SignalementFrontType;
-use App\Manager\EventManager;
 use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
 use App\Repository\TerritoireRepository;
@@ -15,6 +14,7 @@ use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\ZipCodeService;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,7 +44,7 @@ class SignalementController extends AbstractController
         MailerProvider $mailerProvider,
         ZipCodeService $zipCodeService,
         EntrepriseRepository $entrepriseRepository,
-        EventManager $eventManager,
+        EventDispatcherInterface $eventDispatcher,
         ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
@@ -80,33 +80,13 @@ class SignalementController extends AbstractController
                 }
             }
 
-            $eventManager->createEventNewSignalement(
-                signalement: $signalement,
-                description: 'Votre signalement a bien été enregistré sur Stop Punaises.',
-                recipient: $signalement->getEmailOccupant(),
-                userId: null,
+            $eventDispatcher->dispatch(
+                new SignalementAddedEvent(
+                    $signalement,
+                    $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement')
+                ),
+                SignalementAddedEvent::NAME
             );
-            $eventManager->createEventNewSignalement(
-                signalement: $signalement,
-                description: 'Le signalement a bien été enregistré sur Stop Punaises.',
-                recipient: null,
-                userId: Event::USER_ALL,
-            );
-
-            if ($signalement->isAutotraitement()) {
-                $eventManager->createEventProtocole(
-                    signalement: $signalement,
-                    recipient: $signalement->getEmailOccupant(),
-                    userId: null,
-                    pdfUrl: $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'),
-                );
-                $eventManager->createEventProtocole(
-                    signalement: $signalement,
-                    recipient: null,
-                    userId: Event::USER_ALL,
-                    pdfUrl: null,
-                );
-            }
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');
 
