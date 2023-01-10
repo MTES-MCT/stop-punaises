@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Entreprise;
-use App\Entity\Event;
 use App\Entity\Intervention;
 use App\Entity\MessageThread;
 use App\Entity\Signalement;
 use App\Entity\User;
+use App\Event\InterventionEntrepriseAcceptedEvent;
+use App\Event\InterventionEntrepriseAllRefusedEvent;
+use App\Event\InterventionEntrepriseRefusedEvent;
+use App\Event\InterventionEstimationSentEvent;
 use App\Manager\EntrepriseManager;
-use App\Manager\EventManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\EventRepository;
@@ -21,6 +23,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -105,7 +108,7 @@ class SignalementViewController extends AbstractController
         Request $request,
         Signalement $signalement,
         InterventionManager $interventionManager,
-        EventManager $eventManager,
+        EventDispatcherInterface $eventDispatcher,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_accept', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
@@ -118,33 +121,12 @@ class SignalementViewController extends AbstractController
             $interventionManager->save($intervention);
             $this->addFlash('success', 'Le signalement a bien été accepté');
 
-            $eventManager->createEventSignalementAcceptedByEntreprise(
-                signalement: $intervention->getSignalement(),
-                title: $intervention->getEntreprise()->getNom().' a accepté le signalement',
-                description: 'L\'entreprise a accepté le signalement',
-                recipient: null,
-                userId: Event::USER_ADMIN,
-            );
-            $eventManager->createEventSignalementAcceptedByEntreprise(
-                signalement: $intervention->getSignalement(),
-                title: 'Signalement accepté',
-                description: 'Vous avez accepté le signalement',
-                recipient: null,
-                userId: $user->getId(),
-            );
-
-            // On supprime un éventuel événement qui disait que les estimations étaient toutes refusées
-            $eventManager->setPreviousInactive(
-                signalement: $intervention->getSignalement(),
-                domain: Event::DOMAIN_ESTIMATIONS_ALL_REFUSED,
-                recipient: null,
-                userId: Event::USER_ALL,
-            );
-            $eventManager->setPreviousInactive(
-                signalement: $intervention->getSignalement(),
-                domain: Event::DOMAIN_ESTIMATIONS_ALL_REFUSED,
-                recipient: $intervention->getSignalement()->getEmailOccupant(),
-                userId: null,
+            $eventDispatcher->dispatch(
+                new InterventionEntrepriseAcceptedEvent(
+                    $intervention,
+                    $user->getId(),
+                ),
+                InterventionEntrepriseAcceptedEvent::NAME
             );
         }
 
@@ -159,7 +141,7 @@ class SignalementViewController extends AbstractController
         MailerProvider $mailerProvider,
         EntrepriseManager $entrepriseManager,
         ValidatorInterface $validator,
-        EventManager $eventManager,
+        EventDispatcherInterface $eventDispatcher,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
@@ -176,19 +158,12 @@ class SignalementViewController extends AbstractController
                 $interventionManager->save($intervention);
                 $this->addFlash('success', 'Le signalement a bien été refusé');
 
-                $eventManager->createEventSignalementRefusedByEntreprise(
-                    signalement: $intervention->getSignalement(),
-                    title: $intervention->getEntreprise()->getNom().' a refusé le signalement',
-                    description: 'L\'entreprise a refusé le signalement',
-                    recipient: null,
-                    userId: Event::USER_ADMIN,
-                );
-                $eventManager->createEventSignalementRefusedByEntreprise(
-                    signalement: $intervention->getSignalement(),
-                    title: 'Signalement refusé',
-                    description: 'Vous avez refusé le signalement',
-                    recipient: null,
-                    userId: $user->getId(),
+                $eventDispatcher->dispatch(
+                    new InterventionEntrepriseRefusedEvent(
+                        $intervention,
+                        $user->getId(),
+                    ),
+                    InterventionEntrepriseRefusedEvent::NAME
                 );
 
                 // Check if entreprises are still available for this territoire
@@ -197,21 +172,11 @@ class SignalementViewController extends AbstractController
                 if (!$remainingEntreprises) {
                     $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
 
-                    $eventManager->createEventNoEntrepriseAvailable(
-                        signalement: $intervention->getSignalement(),
-                        description: 'Aucune entreprise n\'est en capacité de traiter cette demande',
-                        recipient: null,
-                        userId: Event::USER_ALL,
-                        actionLabel: null,
-                        actionLink: null,
-                    );
-                    $eventManager->createEventNoEntrepriseAvailable(
-                        signalement: $intervention->getSignalement(),
-                        description: 'Aucune entreprise n\'est en capacité de traiter votre demande',
-                        recipient: $intervention->getSignalement()->getEmailOccupant(),
-                        userId: null,
-                        actionLabel: 'En savoir plus',
-                        actionLink: 'modalToOpen:empty-estimations',
+                    $eventDispatcher->dispatch(
+                        new InterventionEntrepriseAllRefusedEvent(
+                            $intervention,
+                        ),
+                        InterventionEntrepriseAllRefusedEvent::NAME
                     );
                 }
             } else {
@@ -231,7 +196,7 @@ class SignalementViewController extends AbstractController
         InterventionManager $interventionManager,
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
-        EventManager $eventManager,
+        EventDispatcherInterface $eventDispatcher,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_estimation_send', $request->get('_csrf_token'))) {
             $montant = $request->get('montant');
@@ -253,38 +218,12 @@ class SignalementViewController extends AbstractController
 
                 $mailerProvider->sendSignalementNewEstimation($signalement, $intervention);
 
-                $eventManager->createEventEstimationSent(
-                    signalement: $signalement,
-                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
-                    description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation',
-                    recipient: null,
-                    userId: Event::USER_ADMIN,
-                    userIdExcluded: null,
-                    label: 'Nouveau',
-                    actionLabel: 'En savoir plus',
-                    actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
-                );
-                $eventManager->createEventEstimationSent(
-                    signalement: $signalement,
-                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
-                    description: 'Vous avez envoyé une estimation à l\'usager.',
-                    recipient: null,
-                    userId: $user->getId(),
-                    userIdExcluded: null,
-                    label: 'Nouveau',
-                    actionLabel: 'En savoir plus',
-                    actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
-                );
-                $eventManager->createEventEstimationSent(
-                    signalement: $signalement,
-                    title: 'Estimation '.$intervention->getEntreprise()->getNom(),
-                    description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' vous a envoyé une estimation',
-                    recipient: $intervention->getSignalement()->getEmailOccupant(),
-                    userId: null,
-                    userIdExcluded: null,
-                    label: 'Nouveau',
-                    actionLabel: 'En savoir plus',
-                    actionLink: 'modalToOpen:choice-estimation-'.$intervention->getId(),
+                $eventDispatcher->dispatch(
+                    new InterventionEstimationSentEvent(
+                        $intervention,
+                        $user->getId(),
+                    ),
+                    InterventionEstimationSentEvent::NAME
                 );
             }
         }

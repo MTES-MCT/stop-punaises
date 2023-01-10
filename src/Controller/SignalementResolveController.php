@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Event;
 use App\Entity\Signalement;
+use App\Event\InterventionEntrepriseResolvedEvent;
 use App\Form\SignalementType;
-use App\Manager\EventManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
 use App\Service\Mailer\MailerProvider;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +27,7 @@ class SignalementResolveController extends AbstractController
         InterventionRepository $interventionRepository,
         InterventionManager $interventionManager,
         MailerProvider $mailerProvider,
-        EventManager $eventManager,
+        EventDispatcherInterface $eventDispatcher,
         ): Response {
         $form = $this->createForm(SignalementType::class, $signalement);
         $form->handleRequest($request);
@@ -50,26 +50,11 @@ class SignalementResolveController extends AbstractController
 
             $mailerProvider->sendSignalementTraitementResolved($signalement, $intervention);
 
-            $eventManager->createEventSignalementResolvedByEntreprise(
-                signalement: $signalement,
-                title: 'Intervention faite',
-                description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a marqué le signalement comme traité',
-                recipient: null,
-                userId: Event::USER_ADMIN,
-            );
-            $eventManager->createEventSignalementResolvedByEntreprise(
-                signalement: $signalement,
-                title: 'Intervention faite',
-                description: 'Vous avez marqué le signalement comme traité',
-                recipient: null,
-                userId: $intervention->getEntreprise()->getUser()->getId(),
-            );
-            $eventManager->createEventSignalementResolvedByEntreprise(
-                signalement: $signalement,
-                title: 'Traitement effectué',
-                description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a indiqué avoir traité votre domicile',
-                recipient: $intervention->getSignalement()->getEmailOccupant(),
-                userId: null,
+            $eventDispatcher->dispatch(
+                new InterventionEntrepriseResolvedEvent(
+                    $intervention
+                ),
+                InterventionEntrepriseResolvedEvent::NAME
             );
 
             return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
