@@ -130,6 +130,18 @@ class EventRepository extends ServiceEntityRepository
         }, $qb->getQuery()->getResult());
     }
 
+    public function updateCreatedAt(Event $event, ?\DateTimeImmutable $createdAt)
+    {
+        if ($createdAt) {
+            $qb = $this->createQueryBuilder('e');
+            $qb->update()
+                ->set('e.createdAt', '\''.$createdAt->format('Y-m-d H:i:s').'\'')
+                ->where('e.id = :eventId')
+                ->setParameter('eventId', $event->getId());
+            $qb->getQuery()->execute();
+        }
+    }
+
     public function save(Event $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

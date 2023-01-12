@@ -9,8 +9,11 @@ class SignalementAddedEvent extends Event
 {
     public const NAME = 'signalement.added';
 
-    public function __construct(private Signalement $signalement, private string $pdfUrl)
-    {
+    public function __construct(
+        private Signalement $signalement,
+        private string $pdfUrl,
+        private ?\DateTimeImmutable $createdAt = null,
+        ) {
     }
 
     public function getSignalement(): Signalement
@@ -21,5 +24,10 @@ class SignalementAddedEvent extends Event
     public function getPdfUrl(): string
     {
         return $this->pdfUrl;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 }

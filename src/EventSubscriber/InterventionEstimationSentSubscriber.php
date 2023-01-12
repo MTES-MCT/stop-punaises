@@ -5,12 +5,14 @@ namespace App\EventSubscriber;
 use App\Entity\Event;
 use App\Event\InterventionEstimationSentEvent;
 use App\Manager\EventManager;
+use App\Repository\EventRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InterventionEstimationSentSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private EventManager $eventManager,
+        private EventRepository $eventRepository,
     ) {
     }
 
@@ -25,7 +27,7 @@ class InterventionEstimationSentSubscriber implements EventSubscriberInterface
     {
         $intervention = $interventionEstimationSentEvent->getIntervention();
         $signalement = $intervention->getSignalement();
-        $this->eventManager->createEventEstimationSent(
+        $event = $this->eventManager->createEventEstimationSent(
             signalement: $signalement,
             title: 'Estimation '.$intervention->getEntreprise()->getNom(),
             description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation',
@@ -36,7 +38,9 @@ class InterventionEstimationSentSubscriber implements EventSubscriberInterface
             actionLabel: 'En savoir plus',
             actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
         );
-        $this->eventManager->createEventEstimationSent(
+        $this->eventRepository->updateCreatedAt($event, $interventionEstimationSentEvent->getCreatedAt());
+
+        $event = $this->eventManager->createEventEstimationSent(
             signalement: $signalement,
             title: 'Estimation '.$intervention->getEntreprise()->getNom(),
             description: 'Vous avez envoyé une estimation à l\'usager.',
@@ -47,7 +51,9 @@ class InterventionEstimationSentSubscriber implements EventSubscriberInterface
             actionLabel: 'En savoir plus',
             actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
         );
-        $this->eventManager->createEventEstimationSent(
+        $this->eventRepository->updateCreatedAt($event, $interventionEstimationSentEvent->getCreatedAt());
+
+        $event = $this->eventManager->createEventEstimationSent(
             signalement: $signalement,
             title: 'Estimation '.$intervention->getEntreprise()->getNom(),
             description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' vous a envoyé une estimation',
@@ -58,5 +64,6 @@ class InterventionEstimationSentSubscriber implements EventSubscriberInterface
             actionLabel: 'En savoir plus',
             actionLink: 'modalToOpen:choice-estimation-'.$intervention->getId(),
         );
+        $this->eventRepository->updateCreatedAt($event, $interventionEstimationSentEvent->getCreatedAt());
     }
 }

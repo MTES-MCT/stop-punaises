@@ -5,12 +5,14 @@ namespace App\EventSubscriber;
 use App\Entity\Event;
 use App\Event\InterventionEntrepriseAllRefusedEvent;
 use App\Manager\EventManager;
+use App\Repository\EventRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InterventionEntrepriseAllRefusedSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private EventManager $eventManager,
+        private EventRepository $eventRepository,
     ) {
     }
 
@@ -24,7 +26,7 @@ class InterventionEntrepriseAllRefusedSubscriber implements EventSubscriberInter
     public function onInterventionEntrepriseAllRefused(InterventionEntrepriseAllRefusedEvent $interventionEntrepriseAllRefusedEvent)
     {
         $intervention = $interventionEntrepriseAllRefusedEvent->getIntervention();
-        $this->eventManager->createEventNoEntrepriseAvailable(
+        $event = $this->eventManager->createEventNoEntrepriseAvailable(
             signalement: $intervention->getSignalement(),
             description: 'Aucune entreprise n\'est en capacité de traiter cette demande',
             recipient: null,
@@ -32,7 +34,9 @@ class InterventionEntrepriseAllRefusedSubscriber implements EventSubscriberInter
             actionLabel: null,
             actionLink: null,
         );
-        $this->eventManager->createEventNoEntrepriseAvailable(
+        $this->eventRepository->updateCreatedAt($event, $interventionEntrepriseAllRefusedEvent->getCreatedAt());
+
+        $event = $this->eventManager->createEventNoEntrepriseAvailable(
             signalement: $intervention->getSignalement(),
             description: 'Aucune entreprise n\'est en capacité de traiter votre demande',
             recipient: $intervention->getSignalement()->getEmailOccupant(),
@@ -40,5 +44,6 @@ class InterventionEntrepriseAllRefusedSubscriber implements EventSubscriberInter
             actionLabel: 'En savoir plus',
             actionLink: 'modalToOpen:empty-estimations',
         );
+        $this->eventRepository->updateCreatedAt($event, $interventionEntrepriseAllRefusedEvent->getCreatedAt());
     }
 }

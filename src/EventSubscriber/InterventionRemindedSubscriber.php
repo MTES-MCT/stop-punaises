@@ -5,12 +5,14 @@ namespace App\EventSubscriber;
 use App\Entity\Event;
 use App\Event\InterventionRemindedEvent;
 use App\Manager\EventManager;
+use App\Repository\EventRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InterventionRemindedSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private EventManager $eventManager,
+        private EventRepository $eventRepository,
     ) {
     }
 
@@ -24,7 +26,7 @@ class InterventionRemindedSubscriber implements EventSubscriberInterface
     public function onInterventionReminded(InterventionRemindedEvent $interventionRemindedEvent)
     {
         $intervention = $interventionRemindedEvent->getIntervention();
-        $this->eventManager->createEventReminderPro(
+        $event = $this->eventManager->createEventReminderPro(
             signalement: $intervention->getSignalement(),
             description: 'Votre problème de punaises est-il résolu ?',
             recipient: $intervention->getSignalement()->getEmailOccupant(),
@@ -33,7 +35,9 @@ class InterventionRemindedSubscriber implements EventSubscriberInterface
             actionLabel: 'En savoir plus',
             modalToOpen: 'probleme-resolu-pro',
         );
-        $this->eventManager->createEventReminderPro(
+        $this->eventRepository->updateCreatedAt($event, $interventionRemindedEvent->getCreatedAt());
+
+        $event = $this->eventManager->createEventReminderPro(
             signalement: $intervention->getSignalement(),
             description: 'L\'email de suivi post-traitement a été envoyé à l\'usager',
             recipient: null,
@@ -42,5 +46,6 @@ class InterventionRemindedSubscriber implements EventSubscriberInterface
             actionLabel: null,
             modalToOpen: null,
         );
+        $this->eventRepository->updateCreatedAt($event, $interventionRemindedEvent->getCreatedAt());
     }
 }

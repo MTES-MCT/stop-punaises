@@ -5,12 +5,14 @@ namespace App\EventSubscriber;
 use App\Entity\Event;
 use App\Event\InterventionUsagerRefusedEvent;
 use App\Manager\EventManager;
+use App\Repository\EventRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class InterventionUsagerRefusedSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private EventManager $eventManager,
+        private EventRepository $eventRepository,
     ) {
     }
 
@@ -26,7 +28,7 @@ class InterventionUsagerRefusedSubscriber implements EventSubscriberInterface
         $intervention = $interventionUsagerRefusedEvent->getIntervention();
 
         $signalement = $intervention->getSignalement();
-        $this->eventManager->createEventEstimationSent(
+        $event = $this->eventManager->createEventEstimationSent(
             signalement: $signalement,
             title: 'Estimation '.$intervention->getEntreprise()->getNom(),
             description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation',
@@ -37,7 +39,9 @@ class InterventionUsagerRefusedSubscriber implements EventSubscriberInterface
             actionLabel: 'En savoir plus',
             actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
         );
-        $this->eventManager->createEventEstimationSent(
+        $this->eventRepository->updateCreatedAt($event, $interventionUsagerRefusedEvent->getCreatedAt());
+
+        $event = $this->eventManager->createEventEstimationSent(
             signalement: $signalement,
             title: 'Estimation '.$intervention->getEntreprise()->getNom(),
             description: 'Vous avez envoyé une estimation à l\'usager.',
@@ -48,7 +52,9 @@ class InterventionUsagerRefusedSubscriber implements EventSubscriberInterface
             actionLabel: 'En savoir plus',
             actionLink: 'modalToOpen:view-estimation-'.$intervention->getId(),
         );
-        $this->eventManager->createEventEstimationSent(
+        $this->eventRepository->updateCreatedAt($event, $interventionUsagerRefusedEvent->getCreatedAt());
+
+        $event = $this->eventManager->createEventEstimationSent(
             signalement: $signalement,
             title: 'Estimation '.$intervention->getEntreprise()->getNom(),
             description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' vous a envoyé une estimation',
@@ -59,6 +65,7 @@ class InterventionUsagerRefusedSubscriber implements EventSubscriberInterface
             actionLabel: null,
             actionLink: null,
         );
+        $this->eventRepository->updateCreatedAt($event, $interventionUsagerRefusedEvent->getCreatedAt());
 
         // On considère que toutes les interventions ne sont pas encore refusées si
         // - il en reste sans estimation
