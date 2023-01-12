@@ -61,14 +61,13 @@ class InitSignalementEventsCommand extends Command
             return Command::FAILURE;
         }
 
-        $signalements = $this->signalementRepository->findBy(['uuid' => $uuid]);
-        if (empty($signalements)) {
+        $signalement = $this->signalementRepository->findOneBy(['uuid' => $uuid]);
+        if (empty($signalement)) {
             $this->io->error('Signalement not found');
 
             return Command::FAILURE;
         }
 
-        $signalement = $signalements[0];
         $this->initEvents($signalement);
         $this->io->success('Events created for signalement');
 
