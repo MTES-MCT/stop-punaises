@@ -153,6 +153,10 @@ class EventsProvider
                         if (!$mostRecentDate || $intervention->getChoiceByUsagerAt() > $mostRecentDate) {
                             $mostRecentDate = $intervention->getChoiceByUsagerAt();
                         }
+                    } else {
+                        if (!$mostRecentDate || $intervention->getChoiceByEntrepriseAt() > $mostRecentDate) {
+                            $mostRecentDate = $intervention->getChoiceByEntrepriseAt();
+                        }
                     }
                 }
             }

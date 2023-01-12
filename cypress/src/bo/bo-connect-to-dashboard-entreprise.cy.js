@@ -8,7 +8,6 @@ describe('Go to dashboard', () => {
     cy.get('#login-password').type(entreprise.password)
     cy.get('.fr-icon-check-line').click()
     cy.wait(300)
-    cy.get('.fr-card').first().click()
   })
 
 })
