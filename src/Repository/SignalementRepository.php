@@ -188,6 +188,8 @@ class SignalementRepository extends ServiceEntityRepository
                 SELECT i.signalement_id
                 FROM intervention i
                 WHERE i.entreprise_id = :entrepriseId
+                AND i.accepted = 1
+                AND i.resolved_by_entreprise_at IS NULL
                 AND (i.accepted_by_usager = true OR i.accepted_by_usager IS NULL)
             )
         ';
