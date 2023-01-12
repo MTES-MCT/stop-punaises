@@ -13,7 +13,7 @@ help:
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 build: ## Install local environement
-	@bash -l -c 'make .check .env .destroy .setup run .sleep composer npm-install create-db'
+	@bash -l -c 'make .check .env .destroy .setup run .sleep composer npm-install npm-build create-db'
 
 run: ## Start containers
 	@echo -e '\e[1;32mStart containers\032'
@@ -102,6 +102,10 @@ cs-fix: ## Fix source code with PHP-CS-Fixer
 
 npm-install: ## Install the dependencies in the local node_modules folder
 	@$(DOCKER_COMP) exec -it stopunaises_phpfpm npm install
+
+
+npm-build: ## Build the dependencies in the local node_modules folder
+	@$(DOCKER_COMP) exec -it stopunaises_phpfpm npm run build
 
 .env:
 	@bash -l -c 'cp .env.sample .env'
