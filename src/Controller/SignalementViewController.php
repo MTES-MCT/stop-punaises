@@ -334,18 +334,18 @@ class SignalementViewController extends AbstractController
         Signalement $signalement,
         ?Entreprise $entreprise = null,
     ): array {
-        $dbEvents = [];
+        $events = [];
         if ($this->isGranted('ROLE_ADMIN')) {
-            $dbEvents = $this->eventRepository->findAdminEvents(
+            $events = $this->eventRepository->findAdminEvents(
                 signalementUuid: $signalement->getUuid(),
             );
         } else {
-            $dbEvents = $this->eventRepository->findEntrepriseEvents(
+            $events = $this->eventRepository->findEntrepriseEvents(
                 signalementUuid: $signalement->getUuid(),
                 userId: $entreprise?->getUser()?->getId()
             );
         }
 
-        return $dbEvents;
+        return $events;
     }
 }
