@@ -1,3 +1,4 @@
+{% set motifLabel = '' %}
 {% if not is_granted('ROLE_ADMIN') and has_other_entreprise %}
     {% set motifLabel = 'Choix d\'une autre entreprise' %}
     {% set motifClass = 'other-entreprise' %}

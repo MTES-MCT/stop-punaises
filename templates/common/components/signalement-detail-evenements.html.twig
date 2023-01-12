@@ -10,7 +10,17 @@
         {% endif %}
         <h4>{{ event.title }}</h4>
         <div>{{ event.description }}</div>
-        {% if event.actionLink is defined and event.actionLink is not null %}
+        {% if event.modalToOpen is defined or (event.actionLink is defined and 'modalToOpen' in event.actionLink) %}
+            {% set modalToOpen = '' %}
+            {% if event.modalToOpen is defined %}
+                {% set modalToOpen = event.modalToOpen %}
+            {% else %}
+                {% set modalToOpen = event.actionLink[12:] %}
+            {% endif %}
+            <div class="event-item-action fr-mt-3v">
+                <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-{{ modalToOpen }}">{{ event.actionLabel }}</a>
+            </div>
+        {% elseif event.actionLink is defined and event.actionLink is not null %}
             {% if 'link-send-message' == event.actionLink %}
                 <div class="event-item-action fr-mt-3v">
                     <a href="#" class="{{ event.actionLink }}">{{ event.actionLabel }}</a>
@@ -20,11 +30,6 @@
                     <a href="{{ event.actionLink }}" {% if event.domain is not defined %} target="_blank" {% endif %}>{{ event.actionLabel }}</a>
                 </div>
             {% endif %}
-        {% endif %}
-        {% if event.modalToOpen is defined %}
-            <div class="event-item-action fr-mt-3v">
-                <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-{{ event.modalToOpen }}">{{ event.actionLabel }}</a>
-            </div>
         {% endif %}
     </div>
 {% endfor %}

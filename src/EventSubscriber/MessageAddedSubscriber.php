@@ -3,7 +3,6 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Event;
-use App\Entity\Message;
 use App\Entity\MessageThread;
 use App\Entity\Signalement;
 use App\Event\MessageAddedEvent;
@@ -86,7 +85,7 @@ class MessageAddedSubscriber implements EventSubscriberInterface
         $entreprise = $messageThread->getEntreprise();
         $signalement = $messageThread->getSignalement();
         $event = $this->eventManager->findOneBy([
-            'domain' => Message::DOMAIN_NAME,
+            'domain' => Event::DOMAIN_MESSAGE,
             'title' => 'Message avec l\'usager',
             'description' => sprintf('Vos échanges avec %s.', $entreprise->getNom()),
             'entityName' => Signalement::class,

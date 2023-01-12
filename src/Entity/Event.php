@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
 use App\Repository\EventRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,9 +11,27 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks()]
 class Event
 {
+    use ActivableTrait;
     use TimestampableTrait;
 
     public const DOMAIN_ADMIN_NOTICE = 'admin-notice';
+    public const DOMAIN_CLOSE_SIGNALEMENT = 'close-signalement';
+    public const DOMAIN_ESTIMATIONS_ALL_REFUSED = 'estimations-all-refused';
+    public const DOMAIN_ESTIMATION_SENT = 'estimation-sent';
+    public const DOMAIN_MESSAGE = 'message';
+    public const DOMAIN_NEW_SIGNALEMENT = 'new-signalement';
+    public const DOMAIN_NO_ENTREPRISE_AVAILABLE = 'no-entreprise-available';
+    public const DOMAIN_PROTOCOLE = 'protocole-autotraitement';
+    public const DOMAIN_REMINDER_AUTOTRAITEMENT = 'reminder-autotraitement';
+    public const DOMAIN_REMINDER_PRO = 'reminder-pro';
+    public const DOMAIN_SIGNALEMENT_ACCEPTED_BY_ENTREPRISE = 'signalement-accepted-by-entreprise';
+    public const DOMAIN_SIGNALEMENT_REFUSED_BY_ENTREPRISE = 'signalement-refused-by-entreprise';
+    public const DOMAIN_SIGNALEMENT_RESOLVED_BY_ENTREPRISE = 'signalement-resolved-by-entreprise';
+    public const DOMAIN_SIGNALEMENT_RESOLVED_ACCEPTED_BY_USAGER = 'signalement-resolved-accepted-by-usager';
+    public const DOMAIN_SWITCH_TRAITEMENT = 'switch-traitement';
+
+    public const USER_ADMIN = -1;
+    public const USER_ALL = 0;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -46,8 +65,11 @@ class Event
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $recipient = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: true, options: ['comment' => 'null if usager, -1 if admin, 0 if all, id if entreprise'])]
     private ?int $userId = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $userIdExcluded = null;
 
     public function getId(): ?int
     {
@@ -170,6 +192,18 @@ class Event
     public function setUserId(?int $userId): self
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function getUserIdExcluded(): ?int
+    {
+        return $this->userIdExcluded;
+    }
+
+    public function setUserIdExcluded(?int $userIdExcluded): self
+    {
+        $this->userIdExcluded = $userIdExcluded;
 
         return $this;
     }

@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Event\InterventionRemindedEvent;
+use App\Event\SignalementRemindedEvent;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
@@ -12,6 +14,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand(
     name: 'app:send-reminders',
@@ -27,6 +30,7 @@ class SendRemindersCommand extends Command
         private InterventionRepository $interventionRepository,
         private InterventionManager $interventionManager,
         private MailerProvider $mailerProvider,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
         parent::__construct();
     }
@@ -52,6 +56,13 @@ class SendRemindersCommand extends Command
             $signalement->setReminderAutotraitementAt(new \DateTimeImmutable());
             $this->signalementManager->save($signalement);
             $this->mailerProvider->sendSignalementSuiviTraitementAuto($signalement);
+
+            $this->eventDispatcher->dispatch(
+                new SignalementRemindedEvent(
+                    $signalement
+                ),
+                SignalementRemindedEvent::NAME
+            );
         }
 
         $interventionsToNotify = $this->interventionRepository->findToNotify();
@@ -63,6 +74,13 @@ class SendRemindersCommand extends Command
             $intervention->setReminderResolvedByEntrepriseAt(new \DateTimeImmutable());
             $this->interventionManager->save($intervention);
             $this->mailerProvider->sendSignalementSuiviTraitementPro($intervention);
+
+            $this->eventDispatcher->dispatch(
+                new InterventionRemindedEvent(
+                    $intervention
+                ),
+                InterventionRemindedEvent::NAME
+            );
         }
 
         $this->io->success(sprintf('%s signalements were notified, %s interventions were notified',
