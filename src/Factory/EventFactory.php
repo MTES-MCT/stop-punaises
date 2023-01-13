@@ -11,6 +11,7 @@ class EventFactory
         string $title,
         string $description,
         ?int $userId = null,
+        ?int $userIdExcluded = null,
         ?string $recipient = null,
         ?string $label = null,
         ?string $actionLink = null,
@@ -19,10 +20,12 @@ class EventFactory
         ?string $entityUuid = null
     ) {
         return (new Event())
+            ->setActive(true)
             ->setDomain($domain)
             ->setTitle($title)
             ->setDescription($description)
             ->setUserId($userId)
+            ->setUserIdExcluded($userIdExcluded)
             ->setRecipient($recipient)
             ->setLabel($label ?? null)
             ->setActionLabel($actionLabel ?? null)

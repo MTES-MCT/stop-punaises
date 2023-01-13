@@ -109,7 +109,7 @@ class SignalementRepository extends ServiceEntityRepository
     public function countOpenWithoutIntervention(): int
     {
         $qb = $this->createQueryBuilder('s')
-            ->select('COUNT(s.id) as count')
+            ->select('COUNT(DISTINCT s.id) as count')
             ->leftJoin('s.territoire', 't')
                 ->where('t.active = true')
             ->leftJoin('s.interventions', 'i')
@@ -126,7 +126,7 @@ class SignalementRepository extends ServiceEntityRepository
     public function countOpenWithIntervention(): int
     {
         $qb = $this->createQueryBuilder('s')
-            ->select('COUNT(s.id) as count')
+            ->select('COUNT(DISTINCT s.id) as count')
             ->leftJoin('s.territoire', 't')
                 ->where('t.active = true')
             ->leftJoin('s.interventions', 'i')
@@ -144,7 +144,7 @@ class SignalementRepository extends ServiceEntityRepository
     {
         $connection = $this->getEntityManager()->getConnection();
         $sql = '
-        SELECT COUNT(s.id)
+        SELECT COUNT(DISTINCT s.id)
         FROM `signalement` s
         WHERE
             s.resolved_at IS NULL
@@ -176,7 +176,7 @@ class SignalementRepository extends ServiceEntityRepository
     {
         $connection = $this->getEntityManager()->getConnection();
         $sql = '
-        SELECT COUNT(s.id)
+        SELECT COUNT(DISTINCT s.id)
         FROM `signalement` s
         WHERE
             s.resolved_at IS NULL
@@ -188,6 +188,8 @@ class SignalementRepository extends ServiceEntityRepository
                 SELECT i.signalement_id
                 FROM intervention i
                 WHERE i.entreprise_id = :entrepriseId
+                AND i.accepted = 1
+                AND i.resolved_by_entreprise_at IS NULL
                 AND (i.accepted_by_usager = true OR i.accepted_by_usager IS NULL)
             )
         ';

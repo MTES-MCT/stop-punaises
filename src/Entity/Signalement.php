@@ -178,6 +178,9 @@ class Signalement
     #[ORM\OneToMany(mappedBy: 'signalement', targetEntity: MessageThread::class)]
     private Collection $messagesThread;
 
+    #[ORM\Column(type: Types::GUID, nullable: true)]
+    private ?string $uuidPublic = null;
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -820,6 +823,18 @@ class Signalement
                 $messagesThread->setSignalement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUuidPublic(): ?string
+    {
+        return $this->uuidPublic;
+    }
+
+    public function setUuidPublic(?string $uuidPublic): self
+    {
+        $this->uuidPublic = $uuidPublic;
 
         return $this;
     }

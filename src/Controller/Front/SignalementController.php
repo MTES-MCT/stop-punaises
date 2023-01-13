@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\Enum\Declarant;
 use App\Entity\Signalement;
+use App\Event\SignalementAddedEvent;
 use App\Form\SignalementFrontType;
 use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
@@ -13,6 +14,7 @@ use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\ZipCodeService;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,6 +44,7 @@ class SignalementController extends AbstractController
         MailerProvider $mailerProvider,
         ZipCodeService $zipCodeService,
         EntrepriseRepository $entrepriseRepository,
+        EventDispatcherInterface $eventDispatcher,
         ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
@@ -51,6 +54,7 @@ class SignalementController extends AbstractController
         if ($form->isValid() && $this->isCsrfTokenValid('front-add-signalement', $submittedToken)) {
             $signalement->setReference($referenceGenerator->generate());
             $signalement->setDeclarant(Declarant::DECLARANT_OCCUPANT);
+            $signalement->setUuidPublic(uniqid());
 
             $filesPosted = $request->files->get('file-upload');
             $filesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
@@ -70,11 +74,19 @@ class SignalementController extends AbstractController
 
                 $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
                 foreach ($entreprises as $entreprise) {
-                    if ($entreprise->getUser()->getEmail()) {
+                    if ($entreprise->getUser() && $entreprise->getUser()->getEmail()) {
                         $mailerProvider->sendSignalementNewForPro($entreprise->getUser()->getEmail(), $signalement);
                     }
                 }
             }
+
+            $eventDispatcher->dispatch(
+                new SignalementAddedEvent(
+                    $signalement,
+                    $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement')
+                ),
+                SignalementAddedEvent::NAME
+            );
 
             $this->addFlash('success', 'Le signalement a bien été enregistré.');
 

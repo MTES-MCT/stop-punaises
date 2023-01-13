@@ -14,8 +14,6 @@ class Message
 {
     use TimestampableTrait;
 
-    public const DOMAIN_NAME = 'message';
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

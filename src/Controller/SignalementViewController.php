@@ -7,6 +7,10 @@ use App\Entity\Intervention;
 use App\Entity\MessageThread;
 use App\Entity\Signalement;
 use App\Entity\User;
+use App\Event\InterventionEntrepriseAcceptedEvent;
+use App\Event\InterventionEntrepriseAllRefusedEvent;
+use App\Event\InterventionEntrepriseRefusedEvent;
+use App\Event\InterventionEstimationSentEvent;
 use App\Manager\EntrepriseManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
@@ -14,12 +18,12 @@ use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Repository\MessageThreadRepository;
 use App\Service\Mailer\MailerProvider;
-use App\Service\Signalement\EventsProvider;
 use App\Service\Upload\UploadHandlerService;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,14 +57,6 @@ class SignalementViewController extends AbstractController
                 $userEntreprise
             );
         }
-
-        $eventsProvider = new EventsProvider(
-            signalement: $signalement,
-            pdfUrl: $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'),
-            isAdmin: $this->isGranted('ROLE_ADMIN'),
-            isBackOffice: true,
-            entreprise: $userEntreprise
-        );
 
         $signalementPhotos = $signalement->getPhotos();
         $photos = [];
@@ -101,7 +97,7 @@ class SignalementViewController extends AbstractController
             'signalement' => $signalement,
             'messages' => $this->getMessages($signalement, $userEntreprise),
             'photos' => $this->getPhotos($signalement),
-            'events' => $this->getMergeEvents($eventsProvider, $signalement, $userEntreprise),
+            'events' => $this->getEvents($signalement, $userEntreprise),
             'entrepriseIntervention' => $entrepriseIntervention,
             'entreprise' => $userEntreprise,
         ]);
@@ -112,6 +108,7 @@ class SignalementViewController extends AbstractController
         Request $request,
         Signalement $signalement,
         InterventionManager $interventionManager,
+        EventDispatcherInterface $eventDispatcher,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_accept', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
@@ -123,6 +120,14 @@ class SignalementViewController extends AbstractController
             $intervention->setAccepted(true);
             $interventionManager->save($intervention);
             $this->addFlash('success', 'Le signalement a bien été accepté');
+
+            $eventDispatcher->dispatch(
+                new InterventionEntrepriseAcceptedEvent(
+                    $intervention,
+                    $user->getId(),
+                ),
+                InterventionEntrepriseAcceptedEvent::NAME
+            );
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
@@ -136,6 +141,7 @@ class SignalementViewController extends AbstractController
         MailerProvider $mailerProvider,
         EntrepriseManager $entrepriseManager,
         ValidatorInterface $validator,
+        EventDispatcherInterface $eventDispatcher,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
@@ -152,11 +158,26 @@ class SignalementViewController extends AbstractController
                 $interventionManager->save($intervention);
                 $this->addFlash('success', 'Le signalement a bien été refusé');
 
+                $eventDispatcher->dispatch(
+                    new InterventionEntrepriseRefusedEvent(
+                        $intervention,
+                        $user->getId(),
+                    ),
+                    InterventionEntrepriseRefusedEvent::NAME
+                );
+
                 // Check if entreprises are still available for this territoire
                 // If not, contact user
                 $remainingEntreprises = $entrepriseManager->isEntrepriseRemainingForSignalement($signalement);
                 if (!$remainingEntreprises) {
                     $mailerProvider->sendSignalementWithNoMoreEntreprise($signalement);
+
+                    $eventDispatcher->dispatch(
+                        new InterventionEntrepriseAllRefusedEvent(
+                            $intervention,
+                        ),
+                        InterventionEntrepriseAllRefusedEvent::NAME
+                    );
                 }
             } else {
                 foreach ($errors as $error) {
@@ -175,6 +196,7 @@ class SignalementViewController extends AbstractController
         InterventionManager $interventionManager,
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
+        EventDispatcherInterface $eventDispatcher,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_estimation_send', $request->get('_csrf_token'))) {
             $montant = $request->get('montant');
@@ -195,6 +217,14 @@ class SignalementViewController extends AbstractController
                 $this->addFlash('success', 'L\'estimation a bien été transmise.');
 
                 $mailerProvider->sendSignalementNewEstimation($signalement, $intervention);
+
+                $eventDispatcher->dispatch(
+                    new InterventionEstimationSentEvent(
+                        $intervention,
+                        $user->getId(),
+                    ),
+                    InterventionEstimationSentEvent::NAME
+                );
             }
         }
 
@@ -300,21 +330,21 @@ class SignalementViewController extends AbstractController
         return $messagesThread?->getMessages();
     }
 
-    private function getMergeEvents(
-        EventsProvider $eventsProvider,
+    private function getEvents(
         Signalement $signalement,
         ?Entreprise $entreprise = null,
     ): array {
-        $events = $eventsProvider->getEvents();
-        $messageEvents = $this->eventRepository->findMessageEvents(
-            signalementUuid: $signalement->getUuid(),
-            recipient: $entreprise?->getUser()?->getEmail()
-        );
-        $adminEvents = $this->eventRepository->findAdminEvents(
-            signalementUuid: $signalement->getUuid(),
-        );
-        $events = array_merge($events, $messageEvents, $adminEvents);
-        usort($events, fn ($a, $b) => $a['date'] > $b['date'] ? -1 : 1);
+        $events = [];
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $events = $this->eventRepository->findAdminEvents(
+                signalementUuid: $signalement->getUuid(),
+            );
+        } else {
+            $events = $this->eventRepository->findEntrepriseEvents(
+                signalementUuid: $signalement->getUuid(),
+                userId: $entreprise?->getUser()?->getId()
+            );
+        }
 
         return $events;
     }
