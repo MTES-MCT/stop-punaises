@@ -2,6 +2,10 @@ import user from '../../fixtures/user.json'
 
 describe('Post front signalement with 4 as a result', () => {
   it ('Gets 4 as a result', () => {
+    cy.visit('http://localhost:8090/')
+    cy.get('#code-postal').type(user.codepostal)
+    cy.get('.btn-next').click()
+    cy.wait(1000)
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)
     cy.get('#signalement_front_typeLogement_1').click()
