@@ -178,7 +178,7 @@ territoires:
   -
     zip: "44"
     name: "Loire-Atlantique"
-    active: 1
+    active: 0
   -
     zip: "45"
     name: "Loiret"
