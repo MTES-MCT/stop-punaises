@@ -108,6 +108,7 @@ signalements:
   code_insee: "13202"
   reference: "2022-7"
   declarant: "DECLARANT_OCCUPANT"
+  autotraitement: 0
   territoire: "13"
 -
   uuid: "00000001-0001-0001-0001-000000000000"
@@ -122,4 +123,5 @@ signalements:
   code_insee: "14202"
   reference: "2022-8"
   declarant: "DECLARANT_OCCUPANT"
+  autotraitement: 1
   territoire: "44"

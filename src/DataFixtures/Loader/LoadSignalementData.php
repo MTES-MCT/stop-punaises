@@ -66,6 +66,9 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
         if (!empty($row['agent'])) {
             $signalement->setAgent($this->employeRepository->findOneBy(['uuid' => $row['agent']]));
         }
+        if (\array_key_exists('autotraitement', $row)) {
+            $signalement->setAutotraitement(1 == $row['autotraitement']);
+        }
 
         $manager->persist($signalement);
     }
