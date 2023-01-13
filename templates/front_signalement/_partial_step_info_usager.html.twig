@@ -37,6 +37,27 @@
         </p>
     </div>
 
+    <div class="if-logement-social">
+        <h2>Stop punaises</h2>
+
+        <p>
+            En tant que locataire du parc social, votre bailleur doit avoir un service 
+            de gestion des nuisibles et punaises de lit.
+        </p>
+
+        <p>
+            Ceux-ci n’étant pas encore connectés à la plateforme, <strong>nous vous invitons 
+            à contacter sans plus attendre votre bailleur pour lui signifier votre 
+            problème et lui demander d’intervenir dans les meilleurs délais</strong>.
+        </p>
+
+        <p>
+            Vous pouvez également renseigner vos coordonnées pour recevoir le protocole 
+            d’auto-traitement par mail qui facilitera l’intervention de votre bailleur 
+            et limitera la diffusion du problème
+        </p>
+    </div>
+
     <div class="fr-form-group">
         <div class="fr-select-group">
             {{ form_label(form.nomOccupant) }}
@@ -81,7 +102,7 @@
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('front-add-signalement') }}">
 
-    <div class="if-territory-not-open">
+    <div class="if-territory-not-open if-logement-social">
         {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Recevoir le protocole', 'previous': 'Retour' } %}
     </div>
     <div class="if-territory-open">

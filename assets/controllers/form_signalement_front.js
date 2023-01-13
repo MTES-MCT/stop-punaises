@@ -37,10 +37,20 @@ class PunaisesFrontSignalementController {
     'autotraitement_info',
     'autotraitement_sent',
   ];
+  SOCIAL_STEP_LIST = [
+    'home',
+    'info_intro',
+    'info_logement',
+    'info_locataire',
+    'info_usager',
+    'autotraitement_info',
+    'autotraitement_sent',
+  ];
   OPEN_TERRITORIES = [ '13' ];
   step = 1;
   stepStr = 'home';
   isTerritoryOpen = true;
+  isLogementSocial = false;
   hasTraces = false;
   hasRechercheInsecte = false;
   hasInsectes = false;
@@ -82,7 +92,9 @@ class PunaisesFrontSignalementController {
     let acceptRefresh = (offset > 0) ? self.checkStep() : true;
     if (acceptRefresh) {
       self.step += offset;
-      if (self.isTerritoryOpen) {
+      if (self.isLogementSocial) {
+        self.stepStr = self.SOCIAL_STEP_LIST[self.step - 1];
+      } else if (self.isTerritoryOpen) {
         self.stepStr = self.OPEN_STEP_LIST[self.step - 1];
       } else {
         self.stepStr = self.CLOSED_STEP_LIST[self.step - 1];
@@ -314,6 +326,10 @@ class PunaisesFrontSignalementController {
     if ($('#signalement_front_allocataire_0').prop('checked') && !self.checkSingleInput('signalement_front_numeroAllocataire')) {
       canGoNext = false;
     }
+
+    if (canGoNext) {
+      self.isLogementSocial = $('#signalement_front_logementSocial_0').prop('checked');
+    }
     
     return canGoNext;
   }
@@ -509,12 +525,20 @@ class PunaisesFrontSignalementController {
   }
 
   initStepInfoUsager() {
-    if (self.isTerritoryOpen) {
+    if (self.isLogementSocial) {
+      $('.if-territory-open').hide();
+      $('.if-territory-not-open').hide();
+      $('.if-logement-social').show();
+
+    } else if (self.isTerritoryOpen) {
       $('.if-territory-open').show();
       $('.if-territory-not-open').hide();
+      $('.if-logement-social').hide();
+
     } else {
       $('#signalement_front_autotraitement').val(true);
       $('.if-territory-open').hide();
+      $('.if-logement-social').hide();
       $('.if-territory-not-open').show();
       $('.if-territory-not-open').append('<input type="hidden" id="hidden-postal-code" name="signalement_front[codePostal]" value="'+ $('input#code-postal').val() +'">');
     }
@@ -528,7 +552,7 @@ class PunaisesFrontSignalementController {
     if (!self.checkSingleInput('signalement_front_prenomOccupant')) {
       canGoNext = false;
     }
-    if (self.isTerritoryOpen) {
+    if (self.isTerritoryOpen && !self.isLogementSocial) {
       if (!self.checkSingleInput('signalement_front_telephoneOccupant') || $('#signalement_front_telephoneOccupant').val().length < 10 ) {
         $('input#signalement_front_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
         canGoNext = false;
@@ -554,6 +578,9 @@ class PunaisesFrontSignalementController {
   submitAdd() {
     $('.front-signalement #step-professionnel_info .btn-next-next').attr('disabled', 'disabled');
     $('.front-signalement #step-autotraitement_info .btn-next-next').attr('disabled', 'disabled');
+    if (self.isLogementSocial) {
+      $('#signalement_front_autotraitement').val(true);
+    }
     var formData = new FormData($('.front-signalement')[0]);
     $.ajax({
       type: 'POST',
@@ -565,7 +592,7 @@ class PunaisesFrontSignalementController {
   
       success: function() {
         let nbStep = 2;
-        if (!self.isTerritoryOpen) {
+        if (!self.isTerritoryOpen || self.isLogementSocial) {
           nbStep = 1;
         }
         self.refreshStep(nbStep);
