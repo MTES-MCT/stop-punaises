@@ -1,6 +1,6 @@
 import user from '../../fixtures/user.json'
 
-describe('Post front signalement with 3 as a result', () => {
+describe('Post front signalement with 3 as a result', { testIsolation: false }, () => {
   it ('Gets 3 as a result', () => {
     cy.visit('http://localhost:8090/')
     cy.get('#code-postal').type(user.codepostal)

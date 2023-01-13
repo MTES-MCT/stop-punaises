@@ -1,4 +1,4 @@
-describe('Check of items on dashboard for admin', () => {
+describe('Check of items on dashboard for admin', { testIsolation: false }, () => {
   it ('Displays the header items', () => {
     cy.get('.fr-header__tools-links').contains('Tableau de bord')
     cy.get('.fr-header__tools-links').contains('Cartographie')

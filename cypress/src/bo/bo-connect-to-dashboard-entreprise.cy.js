@@ -1,6 +1,6 @@
 import entreprise from '../../fixtures/entreprise.json'
 
-describe('Go to dashboard', () => {
+describe('Go to dashboard', { testIsolation: false }, () => {
   it ('Logins with entreprise account', () => {
     cy.get('header .fr-header__body .fr-btns-group .fr-icon-lock-line').click()
     cy.wait(300)

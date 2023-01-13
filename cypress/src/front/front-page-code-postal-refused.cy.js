@@ -1,6 +1,6 @@
 import user from '../../fixtures/user.json'
 
-describe('Go to front page and post refused code postal', () => {
+describe('Go to front page and post refused code postal', { testIsolation: false }, () => {
   it ('Refuses code postal', () => {
     cy.visit('http://localhost:8090/')
     cy.custom.disableSmoothScroll()

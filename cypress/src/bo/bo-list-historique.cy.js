@@ -1,4 +1,4 @@
-describe('Go to list of historique', () => {
+describe('Go to list of historique', { testIsolation: false }, () => {
   it ('Displays the list of historique', () => {
     cy.get('.fr-nav__list').contains('Historique').click()
     cy.wait(300)

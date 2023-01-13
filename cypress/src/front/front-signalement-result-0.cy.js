@@ -1,6 +1,6 @@
 import user from '../../fixtures/user.json'
 
-describe('Post front signalement with 0 as a result', () => {
+describe('Post front signalement with 0 as a result', { testIsolation: false }, () => {
   it ('Gets 0 as a result', () => {
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)

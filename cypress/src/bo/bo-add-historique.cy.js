@@ -1,6 +1,6 @@
 import user from '../../fixtures/user.json'
 
-describe('Add a historique', () => {
+describe('Add a historique', { testIsolation: false }, () => {
   it ('Adds one historique', () => {
     cy.get('.liste-signalements .add-button-container .fr-btn').contains('Créer un signalement').click()
     cy.wait(300)

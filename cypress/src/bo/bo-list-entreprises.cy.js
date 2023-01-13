@@ -1,4 +1,4 @@
-describe('Go to list of entreprises', () => {
+describe('Go to list of entreprises', { testIsolation: false }, () => {
   it ('Displays the list of entreprises', () => {
     cy.get('.fr-nav__list').contains('Les entreprises').click()
     cy.wait(300)
