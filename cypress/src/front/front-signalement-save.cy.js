@@ -1,4 +1,4 @@
-describe('Save the signalement', () => {
+describe('Save the signalement', { testIsolation: false }, () => {
   it ('Saves the signalement', () => {
     cy.get('.if-recommandation-not-zero .btn-next').click()
     cy.wait(300)
