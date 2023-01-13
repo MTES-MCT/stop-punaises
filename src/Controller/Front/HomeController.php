@@ -22,4 +22,11 @@ class HomeController extends AbstractController
             'controller_name' => 'FrontInformationController',
         ]);
     }
+
+    #[Route('/mentions-legales', name: 'app_front_mentions_legales')]
+    public function mentionsLegales(): Response
+    {
+        return $this->render('front/mentions-legales.html.twig', [
+        ]);
+    }
 }
