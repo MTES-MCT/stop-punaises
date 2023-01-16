@@ -35,6 +35,10 @@ class AppExtension extends AbstractExtension
 
     public function formatTypeSignalement(Signalement $signalement): string
     {
+        if ($signalement->isLogementSocial()) {
+            return 'Logement social';
+        }
+
         if ($signalement->isAutotraitement()) {
             return 'Auto-traitement';
         }
