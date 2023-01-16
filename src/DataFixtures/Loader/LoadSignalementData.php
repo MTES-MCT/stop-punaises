@@ -36,7 +36,6 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
         $faker = Factory::create('fr_FR');
 
         $signalement = (new Signalement())
-            ->setEntreprise($this->entrepriseRepository->findOneBy(['uuid' => $row['entreprise']]))
             ->setUuid($row['uuid'])
             ->setAdresse($row['adresse'])
             ->setCodePostal($row['code_postal'])
@@ -57,10 +56,19 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
             ->setCodeInsee($row['code_insee'])
             ->setNiveauInfestation($row['niveau_infestation'])
             ->setDateIntervention(new \DateTimeImmutable())
-            ->setAgent($this->employeRepository->findOneBy(['uuid' => $row['agent']]))
             ->setReference($row['reference'])
             ->setDeclarant(Declarant::from($row['declarant']))
             ->setTerritoire($this->territoireRepository->findOneBy(['zip' => $row['territoire']]));
+
+        if (!empty($row['entreprise'])) {
+            $signalement->setEntreprise($this->entrepriseRepository->findOneBy(['uuid' => $row['entreprise']]));
+        }
+        if (!empty($row['agent'])) {
+            $signalement->setAgent($this->employeRepository->findOneBy(['uuid' => $row['agent']]));
+        }
+        if (\array_key_exists('autotraitement', $row)) {
+            $signalement->setAutotraitement(1 == $row['autotraitement']);
+        }
 
         $manager->persist($signalement);
     }

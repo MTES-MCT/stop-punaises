@@ -1,7 +1,7 @@
 import user from '../../fixtures/user.json'
 
-describe('Post front signalement with 1 as a result', { testIsolation: false }, () => {
-  it ('Gets 1 as a result', () => {
+describe('Post front signalement with 2 as a result', { testIsolation: false }, () => {
+  it ('Gets 2 as a result', () => {
     cy.visit('http://localhost:8090/')
     cy.get('#code-postal').type(user.codepostal)
     cy.get('.btn-next').click()
@@ -35,7 +35,10 @@ describe('Post front signalement with 1 as a result', { testIsolation: false }, 
     cy.wait(300)
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)
-    cy.get('#signalement_front_oeufsEtLarvesTrouves_1').click()
+    cy.get('#signalement_front_oeufsEtLarvesTrouves_0').click()
+    cy.get('#signalement_front_oeufsEtLarvesNombrePiecesConcernees_0').click()
+    cy.get('#signalement_front_oeufsEtLarvesFaciliteDetections_1').click()
+    cy.get('#signalement_front_oeufsEtLarvesLieuxObservations_0').click()
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)
     cy.get('#signalement_front_punaisesTrouvees_1').click()
@@ -47,7 +50,7 @@ describe('Post front signalement with 1 as a result', { testIsolation: false }, 
     cy.get('#signalement_front_emailOccupant').type(user.email)
     cy.get('section.current-step .if-territory-open .btn-next').click()
     cy.wait(300)
-    cy.get('#niveau-infestation .niveau-infestation').contains('1')
+    cy.get('#niveau-infestation .niveau-infestation').contains('2')
   })
 
 })
