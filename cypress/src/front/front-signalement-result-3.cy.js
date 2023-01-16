@@ -17,7 +17,7 @@ describe('Post front signalement with 3 as a result', { testIsolation: false }, 
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)
     cy.get('#signalement_front_locataire_0').click()
-    cy.get('#signalement_front_logementSocial_0').click()
+    cy.get('#signalement_front_logementSocial_1').click()
     cy.get('#signalement_front_allocataire_1').click()
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)

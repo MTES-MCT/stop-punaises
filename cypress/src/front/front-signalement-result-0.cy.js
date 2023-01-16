@@ -2,6 +2,10 @@ import user from '../../fixtures/user.json'
 
 describe('Post front signalement with 0 as a result', { testIsolation: false }, () => {
   it ('Gets 0 as a result', () => {
+    cy.visit('http://localhost:8090/')
+    cy.get('#code-postal').type(user.codepostal)
+    cy.get('.btn-next').click()
+    cy.wait(1000)
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)
     cy.get('#signalement_front_typeLogement_1').click()
@@ -13,7 +17,7 @@ describe('Post front signalement with 0 as a result', { testIsolation: false }, 
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)
     cy.get('#signalement_front_locataire_0').click()
-    cy.get('#signalement_front_logementSocial_0').click()
+    cy.get('#signalement_front_logementSocial_1').click()
     cy.get('#signalement_front_allocataire_1').click()
     cy.get('section.current-step .btn-next').click()
     cy.wait(300)
