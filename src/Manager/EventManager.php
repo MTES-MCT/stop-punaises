@@ -24,12 +24,14 @@ class EventManager extends AbstractManager
         string $domain,
         ?int $userId,
         ?string $recipient,
+        ?string $title = null
     ) {
         $activeEvents = $this->eventRepository->findActiveDomainEvents(
             $signalement->getUuid(),
             $domain,
             $userId,
-            $recipient
+            $recipient,
+            $title
         );
 
         foreach ($activeEvents as $activeEvent) {
@@ -155,7 +157,7 @@ class EventManager extends AbstractManager
         ?int $userId = null,
         ?string $actionLink = null
     ): Event {
-        $this->setPreviousInactive($messageThread->getSignalement(), Event::DOMAIN_MESSAGE, $userId, $recipient);
+        $this->setPreviousInactive($messageThread->getSignalement(), Event::DOMAIN_MESSAGE, $userId, $recipient, $title);
 
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_MESSAGE,
@@ -185,7 +187,7 @@ class EventManager extends AbstractManager
         ?string $actionLabel,
         ?string $actionLink,
     ): Event {
-        $this->setPreviousInactive($signalement, Event::DOMAIN_ESTIMATION_SENT, $userId, $recipient);
+        $this->setPreviousInactive($signalement, Event::DOMAIN_ESTIMATION_SENT, $userId, $recipient, $title);
 
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_ESTIMATION_SENT,

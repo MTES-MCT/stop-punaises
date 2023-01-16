@@ -22,7 +22,7 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findActiveDomainEvents(string $signalementUuid, string $domain, ?int $userId, ?string $recipient): array
+    public function findActiveDomainEvents(string $signalementUuid, string $domain, ?int $userId, ?string $recipient, ?string $title): array
     {
         $qb = $this->createQueryBuilder('e');
         $qb->where('e.entityName = :entityName')
@@ -44,6 +44,11 @@ class EventRepository extends ServiceEntityRepository
                 ->setParameter('recipient', $recipient);
         } else {
             $qb->andWhere('e.recipient IS NULL');
+        }
+
+        if (!empty($title)) {
+            $qb->andWhere('e.title = :title')
+                ->setParameter('title', $title);
         }
 
         return $qb->getQuery()->getResult();
