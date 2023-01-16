@@ -48,6 +48,10 @@ class AppExtension extends AbstractExtension
 
     public function formatLabelInfestation(?int $niveau = 0): string
     {
+        if (empty($niveau)) {
+            return '-';
+        }
+
         return InfestationLevel::from($niveau)->label();
     }
 
