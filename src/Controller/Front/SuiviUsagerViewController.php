@@ -245,6 +245,12 @@ class SuiviUsagerViewController extends AbstractController
                     $interventionToAnswer->setAcceptedByUsager(false);
                     $interventionManager->save($interventionToAnswer);
                     $mailerProvider->sendSignalementEstimationRefused($interventionToAnswer->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
+                    $eventDispatcher->dispatch(
+                        new InterventionUsagerRefusedEvent(
+                            $interventionToAnswer
+                        ),
+                        InterventionUsagerRefusedEvent::NAME
+                    );
                 }
 
                 $eventDispatcher->dispatch(
