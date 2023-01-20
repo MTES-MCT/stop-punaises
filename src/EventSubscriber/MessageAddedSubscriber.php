@@ -52,7 +52,7 @@ class MessageAddedSubscriber implements EventSubscriberInterface
                 messageThread: $messageThread,
                 title: sprintf('Messages avec %s', $entrepriseName),
                 description: sprintf('Echanges avec %s.', $entrepriseName),
-                recipient: $signalement->getEmailOccupant(),
+                recipient: null,
                 userId: Event::USER_ADMIN,
                 actionLink: $link,
             );
@@ -78,7 +78,7 @@ class MessageAddedSubscriber implements EventSubscriberInterface
                 messageThread: $messageThread,
                 title: sprintf('Messages avec %s', $entrepriseName),
                 description: sprintf('Echanges avec %s.', $entrepriseName),
-                recipient: $signalement->getEmailOccupant(),
+                recipient: null,
                 userId: Event::USER_ADMIN,
                 actionLink: $link,
             );
