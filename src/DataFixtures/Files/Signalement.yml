@@ -2,6 +2,7 @@ signalements:
 -
   entreprise: "00000001-0001-0000-0000-000000000000"
   uuid: "00000001-0001-0000-0000-000000000000"
+  uuid_public: "aaabbb111"
   adresse: "18 Avenue De La Republique"
   code_postal: "13002"
   ville: "Marseille"
@@ -18,6 +19,7 @@ signalements:
 -
   entreprise: "00000001-0001-0000-0000-000000000000"
   uuid: "00000001-0002-0000-0000-000000000000"
+  uuid_public: "aaabbb112"
   adresse: "19 Avenue De La Republique"
   code_postal: "13002"
   ville: "Marseille"
@@ -34,6 +36,7 @@ signalements:
 -
   entreprise: "00000001-0001-0000-0000-000000000000"
   uuid: "00000001-0003-0000-0000-000000000000"
+  uuid_public: "aaabbb113"
   adresse: "20 Avenue De La Republique"
   code_postal: "13002"
   ville: "Marseille"
@@ -50,6 +53,7 @@ signalements:
 -
   entreprise: "00000001-0002-0000-0000-000000000000"
   uuid: "00000001-0004-0000-0000-000000000000"
+  uuid_public: "aaabbb114"
   adresse: "21 Avenue De La Republique"
   code_postal: "13002"
   ville: "Marseille"
@@ -66,6 +70,7 @@ signalements:
 -
   entreprise: "00000001-0002-0000-0000-000000000000"
   uuid: "00000001-0005-0000-0000-000000000000"
+  uuid_public: "aaabbb115"
   adresse: "22 Avenue De La Republique"
   code_postal: "13002"
   ville: "Marseille"
@@ -82,6 +87,7 @@ signalements:
 -
   entreprise: "00000001-0003-0000-0000-000000000000"
   uuid: "00000001-0006-0000-0000-000000000000"
+  uuid_public: "aaabbb116"
   adresse: "23 Avenue De La Republique"
   code_postal: "13002"
   ville: "Marseille"
@@ -97,6 +103,7 @@ signalements:
   territoire: "13"
 -
   uuid: "00000001-0001-0001-0000-000000000000"
+  uuid_public: "aaaccc111"
   adresse: "24 Avenue De La Republique"
   code_postal: "13002"
   ville: "Marseille"
@@ -112,6 +119,7 @@ signalements:
   territoire: "13"
 -
   uuid: "00000001-0001-0001-0001-000000000000"
+  uuid_public: "aaaccc112"
   adresse: "24 Avenue De La Republique"
   code_postal: "44001"
   ville: "Nantes"

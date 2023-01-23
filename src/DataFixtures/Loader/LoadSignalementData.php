@@ -37,6 +37,7 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
 
         $signalement = (new Signalement())
             ->setUuid($row['uuid'])
+            ->setUuidPublic($row['uuid_public'])
             ->setAdresse($row['adresse'])
             ->setCodePostal($row['code_postal'])
             ->setVille($row['ville'])
