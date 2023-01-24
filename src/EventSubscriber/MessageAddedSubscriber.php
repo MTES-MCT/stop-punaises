@@ -35,6 +35,11 @@ class MessageAddedSubscriber implements EventSubscriberInterface
         $entrepriseName = $entreprise->getNom();
         $entrepriseEmail = $entreprise->getUser()->getEmail();
 
+        $link = $this->urlGenerator->generate('app_suivi_usager_view_messages_thread', [
+            'signalement_uuid' => $signalement->getUuid(),
+            'thread_uuid' => $messageThread->getUuid(),
+        ]);
+
         if (null === $messageAddedEvent->getUser()) {
             $this->mailerProvider->sendNotificationToEntreprise($signalement, $entrepriseEmail);
             $this->eventManager->createEventMessage(
@@ -42,6 +47,14 @@ class MessageAddedSubscriber implements EventSubscriberInterface
                 title: sprintf('Messages avec %s', $entrepriseName),
                 description: sprintf('L\'entreprise %s va vous contacter.', $entrepriseName),
                 recipient: $signalement->getEmailOccupant(),
+            );
+            $this->eventManager->createEventMessage(
+                messageThread: $messageThread,
+                title: sprintf('Messages avec %s', $entrepriseName),
+                description: sprintf('Echanges avec %s.', $entrepriseName),
+                recipient: null,
+                userId: Event::USER_ADMIN,
+                actionLink: $link,
             );
             $this->eventManager->createEventMessage(
                 messageThread: $messageThread,
@@ -54,16 +67,19 @@ class MessageAddedSubscriber implements EventSubscriberInterface
         } else {
             $this->mailerProvider->sendNotificationToUsager($signalement, $entrepriseName);
 
-            $link = $this->urlGenerator->generate('app_suivi_usager_view_messages_thread', [
-                'signalement_uuid' => $signalement->getUuid(),
-                'thread_uuid' => $messageThread->getUuid(),
-            ]);
-
             $this->eventManager->createEventMessage(
                 messageThread: $messageThread,
                 title: sprintf('Messages avec %s', $entrepriseName),
                 description: sprintf('Vos échanges avec %s.', $entrepriseName),
                 recipient: $signalement->getEmailOccupant(),
+                actionLink: $link,
+            );
+            $this->eventManager->createEventMessage(
+                messageThread: $messageThread,
+                title: sprintf('Messages avec %s', $entrepriseName),
+                description: sprintf('Echanges avec %s.', $entrepriseName),
+                recipient: null,
+                userId: Event::USER_ADMIN,
                 actionLink: $link,
             );
 

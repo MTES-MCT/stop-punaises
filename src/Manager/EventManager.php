@@ -153,7 +153,7 @@ class EventManager extends AbstractManager
         MessageThread $messageThread,
         string $title,
         string $description,
-        string $recipient,
+        ?string $recipient,
         ?int $userId = null,
         ?string $actionLink = null
     ): Event {
