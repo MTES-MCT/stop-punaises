@@ -58,6 +58,16 @@
                 {% endif %}
             </div>
         </div>
+
+        {% if not is_granted('ROLE_ADMIN') %}
+        <div class="fr-alert fr-alert--warning fr-mb-5w">
+            <p>
+                Pour un suivi sécurisé, nous vous rappelons que vous aurez accès aux coordonnées de l’usager 
+                lorsque ce dernier aura choisi son prestataire.
+                Merci de ne pas transmettre vos coordonnées, ni demander celles de l’usager !
+            </p>
+        </div>
+        {% endif %}
     </div>
 
     <div class="fr-container">

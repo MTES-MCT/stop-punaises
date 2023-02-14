@@ -38,6 +38,14 @@
 
             {% include "common/components/progression-signalement.html.twig" %}
 
+            <div class="fr-alert fr-alert--warning fr-mb-5w">
+                <p>
+                    Pour un suivi sécurisé, nous vous recommandons de ne pas transmettre vos coordonnées en direct 
+                    – la société sélectionnée vous contactera, une votre choix effectué.
+                    N'oubliez pas de prévenir votre propriétaire / bailleur !
+                </p>
+            </div>
+
             {% if not signalement.resolvedAt and not signalement.closedAt %}
             <div class="fr-grid-row fr-grid-row--gutters align-center">
                 <div class="fr-col fr-col-12 fr-col-lg-6 fr-mb-3v">
