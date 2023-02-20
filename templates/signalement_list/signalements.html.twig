@@ -97,11 +97,11 @@
                     {% for signalement in signalements %}
                         <tr>
                             <td>{% include "common/components/signalement-statut.html.twig" %}</td>
-                            <td>
+                            <td data-order="{{ signalement.reference|reference_sortable }}">
                                 {{ signalement.reference }}
                                 <span style="display: none;">{{ signalement.territoire.nomComplet }}</span>
                             </td>
-                            <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
+                            <td data-order="{{ signalement.createdAt.format('Y-m-d') }}">{{ signalement.createdAt.format('d/m/Y') }}</td>
                             <td>{% include "common/components/niveau-infestation.html.twig" %}</td>
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
                             {% if is_granted('ROLE_ADMIN') %}

@@ -19,6 +19,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('label_infestation', [$this, 'formatLabelInfestation']),
             new TwigFilter('construction_avant_1948', [$this, 'formatConstructionAvant1948']),
             new TwigFilter('array_to_string', [$this, 'formatArrayToString']),
+            new TwigFilter('reference_sortable', [$this, 'formatSortableReference']),
         ];
     }
 
@@ -75,5 +76,19 @@ class AppExtension extends AbstractExtension
         }
 
         return $str;
+    }
+
+    public function formatSortableReference(?string $reference = ''): string
+    {
+        if (empty($reference)) {
+            return '';
+        }
+
+        $referenceSplit = explode('-', $reference);
+        if (\count($referenceSplit) < 2) {
+            return $reference;
+        }
+
+        return $referenceSplit[0].'-'.str_pad($referenceSplit[1], 10, 0, \STR_PAD_LEFT);
     }
 }
