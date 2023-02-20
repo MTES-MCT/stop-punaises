@@ -38,13 +38,15 @@
 
             {% include "common/components/progression-signalement.html.twig" %}
 
+            {% if not signalement.autotraitement %}
             <div class="fr-alert fr-alert--warning fr-mb-5w">
                 <p>
                     Pour un suivi sécurisé, nous vous recommandons de ne pas transmettre vos coordonnées en direct 
-                    – la société sélectionnée vous contactera, une votre choix effectué.
+                    – la société sélectionnée vous contactera, une fois votre choix effectué.
                     N'oubliez pas de prévenir votre propriétaire / bailleur !
                 </p>
             </div>
+            {% endif %}
 
             {% if not signalement.resolvedAt and not signalement.closedAt %}
             <div class="fr-grid-row fr-grid-row--gutters align-center">
@@ -53,7 +55,7 @@
                 </div>
 
                 <div class="fr-col fr-col-12 fr-col-lg-6 fr-mb-3v">
-                    {% if signalement.autotraitement %}
+                    {% if signalement.autotraitement and signalement.territoire.active %}
                         <form action="{{ path('app_signalement_switch_pro', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_switch_pro') }}">
                             <button class="fr-btn fr-btn--icon-left fr-icon-check-line color-check">Trouver une entreprise labellisée</button>
