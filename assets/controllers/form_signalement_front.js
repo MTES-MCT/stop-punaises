@@ -277,6 +277,14 @@ class PunaisesFrontSignalementController {
       $('.search-address .fr-error-text').addClass('fr-hidden');
     }
     
+    // Re-vérification code postal
+    if (canGoNext) {
+      let inputContent = $('input#signalement_front_codePostal').val();
+      let zipCode = inputContent.substring(0, 2);
+      self.isTerritoryOpen = (self.OPEN_TERRITORIES.indexOf(zipCode) > -1);
+      self.step = 1;
+    }
+    
     return canGoNext;
   }
 
