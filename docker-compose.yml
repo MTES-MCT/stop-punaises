@@ -27,6 +27,8 @@ services:
     environment:
       PMA_HOST: stopunaises_mysql
       PMA_PORT: 3308
+      PMA_USER: stopunaises
+      PMA_PASSWORD: stopunaises
     ports:
       - 8091:80
 
