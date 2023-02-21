@@ -68,8 +68,8 @@
                 <tbody>
                     {% for signalement in signalements %}
                         <tr>
-                            <td>{{ signalement.reference }} <span>{{ signalement.nomOccupant }} {{ signalement.prenomOccupant }} {{ signalement.emailOccupant }}</span></td>
-                            <td>{{ signalement.createdAt.format('d/m/Y') }}</td>
+                            <td data-order="{{ signalement.reference|reference_sortable }}">{{ signalement.reference }} <span>{{ signalement.nomOccupant }} {{ signalement.prenomOccupant }} {{ signalement.emailOccupant }}</span></td>
+                            <td data-order="{{ signalement.createdAt.format('Y-m-d') }}">{{ signalement.createdAt.format('d/m/Y') }}</td>
                             <td><span>{{ signalement.typeIntervention|capitalize }}</span></td>
                             <td>{{ signalement.dateIntervention ? signalement.dateIntervention.format('d/m/Y') : '/' }}</td>
                             <td>
