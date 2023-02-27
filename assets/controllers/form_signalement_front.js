@@ -201,17 +201,19 @@ class PunaisesFrontSignalementController {
     }
 
     let niveauInfestation = 0;
-    if (self.hasTraces) {
+    if (self.hasTraces || self.hasRechercheInsecte) {
       niveauInfestation = 1;
-      if (self.hasInsectes) {
-        niveauInfestation = 3;
-        if (self.hasLocalisation) {
-          niveauInfestation = 4;
-        }
-      } else if (self.hasRechercheInsecte) {
-        niveauInfestation = 2;
-      }
     }
+    if ((self.hasTraces && self.hasRechercheInsecte) || self.hasInsectes) {
+      niveauInfestation = 2;
+    }
+    if ((self.hasTraces || self.hasRechercheInsecte) && self.hasInsectes) {
+      niveauInfestation = 3;
+    }
+    if (self.hasTraces && self.hasLocalisation && (self.hasRechercheInsecte || self.hasInsectes)) {
+      niveauInfestation = 4;
+    }
+
     $('#niveau-infestation span').text(niveauInfestation);
     $('#niveau-infestation span').removeClass('niveau-0 niveau-1 niveau-2 niveau-3 niveau-4');
     $('#niveau-infestation span').addClass('niveau-' + niveauInfestation);
