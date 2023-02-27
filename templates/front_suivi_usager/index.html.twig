@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="fr-col fr-col-12 fr-col-lg-6 fr-mb-3v">
-                    {% if signalement.autotraitement and signalement.territoire.active %}
+                    {% if signalement.autotraitement and signalement.territoire.active and not signalement.logementSocial %}
                         <form action="{{ path('app_signalement_switch_pro', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_switch_pro') }}">
                             <button class="fr-btn fr-btn--icon-left fr-icon-check-line color-check">Trouver une entreprise labellisée</button>
