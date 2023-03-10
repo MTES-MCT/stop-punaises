@@ -284,7 +284,9 @@ class PunaisesFrontSignalementController {
       let inputContent = $('input#signalement_front_codePostal').val();
       let zipCode = inputContent.substring(0, 2);
       self.isTerritoryOpen = (self.OPEN_TERRITORIES.indexOf(zipCode) > -1);
-      self.step = 1;
+      if (!self.isTerritoryOpen) {
+        self.step = 1;
+      }
     }
     
     return canGoNext;
