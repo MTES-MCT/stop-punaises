@@ -12,8 +12,10 @@
     {% include "front_suivi_usager/modal-estimation-accepted.html.twig" %}
 {% endif %}
 
-{% include "front_suivi_usager/modal-probleme-resolu.html.twig" %}
-{% if intervention_accepted_by_usager and intervention_accepted_by_usager.resolvedByEntrepriseAt %}
+{% if signalement.autotraitement and signalement.reminderAutotraitementAt %}
+    {% include "front_suivi_usager/modal-probleme-resolu.html.twig" %}
+{% endif %}
+{% if not signalement.autotraitement and intervention_accepted_by_usager and intervention_accepted_by_usager.reminderResolvedByEntrepriseAt %}
     {% include "front_suivi_usager/modal-probleme-resolu-pro.html.twig" %}
 {% endif %}
 
