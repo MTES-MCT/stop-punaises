@@ -18,7 +18,7 @@
                 {% set modalToOpen = event.actionLink[12:] %}
             {% endif %}
             <div class="event-item-action fr-mt-3v">
-                <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-{{ modalToOpen }}">{{ event.actionLabel }}</a>
+                <a href="#" class="info" data-fr-opened="{% if modalToOpen is same as 'probleme-resolu' or modalToOpen is same as 'probleme-resolu-pro' %}true{% else %}false{% endif %}" aria-controls="fr-modal-{{ modalToOpen }}">{{ event.actionLabel }}</a>
             </div>
         {% elseif event.actionLink is defined and event.actionLink is not null %}
             {% if 'link-send-message' == event.actionLink %}
