@@ -60,7 +60,7 @@ class SuiviUsagerViewController extends AbstractController
         return $this->render('front_suivi_usager/index.html.twig', [
             'signalement' => $signalement,
             'link_pdf' => $this->getParameter('base_url').'/build/'.$docFile,
-            'niveau_infestation' => InfestationLevel::from($signalement->getNiveauInfestation())->label(),
+            'niveau_infestation' => $signalement->getNiveauInfestation() ? InfestationLevel::from($signalement->getNiveauInfestation())->label() : 'Non déterminée',
             'events' => $events,
             'accepted_interventions' => $acceptedInterventions,
             'accepted_estimations' => $interventionsAcceptedByUsager,
