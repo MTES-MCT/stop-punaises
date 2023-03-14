@@ -9,28 +9,41 @@
 {% else %}
     {% set procedure = {'caption': 'Réception', 'percent': 5} %}
     {% if (signalement.interventions|length > 0) %}
+        {% set procedure = {'caption': 'Contact usager', 'percent': 20} %}
+
         {% if signalement.typeIntervention %}
             {% set procedure = {'caption': 'Intervention faite', 'percent': 80} %}
         {% elseif signalement.resolvedAt %}
             {% set procedure = {'caption': 'Confirmation usager', 'percent': 100} %}
 
         {% else %}
+            {% set isPendingEstimation = false %}
+            {% set isSentWithoutAnswer = false %}
             {% set isAccepted = false %}
+            {% set isRefused = false %}
             {% for intervention in signalement.interventions %}
-                {% if procedure.percent < 20 %}
-                    {% set procedure = {'caption': 'Contact usager', 'percent': 20} %}
-                {% endif %}
-                {% if intervention.estimationSentAt and procedure.percent < 40 %}
-                    {% set procedure = {'caption': 'Estimation envoyée', 'percent': 40} %}
-                {% endif %}
-                {% if intervention.acceptedByUsager %}
-                    {% set isAccepted = true %}
-                    {% set procedure = {'caption': 'Estimation acceptée', 'percent': 60} %}
-                {% endif %}
-                {% if intervention.acceptedByUsager is same as false and procedure.percent < 60 and not isAccepted %}
-                    {% set procedure = {'caption': 'Estimation refusée', 'percent': 100} %}
+                {% if intervention.estimationSentAt %}
+                    {% if intervention.acceptedByUsager is same as false %}
+                        {% set isRefused = true %}
+                    {% elseif intervention.acceptedByUsager is same as true %}
+                        {% set isAccepted = true %}
+                    {% else %}
+                        {% set isSentWithoutAnswer = true %}
+                    {% endif %}
+                {% else %}
+                    {% set isPendingEstimation = true %}
                 {% endif %}
             {% endfor %}
+
+            {% if isAccepted %}
+                {% set procedure = {'caption': 'Estimation acceptée', 'percent': 60} %}
+            {% elseif isSentWithoutAnswer %}
+                {% set procedure = {'caption': 'Estimation envoyée', 'percent': 40} %}
+            {% elseif isPendingEstimation %}
+                {% set procedure = {'caption': 'Contact usager', 'percent': 20} %}
+            {% elseif isRefused %}
+                {% set procedure = {'caption': 'Estimation refusée', 'percent': 100} %}
+            {% endif %}
         {% endif %}
     {% endif %}
 
