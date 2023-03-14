@@ -2,11 +2,11 @@ territoires:
   -
     zip: "01"
     name: "Ain"
-    active: 1
+    active: 0
   -
     zip: "02"
     name: "Aisne"
-    active: 1
+    active: 0
   -
     zip: "03"
     name: "Allier"
@@ -14,7 +14,7 @@ territoires:
   -
     zip: "04"
     name: "Alpes-de-Haute-Provence"
-    active: 1
+    active: 0
   -
     zip: "05"
     name: "Hautes-Alpes"
@@ -22,15 +22,15 @@ territoires:
   -
     zip: "06"
     name: "Alpes-Maritimes"
-    active: 1
+    active: 0
   -
     zip: "07"
     name: "Ardèche"
-    active: 1
+    active: 0
   -
     zip: "08"
     name: "Ardennes"
-    active: 1
+    active: 0
   -
     zip: "09"
     name: "Ariège"
@@ -74,11 +74,11 @@ territoires:
   -
     zip: "19"
     name: "Corrèze"
-    active: 1
+    active: 0
   -
     zip: "2A"
     name: "Corse-du-Sud"
-    active: 1
+    active: 0
   -
     zip: "2B"
     name: "Haute-Corse"
@@ -86,7 +86,7 @@ territoires:
   -
     zip: "21"
     name: "Côte-d'Or"
-    active: 1
+    active: 0
   -
     zip: "22"
     name: "Côtes d'Armor"
@@ -114,11 +114,11 @@ territoires:
   -
     zip: "28"
     name: "Eure-et-Loir"
-    active: 1
+    active: 0
   -
     zip: "29"
     name: "Finistère"
-    active: 1
+    active: 0
   -
     zip: "30"
     name: "Gard"
@@ -126,7 +126,7 @@ territoires:
   -
     zip: "31"
     name: "Haute-Garonne"
-    active: 1
+    active: 0
   -
     zip: "32"
     name: "Gers"
@@ -154,7 +154,7 @@ territoires:
   -
     zip: "38"
     name: "Isère"
-    active: 1
+    active: 0
   -
     zip: "39"
     name: "Jura"
@@ -190,7 +190,7 @@ territoires:
   -
     zip: "47"
     name: "Lot-et-Garonne"
-    active: 1
+    active: 0
   -
     zip: "48"
     name: "Lozère"
@@ -198,7 +198,7 @@ territoires:
   -
     zip: "49"
     name: "Maine-et-Loire"
-    active: 1
+    active: 0
   -
     zip: "50"
     name: "Manche"
@@ -222,7 +222,7 @@ territoires:
   -
     zip: "55"
     name: "Meuse"
-    active: 1
+    active: 0
   -
     zip: "56"
     name: "Morbihan"
@@ -230,7 +230,7 @@ territoires:
   -
     zip: "57"
     name: "Moselle"
-    active: 1
+    active: 0
   -
     zip: "58"
     name: "Nièvre"
@@ -238,7 +238,7 @@ territoires:
   -
     zip: "59"
     name: "Nord"
-    active: 1
+    active: 0
   -
     zip: "60"
     name: "Oise"
@@ -254,11 +254,11 @@ territoires:
   -
     zip: "63"
     name: "Puy-de-Dôme"
-    active: 1
+    active: 0
   -
     zip: "64"
     name: "Pyrénées-Atlantiques"
-    active: 1
+    active: 0
   -
     zip: "65"
     name: "Hautes-Pyrénées"
@@ -266,7 +266,7 @@ territoires:
   -
     zip: "66"
     name: "Pyrénées-Orientales"
-    active: 1
+    active: 0
   -
     zip: "67"
     name: "Bas-Rhin"
@@ -278,7 +278,7 @@ territoires:
   -
     zip: "69"
     name: "Rhône"
-    active: 1
+    active: 0
   -
     zip: "70"
     name: "Haute-Saône"
@@ -286,7 +286,7 @@ territoires:
   -
     zip: "71"
     name: "Saône-et-Loire"
-    active: 1
+    active: 0
   -
     zip: "72"
     name: "Sarthe"
@@ -326,7 +326,7 @@ territoires:
   -
     zip: "81"
     name: "Tarn"
-    active: 1
+    active: 0
   -
     zip: "82"
     name: "Tarn-et-Garonne"
@@ -401,7 +401,7 @@ territoires:
   -
     zip: "974"
     name: "La Réunion"
-    active: 1
+    active: 0
 
   -
     zip: "976"
@@ -411,4 +411,4 @@ territoires:
   -
     zip: "64"
     name: "Agglo de Pau"
-    active: 1
+    active: 0
