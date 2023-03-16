@@ -94,7 +94,7 @@ class InterventionUsagerRefusedSubscriber implements EventSubscriberInterface
                 signalement: $intervention->getSignalement(),
                 description: 'L\'usager a refusé toutes les estimations des entreprises',
                 recipient: null,
-                userId: Event::USER_ALL,
+                userId: Event::USER_ADMIN,
                 actionLabel: null,
                 actionLink: null,
             );
