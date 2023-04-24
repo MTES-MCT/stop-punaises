@@ -36,6 +36,15 @@
                     {% endif %}
                 </div>
             {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') and not signalement.resolvedAt and not signalement.closedAt %}
+                <form action="{{ path('app_signalement_admin_stop', {'uuid': signalement.uuid }) }}" method="POST" class="form-back-admin-close-signalement">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_admin_stop') }}">
+                    <button type="submit" class="fr-btn fr-btn--icon-left fr-icon-close-line color-close">Fermer le signalement</button>
+                </form>
+            {% elseif true %}
+            {% endif %}
+
             {% include 'common/components/signalement-detail.html.twig' with {'prefix_accordion_id': 'tab-signalement-'} %}
         </div>
         

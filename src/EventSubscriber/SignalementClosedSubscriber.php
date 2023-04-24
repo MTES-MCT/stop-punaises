@@ -6,6 +6,8 @@ use App\Entity\Event;
 use App\Event\SignalementClosedEvent;
 use App\Manager\EventManager;
 use App\Repository\EventRepository;
+use App\Repository\InterventionRepository;
+use App\Service\Mailer\MailerProvider;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class SignalementClosedSubscriber implements EventSubscriberInterface
@@ -13,6 +15,8 @@ class SignalementClosedSubscriber implements EventSubscriberInterface
     public function __construct(
         private EventManager $eventManager,
         private EventRepository $eventRepository,
+        private InterventionRepository $interventionRepository,
+        private MailerProvider $mailerProvider,
     ) {
     }
 
@@ -26,6 +30,17 @@ class SignalementClosedSubscriber implements EventSubscriberInterface
     public function onSignalementClosed(SignalementClosedEvent $signalementClosedEvent)
     {
         $signalement = $signalementClosedEvent->getSignalement();
+
+        // Notice for entreprises which are currently following the signalement
+        $acceptedInterventions = $this->interventionRepository->findBy([
+            'signalement' => $signalement,
+            'accepted' => true,
+        ]);
+        foreach ($acceptedInterventions as $intervention) {
+            if (!$intervention->getChoiceByUsagerAt() || $intervention->isAcceptedByUsager()) {
+                $this->mailerProvider->sendSignalementClosed($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
+            }
+        }
 
         $event = $this->eventManager->createEventCloseSignalement(
             signalement: $signalement,

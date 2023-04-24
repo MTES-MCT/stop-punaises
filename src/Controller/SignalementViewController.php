@@ -11,6 +11,7 @@ use App\Event\InterventionEntrepriseAcceptedEvent;
 use App\Event\InterventionEntrepriseAllRefusedEvent;
 use App\Event\InterventionEntrepriseRefusedEvent;
 use App\Event\InterventionEstimationSentEvent;
+use App\Event\SignalementClosedEvent;
 use App\Manager\EntrepriseManager;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
@@ -226,6 +227,29 @@ class SignalementViewController extends AbstractController
                     InterventionEstimationSentEvent::NAME
                 );
             }
+        }
+
+        return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+    }
+
+    #[Route('/bo/signalements/{uuid}/stop', name: 'app_signalement_admin_stop', methods: 'POST')]
+    public function signalementStop(
+        Request $request,
+        Signalement $signalement,
+        SignalementManager $signalementManager,
+        EventDispatcherInterface $eventDispatcher,
+        ): Response {
+        if ($this->isCsrfTokenValid('signalement_admin_stop', $request->get('_csrf_token'))) {
+            $this->addFlash('success', 'La procédure est terminée !');
+            $signalement->setClosedAt(new \DateTimeImmutable());
+            $signalementManager->save($signalement);
+
+            $eventDispatcher->dispatch(
+                new SignalementClosedEvent(
+                    $signalement
+                ),
+                SignalementClosedEvent::NAME
+            );
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);

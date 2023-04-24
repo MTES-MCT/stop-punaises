@@ -198,17 +198,6 @@ class SuiviUsagerViewController extends AbstractController
             $signalement->setClosedAt(new \DateTimeImmutable());
             $signalementManager->save($signalement);
 
-            // Notice for entreprises which are currently following the signalement
-            $acceptedInterventions = $interventionRepository->findBy([
-                'signalement' => $signalement,
-                'accepted' => true,
-            ]);
-            foreach ($acceptedInterventions as $intervention) {
-                if (!$intervention->getChoiceByUsagerAt() || $intervention->isAcceptedByUsager()) {
-                    $mailerProvider->sendSignalementClosed($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
-                }
-            }
-
             $eventDispatcher->dispatch(
                 new SignalementClosedEvent(
                     $signalement
