@@ -9,6 +9,7 @@ use App\Entity\Signalement;
 use App\Entity\User;
 use App\Event\InterventionEntrepriseAcceptedEvent;
 use App\Event\InterventionEntrepriseAllRefusedEvent;
+use App\Event\InterventionEntrepriseCanceledEvent;
 use App\Event\InterventionEntrepriseRefusedEvent;
 use App\Event\InterventionEstimationSentEvent;
 use App\Event\SignalementClosedEvent;
@@ -83,6 +84,7 @@ class SignalementViewController extends AbstractController
         $acceptedEstimations = $interventionRepository->findBy([
             'signalement' => $signalement,
             'acceptedByUsager' => true,
+            'canceledByEntrepriseAt' => null,
         ]);
 
         return $this->render('signalement_view/signalement.html.twig', [
@@ -246,13 +248,49 @@ class SignalementViewController extends AbstractController
 
             $eventDispatcher->dispatch(
                 new SignalementClosedEvent(
-                    $signalement
+                    signalement: $signalement,
+                    isAdminAction: true,
                 ),
                 SignalementClosedEvent::NAME
             );
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+    }
+
+    #[Route('/bo/interventions/{id}/stop', name: 'app_intervention_stop', methods: 'POST')]
+    public function intervention_stop(
+        Request $request,
+        Intervention $intervention,
+        InterventionManager $interventionManager,
+        EventDispatcherInterface $eventDispatcher,
+        ): Response {
+        if ($this->isCsrfTokenValid('intervention_stop', $request->get('_csrf_token'))) {
+            $this->addFlash('success', 'Votre procédure est terminée !');
+
+            $wasAccepted = $intervention->isAccepted();
+            if ($wasAccepted) {
+                $date = new DateTimeImmutable();
+                $intervention->setCanceledByEntrepriseAt($date);
+            }
+            $intervention->setAccepted(false);
+            $interventionManager->save($intervention);
+
+            if ($wasAccepted) {
+                /** @var User $user */
+                $user = $this->getUser();
+                $eventDispatcher->dispatch(
+                    new InterventionEntrepriseCanceledEvent(
+                        $intervention,
+                        $user->getId(),
+                        $date
+                    ),
+                    InterventionEntrepriseCanceledEvent::NAME
+                );
+            }
+        }
+
+        return $this->redirectToRoute('app_signalement_view', ['uuid' => $intervention->getSignalement()->getUuid()]);
     }
 
     #[Route('/bo/historique/{uuid}', name: 'app_signalement_historique_view')]

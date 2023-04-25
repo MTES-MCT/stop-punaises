@@ -12,6 +12,7 @@ class SignalementClosedEvent extends Event
     public function __construct(
         private Signalement $signalement,
         private ?\DateTimeImmutable $createdAt = null,
+        private bool $isAdminAction = false,
         ) {
     }
 
@@ -23,5 +24,10 @@ class SignalementClosedEvent extends Event
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function isAdminAction(): bool
+    {
+        return $this->isAdminAction;
     }
 }
