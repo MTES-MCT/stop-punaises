@@ -21,9 +21,12 @@
             {% set isSentWithoutAnswer = false %}
             {% set isAccepted = false %}
             {% set isRefused = false %}
+            {% set isCanceled = false %}
             {% for intervention in signalement.interventions %}
                 {% if intervention.estimationSentAt %}
-                    {% if intervention.acceptedByUsager is same as false %}
+                    {% if intervention.canceledByEntrepriseAt %}
+                        {% set isCanceled = true %}
+                    {% elseif intervention.acceptedByUsager is same as false %}
                         {% set isRefused = true %}
                     {% elseif intervention.acceptedByUsager is same as true %}
                         {% set isAccepted = true %}
@@ -43,6 +46,8 @@
                 {% set procedure = {'caption': 'Contact usager', 'percent': 20} %}
             {% elseif isRefused %}
                 {% set procedure = {'caption': 'Estimation refusée', 'percent': 100} %}
+            {% elseif isCanceled %}
+                {% set procedure = {'caption': 'Intervention annulée', 'percent': 5} %}
             {% endif %}
         {% endif %}
     {% endif %}

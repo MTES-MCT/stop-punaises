@@ -155,6 +155,21 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
+    public function sendInterventionCanceled(Signalement $signalement, string $nomEntreprise): void
+    {
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_INTERVENTION_CANCELED, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'nom_entreprise' => $nomEntreprise,
+                'link' => $link,
+            ])
+            ->setTo([$signalement->getEmailOccupant()]);
+
+        $this->send($message);
+    }
+
     public function sendNotificationToUsager(Signalement $signalement, string $nomEntreprise): void
     {
         $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
