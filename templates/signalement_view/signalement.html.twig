@@ -48,7 +48,7 @@
                             {% if not entrepriseIntervention.canceledByEntrepriseAt %}
                                 <form action="{{ path('app_intervention_stop', {'id': entrepriseIntervention.id }) }}" method="POST" class="form-back-stop-intervention fr-mt-1v">
                                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('intervention_stop') }}">
-                                    <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close">Renoncer à l'intervention</button>
+                                    <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close">Clôturer le signalement</button>
                                 </form>
                             {% endif %}
                         {% endif %}
