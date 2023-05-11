@@ -53,3 +53,13 @@ users:
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0010-0000-0000-000000000000"
     status: 'inactive'
+  -
+    email: company-punaises-69-01@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000002-0001-0000-0000-000000000000"
+    status: 'active'
+  -
+    email: company-punaises-69-02@yopmail.com
+    roles: "[\"ROLE_ENTREPRISE\"]"
+    entreprise: "00000002-0002-0000-0000-000000000000"
+    status: 'active'
