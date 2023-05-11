@@ -278,7 +278,7 @@ territoires:
   -
     zip: "69"
     name: "Rhône"
-    active: 0
+    active: 1
   -
     zip: "70"
     name: "Haute-Saône"

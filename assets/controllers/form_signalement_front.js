@@ -46,7 +46,7 @@ class PunaisesFrontSignalementController {
     'autotraitement_info',
     'autotraitement_sent',
   ];
-  OPEN_TERRITORIES = [ '13' ];
+  OPEN_TERRITORIES = [ '13', '69' ];
   step = 1;
   stepStr = 'home';
   isTerritoryOpen = true;
