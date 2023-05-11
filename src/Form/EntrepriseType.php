@@ -46,7 +46,7 @@ class EntrepriseType extends AbstractType
             ->add('telephone', TelType::class, [
                 'attr' => [
                     'class' => 'fr-input',
-                    'pattern' => '^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$',
+                    'pattern' => '^(?:0|\(?\+33\)?\s?|0033\s?)[1-9](?:[\.\-\s]?\d\d){4}$',
                     'maxlength' => '20',
                 ],
                 'label_attr' => [
