@@ -32,7 +32,7 @@ class Entreprise
 
     #[ORM\Column(length: 20)]
     #[Assert\Regex(
-        pattern: '/^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$/',
+        pattern: '/^(?:0|\(?\+33\)?\s?|0033\s?)[1-9](?:[\.\-\s]?\d\d){4}$/',
         match: true,
         message: 'Merci de saisir le numéro de téléphone au bon format'
     )]
