@@ -76,7 +76,12 @@ class SignalementType extends AbstractType
                 'label' => 'Ville',
                 'required' => true,
             ])
-
+            ->add('geoloc', HiddenType::class, [
+                'attr' => [
+                    'class' => 'fr-hidden',
+                ],
+                'required' => false,
+            ])
             ->add('typeLogement', ChoiceType::class, [
                 'attr' => [
                     'class' => 'fr-select',

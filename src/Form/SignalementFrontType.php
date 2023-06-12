@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Signalement;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -97,6 +98,12 @@ class SignalementFrontType extends AbstractType
                 ],
                 'label' => 'Ville',
                 'required' => true,
+            ])
+            ->add('geoloc', HiddenType::class, [
+                'attr' => [
+                    'class' => 'fr-hidden',
+                ],
+                'required' => false,
             ])
 
             // Step info_locataire
@@ -315,6 +322,26 @@ class SignalementFrontType extends AbstractType
                 'empty_data' => false,
             ])
         ;
+        $builder->get('geoloc')->addModelTransformer(new CallbackTransformer(
+            function ($tagsAsArray) {
+                // transform the array to a string
+                if (!empty($tagsAsArray)) {
+                    return $tagsAsArray[0].'|'.$tagsAsArray[1];
+                }
+
+                return '';
+            },
+            function ($tagsAsString) {
+                // transform the string back to an array
+                if (!empty($tagsAsString)) {
+                    $coord = explode('|', $tagsAsString);
+
+                    return ['lat' => $coord[0], 'lng' => $coord[1]];
+                }
+
+                return [];
+            }
+        ));
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             /** @var Signalement $signalement */

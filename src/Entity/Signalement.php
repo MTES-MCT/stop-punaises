@@ -181,6 +181,9 @@ class Signalement
     #[ORM\Column(type: Types::GUID, nullable: true)]
     private ?string $uuidPublic = null;
 
+    #[ORM\Column(type: 'json')]
+    private $geoloc = [];
+
     public function __construct()
     {
         $this->uuid = Uuid::v4();
@@ -835,6 +838,18 @@ class Signalement
     public function setUuidPublic(?string $uuidPublic): self
     {
         $this->uuidPublic = $uuidPublic;
+
+        return $this;
+    }
+
+    public function getGeoloc(): ?array
+    {
+        return $this->geoloc;
+    }
+
+    public function setGeoloc(array $geoloc): self
+    {
+        $this->geoloc = $geoloc;
 
         return $this;
     }
