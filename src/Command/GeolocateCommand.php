@@ -52,13 +52,12 @@ class GeolocateCommand extends Command
 
             if (!empty($data['features'][0]['geometry']['coordinates'])) {
                 $coordinates = [
-                    'lat' => (string) ($data['features'][0]['geometry']['coordinates'][1]),
-                    'lng' => (string) ($data['features'][0]['geometry']['coordinates'][0]),
+                    'lat' => (string) $data['features'][0]['geometry']['coordinates'][1],
+                    'lng' => (string) $data['features'][0]['geometry']['coordinates'][0],
                 ];
 
                 // Update the geolocation coordinates in the signalement entity
                 $signalement->setGeoloc($coordinates);
-                // $signalement->setGeoloc(json_encode($coordinates));
 
                 $this->entityManager->persist($signalement);
                 $this->entityManager->flush();
