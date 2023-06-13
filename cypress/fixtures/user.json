@@ -6,5 +6,6 @@
   "address": "5 rue d'Italie",
   "codepostal": "13006",
   "codepostalRefused": "44006",
-  "city": "Marseille"
+  "city": "Marseille",
+  "geoloc": "43.29058|5.381724"
 }
