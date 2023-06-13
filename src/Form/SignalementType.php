@@ -341,6 +341,26 @@ class SignalementType extends AbstractType
                 'required' => true,
             ])
         ;
+        $builder->get('geoloc')->addModelTransformer(new CallbackTransformer(
+            function ($tagsAsArray) {
+                // transform the array to a string
+                if (!empty($tagsAsArray)) {
+                    return $tagsAsArray[0].'|'.$tagsAsArray[1];
+                }
+
+                return '';
+            },
+            function ($tagsAsString) {
+                // transform the string back to an array
+                if (!empty($tagsAsString)) {
+                    $coord = explode('|', $tagsAsString);
+
+                    return ['lat' => $coord[0], 'lng' => $coord[1]];
+                }
+
+                return [];
+            }
+        ));
 
         $builder->get('niveauInfestation')
             ->addModelTransformer(new CallbackTransformer(
