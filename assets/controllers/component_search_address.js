@@ -36,11 +36,15 @@ function initSearchAddress() {
             let adressePostCode = feature.properties.postcode;
             let adresseCity = feature.properties.city;
             let adresseCityCode = feature.properties.citycode;
+            let adresseGeolocLat = feature.geometry.coordinates[1];
+            let adresseGeolocLng = feature.geometry.coordinates[0];
             let elementData = '';
             elementData += ' data-name="'+adresseName+'"';
             elementData += ' data-postcode="'+adressePostCode+'"';
             elementData += ' data-city="'+adresseCity+'"';
             elementData += ' data-citycode="'+adresseCityCode+'"';
+            elementData += ' data-geoloclat="'+adresseGeolocLat+'"';
+            elementData += ' data-geoloclng="'+adresseGeolocLng+'"';
             $('#rechercheAdresseListe').append( '<div '+elementData+' class="fr-mb-1v fr-p-1v">'+adresseLabel+'</div>' );
             $('#rechercheAdresseListe').show();
             $('#rechercheAdresseIcon .fr-icon-timer-line').hide();
@@ -52,6 +56,8 @@ function initSearchAddress() {
               $('#' + formPrefix + '_codePostal').val($(this).data('postcode'));
               $('#' + formPrefix + '_ville').val($(this).data('city'));
               $('#' + formPrefix + '_codeInsee').val($(this).data('citycode'));
+              let geoloc = $(this).data('geoloclat')+'|'+ $(this).data('geoloclng');
+              $('#' + formPrefix + '_geoloc').val(geoloc);
               $('#rechercheAdresseListe').hide();
               if ($('.address-fields').length > 0) {
                 $('.address-fields').removeClass('fr-hidden');

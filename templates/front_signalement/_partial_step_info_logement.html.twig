@@ -82,7 +82,10 @@
                 </p>
             </div>
         </div>
-    </div>
+
+        {{ form_widget(form.geoloc) }}
+        
+   </div>
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
 {% endblock %}
