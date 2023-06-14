@@ -3,7 +3,13 @@
 {% block title %}Stop punaises - Cartographie des signalements{% endblock %}
 
 {% block body %}
-<main class="fr-px-5w fr-py-5w">
-    <iframe src="https://www.google.com/maps/d/embed?mid=1mkF6ugeIYE1Q5ESrk67zi9sRY057PwU&ehbc=2E312F" width="100%" height="600"></iframe>
-</main>
+    {# <div style="position: absolute;z-index: 10000;overflow: hidden" class="fr-rounded fr-background--white fr-m-2v">
+        {% include '_partials/_search_filter_form.html.twig' %}
+    </div> #}
+    <section class="fr-grid-row fr-pt-0 fr-h-100">
+        <div class="fr-col-12 signalement-invalid" id="container_map">
+            <div class="fr-hidden" data-token="{{ csrf_token('load_markers_'~''|date('dmYhi')) }}" id="carto__js"></div> 
+            <div class="fr-h-100 fr-w-100" id="map-signalements-view"></div>
+        </div>
+    </section>
 {% endblock %}
