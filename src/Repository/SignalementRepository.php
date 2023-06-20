@@ -207,10 +207,9 @@ class SignalementRepository extends ServiceEntityRepository
         )->fetchOne();
     }
 
-    public function findAllWithGeoData(int $offset): array
+    public function findAllWithGeoData(\DateTimeImmutable $date, int $offset): array
     {
         $firstResult = $offset;
-
         $qb = $this->createQueryBuilder('s');
         $qb->select('
             DISTINCT s.id,
@@ -222,9 +221,14 @@ class SignalementRepository extends ServiceEntityRepository
             s.adresse,
             s.codePostal,
             s.ville,
-            s.niveauInfestation');
-
-        $qb->addSelect('s.geoloc');
+            s.niveauInfestation,
+            s.resolvedAt,
+            s.closedAt,
+            s.geoloc,
+            t.active')
+            ->leftJoin('s.territoire', 't')
+            ->where('s.createdAt < :date')
+            ->setParameter('date', $date);
 
         $qb->setFirstResult($firstResult)
             ->setMaxResults(self::MARKERS_PAGE_SIZE);

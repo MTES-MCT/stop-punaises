@@ -12,40 +12,43 @@ var map = L.map('map-signalements-view', {
 });
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
 
-const popupTemplate = (options) => {
-    let TEMPLATE = `<div class="fr-grid-row" style="width: 500px">
-                        <div class="fr-col-8">
-                            <a href="${options.url}" class="fr-badge fr-badge--${options.type} fr-mt-1v fr-mb-0">#${options.reference}</a>
-                            <p><strong>${options.name}</strong><br>
-                            <small>
-                            ${options.address} <br>
-                            ${options.zip} ${options.city}</small></p>
-                        </div>
-                        <div class="fr-col-4 fr-mt-1v fr-mb-0 fr-text--center"></div>
-                        </div>`;
-    return TEMPLATE;
-}
-const MAP_MARKERS_PAGE_SIZE = 9000; // @todo: is high cause duplicate result, the query findAllWithGeoData should be reviewed
-
 async function getMarkers(offset) {
     await fetch('?load_markers=true&offset=' + offset, {
         headers: {
             'X-TOKEN': document.querySelector('#carto__js').getAttribute('data-token')
         },
         method: 'POST',
-        // body: new FormData(document.querySelector('form#bo_filters_form'))
+        // body: new FormData(document.querySelector('form#bo_carto_filter'))
     }).then(r => r.json().then(res => {
         // let marker;
-        if (res.signalements) {
+        if (res.signalements) {  
 
             var heatValues = new Array();
-            res.signalements.forEach(signalement => {
-                if (!isNaN(parseFloat(signalement.geoloc?.lng)) && !isNaN(parseFloat(signalement.geoloc?.lat))) {                    
-                    heatValues.push([signalement.geoloc.lat, signalement.geoloc.lng, 10]);
+            res.signalements.forEach(signalement => {      
+                if (!isNaN(parseFloat(signalement.geoloc?.lng)) && !isNaN(parseFloat(signalement.geoloc?.lat))) {  
+                    // pour l'instant on ne prend pas en compte le niveauInfestation
+                    // on n'affiche pas les signalements au statut resolved
+
+                    if ('trace' === signalement.statut){
+                        heatValues.push([signalement.geoloc.lat, signalement.geoloc.lng, 0.3]);
+                    }  
+                    if ('en cours' === signalement.statut){
+                        heatValues.push([signalement.geoloc.lat, signalement.geoloc.lng, 1]);
+
+                    }         
+                    // heatValues.push([signalement.geoloc.lat, signalement.geoloc.lng, 10]);
+                    // virer le max, couleur à définir en fonction niveau intensité
+                    // gradient - color gradient config, e.g. {0.4: 'blue', 0.65: 'lime', 1: 'red'}
+
+                    // les couleurs peuvent etre
+                    // bleu transparent (comme le screenshot) pour les traces
+                    // rouges pour les infestations en cours
+
                 }
             })
 
             var heat = L.heatLayer(heatValues, {radius: 25}).addTo(map);
+            // var heat = L.heatLayer(heatValues, {radius: 25, max:0.4, gradient:{0: 'blue', 0.1: 'lime', 0.2: 'orange', 0.3: 'red', 0.4: 'black'}}).addTo(map);
         } else {
             alert('Erreur lors du chargement des signalements...')
         }

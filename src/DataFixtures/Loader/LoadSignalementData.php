@@ -18,8 +18,8 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
     public function __construct(
         private EntrepriseRepository $entrepriseRepository,
         private EmployeRepository $employeRepository,
-        private TerritoireRepository $territoireRepository)
-    {
+        private TerritoireRepository $territoireRepository
+    ) {
     }
 
     public function load(ObjectManager $manager): void
@@ -41,6 +41,7 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
             ->setAdresse($row['adresse'])
             ->setCodePostal($row['code_postal'])
             ->setVille($row['ville'])
+            ->setGeoloc(json_decode($row['geoloc'], true))
             ->setTypeLogement($row['type_logement'])
             ->setConstruitAvant1948($row['construit_avant1948'])
             ->setTypeIntervention($row['type_intervention'])
