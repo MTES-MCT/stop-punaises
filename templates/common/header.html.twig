@@ -40,6 +40,11 @@
                                     Informations
                                 </a>
                             </li>
+                            <li {% if app.request.get('_route') == 'app_front_contact' %} class="active"{% endif %}>
+                                <a class="fr-btn" href="{{ path('app_front_contact') }}">
+                                    Contact
+                                </a>
+                            </li>
                             <li {% if app.request.get('_route') == 'app_login' %} class="active"{% endif %}>
 
                                 {% if app.user %}
