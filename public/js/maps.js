@@ -1,14 +1,15 @@
 L = window.L;
 
-const sudOuest = L.latLng(8, -80);
-const nordEst = L.latLng(70, 20);
+const sudOuest = L.latLng(58, -5);
+const nordEst = L.latLng(41, 10);
+
 const bounds = L.latLngBounds(sudOuest, nordEst);
 var map = L.map('map-signalements-view', {
     center: [47.11, -0.01],
     maxBounds: bounds,
     minZoom: 5,
     maxZoom: 18,
-    zoom: 5
+    zoom: 6
 });
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
 
