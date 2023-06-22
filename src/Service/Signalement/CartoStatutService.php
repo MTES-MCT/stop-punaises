@@ -15,11 +15,15 @@ class CartoStatutService
             $date4months = $date->modify('-4 month');
             if (null !== $signalement['resolvedAt'] && $signalement['resolvedAt'] < $date) {
                 $statut = 'resolved';
-            } elseif ((null !== $signalement['closedAt'] || false === $signalement['active'])
-                    && ($signalement['closedAt'] < $date4months)) {
+            } elseif (null !== $signalement['closedAt'] && $signalement['closedAt'] < $date4months) {
                 $statut = 'resolved';
-            } elseif ((null !== $signalement['closedAt'] || false === $signalement['active'])
+            } elseif (false === $signalement['active'] && $signalement['createdAt'] < $date4months) {
+                $statut = 'resolved';
+            } elseif (null !== $signalement['closedAt']
                     && $signalement['closedAt'] > $date4months && $signalement['closedAt'] < $date) {
+                $statut = 'trace';
+            } elseif (false === $signalement['active']
+                    && $signalement['createdAt'] > $date4months && $signalement['createdAt'] < $date) {
                 $statut = 'trace';
             } else {
                 $statut = 'en cours';
