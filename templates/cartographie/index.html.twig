@@ -1,5 +1,9 @@
 {% extends 'base-back.html.twig' %}
 
+{% block custom_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/jquery-ui/jquery-ui.min.css') }}"/>
+{% endblock %}
+
 {% block title %}Stop punaises - Cartographie des signalements{% endblock %}
 
 {% block body %}

@@ -1,14 +1,10 @@
-<form action="#" name="bo-carto-filter" id="bo_carto_filter" method="POST" class="fr-background--white"
-      style="overflow: hidden">
+<form action="#" name="bo-carto-filter" id="bo_carto_filter" method="POST" class="fr-background--white" style="overflow: hidden">
     <div class="fr-p-5v">
-{#      <div>
-            <input type="range" id="volume" name="volume"
-                    min="0" max="11">
-            <label for="volume">Volume</label>
-        </div> #}
-        <label for="week">Choisir une semaine:</label>
-        <input type="week" name="week" id="carto-week"
-            min="2023-W1"  required>
-
+        <div class="fr-pb-3v">
+            <label for="filter-date">Choisir une semaine :</label>
+            <input type="hidden" name="filter-date" value="">
+        </div>
+        <div id="weekly-slider"></div>
+        <div id="weekly-slider-selection" class="align-center fr-pt-3v"></div>
     </div>
 </form>

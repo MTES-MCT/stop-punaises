@@ -27,6 +27,10 @@ Encore
         to: 'datatables/[path][name].[ext]'
     })
     .copyFiles({
+        from: './node_modules/jquery-ui/dist/themes/base/',
+        to: 'jquery-ui/[path][name].[ext]'
+    })
+    .copyFiles({
         from: './assets/pdf',
         to: 'pdf/[path][name].[ext]'
     })
