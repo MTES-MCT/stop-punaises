@@ -38,21 +38,15 @@ class HomeController extends AbstractController
         Request $request,
         ContactFormHandler $contactFormHandler,
     ): Response {
-        $form = $this->createForm(ContactType::class, []);
+        $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $contactFormHandler->handle(
-                    $form->get('nom')->getData(),
-                    $form->get('email')->getData(),
-                    $form->get('message')->getData()
-                );
+                $contactFormHandler->handle($form);
                 $this->addFlash('success', 'Votre message à bien été envoyé !');
             } else {
                 $this->addFlash('error', 'Une erreur a empêché l\'envoi de votre message');
             }
-
-            return $this->redirectToRoute('app_front_contact');
         }
 
         return $this->render('front/contact.html.twig', [

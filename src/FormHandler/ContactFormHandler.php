@@ -4,6 +4,7 @@ namespace App\FormHandler;
 
 use App\Service\Mailer\MailerProviderInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Form\FormInterface;
 
 class ContactFormHandler
 {
@@ -13,11 +14,12 @@ class ContactFormHandler
     ) {
     }
 
-    public function handle(
-        string $nom,
-        string $email,
-        string $message,
-    ) {
+    public function handle(FormInterface $form)
+    {
+        $nom = $form->get('nom')->getData();
+        $email = $form->get('email')->getData();
+        $message = $form->get('message')->getData();
+
         $this->mailerProvider->sendContactFormMessage(
             adminEmail: $this->parameterBag->get('admin_email'),
             userName: $nom,

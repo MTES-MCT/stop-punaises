@@ -38,7 +38,7 @@ class ContactType extends AbstractType
                 'label' => 'Votre adresse courriel',
                 'constraints' => [
                     new Assert\NotBlank(message: 'Merci de renseigner votre email.'),
-                    new Assert\Email(mode: Email::VALIDATION_MODE_STRICT),
+                    new Assert\Email(mode: Email::VALIDATION_MODE_STRICT, message: 'Votre adresse e-mail doit être au bon format.'),
                 ],
             ])
             ->add('message', TextareaType::class, [
