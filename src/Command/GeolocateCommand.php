@@ -29,6 +29,8 @@ class GeolocateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $signalements = $this->entityManager->getRepository(Signalement::class)->findAll();
+        $countSuccess = 0;
+        $countFailed = 0;
 
         foreach ($signalements as $signalement) {
             $address = $signalement->getAdresse();
@@ -36,7 +38,16 @@ class GeolocateCommand extends Command
             $city = $signalement->getVille();
 
             // Compose the address string to be used in the geocoding API request
-            $fullAddress = $address.', '.$postalCode.' '.$city;
+            $fullAddress = '';
+            if (null !== $address) {
+                $fullAddress .= $address.', ';
+            }
+            if (null !== $postalCode) {
+                $fullAddress .= $postalCode.', ';
+            }
+            if (null !== $city) {
+                $fullAddress .= $city;
+            }
 
             $statusCode = Response::HTTP_SERVICE_UNAVAILABLE;
             try {
@@ -63,23 +74,27 @@ class GeolocateCommand extends Command
 
                         $this->entityManager->persist($signalement);
                         $this->entityManager->flush();
-
+                        ++$countSuccess;
                         $output->writeln('Geolocation updated for Signalement ID: '.$signalement->getId());
                     } else {
+                        ++$countFailed;
                         $output->writeln('Geolocation not found for Signalement ID: '.$signalement->getId());
                     }
                 } else {
+                    ++$countFailed;
                     $output->writeln('Geolocation request failed for Signalement ID: '.$signalement->getId()
                     .' statusCode = '.$statusCode);
                 }
             } catch (\Throwable $exception) {
+                ++$countFailed;
                 $output->writeln('Exception for Signalement ID: '.$signalement->getId()
                 .' statusCode = '.$statusCode
                 .' message = '.$exception->getMessage());
             }
         }
 
-        $output->writeln('Geolocation process completed.');
+        $output->writeln('Geolocation process completed.  '.$countSuccess.' signalements geolocated, '
+    .$countFailed.' signalements NOT geolocated. ');
 
         return Command::SUCCESS;
     }
