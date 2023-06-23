@@ -1,11 +1,13 @@
 {% extends 'base-back.html.twig' %}
 
+{% block custom_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('build/jquery-ui/jquery-ui.min.css') }}"/>
+{% endblock %}
+
 {% block title %}Stop punaises - Cartographie des signalements{% endblock %}
 
 {% block body %}
-    <div style="position: absolute;z-index: 10000;overflow: hidden" class="fr-rounded fr-background--white fr-m-2v">
-        {% include 'cartographie/curseur.html.twig' %}
-    </div>
+    {% include 'cartographie/curseur.html.twig' %}
     <section class="fr-grid-row fr-pt-0 fr-h-100">
         <div class="fr-col-12 signalement-invalid" id="container_map">
             <div class="fr-hidden" data-token="{{ csrf_token('load_markers_'~''|date('dmYhi')) }}" id="carto__js"></div> 

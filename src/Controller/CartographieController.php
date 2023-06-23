@@ -20,14 +20,16 @@ class CartographieController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         if ($request->get('load_markers')) {
-            // TODO : envoyer la date du filtre pour ne récupérer que les signalements créés avant cette date
-            $date = new \DateTimeImmutable();
+            if ($request->get('filter-date')) {
+                $date = \DateTimeImmutable::createFromFormat('j/m/Y', $request->get('filter-date'));
+            } else {
+                $date = new \DateTimeImmutable();
+            }
             $signalements = $signalementRepository->findAllWithGeoData(
                 $date,
                 (int) $request->get('offset')
             );
 
-            // TODO : créer un service pour calculer un état en cours / résolu / trace
             return $this->json(
                 [
                 'signalements' => $cartoStatutService->calculateStatut($signalements, $date),
