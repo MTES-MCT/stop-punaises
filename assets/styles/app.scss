@@ -919,3 +919,7 @@ span.image-caption {
 .fr-background--white {
     background: white;
 }
+
+.leaflet-control-zoom a {
+    background-image: none !important;
+}

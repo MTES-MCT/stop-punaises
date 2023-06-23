@@ -10,17 +10,22 @@ $( function() {
     max: currentDateMs,
     step: 86400*7,
     slide: function( event, ui ) {
-      const selectedDateString = new Date(ui.value * 1000).toLocaleDateString('fr-FR')
-      $("#weekly-slider-selection").text(selectedDateString)
-      $("input[name=filter-date]").val(selectedDateString)
-      getMarkers(0);
+      refreshSliderValue(ui.value, false)
+    },
+    change: function( event, ui ) {
+      refreshSliderValue(ui.value, true)
     },
     create: function(event, ui){
         $(this).slider('value', currentDateMs )
-        const selectedDateString = new Date(currentDateMs * 1000).toLocaleDateString('fr-FR')
-        $("#weekly-slider-selection").text(selectedDateString)
-        $("input[name=filter-date]").val(selectedDateString)
-        getMarkers(0);
+        refreshSliderValue(currentDateMs, true)
     }
   })
+  function refreshSliderValue(dateMs, refreshHeatMap){
+    const selectedDateString = new Date(dateMs * 1000).toLocaleDateString('fr-FR')
+    $("#weekly-slider-selection").text(selectedDateString)
+    $("input[name=filter-date]").val(selectedDateString)
+    if (refreshHeatMap){
+      getMarkers(0)
+    }
+  }
 } );
