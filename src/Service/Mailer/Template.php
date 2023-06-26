@@ -27,4 +27,5 @@ enum Template: int
     case SIGNALEMENT_CLOSED = 13;
 
     case ADMIN_TOUJOURS_PUNAISES = 14;
+    case ADMIN_CONTACT = 20;
 }

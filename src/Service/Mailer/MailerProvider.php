@@ -44,6 +44,20 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
+    public function sendContactFormMessage(string $adminEmail, string $userName, string $userEmail, string $userMessage): void
+    {
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::ADMIN_CONTACT, [
+                'userName' => $userName,
+                'userEmail' => $userEmail,
+                'userMessage' => $userMessage,
+            ])
+            ->setTo([$adminEmail]);
+
+        $this->send($message);
+    }
+
     public function sendResetPasswordMessage(User $user): void
     {
         $link = $this->urlGenerator->generate('reset_password', ['token' => $user->getToken()]);
