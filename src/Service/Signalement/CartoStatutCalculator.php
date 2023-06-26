@@ -2,28 +2,28 @@
 
 namespace App\Service\Signalement;
 
-class CartoStatutService
+class CartoStatutCalculator
 {
     public function __construct()
     {
     }
 
-    public function calculateStatut(array $signalements, \DateTimeImmutable $date): array
+    public function calculate(array $signalements, \DateTimeImmutable $date): array
     {
         $signalementsStatues = [];
         foreach ($signalements as $signalement) {
-            $date4months = $date->modify('-4 month');
+            $date4monthsAgo = $date->modify('-4 month');
             if (null !== $signalement['resolvedAt'] && $signalement['resolvedAt'] < $date) {
                 $statut = 'resolved';
-            } elseif (null !== $signalement['closedAt'] && $signalement['closedAt'] < $date4months) {
+            } elseif (null !== $signalement['closedAt'] && $signalement['closedAt'] < $date4monthsAgo) {
                 $statut = 'resolved';
-            } elseif (false === $signalement['active'] && $signalement['createdAt'] < $date4months) {
+            } elseif (false === $signalement['active'] && $signalement['createdAt'] < $date4monthsAgo) {
                 $statut = 'resolved';
             } elseif (null !== $signalement['closedAt']
-                    && $signalement['closedAt'] > $date4months && $signalement['closedAt'] < $date) {
+                    && $signalement['closedAt'] > $date4monthsAgo && $signalement['closedAt'] < $date) {
                 $statut = 'trace';
             } elseif (false === $signalement['active']
-                    && $signalement['createdAt'] > $date4months && $signalement['createdAt'] < $date) {
+                    && $signalement['createdAt'] > $date4monthsAgo && $signalement['createdAt'] < $date) {
                 $statut = 'trace';
             } else {
                 $statut = 'en cours';

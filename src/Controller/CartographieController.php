@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\SignalementRepository;
-use App\Service\Signalement\CartoStatutService;
+use App\Service\Signalement\CartoStatutCalculator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ class CartographieController extends AbstractController
     #[Route('/bo/cartographie', name: 'app_cartographie')]
     public function index(
         SignalementRepository $signalementRepository,
-        CartoStatutService $cartoStatutService,
+        CartoStatutCalculator $cartoStatutCalculator,
         Request $request
     ): Response {
         /** @var User $user */
@@ -32,7 +32,7 @@ class CartographieController extends AbstractController
 
             return $this->json(
                 [
-                'signalements' => $cartoStatutService->calculateStatut($signalements, $date),
+                'signalements' => $cartoStatutCalculator->calculate($signalements, $date),
                 ]
             );
         }
