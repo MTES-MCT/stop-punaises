@@ -331,7 +331,7 @@ class Signalement
         return $this->typeIntervention;
     }
 
-    public function setTypeIntervention(string $typeIntervention): self
+    public function setTypeIntervention(?string $typeIntervention): self
     {
         $this->typeIntervention = $typeIntervention;
 
