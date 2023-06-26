@@ -23,14 +23,14 @@ class SignalementFactory
         ->setPrenomOccupant($data['prenomOccupant'])
         ->setNiveauInfestation($data['niveauInfestation'])
         ->setNombrePiecesTraitees($data['nombrePiecesTraitees'])
-        ->setDelaiEntreInterventions($data['delaiEntreInterventions'])
+        ->setDelaiEntreInterventions((int) $data['delaiEntreInterventions'])
         ->setFaitVisitePostTraitement($data['faitVisitePostTraitement'])
         ->setDateVisitePostTraitement($data['dateVisitePostTraitement'])
         ->setTypeIntervention($data['typeIntervention'])
         ->setTypeDiagnostic($data['typeDiagnostic'])
         ->setTypeTraitement($data['typeTraitement'])
-        ->setNomBiocide($data['nomBiocide'])
-        ->setPrixFactureHT($data['prixFactureHT'])
+        ->setNomBiocide(substr($data['nomBiocide'], 0, 50))
+        ->setPrixFactureHT((int) $data['prixFactureHT'])
         ->setClosedAt($data['closedAt']);
     }
 }

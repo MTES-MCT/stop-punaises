@@ -254,7 +254,7 @@ class Signalement
         return $this->typeLogement;
     }
 
-    public function setTypeLogement(string $typeLogement): self
+    public function setTypeLogement(?string $typeLogement): self
     {
         $this->typeLogement = $typeLogement;
 

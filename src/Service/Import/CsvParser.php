@@ -7,7 +7,7 @@ class CsvParser
     public function __construct(
         private array $options = [
             'first_line' => 1,
-            'delimiter' => ',',
+            'delimiter' => ';',
             'enclosure' => '"',
             'escape' => '\\',
         ]
