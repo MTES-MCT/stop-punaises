@@ -54,9 +54,11 @@ class SignalementRepository extends ServiceEntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-    public function findLastReference(): ?array
+    public function findLastReference(?string $year = null): ?array
     {
-        $year = (new \DateTime())->format('Y');
+        if (null === $year) {
+            $year = (new \DateTime())->format('Y');
+        }
         $queryBuilder = $this->createQueryBuilder('s')
             ->select('s.reference')
             ->where('YEAR(s.createdAt) = :year')
