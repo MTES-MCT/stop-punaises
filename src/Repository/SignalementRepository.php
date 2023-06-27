@@ -20,6 +20,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class SignalementRepository extends ServiceEntityRepository
 {
     private const NB_DAYS_BEFORE_NOTIFYING = 45;
+    public const MARKERS_PAGE_SIZE = 9000; // @todo: is high cause duplicate result, the query findAllWithGeoData should be reviewed
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -204,5 +205,34 @@ class SignalementRepository extends ServiceEntityRepository
                 'territoires' => Connection::PARAM_INT_ARRAY,
             ]
         )->fetchOne();
+    }
+
+    public function findAllWithGeoData(\DateTimeImmutable $date, int $offset): array
+    {
+        $firstResult = $offset;
+        $qb = $this->createQueryBuilder('s');
+        $qb->select('
+            DISTINCT s.id,
+            s.uuid,
+            s.reference,
+            s.createdAt,
+            s.nomOccupant,
+            s.prenomOccupant,
+            s.adresse,
+            s.codePostal,
+            s.ville,
+            s.niveauInfestation,
+            s.resolvedAt,
+            s.closedAt,
+            s.geoloc,
+            t.active')
+            ->leftJoin('s.territoire', 't')
+            ->where('s.createdAt < :date')
+            ->setParameter('date', $date);
+
+        $qb->setFirstResult($firstResult)
+            ->setMaxResults(self::MARKERS_PAGE_SIZE);
+
+        return $qb->getQuery()->getArrayResult();
     }
 }
