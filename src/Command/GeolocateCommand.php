@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Signalement;
+use App\Service\Signalement\GeolocateService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +17,8 @@ class GeolocateCommand extends Command
 
     public function __construct(
         private readonly HttpClientInterface $client,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private GeolocateService $geolocateService,
     ) {
         parent::__construct();
     }
@@ -33,53 +35,15 @@ class GeolocateCommand extends Command
         $countFailed = 0;
 
         foreach ($signalements as $signalement) {
-            $address = $signalement->getAdresse();
-            $postalCode = $signalement->getCodePostal();
-            $city = $signalement->getVille();
-
-            // Compose the address string to be used in the geocoding API request
-            $fullAddress = '';
-            if (null !== $address) {
-                $fullAddress .= $address.', ';
-            }
-            if (null !== $postalCode) {
-                $fullAddress .= $postalCode.', ';
-            }
-            if (null !== $city) {
-                $fullAddress .= $city;
-            }
-
             $statusCode = Response::HTTP_SERVICE_UNAVAILABLE;
             try {
-                // Make the API request to geocode the address
-                $response = $this->client->request('GET', 'https://api-adresse.data.gouv.fr/search', [
-                    'query' => [
-                        'q' => $fullAddress,
-                        'limit' => 1,
-                    ],
-                ]);
-
-                $statusCode = $response->getStatusCode();
-                if (200 === $statusCode) {
-                    $data = json_decode($response->getContent(), true);
-
-                    if (!empty($data['features'][0]['geometry']['coordinates'])) {
-                        $coordinates = [
-                            'lat' => (string) $data['features'][0]['geometry']['coordinates'][1],
-                            'lng' => (string) $data['features'][0]['geometry']['coordinates'][0],
-                        ];
-
-                        // Update the geolocation coordinates in the signalement entity
-                        $signalement->setGeoloc($coordinates);
-
-                        $this->entityManager->persist($signalement);
-                        $this->entityManager->flush();
-                        ++$countSuccess;
-                        $output->writeln('Geolocation updated for Signalement ID: '.$signalement->getId());
-                    } else {
-                        ++$countFailed;
-                        $output->writeln('Geolocation not found for Signalement ID: '.$signalement->getId());
-                    }
+                $statusCode = $this->geolocateService->geolocate($signalement);
+                if (Response::HTTP_OK === $statusCode) {
+                    ++$countSuccess;
+                    $output->writeln('Geolocation updated for Signalement ID: '.$signalement->getId());
+                } elseif (Response::HTTP_NO_CONTENT === $statusCode) {
+                    ++$countFailed;
+                    $output->writeln('Geolocation not found for Signalement ID: '.$signalement->getId());
                 } else {
                     ++$countFailed;
                     $output->writeln('Geolocation request failed for Signalement ID: '.$signalement->getId()
@@ -92,7 +56,6 @@ class GeolocateCommand extends Command
                 .' message = '.$exception->getMessage());
             }
         }
-
         $output->writeln('Geolocation process completed.  '.$countSuccess.' signalements geolocated, '
     .$countFailed.' signalements NOT geolocated. ');
 

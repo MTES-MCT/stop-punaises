@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait TimestampableTrait
 {
+    private ?\DateTimeImmutable $customCreatedAt = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -20,7 +22,9 @@ trait TimestampableTrait
     #[ORM\PrePersist()]
     public function setCreatedAtValue(): self
     {
-        $this->createdAt = new \DateTimeImmutable();
+        if (null === $this->createdAt) {
+            $this->createdAt = new \DateTimeImmutable();
+        }
 
         return $this;
     }

@@ -85,6 +85,14 @@ class UploadHandlerService
         }
     }
 
+    public function createTmpFileFromBucket($from, $to): void
+    {
+        $resourceBucket = $this->fileStorage->read($from);
+        $resourceFileSytem = fopen($to, 'w');
+        fwrite($resourceFileSytem, $resourceBucket);
+        fclose($resourceFileSytem);
+    }
+
     public function setKey(string $key): ?array
     {
         $this->file['key'] = $key;
@@ -99,7 +107,7 @@ class UploadHandlerService
 
     public function handleUploadFilesRequest(
         ?array $filesPosted
-        ): array {
+    ): array {
         $filesToSave = [];
         if (isset($filesPosted) && \is_array($filesPosted)) {
             foreach ($filesPosted as $file) {

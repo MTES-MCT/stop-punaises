@@ -254,7 +254,7 @@ class Signalement
         return $this->typeLogement;
     }
 
-    public function setTypeLogement(string $typeLogement): self
+    public function setTypeLogement(?string $typeLogement): self
     {
         $this->typeLogement = $typeLogement;
 
@@ -331,7 +331,7 @@ class Signalement
         return $this->typeIntervention;
     }
 
-    public function setTypeIntervention(string $typeIntervention): self
+    public function setTypeIntervention(?string $typeIntervention): self
     {
         $this->typeIntervention = $typeIntervention;
 
@@ -850,6 +850,13 @@ class Signalement
     public function setGeoloc(array $geoloc): self
     {
         $this->geoloc = $geoloc;
+
+        return $this;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $date): self
+    {
+        $this->createdAt = $date;
 
         return $this;
     }
