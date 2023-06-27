@@ -68,7 +68,7 @@ class SignalementImportLoader
                 $signalement = $this->signalementManager->createOrUpdate($dataMapped, true);
                 $dateIntervention = $signalement->getDateIntervention();
                 if (null !== $dateIntervention) {
-                    $signalement->setCustomCreatedAt(\DateTimeImmutable::createFromInterface($dateIntervention)->modify('-3 months'));
+                    $signalement->setCreatedAt(\DateTimeImmutable::createFromInterface($dateIntervention)->modify('-3 months'));
                     $signalement->setClosedAt($dateIntervention);
                 }
 

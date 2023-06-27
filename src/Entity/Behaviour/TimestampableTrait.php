@@ -22,9 +22,7 @@ trait TimestampableTrait
     #[ORM\PrePersist()]
     public function setCreatedAtValue(): self
     {
-        if ($this->hasCustomCreatedAt()) {
-            $this->createdAt = $this->getCustomCreatedAt();
-        } else {
+        if (null === $this->createdAt) {
             $this->createdAt = new \DateTimeImmutable();
         }
 
@@ -40,23 +38,6 @@ trait TimestampableTrait
     public function setUpdatedAtValue(): self
     {
         $this->updatedAt = new \DateTimeImmutable();
-
-        return $this;
-    }
-
-    public function hasCustomCreatedAt(): bool
-    {
-        return null !== $this->customCreatedAt;
-    }
-
-    public function getCustomCreatedAt(): \DateTimeImmutable
-    {
-        return $this->customCreatedAt;
-    }
-
-    public function setCustomCreatedAt(\DateTimeImmutable $customCreatedAt): self
-    {
-        $this->customCreatedAt = $customCreatedAt;
 
         return $this;
     }

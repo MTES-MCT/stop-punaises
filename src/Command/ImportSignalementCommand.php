@@ -50,7 +50,7 @@ class ImportSignalementCommand extends Command
         $entrepriseUuid = $input->getArgument('entreprise_uuid');
         $entreprise = $this->entityManager->getRepository(Entreprise::class)->findOneBy(['uuid' => $entrepriseUuid]);
         if (null === $entreprise) {
-            $io->error('Entreprise does not exists');
+            $io->error('Entreprise does not exist');
 
             return Command::FAILURE;
         }
@@ -58,7 +58,7 @@ class ImportSignalementCommand extends Command
         $fromFile = 'csv/signalements_'.$entrepriseUuid.'.csv';
         $toFile = $this->parameterBag->get('uploads_tmp_dir').'signalements.csv';
         if (!$this->fileStorage->fileExists($fromFile)) {
-            $io->error('CSV File does not exists');
+            $io->error('CSV File does not exist');
 
             return Command::FAILURE;
         }

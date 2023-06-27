@@ -853,4 +853,11 @@ class Signalement
 
         return $this;
     }
+
+    public function setCreatedAt(\DateTimeImmutable $date): self
+    {
+        $this->createdAt = $date;
+
+        return $this;
+    }
 }
