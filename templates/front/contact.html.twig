@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stop punaises - Contact{% endblock %}
+
+{% block body %}
+    <main id="contact-container" class="fr-container--fluid">
+    
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div role="alert" class="fr-alert fr-alert--{{ label }} fr-alert--sm fr-mb-3v">
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-py-5w fr-py-md-10w">
+            <h1 class="fr-col-11 fr-col-md-8">Contact</h1>
+
+            <section class="information-contact fr-col-11 fr-col-md-8">
+                <p>
+                    <span class="all-questions">
+                        Le réseau des ADIL vous informe gratuitement sur toutes les problématiques logement et habitat.
+                        <br><br>
+                        Pour toute question appelez le&nbsp;:
+                    </span>
+                    <br>
+                    <a href="tel:+33806706806"><span class="fr-icon-phone-fill">0806 706 806</span></a>
+                    <br>
+                    <span class="local-phone-price">Prix d'un appel local</span>
+                </p>
+            </section>
+
+            <p class="fr-col-11 fr-col-md-8 fr-h6 fr-mt-5w">
+                Une question ? Une précision ? N'hésitez pas à nous envoyer un message !
+            </p>
+
+            <p class="fr-col-11 fr-col-md-8">
+                <strong>Attention :</strong>
+                le formulaire de contact ne permet pas de déposer un signalement.
+                Si vous souhaitez signaler un problème de logement, remplissez
+                <a href="{{ path('home') }}">le formulaire de signalement</a>.
+            </p>
+
+            <div class="fr-col-11 fr-col-md-8 fr-py-5w">
+                {{ form_start(form) }}
+                <div class="fr-grid-row fr-grid-row--gutters">
+                    {{ form_row(form.nom) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.message) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+            <div class="fr-col-11 fr-col-md-8">
+                <button class="fr-btn fr-rounded fr-fi-mail-fill fr-btn--icon-left" form="front_contact">
+                    Envoyer le message
+                </button>
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -21,10 +21,14 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
+        {% block custom_stylesheets %}{% endblock %}
+
+        {% if 'app_cartographie' in app.request.get('_route') %}
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.js"></script>
+            <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js" ></script>
+        {% endif %}
         <script src="{{ asset('build/dsfr/dsfr.module.min.js') }}"></script>
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
         {% include 'common/analytics.html.twig' %}
     </head>
     <body>
@@ -42,6 +46,13 @@
         {% endfor %}
         
         {% block body %}{% endblock %}
+        
+        {% block javascripts %}
+            {% if 'app_cartographie' in app.request.get('_route') %}
+                <script src="{{ asset('js/maps.js') }}" data-token="{{ csrf_token('load_markers_'~''|date('dmYhi')) }}" id="carto__js"></script> 
+            {% endif %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
 
         {% include "common/footer.html.twig" %}
     </body>
