@@ -33,14 +33,14 @@ async function getMarkers(offset) {
                 // pour l'instant on ne prend pas en compte le niveauInfestation
                 // on n'affiche pas les signalements au statut resolved
                 if ('trace' === signalement.statut){
-                    heatValues.push([signalement.geoloc.lat, signalement.geoloc.lng, 0.3]);
+                    heatValues.push([signalement.geoloc.lat, signalement.geoloc.lng, 0.5]);
                 }  
                 if ('en cours' === signalement.statut){
                     heatValues.push([signalement.geoloc.lat, signalement.geoloc.lng, 1]);
                 }         
             }
         })
-        heat = L.heatLayer(heatValues, {radius: 25}).addTo(map);
+        heat = L.heatLayer(heatValues, {maxZoom:15}).addTo(map);
     } else {
         alert('Erreur lors du chargement des signalements...')
     }
