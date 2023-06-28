@@ -48,6 +48,7 @@ class ImportSignalementCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $entrepriseUuid = $input->getArgument('entreprise_uuid');
+        /** @var Entreprise $entreprise */
         $entreprise = $this->entityManager->getRepository(Entreprise::class)->findOneBy(['uuid' => $entrepriseUuid]);
         if (null === $entreprise) {
             $io->error('Entreprise does not exist');
@@ -74,7 +75,7 @@ class ImportSignalementCommand extends Command
 
         $metadata = $this->signalementImportLoader->getMetadata();
 
-        $io->success(sprintf('%s signalement(s) have been imported', $metadata['count_signalement']));
+        $io->success(sprintf('%s signalement(s) have been imported for entreprise %s', $metadata['count_signalement'], $entreprise->getNom()));
 
         return Command::SUCCESS;
     }

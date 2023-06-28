@@ -8,6 +8,7 @@ use App\Manager\SignalementManager;
 use App\Repository\SignalementRepository;
 use App\Repository\TerritoireRepository;
 use App\Service\Signalement\GeolocateService;
+use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\ZipCodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -34,6 +35,7 @@ class SignalementImportLoader
         private ZipCodeService $zipCodeService,
         private TerritoireRepository $territoireRepository,
         private GeolocateService $geolocateService,
+        private ReferenceGenerator $referenceGenerator,
     ) {
     }
 
@@ -49,26 +51,31 @@ class SignalementImportLoader
             $progressBar->start(\count($data));
         }
 
-        $lastReference = $this->signalementRepository->findLastReference();
-        list($yearRef, $idRef) = explode('-', $lastReference['reference']);
-
         foreach ($data as $item) {
             $dataMapped = $this->signalementImportMapper->map($headers, $item);
             // TODO : check if no errors before creating signalements
             if (!empty($dataMapped)) {
                 ++$countSignalement;
-                $idRef = (int) $idRef + 1;
                 if ($output) {
                     $progressBar->advance();
                 }
                 $dataMapped['entreprise'] = $entreprise;
-                $dataMapped['reference'] = $yearRef.'-'.$idRef;
                 $dataMapped['declarant'] = Declarant::DECLARANT_ENTREPRISE;
+                $dateIntervention = $dataMapped['dateIntervention'];
+
+                if (null !== $dateIntervention) {
+                    $dateCreation = \DateTimeImmutable::createFromInterface($dateIntervention)->modify('-3 months');
+                    $dataMapped['reference'] = $this->referenceGenerator->generate($dateCreation->format('Y'));
+                } else {
+                    $dateCreation = null;
+                    $dataMapped['reference'] = $this->referenceGenerator->generate();
+                }
 
                 $signalement = $this->signalementManager->createOrUpdate($dataMapped, true);
-                $dateIntervention = $signalement->getDateIntervention();
+                if (null !== $dateCreation) {
+                    $signalement->setCreatedAt($dateCreation);
+                }
                 if (null !== $dateIntervention) {
-                    $signalement->setCreatedAt(\DateTimeImmutable::createFromInterface($dateIntervention)->modify('-3 months'));
                     $signalement->setClosedAt($dateIntervention);
                 }
 

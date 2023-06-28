@@ -10,17 +10,19 @@ class ReferenceGenerator
     {
     }
 
-    public function generate(): string
+    public function generate(?string $yearIn = null): string
     {
-        $lastReference = $this->signalementRepository->findLastReference();
+        $lastReference = $this->signalementRepository->findLastReference($yearIn);
         if (!empty($lastReference)) {
             list($year, $id) = explode('-', $lastReference['reference']);
             $id = (int) $id + 1;
 
             return $year.'-'.$id;
         }
-        $year = (new \DateTime())->format('Y');
+        if (null === $yearIn) {
+            $yearIn = (new \DateTime())->format('Y');
+        }
 
-        return $year.'-'. 1;
+        return $yearIn.'-'. 1;
     }
 }
