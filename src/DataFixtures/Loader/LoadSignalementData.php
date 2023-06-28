@@ -7,6 +7,7 @@ use App\Entity\Signalement;
 use App\Repository\EmployeRepository;
 use App\Repository\EntrepriseRepository;
 use App\Repository\TerritoireRepository;
+use App\Service\Signalement\ReferenceGenerator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -18,7 +19,8 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
     public function __construct(
         private EntrepriseRepository $entrepriseRepository,
         private EmployeRepository $employeRepository,
-        private TerritoireRepository $territoireRepository
+        private TerritoireRepository $territoireRepository,
+        private ReferenceGenerator $referenceGenerator,
     ) {
     }
 
@@ -58,7 +60,7 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
             ->setCodeInsee($row['code_insee'])
             ->setNiveauInfestation($row['niveau_infestation'])
             ->setDateIntervention(new \DateTimeImmutable())
-            ->setReference($row['reference'])
+            ->setReference($this->referenceGenerator->generate())
             ->setDeclarant(Declarant::from($row['declarant']))
             ->setTerritoire($this->territoireRepository->findOneBy(['zip' => $row['territoire']]));
 
@@ -73,6 +75,7 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
         }
 
         $manager->persist($signalement);
+        $manager->flush();
     }
 
     public function getOrder(): int

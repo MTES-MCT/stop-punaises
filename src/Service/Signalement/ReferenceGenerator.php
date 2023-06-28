@@ -19,6 +19,9 @@ class ReferenceGenerator
 
             return $year.'-'.$id;
         }
+        if (null === $yearIn) {
+            $yearIn = (new \DateTime())->format('Y');
+        }
 
         return $yearIn.'-'. 1;
     }
