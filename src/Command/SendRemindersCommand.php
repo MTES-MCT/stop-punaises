@@ -97,6 +97,7 @@ class SendRemindersCommand extends Command
             ));
             $signalement->setClosedAt(new \DateTimeImmutable());
             $this->signalementManager->save($signalement);
+            $this->mailerProvider->sendSignalementClosedByWebsite($signalement);
 
             $this->eventDispatcher->dispatch(
                 new SignalementClosedEvent(
