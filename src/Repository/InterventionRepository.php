@@ -18,7 +18,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class InterventionRepository extends ServiceEntityRepository
 {
-    private const NB_DAYS_BEFORE_NOTIFYING = 30;
+    private const NB_DAYS_BEFORE_NOTIFYING_USAGER = 30;
+    private const NB_DAYS_BEFORE_NOTIFYING_PRO = 60;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -75,13 +76,29 @@ class InterventionRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findToNotify(): array
+    public function findToNotifyUsager(): array
     {
         return $this->createQueryBuilder('i')
             ->where('i.reminderResolvedByEntrepriseAt IS NULL')
             ->andWhere('i.resolvedByEntrepriseAt IS NOT NULL')
             ->andWhere('datediff(CURRENT_DATE(), i.resolvedByEntrepriseAt) > :nb_days_before_notifying')
-                ->setParameter('nb_days_before_notifying', self::NB_DAYS_BEFORE_NOTIFYING)
+                ->setParameter('nb_days_before_notifying', self::NB_DAYS_BEFORE_NOTIFYING_USAGER)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findToNotifyPro(): array
+    {
+        return $this->createQueryBuilder('i')
+            ->where('i.resolvedByEntrepriseAt IS NULL')
+            ->andWhere('i.reminderPendingEntrepriseConclusionAt IS NULL')
+            ->andWhere('i.canceledByEntrepriseAt IS NULL')
+            ->andWhere('i.acceptedByUsager = 1')
+            ->andWhere('datediff(CURRENT_DATE(), i.choiceByUsagerAt) > :nb_days_before_notifying')
+                ->setParameter('nb_days_before_notifying', self::NB_DAYS_BEFORE_NOTIFYING_PRO)
+            ->leftJoin('i.signalement', 's')
+                ->andWhere('s.closedAt IS NULL')
+                ->andWhere('s.resolvedAt IS NULL')
             ->getQuery()
             ->getResult();
     }

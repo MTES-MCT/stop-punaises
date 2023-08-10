@@ -57,6 +57,9 @@ class Intervention
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $canceledByEntrepriseAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $reminderPendingEntrepriseConclusionAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -214,6 +217,18 @@ class Intervention
     public function setCanceledByEntrepriseAt(?\DateTimeImmutable $canceledByEntrepriseAt): self
     {
         $this->canceledByEntrepriseAt = $canceledByEntrepriseAt;
+
+        return $this;
+    }
+
+    public function getReminderPendingEntrepriseConclusionAt(): ?\DateTimeImmutable
+    {
+        return $this->reminderPendingEntrepriseConclusionAt;
+    }
+
+    public function setReminderPendingEntrepriseConclusionAt(?\DateTimeImmutable $reminderPendingEntrepriseConclusionAt): self
+    {
+        $this->reminderPendingEntrepriseConclusionAt = $reminderPendingEntrepriseConclusionAt;
 
         return $this;
     }
