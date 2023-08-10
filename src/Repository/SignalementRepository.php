@@ -109,6 +109,21 @@ class SignalementRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findTraitementAutoToClose(): ?array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.reminderAutotraitementAt IS NOT NULL')
+            ->andWhere('s.autotraitement = true')
+            ->andWhere('s.resolvedAt IS NULL')
+            ->andWhere('s.closedAt IS NULL')
+            ->andWhere('s.declarant = :declarant')
+                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT)
+            ->andWhere('datediff(CURRENT_DATE(), s.reminderAutotraitementAt) > :nb_days_before_notifying')
+                ->setParameter('nb_days_before_notifying', self::NB_DAYS_BEFORE_NOTIFYING)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function countOpenWithoutIntervention(): int
     {
         $qb = $this->createQueryBuilder('s')

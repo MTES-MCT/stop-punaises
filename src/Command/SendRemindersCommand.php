@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Event\InterventionRemindedEvent;
+use App\Event\SignalementClosedEvent;
 use App\Event\SignalementRemindedEvent;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
@@ -47,6 +48,24 @@ class SendRemindersCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $countSignalementsToNotify = $this->notifySignalementsTraitementAuto();
+        $countSignalementsTraitementAutoToClose = $this->closeSignalementsTraitementAuto();
+        $countInterventionsToNotifyUsager = $this->notifyAskInterventionCompleteForUsager();
+        $countInterventionsToNotifyPro = $this->notifyAskInterventionCompleteForPro();
+
+        $this->io->success(sprintf(
+            '%s signalements were notified, %s auto-traitement signalements closed, %s interventions were notified for usager, %s interventions were notified for pro',
+            $countSignalementsToNotify,
+            $countSignalementsTraitementAutoToClose,
+            $countInterventionsToNotifyUsager,
+            $countInterventionsToNotifyPro
+        ));
+
+        return Command::SUCCESS;
+    }
+
+    private function notifySignalementsTraitementAuto(): int
+    {
         $signalementsToNotify = $this->signalementRepository->findToNotify();
         $countSignalementsToNotify = \count($signalementsToNotify);
         foreach ($signalementsToNotify as $signalement) {
@@ -65,6 +84,34 @@ class SendRemindersCommand extends Command
             );
         }
 
+        return $countSignalementsToNotify;
+    }
+
+    private function closeSignalementsTraitementAuto(): int
+    {
+        $signalementsToClose = $this->signalementRepository->findTraitementAutoToClose();
+        $countCloseSignalementsTraitementAuto = \count($signalementsToClose);
+        foreach ($signalementsToClose as $signalement) {
+            $this->io->success(sprintf('Signalement id %s is closed',
+                $signalement->getUuid()
+            ));
+            $signalement->setClosedAt(new \DateTimeImmutable());
+            $this->signalementManager->save($signalement);
+
+            $this->eventDispatcher->dispatch(
+                new SignalementClosedEvent(
+                    signalement: $signalement,
+                    isAdminAction: true,
+                ),
+                SignalementClosedEvent::NAME
+            );
+        }
+
+        return $countCloseSignalementsTraitementAuto;
+    }
+
+    private function notifyAskInterventionCompleteForUsager(): int
+    {
         $interventionsToNotifyUsager = $this->interventionRepository->findToNotifyUsager();
         $countInterventionsToNotifyUsager = \count($interventionsToNotifyUsager);
         foreach ($interventionsToNotifyUsager as $intervention) {
@@ -83,6 +130,11 @@ class SendRemindersCommand extends Command
             );
         }
 
+        return $countInterventionsToNotifyUsager;
+    }
+
+    private function notifyAskInterventionCompleteForPro(): int
+    {
         $interventionsToNotifyPro = $this->interventionRepository->findToNotifyPro();
         $countInterventionsToNotifyPro = \count($interventionsToNotifyPro);
         foreach ($interventionsToNotifyPro as $intervention) {
@@ -94,12 +146,6 @@ class SendRemindersCommand extends Command
             $this->mailerProvider->sendSignalementSuiviTraitementProForPro($intervention);
         }
 
-        $this->io->success(sprintf('%s signalements were notified, %s interventions were notified for usager, %s interventions were notified for pro',
-            $countSignalementsToNotify,
-            $countInterventionsToNotifyUsager,
-            $countInterventionsToNotifyPro
-        ));
-
-        return Command::SUCCESS;
+        return $countInterventionsToNotifyPro;
     }
 }
