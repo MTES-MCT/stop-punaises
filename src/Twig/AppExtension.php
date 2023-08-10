@@ -25,6 +25,10 @@ class AppExtension extends AbstractExtension
 
     public function formatPhone(?string $value): ?string
     {
+        if (empty($value)) {
+            return '';
+        }
+
         $value = preg_replace(self::PATTERN_REPLACE_PHONE_FR, '', $value);
 
         if (9 === \strlen($value)) {
