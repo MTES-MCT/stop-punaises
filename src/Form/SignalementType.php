@@ -344,7 +344,7 @@ class SignalementType extends AbstractType
         $builder->get('geoloc')->addModelTransformer(new CallbackTransformer(
             function ($tagsAsArray) {
                 // transform the array to a string
-                if (!empty($tagsAsArray)) {
+                if (!empty($tagsAsArray) && !empty($tagsAsArray[1])) {
                     return $tagsAsArray[0].'|'.$tagsAsArray[1];
                 }
 
