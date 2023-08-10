@@ -54,7 +54,7 @@ class SignalementController extends AbstractController
         if ($form->isValid() && $this->isCsrfTokenValid('front-add-signalement', $submittedToken)) {
             $signalement->setReference($referenceGenerator->generate());
             $signalement->setDeclarant(Declarant::DECLARANT_OCCUPANT);
-            $signalement->setUuidPublic(uniqid());
+            $signalement->updateUuidPublic();
 
             $filesPosted = $request->files->get('file-upload');
             $filesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);

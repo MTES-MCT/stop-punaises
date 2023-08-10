@@ -244,6 +244,7 @@ class SignalementViewController extends AbstractController
         if ($this->isCsrfTokenValid('signalement_admin_stop', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'La procédure est terminée !');
             $signalement->setClosedAt(new \DateTimeImmutable());
+            $signalement->updateUuidPublic();
             $signalementManager->save($signalement);
 
             $eventDispatcher->dispatch(

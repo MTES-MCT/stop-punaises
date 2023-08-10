@@ -835,6 +835,13 @@ class Signalement
         return $this->uuidPublic;
     }
 
+    public function updateUuidPublic(): self
+    {
+        $this->uuidPublic = uniqid();
+
+        return $this;
+    }
+
     public function setUuidPublic(?string $uuidPublic): self
     {
         $this->uuidPublic = $uuidPublic;
