@@ -37,20 +37,24 @@
 
             <div class="fr-col-12 fr-col-lg-6">
                 {% if not is_granted('ROLE_ADMIN') %}
-                    {% if entrepriseIntervention %}
+                    {% if entrepriseIntervention and not signalement.resolvedAt and not signalement.closedAt %}
                         {% if entrepriseIntervention.accepted and
                             entrepriseIntervention.estimationSentAt is not null and
                             entrepriseIntervention.acceptedByUsager and
                             signalement.typeIntervention is null
                         %}
                             <a href="{{ path('app_signalement_treated', {'uuid': signalement.uuid }) }}" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check" value="accept">Marquer comme traité</a>
+                        {% endif %}
 
-                            {% if not entrepriseIntervention.canceledByEntrepriseAt %}
-                                <form action="{{ path('app_intervention_stop', {'id': entrepriseIntervention.id }) }}" method="POST" class="form-back-stop-intervention fr-mt-1v">
-                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('intervention_stop') }}">
-                                    <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close">Clôturer le signalement</button>
-                                </form>
-                            {% endif %}
+                        {% if entrepriseIntervention.accepted and
+                            entrepriseIntervention.estimationSentAt is not null and
+                            not entrepriseIntervention.canceledByEntrepriseAt and
+                            signalement.typeIntervention is null
+                        %}
+                            <form action="{{ path('app_intervention_stop', {'id': entrepriseIntervention.id }) }}" method="POST" class="form-back-stop-intervention fr-mt-1v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('intervention_stop') }}">
+                                <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close">Clôturer le signalement</button>
+                            </form>
                         {% endif %}
                     {% elseif not signalement.resolvedAt and not signalement.closedAt and not has_other_entreprise %}
                         <form action="{{ path('app_signalement_intervention_accept', {'uuid': signalement.uuid }) }}" method="POST">
