@@ -50,7 +50,7 @@ class SendRemindersCommand extends Command
         $signalementsToNotify = $this->signalementRepository->findToNotify();
         $countSignalementsToNotify = \count($signalementsToNotify);
         foreach ($signalementsToNotify as $signalement) {
-            $this->io->success(sprintf('%s to notify',
+            $this->io->success(sprintf('Signalement id %s to notify',
                 $signalement->getUuid()
             ));
             $signalement->setReminderAutotraitementAt(new \DateTimeImmutable());
@@ -65,10 +65,10 @@ class SendRemindersCommand extends Command
             );
         }
 
-        $interventionsToNotify = $this->interventionRepository->findToNotify();
-        $countInterventionsToNotify = \count($interventionsToNotify);
-        foreach ($interventionsToNotify as $intervention) {
-            $this->io->success(sprintf('%s to notify',
+        $interventionsToNotifyUsager = $this->interventionRepository->findToNotifyUsager();
+        $countInterventionsToNotifyUsager = \count($interventionsToNotifyUsager);
+        foreach ($interventionsToNotifyUsager as $intervention) {
+            $this->io->success(sprintf('Intervention id %s to notify for usager',
                 $intervention->getId()
             ));
             $intervention->setReminderResolvedByEntrepriseAt(new \DateTimeImmutable());
@@ -83,9 +83,21 @@ class SendRemindersCommand extends Command
             );
         }
 
-        $this->io->success(sprintf('%s signalements were notified, %s interventions were notified',
+        $interventionsToNotifyPro = $this->interventionRepository->findToNotifyPro();
+        $countInterventionsToNotifyPro = \count($interventionsToNotifyPro);
+        foreach ($interventionsToNotifyPro as $intervention) {
+            $this->io->success(sprintf('Intervention id %s to notify for pro',
+                $intervention->getId()
+            ));
+            $intervention->setReminderPendingEntrepriseConclusionAt(new \DateTimeImmutable());
+            $this->interventionManager->save($intervention);
+            $this->mailerProvider->sendSignalementSuiviTraitementProForPro($intervention);
+        }
+
+        $this->io->success(sprintf('%s signalements were notified, %s interventions were notified for usager, %s interventions were notified for pro',
             $countSignalementsToNotify,
-            $countInterventionsToNotify,
+            $countInterventionsToNotifyUsager,
+            $countInterventionsToNotifyPro
         ));
 
         return Command::SUCCESS;

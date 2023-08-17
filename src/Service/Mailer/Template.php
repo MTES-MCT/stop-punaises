@@ -3,8 +3,8 @@
 namespace App\Service\Mailer;
 
 /**
- * ID related to Sendinblue Provider, you have to login et get the ID
- * https://my.sendinblue.com/camp/lists/template#active.
+ * ID related to Brevo Provider, you have to login et get the ID
+ * https://my.brevo.com/camp/lists/template.
  */
 enum Template: int
 {
@@ -21,6 +21,7 @@ enum Template: int
     case SIGNALEMENT_INTERVENTION_CANCELED = 19;
     case SIGNALEMENT_NO_MORE_ENTREPRISES = 5;
     case SIGNALEMENT_SUIVI_TRAITEMENT_PRO = 3;
+    case SIGNALEMENT_SUIVI_TRAITEMENT_PRO_FOR_PRO = 21;
     case SIGNALEMENT_SUIVI_TRAITEMENT_AUTO = 4;
     case SIGNALEMENT_TRAITEMENT_RESOLVED = 1;
     case SIGNALEMENT_TRAITEMENT_RESOLVED_FOR_PRO = 8;
