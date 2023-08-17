@@ -138,7 +138,7 @@ class SuiviUsagerViewController extends AbstractController
             $this->addFlash('success', 'Votre procédure est terminée !');
 
             $signalement->setResolvedAt(new \DateTimeImmutable());
-            $signalement->setUuidPublic(uniqid());
+            $signalement->updateUuidPublic();
             $signalementManager->save($signalement);
 
             if (!$signalement->isAutotraitement()) {
@@ -189,8 +189,6 @@ class SuiviUsagerViewController extends AbstractController
         Request $request,
         Signalement $signalement,
         SignalementManager $signalementManager,
-        InterventionRepository $interventionRepository,
-        MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_stop', $request->get('_csrf_token'))) {

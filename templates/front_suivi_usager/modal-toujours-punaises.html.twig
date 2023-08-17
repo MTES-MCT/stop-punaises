@@ -10,17 +10,21 @@
                         <h1 id="fr-modal-title-modal-toujours-punaises" class="fr-modal__title">Vous avez toujours un problème de punaises</h1>
                         <p>
                             Vous avez indiqué avoir toujours un problème de punaises de lit.
+                            {% if signalement.territoire.active %}
                             <br>
                             Nous pouvons vous aider à trouver une entreprise labellisée pour traiter votre logement.
+                            {% endif %}
                         </p>
                         <p>
                             Que souhaitez-vous faire ?
                         </p>
                         <div>
+                            {% if signalement.territoire.active %}
                             <form action="{{ path('app_signalement_switch_pro', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_switch_pro') }}">
                                 <button class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check">Trouver une entreprise</button>
                             </form>
+                            {% endif %}
 
                             <form action="{{ path('app_signalement_stop', {'uuid': signalement.uuid }) }}" method="POST" class="fr-mb-3v">
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_stop') }}">
