@@ -12,7 +12,7 @@
     {% include "front_suivi_usager/modal-estimation-accepted.html.twig" %}
 {% endif %}
 
-{% if signalement.autotraitement and signalement.reminderAutotraitementAt %}
+{% if signalement.autotraitement and signalement.reminderAutotraitementAt and not signalement.closedAt %}
     {% include "front_suivi_usager/modal-probleme-resolu.html.twig" %}
 {% endif %}
 {% if not signalement.autotraitement and intervention_accepted_by_usager and intervention_accepted_by_usager.reminderResolvedByEntrepriseAt %}
