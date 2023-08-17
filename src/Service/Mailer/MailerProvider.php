@@ -257,6 +257,19 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
+    public function sendSignalementClosedByWebsite(Signalement $signalement): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_CLOSED_AUTO, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
     public function sendSignalementSuiviTraitementPro(Intervention $intervention): void
     {
         $signalement = $intervention->getSignalement();
