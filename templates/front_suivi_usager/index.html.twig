@@ -4,6 +4,7 @@
 
 {% block body %}
 
+{% if signalement.closedAt is not defined %}
 {% include "front_suivi_usager/modal-empty-estimations.html.twig" %}
 {% for intervention in interventions_to_answer %}
     {% include "front_suivi_usager/modal-choice-estimation.html.twig" %}
@@ -22,6 +23,7 @@
 {% include "front_suivi_usager/modal-toujours-punaises.html.twig" %}
 {% include "front_suivi_usager/modal-toujours-punaises-pro.html.twig" %}
 {% include "front_suivi_usager/modal-close-signalement.html.twig" %}
+{% endif %}
 
 <div class="suivi-usager fr-container fr-my-3v">
 
