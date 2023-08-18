@@ -20,6 +20,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class SignalementRepository extends ServiceEntityRepository
 {
     private const NB_DAYS_BEFORE_NOTIFYING = 45;
+    private const NB_DAYS_BEFORE_CLOSING_AUTOTRAITEMENT = 45;
     public const MARKERS_PAGE_SIZE = 9000; // @todo: is high cause duplicate result, the query findAllWithGeoData should be reviewed
 
     public function __construct(ManagerRegistry $registry)
@@ -119,9 +120,31 @@ class SignalementRepository extends ServiceEntityRepository
             ->andWhere('s.declarant = :declarant')
                 ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT)
             ->andWhere('datediff(CURRENT_DATE(), s.reminderAutotraitementAt) > :nb_days_before_notifying')
-                ->setParameter('nb_days_before_notifying', self::NB_DAYS_BEFORE_NOTIFYING)
+                ->setParameter('nb_days_before_notifying', self::NB_DAYS_BEFORE_CLOSING_AUTOTRAITEMENT)
             ->getQuery()
             ->getResult();
+    }
+
+    public function findTraitementProWithNoEstimationAccepted(): ?array
+    {
+        $connection = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT s.id
+                FROM signalement s
+                WHERE s.autotraitement = 0
+                AND s.resolved_at IS NULL
+                AND s.closed_at IS NULL
+                AND NOT EXISTS (
+                    SELECT *
+                    FROM intervention i
+                    WHERE i.signalement_id = s.id
+                    AND i.accepted_by_usager = true
+                )
+                AND s.declarant = \''.Declarant::DECLARANT_OCCUPANT->value.'\'';
+
+        $statement = $connection->prepare($sql);
+
+        return $statement->executeQuery()->fetchAllAssociative();
     }
 
     public function countOpenWithoutIntervention(): int
