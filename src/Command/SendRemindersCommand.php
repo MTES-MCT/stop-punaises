@@ -137,6 +137,7 @@ class SendRemindersCommand extends Command
     private function closeSignalement(Signalement $signalement)
     {
         $signalement->setClosedAt(new \DateTimeImmutable());
+        $signalement->updateUuidPublic();
         $this->signalementManager->save($signalement);
         $this->mailerProvider->sendSignalementClosedByWebsite($signalement);
 
