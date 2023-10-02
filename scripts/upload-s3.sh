@@ -39,6 +39,11 @@ else
       aws s3 cp data/signalement/signalements_${uuid}.csv s3://${BUCKET_URL}/csv/ ${debug}
       aws s3 ls s3://${BUCKET_URL}/csv/signalements_${uuid}.csv
       ;;
+    "entreprisespubliques")
+      echo "Upload entreprises.csv to cloud..."
+      aws s3 cp data/entreprises.csv s3://${BUCKET_URL}/csv/ ${debug}
+      aws s3 ls s3://${BUCKET_URL}/csv/entreprises.csv
+      ;;
     *)
       echo "Invalid argument. Please use 'grid' or 'signalement' or 'image' or 'mapping-doc' or 'process-all'"
       ;;

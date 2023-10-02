@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Manager;
+
+use App\Entity\EntreprisePublique;
+use App\Factory\EntreprisePubliqueFactory;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
+
+class EntreprisePubliqueManager extends AbstractManager
+{
+    public function __construct(
+        protected ManagerRegistry $managerRegistry,
+        private Security $security,
+        private EntreprisePubliqueFactory $entreprisePubliqueFactory,
+        protected string $entityName = EntreprisePublique::class,
+    ) {
+        parent::__construct($managerRegistry, $entityName);
+    }
+
+    public function createOrUpdate(array $data): ?EntreprisePublique
+    {
+        /** @var EntreprisePublique|null $entreprisePublique */
+        $entreprisePublique = $this->getRepository()->findOneBy([
+            'nom' => $data['nom'],
+            'codePostal' => $data['codePostal'],
+        ]);
+
+        if ($entreprisePublique instanceof EntreprisePublique) {
+            return $this->update($entreprisePublique, $data);
+        }
+
+        $entreprisePublique = $this->entreprisePubliqueFactory->createInstanceFrom($data);
+
+        return $entreprisePublique;
+    }
+
+    public function update(EntreprisePublique $entreprisePublique, array $data): EntreprisePublique
+    {
+        return $entreprisePublique
+            ->setNom($data['nom'])
+            ->setAdresse($data['adresse'])
+            ->setUrl($data['url'])
+            ->setTelephone($data['telephone'])
+            ->setCodePostal($data['codePostal']);
+    }
+}
