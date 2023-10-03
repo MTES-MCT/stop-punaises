@@ -34,8 +34,6 @@ class PunaisesFrontSignalementController {
   CLOSED_STEP_LIST = [
     'home',
     'info_usager',
-    'autotraitement_info',
-    'autotraitement_sent',
   ];
   SOCIAL_STEP_LIST = [
     'home',
@@ -59,6 +57,11 @@ class PunaisesFrontSignalementController {
   init() {
     self = this;
     $('.btn-next').on('click', function(){
+      if (!self.isTerritoryOpen && self.stepStr === 'info_usager') {
+        self.submitAdd();
+        return;
+      }
+      
       self.refreshStep(1);
     });
     $('.btn-next-next').on('click', function(){
@@ -588,6 +591,7 @@ class PunaisesFrontSignalementController {
   }
 
   submitAdd() {
+    $('.front-signalement #step-info_usager .btn-next').attr('disabled', 'disabled');
     $('.front-signalement #step-professionnel_info .btn-next-next').attr('disabled', 'disabled');
     $('.front-signalement #step-autotraitement_info .btn-next-next').attr('disabled', 'disabled');
     if (self.isLogementSocial) {
@@ -603,8 +607,14 @@ class PunaisesFrontSignalementController {
       processData:false,
   
       success: function() {
+        if (!self.isTerritoryOpen) {
+          let codePostal = $('input#code-postal').val();
+          window.location.href = $('input#url-entreprises-publiques').val() + codePostal;
+          return;
+        }
+
         let nbStep = 2;
-        if (!self.isTerritoryOpen || self.isLogementSocial) {
+        if (self.isLogementSocial) {
           nbStep = 1;
         }
         self.refreshStep(nbStep);

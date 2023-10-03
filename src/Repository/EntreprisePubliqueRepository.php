@@ -38,4 +38,14 @@ class EntreprisePubliqueRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findByZipCode(string $zipCode): array
+    {
+        $qb = $this->createQueryBuilder('ep');
+        $qb->where('ep.codePostal LIKE :zipCode')
+            ->setParameter('zipCode', $zipCode.'%');
+        $qb->orderBy('ep.nom', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -111,6 +111,25 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
+    public function sendSignalementValidationWithEntreprisesPubliques(Signalement $signalement): void
+    {
+        $emailOccupant = $signalement->getEmailOccupant();
+        $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
+        $linkEntreprisesPubliques = $this->parameterBag->get('base_url');
+        $linkEntreprisesPubliques .= $this->urlGenerator->generate('app_front_entreprises_labellisees');
+        $linkEntreprisesPubliques .= '?code-postal='.$signalement->getCodePostal();
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_ENTREPRISES_LABELLISEES, [
+                'nom_usager' => $signalement->getNomCompletOccupant(),
+                'lien_entreprises_publiques' => $linkEntreprisesPubliques,
+                'link' => $link,
+            ])
+            ->setTo([$emailOccupant]);
+
+        $this->send($message);
+    }
+
     public function sendSignalementNewForPro(string $emailEntreprise, Signalement $signalement): void
     {
         $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);

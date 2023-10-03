@@ -111,8 +111,7 @@ class SuiviUsagerViewController extends AbstractController
             $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
             $signalementManager->save($signalement);
 
-            $linkToPdf = $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement');
-            $mailerProvider->sendSignalementValidationWithAutotraitement($signalement, $linkToPdf);
+            $mailerProvider->sendSignalementValidationWithAutotraitement($signalement);
 
             $eventDispatcher->dispatch(
                 new SignalementSwitchedEvent(
