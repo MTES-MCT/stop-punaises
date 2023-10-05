@@ -7,12 +7,11 @@ class EntreprisePubliqueImportMapper
     public function getMapping(): array
     {
         return [
-            'Nom' => 'nom',
-            'Adresse' => 'adresse',
-            'URL' => 'url',
-            'Telephone' => 'telephone',
-            'Code postal' => 'codePostal',
-            'Pays' => 'pays',
+            'zip' => 'zip',
+            'nom' => 'nom',
+            'adresse' => 'adresse',
+            'url' => 'url',
+            'telephone' => 'telephone',
         ];
     }
 
@@ -26,8 +25,8 @@ class EntreprisePubliqueImportMapper
             if (\in_array($fileColumn, $columns)) {
                 $fieldValue = 'NSP' !== $data[$fileColumn] ? $data[$fileColumn] : '';
                 $fieldValue = trim($fieldValue, '"');
-                if ('codePostal' === $fieldColumn) {
-                    $fieldValue = str_pad($fieldValue, 5, '0', \STR_PAD_LEFT);
+                if ('zip' === $fieldColumn) {
+                    $fieldValue = str_pad($fieldValue, 2, '0', \STR_PAD_LEFT);
                 }
                 $dataMapped[$fieldColumn] = $fieldValue;
             } else {

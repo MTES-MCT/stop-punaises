@@ -23,7 +23,7 @@ class EntreprisePubliqueManager extends AbstractManager
         /** @var EntreprisePublique|null $entreprisePublique */
         $entreprisePublique = $this->getRepository()->findOneBy([
             'nom' => $data['nom'],
-            'codePostal' => $data['codePostal'],
+            'zip' => $data['zip'],
         ]);
 
         if ($entreprisePublique instanceof EntreprisePublique) {
@@ -40,6 +40,6 @@ class EntreprisePubliqueManager extends AbstractManager
             ->setAdresse($data['adresse'])
             ->setUrl($data['url'])
             ->setTelephone($data['telephone'])
-            ->setCodePostal($data['codePostal']);
+            ->setZip($data['zip']);
     }
 }

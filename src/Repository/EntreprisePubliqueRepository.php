@@ -42,8 +42,8 @@ class EntreprisePubliqueRepository extends ServiceEntityRepository
     public function findByZipCode(string $zipCode): array
     {
         $qb = $this->createQueryBuilder('ep');
-        $qb->where('ep.codePostal LIKE :zipCode')
-            ->setParameter('zipCode', $zipCode.'%')
+        $qb->where('ep.zip LIKE :zipCode')
+            ->setParameter('zipCode', $zipCode)
             ->orderBy('ep.nom', 'ASC');
 
         return $qb->getQuery()->getResult();

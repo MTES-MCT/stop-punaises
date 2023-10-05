@@ -13,6 +13,6 @@ class EntreprisePubliqueFactory
         ->setAdresse($data['adresse'])
         ->setUrl($data['url'])
         ->setTelephone($data['telephone'])
-        ->setCodePostal($data['codePostal']);
+        ->setZip($data['zip']);
     }
 }

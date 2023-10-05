@@ -25,8 +25,8 @@ class EntreprisePublique
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 5)]
-    private ?string $codePostal = null;
+    #[ORM\Column(length: 3)]
+    private ?string $zip = null;
 
     public function getId(): ?int
     {
@@ -81,14 +81,14 @@ class EntreprisePublique
         return $this;
     }
 
-    public function getCodePostal(): ?string
+    public function getZip(): ?string
     {
-        return $this->codePostal;
+        return $this->zip;
     }
 
-    public function setCodePostal(string $codePostal): self
+    public function setZip(string $zip): self
     {
-        $this->codePostal = $codePostal;
+        $this->zip = $zip;
 
         return $this;
     }

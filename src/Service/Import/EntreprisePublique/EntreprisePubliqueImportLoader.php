@@ -45,10 +45,6 @@ class EntreprisePubliqueImportLoader
                     $progressBar->advance();
                 }
 
-                if ('France' !== $dataMapped['pays']) {
-                    continue;
-                }
-
                 $entreprisePublique = $this->entreprisePubliqueManager->createOrUpdate($dataMapped, true);
                 $this->entreprisePubliqueManager->save($entreprisePublique);
             }
