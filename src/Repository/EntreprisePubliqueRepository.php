@@ -43,8 +43,8 @@ class EntreprisePubliqueRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('ep');
         $qb->where('ep.codePostal LIKE :zipCode')
-            ->setParameter('zipCode', $zipCode.'%');
-        $qb->orderBy('ep.nom', 'ASC');
+            ->setParameter('zipCode', $zipCode.'%')
+            ->orderBy('ep.nom', 'ASC');
 
         return $qb->getQuery()->getResult();
     }

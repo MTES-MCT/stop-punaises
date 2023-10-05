@@ -115,8 +115,7 @@ class MailerProvider implements MailerProviderInterface
     {
         $emailOccupant = $signalement->getEmailOccupant();
         $link = $this->urlGenerator->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
-        $linkEntreprisesPubliques = $this->parameterBag->get('base_url');
-        $linkEntreprisesPubliques .= $this->urlGenerator->generate('app_front_entreprises_labellisees');
+        $linkEntreprisesPubliques = $this->urlGenerator->generate('app_front_entreprises_labellisees');
         $linkEntreprisesPubliques .= '?code-postal='.$signalement->getCodePostal();
         $message = $this
             ->messageFactory

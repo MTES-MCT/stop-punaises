@@ -30,9 +30,7 @@ class EntreprisePubliqueManager extends AbstractManager
             return $this->update($entreprisePublique, $data);
         }
 
-        $entreprisePublique = $this->entreprisePubliqueFactory->createInstanceFrom($data);
-
-        return $entreprisePublique;
+        return $this->entreprisePubliqueFactory->createInstanceFrom($data);
     }
 
     public function update(EntreprisePublique $entreprisePublique, array $data): EntreprisePublique
