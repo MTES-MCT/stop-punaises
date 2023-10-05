@@ -24,5 +24,6 @@ import './controllers/component_file_auto_submit';
 import './controllers/list_signalement';
 import './controllers/list_entreprises';
 import './controllers/list_employes';
+import './controllers/list_entreprises_publiques';
 
 import './controllers/weekly_slider';

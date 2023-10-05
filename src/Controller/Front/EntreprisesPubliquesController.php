@@ -20,12 +20,19 @@ class EntreprisesPubliquesController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        $order = $request->get('order');
+        if (empty($order)) {
+            $order = 'random';
+        }
+
         $codePostal = str_pad($codePostal, 5, '0', \STR_PAD_LEFT);
         $zipCode = substr($codePostal, 0, 2);
 
-        $listEntreprisesPubliquesByZipCode = $entreprisePubliqueRepository->findByZipCode($zipCode);
+        $listEntreprisesPubliquesByZipCode = $entreprisePubliqueRepository->findByZipCode($zipCode, $order);
 
         return $this->render('front/entreprises-labelisees.html.twig', [
+            'code_postal' => $request->get('code-postal'),
+            'order' => $request->get('order'),
             'code_departement' => $zipCode,
             'entreprises_publiques' => $listEntreprisesPubliquesByZipCode,
         ]);
