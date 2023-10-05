@@ -13,8 +13,8 @@ class MessageFactory
         if (isset($parameters['link'])) {
             $parameters['link'] = $this->baseUrl.$parameters['link'];
         }
-        if (isset($parameters['lien_entreprises_publiques'])) {
-            $parameters['lien_entreprises_publiques'] = $this->baseUrl.$parameters['lien_entreprises_publiques'];
+        if (isset($parameters['link_2'])) {
+            $parameters['link_2'] = $this->baseUrl.$parameters['link_2'];
         }
 
         return (new Message())

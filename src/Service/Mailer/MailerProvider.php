@@ -121,8 +121,8 @@ class MailerProvider implements MailerProviderInterface
             ->messageFactory
             ->createInstanceFrom(Template::SIGNALEMENT_ENTREPRISES_LABELLISEES, [
                 'nom_usager' => $signalement->getNomCompletOccupant(),
-                'lien_entreprises_publiques' => $linkEntreprisesPubliques,
                 'link' => $link,
+                'link_2' => $linkEntreprisesPubliques,
             ])
             ->setTo([$emailOccupant]);
 
