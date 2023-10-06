@@ -4,11 +4,11 @@
 
 {% block body %}
 
-    <section class="index-header fr-container fr-mt-3w fr-mt-md-12w">
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-px-1w fr-mb-md-3v">
-            <div class="fr-col-12 fr-col-md-5 fr-col-lg-6">
+    <section class="index-header fr-container fr-mt-3w fr-mt-md-6w">
+        <div class="fr-grid-row fr-grid-row--gutters fr-px-1w fr-mb-md-3v">
+            <div class="fr-col-12 fr-col-md-6">
                 <h1>Punaises de lit</h1>
-                <p class="bons-reflexes">Ayez les bons réflexes&nbsp;!</p>
+                <p class="fr-h2 bons-reflexes">Ayez les bons réflexes&nbsp;!</p>
                 <p>Vous pensez avoir des punaises de lit ? Renseignez votre code postal et laissez vous guider.</p>
 
                 <form action="{{ path('app_front_signalement') }}" method="GET">
@@ -20,23 +20,23 @@
                     </div>
 
                     <div class="fr-input-group">
-                        <button type="submit" class="fr-btn btn-next">
+                        <button type="submit" class="fr-btn btn-next fr-btn--icon-left fr-icon-check-line">
                             Trouver ma solution
                         </button>
                     </div>
                 </form>
             </div>
-            <div class="fr-col-12 fr-col-md-5 fr-col-lg-4">
+            <div class="fr-col-12 fr-col-md-6 align-center">
                 <img src="{{ asset('build/images/loupe-punaise.png') }}" alt="illustration punaises" width="384" height="288">
             </div>
         </div>
     </section>
 
     <section class="index-tout-le-monde fr-py-3w fr-py-md-5w">
-        <h2>Tout le monde peut être concerné !</h2>
         <div class="fr-container fr-px-2w">
-            <div class="fr-grid-row">
-                <div class="fr-col-12 fr-col-lg-6">
+            <div class="fr-grid-row fr-grid-row--gutters">
+                <div class="fr-col-12 fr-col-lg-6 align-justify">
+                    <h2>Tout le monde peut être concerné !</h2>
                     <p>
                         Un voyage ? Le canapé d'un ami ? Les transports en commun ?
                         Les punaises peuvent infester n'importe qui et il est parfois compliqué de savoir d'où elles viennent !
@@ -48,10 +48,10 @@
                         Dans tous les cas, il faut agir vite pour éviter leur prolifération dans le foyer.
                     </p>
                     <p class="button-container">
-                        <a href="{{ path('app_front_information') }}" class="fr-btn">En savoir plus</a>
+                        <a href="{{ path('app_front_information') }}">&gt; En savoir plus</a>
                     </p>
                 </div>
-                <div class="fr-col-12 fr-col-lg-6 video-container">
+                <div class="fr-col-12 fr-col-lg-6 video-container fr-mt-3w">
                     <video controls>
                         <source src="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" type="video/mp4">
                         <p>
@@ -65,56 +65,189 @@
         </div>
     </section>
 
-    <section class="index-cest-quoi fr-container fr-py-5w fr-px-3w fr-px-md-15w">
-        <h2>Je suis locataire et j'ai un problème de punaises : qui doit payer ?</h2>
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-            <div class="fr-col-12 fr-col-md-10">
-                <p>
-                    D'après la loi, <strong>le propriétaire du logement doit payer la désinfestation</strong>.
-                </p>
-                <p>
-                    C’est dans cette optique d’intervention la plus rapide possible que le Gouvernement
-                    a reprécisé la Loi de 2018 : le propriétaire du logement doit payer la désinfestation.
-                </p>
-                <p>
-                    Pour garantir les meilleures relations possibles avec votre propriétaire / bailleur, 
-                    nous vous recommandons de suivre les étapes suivantes :
-                    <br>
-                    <ol>
-                        <li>
-                            Informez votre propriétaire de votre problème dès les premiers signes d’infestation
-                            et demandez-lui d’intervenir au plus vite
-                        </li>
-                        <li>
-                            Recommandez-lui de passer par le site stop-punaises.beta.gouv.fr pour accéder 
-                            aux entreprises labellisées en un clic, ou proposez-lui de faire la démarche à sa place.
-                        </li>
-                        <li>
-                            Sélectionnez ensemble une société labellisée.
-                        </li>
-                    </ol>
-                </p>
-                <p>
-                    <strong>Mon propriétaire refuse d'intervenir, que faire ?</strong>
-                    <br>
-                    Si votre propriétaire / bailleur refuse d'intervenir, vous êtes en droit de solliciter les entreprises vous-même !
-                    <br>
-                    Vous pourrez légalement demander à votre propriétaire de vous rembourser le prix de 
-                    la désinfestation ou de déduire son montant de votre loyer.
-                </p>
-            </div>
+    <section class="fr-container fr-py-5w">
+        <div class="align-center">
+            <h2>Questions fréquentes sur les punaises de lit</h2>
+            <p>Cliquez sur les questions pour afficher les réponses</p>
         </div>
+        <div class="fr-accordions-group fr-accordions-group--index">
+            <section class="fr-accordion">
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-qui-peut">
+                        Qui peut avoir des punaises de lit ?
+                    </button>
+                </h3>
+                <div class="fr-collapse" id="accordion-qui-peut">
+                    <p>
+                        Les punaises de lit peuvent infester n'importe qui et il est parfois compliqué de savoir d'où elles viennent.
+                    </p>
+                    <p>
+                        D'après <a href="https://www.anses.fr/fr/system/files/BIOCIDES2021SA0147Ra.pdf" target="_blank" rel="noopener">le rapport de l'Anses</a> 
+                        (l’Agence nationale de sécurité sanitaire de l’alimentation, de l’environnement et du travail) publié en juillet 2023, 
+                        11 % des ménages français auraient été infestés par les punaises de lit entre 2017 et 2022.
+                        <br>
+                        L'Anses ajoute « qu'un faible niveau de revenu ne serait pas lié à un risque supérieur d’infestation par des punaises de lit ».
+                    </p>
+                    <p>
+                        En d'autres termes : <strong>tout le monde peut être concerné</strong>.
+                    </p>
+                </div>
+            </section>
 
-        <h2>C'est quoi Stop punaises ?</h2>
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-            <div class="fr-col-12 fr-col-md-10">
-                <p>
-                    En mars 2021, le gouvernement a lancé un plan national de lutte contre les infestations de punaises de lit.
-                    <br><br>
-                    Stop-punaises.beta.gouv.fr est une plateforme numérique de l’Etat actuellement en test sur les départements des Bouches du Rhône (13) et du Rhône (69).
-                    <br><br>
-                    Elle est propulsée par le programme beta.gouv, sous la gouvernance du Ministère de la Transition Ecologique et de la cohésion des territoires.
-                </p>
+            <section class="fr-accordion">
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-maladies">
+                        Est-ce que les punaises transmettent des maladies ?
+                    </button>
+                </h3>
+                <div class="fr-collapse" id="accordion-maladies">
+                    <p>
+                        Non.
+                        <br>
+                        Selon l'Agence nationale de sécurité sanitaire, 
+                        « la punaise de lit n’est pas considérée comme vecteur d’agent pathogène »
+                        c'est-à-dire qu'elle ne transmet pas de maladie.
+                    </p>
+                    <p>
+                        Par contre, les piqures des punaises de lit peuvent provoquer des démangeaisons voire des crises d'urticaires.
+                        Parce qu'elles piquent pendant la nuit, les punaises de lit peuvent vous empêcher de dormir et,
+                        à force, provoquer des troubles du sommeil importants et une anxiété généralisée.
+                        Il est donc important de traiter le problème au plus vite !
+                    </p>
+                </div>
+            </section>
+
+            <section class="fr-accordion">
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-hygiene">
+                        Est-ce que les punaises sont dues à une mauvaise hygiène ?
+                    </button>
+                </h3>
+                <div class="fr-collapse" id="accordion-hygiene">
+                    <p>
+                        Non.
+                        <br>
+                        Les punaises de lit peuvent s'attaquer à tous les foyers,
+                        peu importe le lieu de résidence et la propreté du logement.
+                    </p>
+                </div>
+            </section>
+
+            <section class="fr-accordion">
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-transports-commun">
+                        Est-ce que je peux en ramener chez moi, depuis les transports en commun ?
+                    </button>
+                </h3>
+                <div class="fr-collapse" id="accordion-transports-commun">
+                    <p>
+                        C'est possible, mais peu probable.
+                        <br>
+                        Des cas de punaises de lit dans les transports en commun (métro, RER, tramway, trains) ont été signalés.
+                        Si le moyen de transport est infesté, il est possible que des punaises s'installent dans vos tissus (sacs, vêtements).
+                        <br>
+                        <strong>Rassurez-vous, ça reste peu probable !</strong>
+                        Les punaises n'aiment pas le mouvement : elles viennent sur vous quand vous dormez
+                        ou que vous restez longtemps immobiles au même endroit.
+                    </p>
+                    <p>
+                        Par précaution, prenez l'habitude de :
+                        <br>
+                        <ul>
+                            <li>Si vous le pouvez, rester debout dans les transports</li>
+                            <li>Ne pas poser vos sacs par terre ni sur les sièges</li>
+                        </ul>
+                    </p>
+                    <p>
+                        En cas de doute, lorsque vous rentrez chez vous :
+                        <ul>
+                            <li>Retirez vos vêtements dans une pièce avec du carrelage</li>
+                            <li>Lavez-les en machine à 60°C pendant 1 heure</li>
+                            <li>OU placez-les au congélateur dans un sac fermé pendant 72 heures (3 jours)</li>
+                            <li>OU mettez-les au sèche linge à la plus haute température pendant au moins 30 minutes</li>
+                        </ul>
+                    </p>
+                </div>
+            </section>
+
+            <section class="fr-accordion">
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-qui-paie">
+                        Je suis locataire et j'ai un problème de punaises : qui doit payer ?
+                    </button>
+                </h3>
+                <div class="fr-collapse" id="accordion-qui-paie">
+                    <p>
+                        Le bailleur (propriétaire) du logement paye l'intervention.
+                        <br>
+                        Comme le dispose <a href="https://www.legifrance.gouv.fr/loda/id/LEGIARTI000037670751/2018-11-25/" target="_blank" rel="noopener">la loi n°2018-1021 du 23 novembre 2018</a> :
+                        « Le bailleur est tenu de remettre au locataire un logement décent ne laissant pas apparaître de risques manifestes
+                         pouvant porter atteinte à la sécurité physique ou à la santé, exempt de toute infestation d'espèces nuisibles et parasites ».
+                        <br>
+                        En cours de bail (pendant la durée de location), le bailleur doit réaliser les travaux nécessaires à l'entretien
+                        et au maintien en état du logement (hors réparations locatives).
+                    </p>
+                    <p>
+                        En d'autres termes :
+                        <strong>le bailleur (propriétaire) du logement doit payer la détection et la désinfestation</strong>.
+                        <br>
+                        Si vous êtes allocataire, la CAF peut dans certains cas vous aider. N'hésitez pas à contacter votre CAF.
+                    </p>
+                    <p>
+                        Pour garantir les meilleures relations possibles avec votre bailleur, nous vous recommandons de suivre les étapes suivantes :
+                        <br>
+                        <ol>
+                            <li>Informez votre propriétaire de votre problème dès les premiers signes d’infestation et demandez-lui d’intervenir au plus vite</li>
+                            <li>
+                                Recommandez-lui de passer par le site stop-punaises.beta.gouv.fr pour accéder aux entreprises labellisées,
+                                ou proposez-lui de faire la démarche à sa place.
+                            </li>
+                            <li>Sélectionnez ensemble une société labellisée.</li>
+                        </ol>
+                    </p>
+                </div>
+            </section>
+
+            <section class="fr-accordion">
+                <h3 class="fr-accordion__title">
+                    <button class="fr-accordion__btn" aria-expanded="false" aria-controls="accordion-refus-bailleur">
+                        Mon bailleur (propriétaire) refuse d'intervenir, que faire ?
+                    </button>
+                </h3>
+                <div class="fr-collapse" id="accordion-refus-bailleur">
+                    <p>
+                        Si votre bailleur refuse d'intervenir, vous êtes en droit de solliciter les entreprises vous-même !
+                        <br>
+                        Vous pourrez légalement demander à votre propriétaire de vous rembourser le prix de la désinfestation
+                        ou de déduire son montant de votre loyer.
+                    </p>
+                    <p>
+                        Vous pouvez saisir la commission départementale de conciliation ou le tribunal judiciaire.
+                        <br>
+                        Pour plus d'information, contactez le service Info logement indigne au 
+                        <a href="tel:+33806706806">0806 706 806</a>.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section class="index-cest-quoi fr-py-3w fr-py-md-5w">
+        <div class="fr-container fr-px-2w">
+            <h2>Stop punaises, c'est quoi ?</h2>
+            <div class="fr-grid-row fr-grid-row--gutters">
+                <div class="fr-col-12 fr-col-md-8">
+                    <p>
+                        En mars 2021, le gouvernement a lancé un plan national de lutte contre les infestations de punaises de lit.
+                        <br><br>
+                        Stop-punaises.beta.gouv.fr est une plateforme numérique de l’Etat actuellement en test sur les départements des Bouches du Rhône (13) et du Rhône (69).
+                        <br><br>
+                        Elle est propulsée par le programme beta.gouv, sous la gouvernance du Ministère de la Transition Écologique et de la Cohésion des Territoires.
+                    </p>
+                </div>
+                <div class="fr-col-12 fr-col-md-4">
+                    <img src="{{ asset('build/images/logo-stop-punaises.svg') }}" alt="logo stop punaises">
+                </div>
             </div>
         </div>
     </section>

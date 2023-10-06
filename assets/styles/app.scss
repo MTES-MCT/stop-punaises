@@ -57,6 +57,9 @@ span.statut-infestation {
 .align-center {
     text-align: center;
 }
+.align-justify {
+    text-align: justify;
+}
 
 .add-button-container {
     float: right;
@@ -230,15 +233,11 @@ span.statut-infestation {
 
 .index-header {
     h1 {
-        font-size: 56px;
-        line-height: 60px;
-        font-weight: 800;
+        line-height: 1.5rem !important;
         color: var(--blue-france-sun-113-625);
     }
     p.bons-reflexes {
-        font-size: 40px;
-        line-height: 45px;
-        font-weight: 800;
+        line-height: 1.5rem !important;
         color: #E2241C;
     }
     img {
@@ -263,12 +262,15 @@ span.statut-infestation {
 }
 
 .index-cest-quoi {
+    background-color: var(--blue-france-975-75);
+
     > h2 {
-        font-size: 32px;
-        font-weight: 800;
-        text-align: center;
         color: var(--grey-50-1000);
     }
+}
+
+.fr-accordions-group--index .fr-accordion__btn {
+    font-size: 1.2rem;
 }
 
 .message-list {
