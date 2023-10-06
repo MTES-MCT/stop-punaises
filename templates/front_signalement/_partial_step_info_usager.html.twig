@@ -21,19 +21,15 @@
         <h2>Stop punaises</h2>
 
         <p>
-            Le service Stop Punaises n'est pas encore ouvert dans votre département.
-            Nous ne pouvons pas vous mettre en relation avec des entreprises locales.
+            Renseignez vos coordonnées pour accéder à la liste des entreprises labellisées de votre département
+            et recevoir le protocole de préparation et d'auto-traitement par e-mail.
+            <input type="hidden" id="url-entreprises-publiques" value="{{ path('app_front_entreprises_labellisees') }}?code-postal=">
         </p>
 
         <p>
-            Vous pouvez cependant contacter le service "Info logement indigne" au
+            Vous pouvez également contacter le service "Info logement indigne" au
             <a href="tel:+33806706806">0806&nbsp;706&nbsp;806</a>
             (prix d'un appel local).
-        </p>
-
-        <p>
-            Vous pouvez également renseigner vos coordonnées pour
-            <strong>recevoir le protocole d'auto-traitement par mail</strong>.
         </p>
     </div>
 
@@ -102,8 +98,11 @@
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('front-add-signalement') }}">
 
-    <div class="if-territory-not-open if-logement-social">
+    <div class="if-logement-social">
         {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Recevoir le protocole', 'previous': 'Retour' } %}
+    </div>
+    <div class="if-territory-not-open">
+        {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Afficher la liste des entreprises', 'previous': 'Retour' } %}
     </div>
     <div class="if-territory-open">
         {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Voir ma recommandation', 'previous': 'Retour' } %}

@@ -13,6 +13,9 @@ class MessageFactory
         if (isset($parameters['link'])) {
             $parameters['link'] = $this->baseUrl.$parameters['link'];
         }
+        if (isset($parameters['link_2'])) {
+            $parameters['link_2'] = $this->baseUrl.$parameters['link_2'];
+        }
 
         return (new Message())
             ->setFrom($this->from)
