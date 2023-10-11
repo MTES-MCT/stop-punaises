@@ -22,6 +22,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         # Install Xdebug
         && pecl bundle -d /usr/src/php/ext xdebug-3.0.4 \
         && docker-php-ext-install xdebug \
+        # Install Redis
+        && pecl install redis \
+        && docker-php-ext-enable redis \
         # Install others
         && docker-php-ext-install -j2 bcmath ctype iconv pdo pdo_mysql pdo_sqlite zip xsl\
         && docker-php-ext-enable opcache \

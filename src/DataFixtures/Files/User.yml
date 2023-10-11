@@ -1,65 +1,65 @@
 users:
   -
-    email: admin-punaises@yopmail.com
+    email: admin@punaises.fr
     roles: "[\"ROLE_ADMIN\"]"
     status: 'active'
   -
-    email: company-punaises-01@yopmail.com
+    email: company-01@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0001-0000-0000-000000000000"
     status: 'active'
   -
-    email: company-punaises-02@yopmail.com
+    email: company-02@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0002-0000-0000-000000000000"
     status: 'active'
   -
-    email: company-punaises-03@yopmail.com
+    email: company-03@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0003-0000-0000-000000000000"
     status: 'inactive'
   -
-    email: company-punaises-04@yopmail.com
+    email: company-04@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0004-0000-0000-000000000000"
     status: 'active'
   -
-    email: company-punaises-05@yopmail.com
+    email: company-05@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0005-0000-0000-000000000000"
     status: 'active'
   -
-    email: company-punaises-06@yopmail.com
+    email: company-06@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0006-0000-0000-000000000000"
     status: 'active'
   -
-    email: company-punaises-07@yopmail.com
+    email: company-07@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0007-0000-0000-000000000000"
     status: 'active'
   -
-    email: company-punaises-08@yopmail.com
+    email: company-08@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0008-0000-0000-000000000000"
     status: 'inactive'
   -
-    email: company-punaises-09@yopmail.com
+    email: company-09@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0009-0000-0000-000000000000"
     status: 'inactive'
   -
-    email: company-punaises-10@yopmail.com
+    email: company-10@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000001-0010-0000-0000-000000000000"
     status: 'inactive'
   -
-    email: company-punaises-69-01@yopmail.com
+    email: company-69-01@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000002-0001-0000-0000-000000000000"
     status: 'active'
   -
-    email: company-punaises-69-02@yopmail.com
+    email: company-69-02@punaises.fr
     roles: "[\"ROLE_ENTREPRISE\"]"
     entreprise: "00000002-0002-0000-0000-000000000000"
     status: 'active'

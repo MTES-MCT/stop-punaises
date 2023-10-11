@@ -59,5 +59,9 @@ services:
       - 1035:1025
       - 1090:1080
 
+  stopunaises_redis:
+    image: redis:7.0-alpine
+    container_name: stopunaises_redis
+
 volumes:
   dbdata:
