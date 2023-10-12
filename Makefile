@@ -33,6 +33,18 @@ mysql: ## Log to mysql container
 	@echo -e '\e[1;32mLog to mysql container\032[0m'
 	@bash -l -c '$(DOCKER_COMP) exec -it stopunaises_mysql mysql -u stopunaises -pstopunaises stopunaises_db'
 
+redis: ## Log to redis container
+	@echo -e '\e[1;32mLog to redis container\032[0m'
+	@bash -l -c '$(DOCKER_COMP) exec -it stopunaises_redis sh'
+
+redis-cli: ## Log to redis-cli
+	@echo -e '\e[1;32mLog to redis-cli\032[0m'
+	@bash -l -c '$(DOCKER_COMP) exec -it stopunaises_redis redis-cli'
+
+redis-stat: ## Collect stat redis
+	@echo -e '\e[1;32mCollect stat-redis\032[0m'
+	@bash -l -c '$(DOCKER_COMP) exec -it stopunaises_redis redis-cli --stat'
+
 logs: ## Show container logs
 	@$(DOCKER_COMP) logs --follow
 

@@ -5,6 +5,8 @@ La solution stop-punaises a pour objectifs de mettre en relation des usagers sig
 
 Stop-punaises est une application web écrite en PHP et utilisant le framework Symfony, avec une base de données MySQL.
 
+## Environnement
+
 Cette application est déployé chez Scalingo, hébergé par Outscale.
 
 - Production: [stop-punaises.beta.gouv.fr](https://stop-punaises.beta.gouv.fr)
@@ -23,24 +25,7 @@ PHP (optionnel)| [8.1.*](https://www.php.net/)
 Composer (optionnel) | [2.4.*](https://getcomposer.org/download/)
 Node (optionnel)| [16.*](https://nodejs.org/en/)
 
-
-## Clone du projet
-
-### HTTP
-```bash
-git clone https://github.com/MTES-MCT/stop-punaises.git
-```
-
-### SSH
-```
-git clone git@github.com:MTES-MCT/stop-punaises.git
-```
-
-[Vérification des clés SSH existantes](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)
-
-[Génération d'une nouvelle clé SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
-
-## Environnement
+## Environnement technique
 
 ### Versions des dépendances
 
@@ -49,6 +34,7 @@ Service|Version
 Nginx | 1.20.2
 PHP | 8.1.x (latest)
 MySQL | 5.7.38
+Redis | 7.0.x (latest)
 
 ### URL(s)
 
@@ -57,6 +43,7 @@ Description| Lien
 Plateforme stop-punaises| [localhost:8090](http://localhost:8090)
 phpMyAdmin | [localhost:8091](http://localhost:8091)
 MailCatcher  | [localhost:1090](http://localhost:1090)
+
 
 ### Hôtes des environnements et ports
 
@@ -69,6 +56,7 @@ PHP-FPM| stopunaises_phpfpm     |**9000**
 MySQL| stopunaises_mysql      |**3308**
 PhpMyAdmin | stopunaises_phpmyadmin | **8091**
 Mailcatcher| stopunaises_mailer     | **1035** et **1090**
+Redis| histologe_redis      | /
 
 ## Installation
 
@@ -78,34 +66,43 @@ Un [Makefile](Makefile) est disponible, qui sert de point d’entrée aux diffé
 
 ```
 $ make help
-
-build                          Install local environement
-run                            Start containers
-down                           Shutdown containers
-sh                             Log to phpfpm container
-mysql                          Log to mysql container
-logs                           Show container logs
-console                        Execute application command
-composer                       Install composer dependencies
-clear-cache                    Clear cache prod: make-clear-cache env=[dev|prod|test]
-create-db                      Create database
-drop-db                        Drop database
-load-data                      Load database from dump
-load-migrations                Play migrations
-load-fixtures                  Load database from fixtures
-create-db-test                 Create test database
-test                           Run all tests
-test-coverage                  Generate phpunit coverage report in html
-e2e                            Run E2E tests
-stan                           Run PHPStan
-cs-check                       Check source code with PHP-CS-Fixer
-cs-fix                         Fix source code with PHP-CS-Fixer
 ```
 
 ### Lancement
 
+1. Executer la commande
+
 La commande permet d'installer l'environnement de developpement avec un jeu de données
 
 ```
-make build
+$ make build
 ```
+
+2. Configurer les variables d'environnements du service object storage S3 d'OVH Cloud
+
+> Se rapprocher de l'équipe afin de vous fournir les accès au bucket de dev
+
+```
+# .env.local
+### object storage S3 ###
+S3_ENDPOINT=
+S3_KEY=
+S3_SECRET=
+S3_BUCKET=
+S3_URL_BUCKET=
+### object storage S3 ###
+```
+
+3. Se rendre sur http://localhost:8090
+
+> Pour tous les utilisateurs, le mot de passe est `punaises`
+
+Territoire             | Email                               | Rôle       
+-----------------------|-------------------------------------|----------------------
+N/A                    | admin@punaises.fr               | ROLE_ADMIN 
+Bouches-du-Rhône       | company-01@punaises.fr | ROLE_ENTREPRISE
+Rhône       | company-69-02@punaises.fr | ROLE_ENTREPRISE
+
+## Documentaton projet
+
+[Consulter la documentation](https://github.com/MTES-MCT/stop-punaises/wiki)
