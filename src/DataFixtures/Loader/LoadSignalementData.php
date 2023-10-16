@@ -3,6 +3,7 @@
 namespace App\DataFixtures\Loader;
 
 use App\Entity\Enum\Declarant;
+use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use App\Repository\EmployeRepository;
 use App\Repository\EntrepriseRepository;
@@ -62,7 +63,8 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
             ->setDateIntervention(new \DateTimeImmutable())
             ->setReference($this->referenceGenerator->generate())
             ->setDeclarant(Declarant::from($row['declarant']))
-            ->setTerritoire($this->territoireRepository->findOneBy(['zip' => $row['territoire']]));
+            ->setTerritoire($this->territoireRepository->findOneBy(['zip' => $row['territoire']]))
+            ->setType(isset($row['type']) ? SignalementType::from($row['type']) : SignalementType::TYPE_LOGEMENT);
 
         if (!empty($row['entreprise'])) {
             $signalement->setEntreprise($this->entrepriseRepository->findOneBy(['uuid' => $row['entreprise']]));
