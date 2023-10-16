@@ -45,10 +45,10 @@ class Signalement
     #[ORM\Column(nullable: true)]
     private ?bool $construitAvant1948 = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $nomOccupant = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $prenomOccupant = null;
 
     #[ORM\Column(length: 20, nullable: true)]
