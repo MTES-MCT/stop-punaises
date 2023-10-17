@@ -5,7 +5,7 @@ namespace App\Manager;
 use App\Entity\EntreprisePublique;
 use App\Factory\EntreprisePubliqueFactory;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class EntreprisePubliqueManager extends AbstractManager
 {

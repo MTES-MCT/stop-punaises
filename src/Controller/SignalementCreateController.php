@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Enum\Declarant;
+use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
-use App\Form\SignalementType;
+use App\Form\SignalementHistoryType;
 use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
 use App\Repository\TerritoireRepository;
@@ -27,12 +28,13 @@ class SignalementCreateController extends AbstractController
         ReferenceGenerator $referenceGenerator): Response
     {
         $signalement = new Signalement();
-        $form = $this->createForm(SignalementType::class, $signalement);
+        $form = $this->createForm(SignalementHistoryType::class, $signalement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $signalement->setReference($referenceGenerator->generate());
             $signalement->setDeclarant(Declarant::DECLARANT_ENTREPRISE);
+            $signalement->setType(SignalementType::TYPE_LOGEMENT);
 
             $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
             $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
