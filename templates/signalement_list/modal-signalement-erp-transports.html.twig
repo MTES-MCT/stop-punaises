@@ -1,0 +1,47 @@
+<dialog aria-labelledby="fr-modal-title-modal-signalement-erp-transports-{{signalement.uuid}}" role="dialog" id="fr-modal-signalement-erp-transports-{{signalement.uuid}}" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-signalement-erp-transports-{{signalement.uuid}}" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-signalement-erp-transports-{{signalement.uuid}}" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Signalement #{{signalement.reference}}</h1>
+                        
+                        <p>Déposé le : {{signalement.createdAt.format('d/m/Y')}}</p>
+                        <p>Punaises vues le : {{signalement.punaisesViewedAt.format('d/m/Y')}}</p>
+
+                        <p>
+                            Type de signalement : {{signalement.type|signalement_type }}
+                            <br>
+                            {% if signalement.type is same as enum('App\\Entity\\Enum\\SignalementType').TYPE_TRANSPORT %}
+                                {{ signalement.placeType|place_type }}
+                            {% else %}
+                                {{ signalement.nomProprietaire }}
+                            {% endif %}
+                            <br>
+                            Avez-vous prévenu l'établissement : {{ signalement.isPlaceAvertie ? 'Oui' : 'Non' }}
+                        </p>
+
+                        <p>
+                            Territoire : {{signalement.territoire.nomComplet}}
+                            <br>
+                            Commune : {{signalement.codePostal}} {{signalement.ville}}
+                        </p>
+
+                        <p>
+                            Autres informations : {{signalement.autresInformations}}
+                        </p>
+
+                        <p>
+                            Usager : {{signalement.nomCompletDeclarant}}
+                            <br>
+                            Email : {{signalement.emailDeclarant}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>

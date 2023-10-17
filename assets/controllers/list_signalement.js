@@ -88,6 +88,11 @@ function initComponentsEvents() {
       refreshTableWithSearch();
     });
   }
+  if ($('#filter-signalement-type').length > 0) {
+    $('#filter-signalement-type').on('change', function() {
+      refreshTableWithSearch();
+    });
+  }
 }
 
 function refreshTableWithSearch() {
@@ -97,6 +102,10 @@ function refreshTableWithSearch() {
   }
   if ($('.liste-signalements-usagers').length > 0) {
     refreshTableUsagers();
+    return;
+  }
+  if ($('.liste-signalements-erp-transports').length > 0) {
+    refreshTableErpTransports();
     return;
   }
   if ($('.liste-signalements-historique').length > 0) {
@@ -121,6 +130,33 @@ function refreshTableHorsPerimetre() {
   if ($('#search-address').length > 0) {
     let territoire = $('#search-address').val();
     listTable.columns(3).search(territoire);
+  }
+  listTable.draw();
+  let countSignalement = listTable.rows( {search:'applied'} ).count();
+  $("span#count-signalement").text(countSignalement);
+}
+
+function refreshTableErpTransports() {
+  if ($('#filter-date').length > 0) {
+    let dateInput = $('#filter-date').val();
+    let dateFilter = '';
+    if (dateInput != '') {
+      let dateSplit = dateInput.split('-');
+      dateFilter = dateSplit[2] + '/' + dateSplit[1] + '/' + dateSplit[0];
+    }
+    listTable.columns(1).search(dateFilter);
+  }
+  if ($('#filter-signalement-type').length > 0) {
+    let type = $('#filter-signalement-type').val();
+    listTable.columns(2).search(type);
+  }
+  if ($('#search-address').length > 0) {
+    let address = $('#search-address').val();
+    listTable.columns(4).search(address);
+  }
+  if ($('#filter-territoire').length > 0) {
+    let territoire = $('#filter-territoire').val().substring(0,2);
+    listTable.columns(5).search(territoire);
   }
   listTable.draw();
   let countSignalement = listTable.rows( {search:'applied'} ).count();
