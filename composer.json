@@ -123,6 +123,9 @@
                 "opcache.preload_user=appsdeck",
                 "realpath_cache_size=4096K",
                 "realpath_cache_ttl=600"
+            ],
+            "nginx-includes": [
+                ".scalingo/nginx/server.location"
             ]
         }
     },
