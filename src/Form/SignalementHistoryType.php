@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SignalementType extends AbstractType
+class SignalementHistoryType extends AbstractType
 {
     public function __construct(private Security $security)
     {

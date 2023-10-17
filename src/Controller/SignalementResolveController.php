@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Signalement;
 use App\Event\InterventionEntrepriseResolvedEvent;
-use App\Form\SignalementType;
+use App\Form\SignalementHistoryType;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
@@ -29,7 +29,7 @@ class SignalementResolveController extends AbstractController
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
         ): Response {
-        $form = $this->createForm(SignalementType::class, $signalement);
+        $form = $this->createForm(SignalementHistoryType::class, $signalement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

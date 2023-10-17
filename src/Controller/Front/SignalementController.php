@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Entity\Enum\Declarant;
+use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use App\Event\SignalementAddedEvent;
 use App\Form\SignalementFrontType;
@@ -54,6 +55,7 @@ class SignalementController extends AbstractController
         if ($form->isValid() && $this->isCsrfTokenValid('front-add-signalement', $submittedToken)) {
             $signalement->setReference($referenceGenerator->generate());
             $signalement->setDeclarant(Declarant::DECLARANT_OCCUPANT);
+            $signalement->setType(SignalementType::TYPE_LOGEMENT);
             $signalement->updateUuidPublic();
 
             $filesPosted = $request->files->get('file-upload');

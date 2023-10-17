@@ -51,7 +51,7 @@ function initSearchAddress() {
             $('#rechercheAdresseIcon .fr-icon-map-pin-2-line').show();
 
             $('#rechercheAdresseListe div').on('click', function() {
-              let formPrefix = ($('#signalement_adresse').length > 0) ? 'signalement' : 'signalement_front';
+              let formPrefix = ($('#signalement_history_adresse').length > 0) ? 'signalement_history' : 'signalement_front';
               $('#' + formPrefix + '_adresse').val($(this).data('name'));
               $('#' + formPrefix + '_codePostal').val($(this).data('postcode'));
               $('#' + formPrefix + '_ville').val($(this).data('city'));
