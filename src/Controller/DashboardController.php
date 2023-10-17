@@ -12,14 +12,15 @@ class DashboardController extends AbstractController
     #[Route('/bo', name: 'app_dashboard_home')]
     public function index(
         SignalementManager $signalementManager,
-        ): Response {
-        list($countNouveaux, $countEnCours, $countHorsPerimetres) =
+    ): Response {
+        list($countNouveaux, $countEnCours, $countHorsPerimetres, $countErpTransports) =
             $signalementManager->countSignalements();
 
         return $this->render('dashboard/index.html.twig', [
             'count_nouveaux' => $countNouveaux,
             'count_en_cours' => $countEnCours,
             'count_hors_perimetre' => $countHorsPerimetres,
+            'count_erp_transports' => $countErpTransports,
         ]);
     }
 }

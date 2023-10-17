@@ -979,6 +979,11 @@ class Signalement
         return $this;
     }
 
+    public function getNomCompletDeclarant(): ?string
+    {
+        return $this->getPrenomDeclarant().' '.$this->getNomDeclarant();
+    }
+
     public function getEmailDeclarant(): ?string
     {
         return $this->emailDeclarant;

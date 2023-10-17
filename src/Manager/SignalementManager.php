@@ -65,10 +65,13 @@ class SignalementManager extends AbstractManager
             $result[1] = $this->signalementRepository->countOpenWithIntervention();
             $signalements = $this->signalementRepository->findFromInactiveTerritories();
             $result[2] = \count($signalements);
+            $signalements = $this->signalementRepository->findErpTransportsSignalements();
+            $result[3] = \count($signalements);
         } else {
             $result[0] = $this->signalementRepository->countAvailableForEntrepriseWithoutAnswer($user->getEntreprise());
             $result[1] = $this->signalementRepository->countCurrentlyOpenForEntreprise($user->getEntreprise());
             $result[2] = 0;
+            $result[3] = 0;
         }
 
         return $result;

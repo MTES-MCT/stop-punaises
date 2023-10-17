@@ -3,6 +3,8 @@
 namespace App\Twig;
 
 use App\Entity\Enum\InfestationLevel;
+use App\Entity\Enum\PlaceType;
+use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -20,6 +22,8 @@ class AppExtension extends AbstractExtension
             new TwigFilter('construction_avant_1948', [$this, 'formatConstructionAvant1948']),
             new TwigFilter('array_to_string', [$this, 'formatArrayToString']),
             new TwigFilter('reference_sortable', [$this, 'formatSortableReference']),
+            new TwigFilter('signalement_type', [$this, 'formatSignalementType']),
+            new TwigFilter('place_type', [$this, 'formatPlaceType']),
         ];
     }
 
@@ -58,6 +62,16 @@ class AppExtension extends AbstractExtension
         }
 
         return InfestationLevel::from($niveau)->label();
+    }
+
+    public function formatSignalementType(SignalementType $type): string
+    {
+        return $type->label();
+    }
+
+    public function formatPlaceType(PlaceType $type): string
+    {
+        return $type->label();
     }
 
     public function formatConstructionAvant1948(bool|null $construitAvant1948 = null): string

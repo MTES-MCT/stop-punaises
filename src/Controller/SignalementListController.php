@@ -17,8 +17,8 @@ class SignalementListController extends AbstractController
     #[Route('/bo/signalements', name: 'app_signalement_list')]
     public function signalements(
         SignalementManager $signalementManager,
-        TerritoireRepository $territoireRepository): Response
-    {
+        TerritoireRepository $territoireRepository
+    ): Response {
         $territoires = $territoireRepository->findAll();
         $signalements = $signalementManager->findDeclaredByOccupants();
         $entreprise = null;
@@ -39,8 +39,8 @@ class SignalementListController extends AbstractController
     public function historique(
         Request $request,
         SignalementManager $signalementManager,
-        EntrepriseRepository $entrepriseRepository): Response
-    {
+        EntrepriseRepository $entrepriseRepository
+    ): Response {
         $signalements = $signalementManager->findHistoriqueEntreprise();
 
         $entreprises = [];
@@ -60,12 +60,27 @@ class SignalementListController extends AbstractController
     #[Route('/bo/hors-perimetre', name: 'app_horsperimetre_list')]
     public function horsPerimetre(
         SignalementRepository $signalementRepository,
-        TerritoireRepository $territoireRepository): Response
-    {
+        TerritoireRepository $territoireRepository
+    ): Response {
         $territoires = $territoireRepository->findAll();
         $signalements = $signalementRepository->findFromInactiveTerritories();
 
         return $this->render('signalement_list/hors-perimetre.html.twig', [
+            'count_signalement' => \count($signalements),
+            'signalements' => $signalements,
+            'territoires' => $territoires,
+        ]);
+    }
+
+    #[Route('/bo/erp-transports', name: 'app_erptransports_list')]
+    public function erpTransports(
+        SignalementRepository $signalementRepository,
+        TerritoireRepository $territoireRepository
+    ): Response {
+        $territoires = $territoireRepository->findAll();
+        $signalements = $signalementRepository->findErpTransportsSignalements();
+
+        return $this->render('signalement_list/erp-transports.html.twig', [
             'count_signalement' => \count($signalements),
             'signalements' => $signalements,
             'territoires' => $territoires,

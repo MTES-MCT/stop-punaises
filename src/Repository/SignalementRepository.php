@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
+use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
@@ -73,8 +74,19 @@ class SignalementRepository extends ServiceEntityRepository
     public function findFromInactiveTerritories(): ?array
     {
         return $this->createQueryBuilder('s')
-            ->where('t.active != true')
             ->leftJoin('s.territoire', 't')
+            ->where('t.active != true')
+            ->andWhere('s.type = :typeLogement')
+            ->setParameter('typeLogement', SignalementType::TYPE_LOGEMENT->value)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findErpTransportsSignalements(): ?array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.type != :typeLogement')
+            ->setParameter('typeLogement', SignalementType::TYPE_LOGEMENT->value)
             ->getQuery()
             ->getResult();
     }
