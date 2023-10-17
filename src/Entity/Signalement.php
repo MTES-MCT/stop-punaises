@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
 use App\Entity\Enum\Declarant;
+use App\Entity\Enum\PlaceType;
+use App\Entity\Enum\SignalementType;
 use App\Repository\SignalementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -43,10 +45,10 @@ class Signalement
     #[ORM\Column(nullable: true)]
     private ?bool $construitAvant1948 = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $nomOccupant = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $prenomOccupant = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -183,6 +185,31 @@ class Signalement
 
     #[ORM\Column(type: 'json')]
     private $geoloc = [];
+
+    #[ORM\Column(type: 'string', enumType: SignalementType::class)]
+    private SignalementType $type;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $punaisesViewedAt = null;
+
+    #[ORM\Column(type: 'string', enumType: PlaceType::class, nullable: true)]
+    private ?PlaceType $placeType = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isPlaceAvertie = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $autresInformations;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $nomDeclarant = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $prenomDeclarant = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Email]
+    private ?string $emailDeclarant = null;
 
     public function __construct()
     {
@@ -864,6 +891,102 @@ class Signalement
     public function setCreatedAt(\DateTimeImmutable $date): self
     {
         $this->createdAt = $date;
+
+        return $this;
+    }
+
+    public function getType(): ?SignalementType
+    {
+        return $this->type;
+    }
+
+    public function setType(?SignalementType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getPunaisesViewedAt(): ?\DateTimeImmutable
+    {
+        return $this->punaisesViewedAt;
+    }
+
+    public function setPunaisesViewedAt(?\DateTimeImmutable $punaisesViewedAt): self
+    {
+        $this->punaisesViewedAt = $punaisesViewedAt;
+
+        return $this;
+    }
+
+    public function getPlaceType(): ?PlaceType
+    {
+        return $this->placeType;
+    }
+
+    public function setPlaceType(?PlaceType $placeType): self
+    {
+        $this->placeType = $placeType;
+
+        return $this;
+    }
+
+    public function getIsPlaceAvertie(): ?bool
+    {
+        return $this->isPlaceAvertie;
+    }
+
+    public function setIsPlaceAvertie(?bool $isPlaceAvertie): self
+    {
+        $this->isPlaceAvertie = $isPlaceAvertie;
+
+        return $this;
+    }
+
+    public function getAutresInformations(): ?string
+    {
+        return $this->autresInformations;
+    }
+
+    public function setAutresInformations(?string $autresInformations): self
+    {
+        $this->autresInformations = $autresInformations;
+
+        return $this;
+    }
+
+    public function getNomDeclarant(): ?string
+    {
+        return $this->nomDeclarant;
+    }
+
+    public function setNomDeclarant(?string $nomDeclarant): self
+    {
+        $this->nomDeclarant = $nomDeclarant;
+
+        return $this;
+    }
+
+    public function getPrenomDeclarant(): ?string
+    {
+        return $this->prenomDeclarant;
+    }
+
+    public function setPrenomDeclarant(?string $prenomDeclarant): self
+    {
+        $this->prenomDeclarant = $prenomDeclarant;
+
+        return $this;
+    }
+
+    public function getEmailDeclarant(): ?string
+    {
+        return $this->emailDeclarant;
+    }
+
+    public function setEmailDeclarant(?string $emailDeclarant): self
+    {
+        $this->emailDeclarant = $emailDeclarant;
 
         return $this;
     }

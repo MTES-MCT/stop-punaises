@@ -3,6 +3,8 @@
 namespace App\DataFixtures\Loader;
 
 use App\Entity\Enum\Declarant;
+use App\Entity\Enum\PlaceType;
+use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use App\Repository\EmployeRepository;
 use App\Repository\EntrepriseRepository;
@@ -40,29 +42,14 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
         $signalement = (new Signalement())
             ->setUuid($row['uuid'])
             ->setUuidPublic($row['uuid_public'])
-            ->setAdresse($row['adresse'])
             ->setCodePostal($row['code_postal'])
             ->setVille($row['ville'])
             ->setGeoloc(json_decode($row['geoloc'], true))
-            ->setTypeLogement($row['type_logement'])
-            ->setConstruitAvant1948($row['construit_avant1948'])
-            ->setTypeIntervention($row['type_intervention'])
-            ->setNomOccupant($faker->lastName())
-            ->setPrenomOccupant($faker->firstName())
-            ->setEmailOccupant($faker->email())
-            ->setTelephoneOccupant($faker->phoneNumber())
-            ->setTypeLogement($row['type_diagnostic'])
-            ->setNomBiocide($faker->word())
-            ->setTypeDiagnostic($row['type_diagnostic'])
-            ->setNombrePiecesTraitees($faker->randomDigitNotZero())
-            ->setDelaiEntreInterventions($faker->randomDigitNotZero())
-            ->setPrixFactureHT($faker->randomNumber(5))
             ->setCodeInsee($row['code_insee'])
-            ->setNiveauInfestation($row['niveau_infestation'])
-            ->setDateIntervention(new \DateTimeImmutable())
             ->setReference($this->referenceGenerator->generate())
             ->setDeclarant(Declarant::from($row['declarant']))
-            ->setTerritoire($this->territoireRepository->findOneBy(['zip' => $row['territoire']]));
+            ->setTerritoire($this->territoireRepository->findOneBy(['zip' => $row['territoire']]))
+            ->setType(isset($row['type']) ? SignalementType::from($row['type']) : SignalementType::TYPE_LOGEMENT);
 
         if (!empty($row['entreprise'])) {
             $signalement->setEntreprise($this->entrepriseRepository->findOneBy(['uuid' => $row['entreprise']]));
@@ -72,6 +59,54 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
         }
         if (\array_key_exists('autotraitement', $row)) {
             $signalement->setAutotraitement(1 == $row['autotraitement']);
+        }
+
+        if (isset($row['type']) && ($row['type'] == SignalementType::TYPE_ERP->name || $row['type'] == SignalementType::TYPE_TRANSPORT->name)) {
+            $signalement->setNomDeclarant($faker->lastName())
+                ->setPrenomDeclarant($faker->firstName())
+                ->setEmailDeclarant($faker->email())
+                ->setPunaisesViewedAt((new \DateTimeImmutable())->modify('-1 days'));
+        } else {
+            $signalement->setNomOccupant($faker->lastName())
+                ->setPrenomOccupant($faker->firstName())
+                ->setEmailOccupant($faker->email())
+                ->setTelephoneOccupant($faker->phoneNumber())
+                ->setNomBiocide($faker->word())
+                ->setNombrePiecesTraitees($faker->randomDigitNotZero())
+                ->setDelaiEntreInterventions($faker->randomDigitNotZero())
+                ->setPrixFactureHT($faker->randomNumber(5))
+                ->setDateIntervention(new \DateTimeImmutable());
+        }
+        if (!empty($row['adresse'])) {
+            $signalement->setAdresse($row['adresse']);
+        }
+        if (!empty($row['nom_proprietaire'])) {
+            $signalement->setNomProprietaire($row['nom_proprietaire']);
+        }
+        if (!empty($row['place_type'])) {
+            $signalement->setPlaceType(PlaceType::from($row['place_type']));
+        }
+        if (isset($row['is_place_averti'])) {
+            $signalement->setIsPlaceAvertie(1 == $row['is_place_averti']);
+        }
+        if (!empty($row['autres_informations'])) {
+            $signalement->setAutresInformations($row['autres_informations']);
+        }
+        if (!empty($row['type_logement'])) {
+            $signalement->setTypeLogement($row['type_logement']);
+        }
+        if (!empty($row['construit_avant1948'])) {
+            $signalement->setConstruitAvant1948($row['construit_avant1948']);
+        }
+        if (!empty($row['type_intervention'])) {
+            $signalement->setTypeIntervention($row['type_intervention']);
+        }
+        if (!empty($row['type_diagnostic'])) {
+            $signalement->setTypeDiagnostic($row['type_diagnostic']);
+        }
+
+        if (!empty($row['niveau_infestation'])) {
+            $signalement->setNiveauInfestation($row['niveau_infestation']);
         }
 
         $manager->persist($signalement);
