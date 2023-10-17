@@ -5,16 +5,19 @@ namespace App\Command;
 use App\Entity\Signalement;
 use App\Service\Signalement\GeolocateService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+#[AsCommand(
+    name: 'app:geolocate',
+    description: 'Geolocates existing addresses and updates the geolocation coordinates'
+)]
 class GeolocateCommand extends Command
 {
-    protected static $defaultName = 'app:geolocate';
-
     public function __construct(
         private readonly HttpClientInterface $client,
         private EntityManagerInterface $entityManager,
@@ -23,12 +26,7 @@ class GeolocateCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
-    {
-        $this->setDescription('Geolocates existing addresses and updates the geolocation coordinates');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $signalements = $this->entityManager->getRepository(Signalement::class)->findAll();
         $countSuccess = 0;

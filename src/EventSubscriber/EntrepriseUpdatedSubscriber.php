@@ -7,11 +7,11 @@ use App\Entity\User;
 use App\Event\EntrepriseUpdatedEvent;
 use App\Manager\UserManager;
 use App\Service\Mailer\MailerProviderInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Security;
 
 class EntrepriseUpdatedSubscriber implements EventSubscriberInterface
 {

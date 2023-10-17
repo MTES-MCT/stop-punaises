@@ -9,7 +9,7 @@ use App\Entity\User;
 use App\Factory\SignalementFactory;
 use App\Repository\SignalementRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class SignalementManager extends AbstractManager
 {
