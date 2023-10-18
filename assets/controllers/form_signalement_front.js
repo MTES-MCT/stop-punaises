@@ -58,7 +58,9 @@ class PunaisesFrontSignalementController {
     self = this;
     $('.btn-next').on('click', function(){
       if (!self.isTerritoryOpen && self.stepStr === 'info_usager') {
-        self.submitAdd();
+        if (self.checkStepInfoUsagerOpen()) {
+          self.submitAdd();
+        }
         return;
       }
       

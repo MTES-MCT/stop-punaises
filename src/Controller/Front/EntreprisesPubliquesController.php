@@ -27,6 +27,9 @@ class EntreprisesPubliquesController extends AbstractController
 
         $codePostal = str_pad($codePostal, 5, '0', \STR_PAD_LEFT);
         $zipCode = substr($codePostal, 0, 2);
+        if ('97' == $zipCode) {
+            $zipCode = substr($codePostal, 0, 3);
+        }
 
         $listEntreprisesPubliquesByZipCode = $entreprisePubliqueRepository->findByZipCode($zipCode, $order);
 
