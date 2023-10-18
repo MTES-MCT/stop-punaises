@@ -107,4 +107,6 @@ jobs:
         env:
           DATABASE_URL: mysql://root:stopunaises@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/stopunaises_db
           NOTIFICATIONS_EMAIL: notifications@stop-punaises.beta.gouv.fr
+          CONTACT_EMAIL: contact@stop-punaises.beta.gouv.fr
+          INCONNU_EMAIL: inconnu@stop-punaises.beta.gouv.fr
           APP_URL: http://localhost:8080
