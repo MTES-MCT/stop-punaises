@@ -13,6 +13,7 @@ parameters:
     doc_autotraitement: 'pdf/stop-punaises-protocole-auto-traitement.pdf'
     doc_domicile: 'pdf/stop-punaises-preparer-son-domicile.pdf'
     admin_email: '%env(resolve:CONTACT_EMAIL)%'
+    inconnu_email: '%env(resolve:INCONNU_EMAIL)%'
 
 services:
     # default configuration for services in *this* file

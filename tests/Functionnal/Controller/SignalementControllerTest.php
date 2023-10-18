@@ -22,8 +22,8 @@ class SignalementControllerTest extends WebTestCase
         $client->loginUser($user);
 
         $payloadSignalement = [
-            'signalement' => [
-                    '_token' => $this->generateCsrfToken($client, 'signalement'),
+            'signalement_history' => [
+                    '_token' => $this->generateCsrfToken($client, 'signalement_history'),
                     'adresse' => '17 Boulevard saade - quai joliette',
                     'codePostal' => '13002',
                     'codeInsee' => '13202',
