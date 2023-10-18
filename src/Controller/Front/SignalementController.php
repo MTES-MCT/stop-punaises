@@ -46,7 +46,7 @@ class SignalementController extends AbstractController
         ZipCodeService $zipCodeService,
         EntrepriseRepository $entrepriseRepository,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement, ['validation_groups' => 'front_add_signalement_logement']);
         $form->handleRequest($request);
