@@ -25,16 +25,21 @@ class SignalementCreateController extends AbstractController
         SignalementManager $signalementManager,
         TerritoireRepository $territoireRepository,
         ZipCodeService $zipCodeService,
-        ReferenceGenerator $referenceGenerator): Response
-    {
+        ReferenceGenerator $referenceGenerator
+    ): Response {
         $signalement = new Signalement();
-        $form = $this->createForm(SignalementHistoryType::class, $signalement);
+        $form = $this->createForm(
+            SignalementHistoryType::class,
+            $signalement,
+            ['validation_groups' => 'back_add_signalement_logement']
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $signalement->setReference($referenceGenerator->generate());
-            $signalement->setDeclarant(Declarant::DECLARANT_ENTREPRISE);
-            $signalement->setType(SignalementType::TYPE_LOGEMENT);
+            $signalement
+                ->setReference($referenceGenerator->generate())
+                ->setDeclarant(Declarant::DECLARANT_ENTREPRISE)
+                ->setType(SignalementType::TYPE_LOGEMENT);
 
             $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
             $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);

@@ -383,6 +383,7 @@ class SignalementHistoryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Signalement::class,
+            'validation_groups' => ['Default', 'back_add_signalement_logement'],
         ]);
     }
 
