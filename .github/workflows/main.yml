@@ -99,6 +99,11 @@ jobs:
           php bin/console --env=test doctrine:fixtures:load --no-interaction
         env:
           DATABASE_URL: mysql://root:stopunaises@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/stopunaises_db
+          NOTIFICATIONS_EMAIL: notifications@stop-punaises.beta.gouv.fr
+          CONTACT_EMAIL: contact@stop-punaises.beta.gouv.fr
+          INCONNU_EMAIL: inconnu@stop-punaises.beta.gouv.fr
+          APP_URL: http://localhost:8090
+          MAILER_DSN: ${{ secrets.MAILER_DSN_CI }}
 
       - name: Run tests
         run: |
@@ -109,4 +114,6 @@ jobs:
           NOTIFICATIONS_EMAIL: notifications@stop-punaises.beta.gouv.fr
           CONTACT_EMAIL: contact@stop-punaises.beta.gouv.fr
           INCONNU_EMAIL: inconnu@stop-punaises.beta.gouv.fr
-          APP_URL: http://localhost:8080
+          APP_URL: http://localhost:8090
+          MAILER_DSN: ${{ secrets.MAILER_DSN_CI }}
+
