@@ -22,8 +22,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementController extends AbstractController
 {
-    #[Route('/signalement', name: 'app_front_signalement')]
-    public function signalement(Request $request): Response
+    #[Route('/signalement-logement', name: 'app_front_signalement_logement')]
+    public function signalementLogement(Request $request): Response
     {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
