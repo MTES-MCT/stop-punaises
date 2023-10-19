@@ -9,22 +9,9 @@
             <div class="fr-col-12 fr-col-md-6">
                 <h1>Punaises de lit</h1>
                 <p class="fr-h2 bons-reflexes">Ayez les bons réflexes&nbsp;!</p>
-                <p>Vous pensez avoir des punaises de lit ? Renseignez votre code postal et laissez vous guider.</p>
+                <p>Le site officiel de l'Etat Français pour lutter contre les infestations de punaises de lit !</p>
 
-                <form action="{{ path('app_front_signalement') }}" method="GET">
-                    <div class="fr-input-group">
-                        <input class="fr-input" id="code-postal" name="code-postal" placeholder="Code postal" required>
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner votre code postal.
-                        </p>
-                    </div>
-
-                    <div class="fr-input-group">
-                        <button type="submit" class="fr-btn btn-next fr-btn--icon-left fr-icon-check-line">
-                            Trouver ma solution
-                        </button>
-                    </div>
-                </form>
+                <a href="{{ path('app_front_signalement_list') }}" class="fr-btn btn-next">Je signale un problème</a>
             </div>
             <div class="fr-col-12 fr-col-md-6 align-center">
                 <img src="{{ asset('build/images/loupe-punaise.png') }}" alt="illustration punaises" width="384" height="288">
