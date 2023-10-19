@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementController extends AbstractController
 {
-    #[Route('/signalement-logement', name: 'app_front_signalement_logement')]
+    #[Route('/signalement/logement', name: 'app_front_signalement_logement')]
     public function signalementLogement(Request $request): Response
     {
         $signalement = new Signalement();

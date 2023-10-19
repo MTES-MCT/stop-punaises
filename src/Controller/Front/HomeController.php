@@ -17,10 +17,10 @@ class HomeController extends AbstractController
         return $this->render('front/index.html.twig', []);
     }
 
-    #[Route('/signalement', name: 'app_front_signalement_list')]
+    #[Route('/signalement', name: 'app_front_signalement_type_list')]
     public function signalementList(): Response
     {
-        return $this->render('front/signalement-list.html.twig');
+        return $this->render('front/signalement-type-list.html.twig');
     }
 
     #[Route('/information', name: 'app_front_information')]
