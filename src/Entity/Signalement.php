@@ -46,9 +46,17 @@ class Signalement
     private ?bool $construitAvant1948 = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner votre nom.',
+        groups: ['front_add_signalement_logement', 'back_add_signalement_logement']
+    )]
     private ?string $nomOccupant = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner votre prenom.',
+        groups: ['front_add_signalement_logement', 'back_add_signalement_logement']
+    )]
     private ?string $prenomOccupant = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -61,6 +69,7 @@ class Signalement
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Email]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre email.', groups: ['front_add_signalement_logement'])]
     private ?string $emailOccupant = null;
 
     #[ORM\Column(length: 30, nullable: true)]

@@ -48,15 +48,16 @@ class SignalementController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
         ): Response {
         $signalement = new Signalement();
-        $form = $this->createForm(SignalementFrontType::class, $signalement);
+        $form = $this->createForm(SignalementFrontType::class, $signalement, ['validation_groups' => 'front_add_signalement_logement']);
         $form->handleRequest($request);
 
         $submittedToken = $request->request->get('_csrf_token');
         if ($form->isValid() && $this->isCsrfTokenValid('front-add-signalement', $submittedToken)) {
-            $signalement->setReference($referenceGenerator->generate());
-            $signalement->setDeclarant(Declarant::DECLARANT_OCCUPANT);
-            $signalement->setType(SignalementType::TYPE_LOGEMENT);
-            $signalement->updateUuidPublic();
+            $signalement
+                ->setType(SignalementType::TYPE_LOGEMENT)
+                ->setReference($referenceGenerator->generate())
+                ->setDeclarant(Declarant::DECLARANT_OCCUPANT)
+                ->updateUuidPublic();
 
             $filesPosted = $request->files->get('file-upload');
             $filesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);

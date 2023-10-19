@@ -371,6 +371,7 @@ class SignalementFrontType extends AbstractType
             'data_class' => Signalement::class,
             'allow_extra_fields' => true,
             'csrf_protection' => false,
+            'validation_groups' => ['Default', 'front_add_signalement_logement'],
         ]);
     }
 

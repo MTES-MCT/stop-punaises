@@ -8,7 +8,7 @@ class MessageFactory
     {
     }
 
-    public function createInstanceFrom(Template $template, array $parameters = [])
+    public function createInstanceFrom(Template $template, array $parameters = []): Message
     {
         if (isset($parameters['link'])) {
             $parameters['link'] = $this->baseUrl.$parameters['link'];

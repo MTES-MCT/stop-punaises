@@ -630,6 +630,7 @@ class PunaisesFrontSignalementController {
         }
         $('.front-signalement #step-professionnel_info .btn-next').removeAttr('disabled');
         $('.front-signalement #step-autotraitement_info .btn-next').removeAttr('disabled');
+        $('.front-signalement #step-info_usager .btn-next').removeAttr('disabled');
       }
     });
   }
