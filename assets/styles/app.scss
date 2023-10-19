@@ -289,10 +289,18 @@ span.statut-infestation {
         .fr-tile__title {
             span {
                 color: var(--blue-france-sun-113-625);
+                &::before {
+                    --icon-size: 2.5rem;
+                }
             }
         }
         p.align-right {
             color: var(--blue-france-sun-113-625);
+            span {
+                &::before {
+                    --icon-size: 2.5rem;
+                }
+            }
         }
     }
 }
