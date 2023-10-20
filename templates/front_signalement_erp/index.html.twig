@@ -8,6 +8,9 @@
         <div class="fr-col-12 fr-col-md-8 fr-col-md-6">
             <form method="POST" action="{{ path('app_signalement_erp_save') }}" class="fr-my-5w fr-px-5w fr-container"
                   novalidate>
+                <div class="fr-input-group">
+                    <span>&lt;</span> <a href="{{ path('home') }}" class="link-back">Retour</a>
+                </div>
                 <h2>Signaler des punaises de lit dans un lieu public</h2>
                 <p>Remplissez les champs ci-dessous puis valider votre signalement. Tous les champs sont obligatoires,
                     sauf
@@ -132,7 +135,13 @@
                         <label class="fr-label" for="file-upload">Photos (facultatif)</label>
                         <p>Vous avez pris des photos des punaises ? Ajoutez-les en cliquant sur le bouton
                             ci-dessous.</p>
-                        <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
+                        <input class="fr-upload"
+                               type="file"
+                               id="file-upload"
+                               name="file-upload[]"
+                               multiple
+                               accept=".jpg, .jpeg, .png"
+                        >
                     </div>
                     <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
                     </div>
