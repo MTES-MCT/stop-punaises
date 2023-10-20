@@ -116,6 +116,19 @@ class MailerProvider implements MailerProviderInterface
         $this->send($message);
     }
 
+    public function sendSignalementValidationWithConseilsEviterPunaises(Signalement $signalement): void
+    {
+        $message = $this
+            ->messageFactory
+            ->createInstanceFrom(Template::SIGNALEMENT_CONSEILS_EVITER_PUNAISES, [
+                'nom_usager' => $signalement->getNomCompletDeclarant(),
+                'link' => '/build/'.$this->parameterBag->get('doc_conseil'),
+            ])
+            ->setTo([$signalement->getEmailDeclarant()]);
+
+        $this->send($message);
+    }
+
     public function sendSignalementValidationWithEntreprisesPubliques(Signalement $signalement): void
     {
         $emailOccupant = $signalement->getEmailOccupant();
