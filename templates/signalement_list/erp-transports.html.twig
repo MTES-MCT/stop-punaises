@@ -1,0 +1,74 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Stop punaises - Les signalements ERP et transports{% endblock %}
+
+{% block body %}
+{% for signalement in signalements %}
+    {% include "signalement_list/modal-signalement-erp-transports.html.twig" %}
+{% endfor %}
+<div class="liste-signalements fr-p-5w grey-bg">
+    <div class="fr-container">
+        <h1>Signalements ERP et transports</h1>
+
+        <div class="fr-grid-row fr-grid-row--gutters">
+            <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                {% include "common/components/filters/filter-territoire.html.twig" %}
+            </div>
+
+            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
+                <input type="text" class="fr-input" id="search-address" placeholder="CP...">
+            </div>
+
+            <div class="fr-input-wrap fr-col-12 fr-col-lg-3">
+                <input type="date" id="filter-date">
+            </div>
+
+            <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                {% include "common/components/filters/filter-signalement-type.html.twig" %}
+            </div>
+        </div>
+    </div>
+
+    <div class="fr-container fr-mt-3w">
+        <h2><span id="count-signalement">{{ count_signalement }}</span> signalements trouvés</h2>
+
+        {% if signalements is not empty %}
+            <table id="datatable" class="liste-signalements-erp-transports">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Créé le</th>
+                        <th>Type</th>
+                        <th>Nom</th>
+                        <th>Code postal</th>
+                        <th>Territoire</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for signalement in signalements %}
+                        <tr>
+                            <td data-order="{{ signalement.reference|reference_sortable }}">{{ signalement.reference }} <span>{{ signalement.nomOccupant }} {{ signalement.prenomOccupant }} {{ signalement.emailOccupant }}</span></td>
+                            <td data-order="{{ signalement.createdAt.format('Y-m-d') }}">{{ signalement.createdAt.format('d/m/Y') }}</td>
+                            <td>{{ signalement.type|signalement_type }}</td>
+                            {% if signalement.type is same as enum('App\\Entity\\Enum\\SignalementType').TYPE_TRANSPORT %}
+                                <td>{{ signalement.placeType|place_type }}</td>
+                            {% else %}
+                                <td>{{ signalement.nomProprietaire }}</td>
+                            {% endif %}
+                            <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
+                            <td>{{ signalement.territoire.zip }}</td>
+                            <td class="button-view">
+                                <button class="fr-btn fr-icon-arrow-right-fill" data-fr-opened="false" aria-controls="fr-modal-signalement-erp-transports-{{signalement.uuid}}"></button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        {% else %}
+            Aucun.
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

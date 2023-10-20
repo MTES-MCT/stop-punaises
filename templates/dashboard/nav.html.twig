@@ -13,6 +13,9 @@
                         <a class="fr-nav__link" href="{{ path('app_horsperimetre_list') }}" target="_self" {% if app.request.get('_route') == 'app_horsperimetre_list' %}aria-current="page"{% endif %}>Hors périmètre</a>
                     </li>
                     <li class="fr-nav__item">
+                        <a class="fr-nav__link" href="{{ path('app_erptransports_list') }}" target="_self" {% if app.request.get('_route') == 'app_erptransports_list' %}aria-current="page"{% endif %}>ERP & Transports</a>
+                    </li>
+                    <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ path('app_entreprise_list') }}" target="_self" {% if app.request.get('_route') == 'app_entreprise_list' or app.request.get('_route') == 'app_entreprise_view' %}aria-current="page"{% endif %}>Les entreprises</a>
                     </li>
                 {% endif %}

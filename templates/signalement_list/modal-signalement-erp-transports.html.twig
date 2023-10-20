@@ -1,0 +1,55 @@
+<dialog aria-labelledby="fr-modal-title-modal-signalement-erp-transports-{{signalement.uuid}}" role="dialog" id="fr-modal-signalement-erp-transports-{{signalement.uuid}}" class="fr-modal fr-sidemodal">
+    <div class="fr-container fr-container--fluid fr-container-md">
+        <div class="fr-grid-row fr-grid-row--center">
+            <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                <div class="fr-modal__body">
+                    <div class="fr-modal__header">
+                        <button class="fr-link--close fr-link" title="Fermer la fenêtre modale" aria-controls="fr-modal-signalement-erp-transports-{{signalement.uuid}}" type="button">Fermer</button>
+                    </div>
+                    <div class="fr-modal__content">
+                        <h1 id="fr-modal-title-modal-signalement-erp-transports-{{signalement.uuid}}" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Signalement #{{signalement.reference}}</h1>
+                        <p>Déposé le : {{signalement.createdAt.format('d/m/Y')}}</p>
+
+                        <h2 class="fr-h5">Signalement</h2>
+                        <p>
+                            Type de signalement : {{signalement.type|signalement_type }} - 
+                            {% if signalement.type is same as enum('App\\Entity\\Enum\\SignalementType').TYPE_TRANSPORT %}
+                                {{ signalement.placeType|place_type }}
+                            {% else %}
+                                {{ signalement.nomProprietaire }}
+                            {% endif %}
+                            <br>
+                            Territoire : {{signalement.territoire.nomComplet}}
+                            <br>
+                            Commune : {{signalement.codePostal}} {{signalement.ville}}
+                            <br>
+                            Punaises vues le : {{signalement.punaisesViewedAt.format('d/m/Y')}} à {{signalement.punaisesViewedAt.format('H:i')}} 
+                            <br>
+                            Etablissement prévenu : {{ signalement.isPlaceAvertie ? 'Oui' : 'Non' }}
+                            <br>
+                            {% if signalement.autresInformations %}
+                                Autres informations : {{signalement.autresInformations}}
+                                <br>
+                            {% endif %}
+                            {% if signalement.photos %}
+                                {% for index,photo in signalement.photos %}
+                                    <a href="{{ path('show_uploaded_file',{filename:photo.file}) }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank" rel="noopener">
+                                        Voir la photo
+                                    </a>
+                                    <br>
+                                {% endfor %}
+                            {% endif %}
+                        </p>
+
+                        <h2 class="fr-h5">Déclarant</h2>
+                        <p>
+                            Usager : {{signalement.nomCompletDeclarant}}
+                            <br>
+                            Email : {{signalement.emailDeclarant}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dialog>
