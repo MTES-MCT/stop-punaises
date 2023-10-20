@@ -1013,7 +1013,7 @@ class Signalement
         return $this->transportLineNumber;
     }
 
-    public function setTransportLineNumber(?string $transportLineNumber): static
+    public function setTransportLineNumber(?string $transportLineNumber): self
     {
         $this->transportLineNumber = $transportLineNumber;
 
