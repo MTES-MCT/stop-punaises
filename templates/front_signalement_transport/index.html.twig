@@ -1,20 +1,146 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SignalementTransportController!{% endblock %}
+{% block title %}Stop punaises - Déposer un signalement Transport{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="signalement-punaises fr-grid-row fr-grid-row--center">
+        <div class="fr-col-12 fr-col-md-8 fr-col-md-6">
+            <form id="form-send-signalement-transport" method="POST" action="{{ path('app_signalement_transport_save') }}" class="fr-my-5w fr-px-5w fr-container" novalidate>
+                <h2>Signaler des punaises de lit dans les transports en commun</h2>
+                <p>Remplissez les champs ci-dessous puis valider votre signalement. Tous les champs sont obligatoires,
+                    sauf
+                    mention contraire.</p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/saidi/workspace/stop-punaises/src/Controller/SignalementTransportController.php'|file_link(0) }}">src/Controller/SignalementTransportController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/saidi/workspace/stop-punaises/templates/signalement_transport/index.html.twig'|file_link(0) }}">templates/signalement_transport/index.html.twig</a></code></li>
-    </ul>
-</div>
+                <h3>Date et heure</h3>
+                <p>Renseignez la date et l'heure à laquelle vous avez vu des punaises de lit.</p>
+                <div class="fr-form-group display-if-diagnostic display-if-traitement">
+                    <div class="fr-input-group">
+                        {{ form_label(form.punaisesViewedAt) }}
+                        {{ form_widget(form.punaisesViewedAt) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner la date
+                        </p>
+                    </div>
+                </div>
+                <div class="fr-form-group display-if-diagnostic display-if-traitement">
+                    <div class="fr-input-group">
+                        {{ form_label(form.punaisesViewedTimeAt) }}
+                        {{ form_widget(form.punaisesViewedTimeAt) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner la l'heure
+                        </p>
+                    </div>
+                </div>
+                <h3>Détails du problème</h3>
+                <div class="fr-form-group">
+                    <div class="fr-select-group search-commune">
+                        {{ form_label(form.ville) }}
+                        {{ form_help(form.ville) }}
+                        {{ form_widget(form.ville) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner la commune.
+                        </p>
+                        <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
+                        </div>
+                    </div>
+                </div>
+                <div class="fr-form-group">
+                    <div class="fr-select-group">
+                        {{ form_label(form.placeType) }}
+                        {{ form_widget(form.placeType) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner la type de transport.
+                        </p>
+                    </div>
+                </div>
+                {{ form_widget(form.geoloc) }}
+                {{ form_widget(form.codePostal) }}
+                {{ form_widget(form.codeInsee) }}
+                <div class="fr-form-group">
+                    <div class="fr-select-group">
+                        {{ form_label(form.transportLineNumber) }}
+                        {{ form_help(form.transportLineNumber) }}
+                        {{ form_widget(form.transportLineNumber) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner le numéro de ligne.
+                        </p>
+                    </div>
+                </div>
+                <div class="fr-form-group">
+                    <div class="fr-input-group">
+                        {{ form_label(form.isPlaceAvertie) }}
+
+                        {% for key, choice in form.isPlaceAvertie.children %}
+                            <div class="fr-radio-group">
+                                {{ form_widget(choice) }}
+                                {{ form_label(choice) }}
+                            </div>
+                        {% endfor %}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez indiquer si vous avez prevenu la compagnie de transport ?
+                        </p>
+                    </div>
+                </div>
+
+                <h3>Informations complémentaires</h3>
+                <div id="form-group-photos" class="fr-form-group">
+                    <div class="fr-upload-group">
+                        <label class="fr-label" for="file-upload">Photos (facultatif)</label>
+                        <p>Vous avez pris des photos des punaises ? Ajoutez-les en cliquant sur le bouton
+                            ci-dessous.</p>
+                        <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
+                    </div>
+                    <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
+                    </div>
+                </div>
+
+                <div class="fr-input-group">
+                    {{ form_label(form.autresInformations) }}
+                    {{ form_help(form.autresInformations) }}
+                    {{ form_widget(form.autresInformations) }}
+                    <p class="fr-error-text fr-hidden">
+                        Merci de proposer une description (minimum 10 caractères).
+                    </p>
+                </div>
+
+                <h3>Vos coordonées</h3>
+                <p>Renseignez vos coordonnées pour recevoir, par email, nos conseils, pour éviter de ramener des
+                    punaises chez vous.</p>
+                <div class="fr-form-group">
+                    <div class="fr-select-group">
+                        {{ form_label(form.nomDeclarant) }}
+                        {{ form_widget(form.nomDeclarant) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner votre nom.
+                        </p>
+                    </div>
+                </div>
+                <div class="fr-form-group">
+                    <div class="fr-select-group">
+                        {{ form_label(form.prenomDeclarant) }}
+                        {{ form_widget(form.prenomDeclarant) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner votre prénom.
+                        </p>
+                    </div>
+                </div>
+                <div class="fr-form-group">
+                    <div class="fr-select-group">
+                        {{ form_label(form.emailDeclarant) }}
+                        {{ form_widget(form.emailDeclarant) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner votre adresse e-mail.
+                        </p>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('save_signalement_transport') }}">
+                <div class="fr-input-group">
+                    <button type="submit" class="fr-btn btn-next fr-btn--icon-left fr-icon-check-line">
+                        Signaler mon problème
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

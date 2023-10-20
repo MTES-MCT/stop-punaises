@@ -1,20 +1,189 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SignalementErpController!{% endblock %}
+{% block title %}Stop punaises - Signalement des punaises de lit dans un lieu public{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="signalement-punaises fr-grid-row fr-grid-row--center">
+        <div class="fr-col-12 fr-col-md-8 fr-col-md-6">
+            <form method="POST" action="{{ path('app_signalement_erp_save') }}" class="fr-my-5w fr-px-5w fr-container"
+                  novalidate>
+                <h2>Signaler des punaises de lit dans un lieu public</h2>
+                <p>Remplissez les champs ci-dessous puis valider votre signalement. Tous les champs sont obligatoires,
+                    sauf
+                    mention contraire.</p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/saidi/workspace/stop-punaises/src/Controller/SignalementErpController.php'|file_link(0) }}">src/Controller/SignalementErpController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/saidi/workspace/stop-punaises/templates/signalement_erp/index.html.twig'|file_link(0) }}">templates/signalement_erp/index.html.twig</a></code></li>
-    </ul>
-</div>
+                <h3>Date et heure</h3>
+                <p>Renseignez la date et l'heure à laquelle vous avez vu des punaises de lit.</p>
+                <div class="fr-form-group display-if-diagnostic display-if-traitement">
+                    <div class="fr-input-group">
+                        {{ form_label(form.punaisesViewedAt) }}
+                        {{ form_widget(form.punaisesViewedAt) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner la date
+                        </p>
+                    </div>
+                </div>
+                <div class="fr-form-group display-if-diagnostic display-if-traitement">
+                    <div class="fr-input-group">
+                        {{ form_label(form.punaisesViewedTimeAt) }}
+                        {{ form_widget(form.punaisesViewedTimeAt) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner la l'heure
+                        </p>
+                    </div>
+                </div>
+                <h3>L'établissement</h3>
+                <div class="fr-form-group">
+                    <div class="fr-select-group">
+                        {{ form_label(form.nomProprietaire) }}
+                        {{ form_widget(form.nomProprietaire) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner le nom de l'établissement.
+                        </p>
+                    </div>
+                </div>
+                <div class="fr-form-group">
+                    <div class="fr-input-group search-address">
+                        <label for="">Adresse de l'établissement</label>
+                        <span class="fr-hint-text help-text">Tapez l'adresse puis selectionnez-la dans la liste</span>
+                        <input id="rechercheAdresse" type="text" class="fr-input">
+                        <div id="rechercheAdresseIcon">
+                            <span class="fr-icon-map-pin-2-line" aria-hidden="true"></span>
+                            <span class="fr-icon-timer-line" aria-hidden="true"></span>
+                        </div>
+                        <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
+                        </div>
+                    </div>
+                </div>
+                <div id="adresse_afficher_les_champs" style="margin-top: -3rem">
+                    <button type="button" class="fr-btn btn-link fr-btn--icon-left fr-icon-eye-line">
+                        Afficher tous les champs
+                    </button>
+                </div>
+                <div id="adresse_detail" class="fr-hidden">
+                    <div class="fr-form-group">
+                        {{ form_label(form.adresse) }}
+                        {{ form_widget(form.adresse) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner l'adresse.
+                        </p>
+                    </div>
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.codePostal) }}
+                            {{ form_widget(form.codePostal) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner le code postal.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="fr-form-group">
+                        <div class="fr-input-group">
+                            {{ form_label(form.ville) }}
+                            {{ form_widget(form.ville) }}
+                            <p class="fr-error-text fr-hidden">
+                                Veuillez renseigner la ville.
+                            </p>
+                        </div>
+                    </div>
+
+                    {{ form_widget(form.geoloc) }}
+                    {{ form_widget(form.codeInsee) }}
+                </div>
+
+
+                <div class="fr-form-group">
+                    <div class="fr-input-group">
+                        {{ form_label(form.placeType) }}
+
+                        {% for key, choice in form.placeType.children %}
+                            <div class="fr-radio-group">
+                                {{ form_widget(choice) }}
+                                {{ form_label(choice) }}
+                            </div>
+                        {% endfor %}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez indiquer le type d'établissement
+                        </p>
+                    </div>
+                </div>
+                <div class="fr-form-group">
+                    <div class="fr-input-group">
+                        {{ form_label(form.isPlaceAvertie) }}
+
+                        {% for key, choice in form.isPlaceAvertie.children %}
+                            <div class="fr-radio-group">
+                                {{ form_widget(choice) }}
+                                {{ form_label(choice) }}
+                            </div>
+                        {% endfor %}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez indiquer si vous avez prevenu l'établissement ?
+                        </p>
+                    </div>
+                </div>
+
+                <h3>Informations complémentaires</h3>
+
+
+                <div id="form-group-photos" class="fr-form-group">
+                    <div class="fr-upload-group">
+                        <label class="fr-label" for="file-upload">Photos (facultatif)</label>
+                        <p>Vous avez pris des photos des punaises ? Ajoutez-les en cliquant sur le bouton
+                            ci-dessous.</p>
+                        <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
+                    </div>
+                    <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
+                    </div>
+                </div>
+
+                <div class="fr-input-group">
+                    {{ form_label(form.autresInformations) }}
+                    {{ form_help(form.autresInformations) }}
+                    {{ form_widget(form.autresInformations) }}
+                    <p class="fr-error-text fr-hidden">
+                        Merci de proposer une rapide description (minimum 10 caractères).
+                    </p>
+                </div>
+
+                <h3>Vos coordonées</h3>
+                <p>Renseignez vos coordonnées pour recevoir, par email, nos conseils, pour éviter de ramener des
+                    punaises chez vous.</p>
+                <div class="fr-form-group">
+                    <div class="fr-select-group">
+                        {{ form_label(form.nomDeclarant) }}
+                        {{ form_widget(form.nomDeclarant) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner votre nom.
+                        </p>
+                    </div>
+                </div>
+                <div class="fr-form-group">
+                    <div class="fr-select-group">
+                        {{ form_label(form.prenomDeclarant) }}
+                        {{ form_widget(form.prenomDeclarant) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner votre prénom.
+                        </p>
+                    </div>
+                </div>
+                <div class="fr-form-group">
+                    <div class="fr-select-group">
+                        {{ form_label(form.emailDeclarant) }}
+                        {{ form_widget(form.emailDeclarant) }}
+                        <p class="fr-error-text fr-hidden">
+                            Veuillez renseigner votre adresse e-mail.
+                        </p>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('save_signalement_erp') }}">
+                <div class="fr-input-group">
+                    <button type="submit" class="fr-btn btn-next-next">
+                        Signaler mon problème
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
