@@ -12,6 +12,8 @@ class EntreprisePubliqueImportMapper
             'adresse' => 'adresse',
             'url' => 'url',
             'telephone' => 'telephone',
+            'is_pro_only' => 'is_pro_only',
+            'zips' => 'zips',
         ];
     }
 

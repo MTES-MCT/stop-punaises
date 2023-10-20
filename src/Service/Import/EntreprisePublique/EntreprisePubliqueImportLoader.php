@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class EntreprisePubliqueImportLoader
 {
     private int $count = 0;
+    private ProgressBar $progressBar;
 
     public function __construct(
         private EntreprisePubliqueImportMapper $entreprisePubliqueImportMapper,
@@ -29,31 +30,51 @@ class EntreprisePubliqueImportLoader
      * @throws NonUniqueResultException
      * @throws \Exception
      */
-    public function load(array $data, array $headers, ?OutputInterface $output = null): void
+    public function load(array $data, array $headers, ?OutputInterface $output = null, bool $isDetectionCanine = false): void
     {
         $this->count = 0;
         if ($output) {
-            $progressBar = new ProgressBar($output);
-            $progressBar->start(\count($data));
+            $this->progressBar = new ProgressBar($output);
+            $this->progressBar->start(\count($data));
         }
 
         foreach ($data as $item) {
             $dataMapped = $this->entreprisePubliqueImportMapper->map($headers, $item);
             if (!empty($dataMapped)) {
-                ++$this->count;
-                if ($output) {
-                    $progressBar->advance();
+                if ($isDetectionCanine) {
+                    $dataMapped['detection_canine'] = true;
+                    $dataMapped['intervention'] = false;
+                } else {
+                    $dataMapped['detection_canine'] = false;
+                    $dataMapped['intervention'] = true;
                 }
 
-                $entreprisePublique = $this->entreprisePubliqueManager->createOrUpdate($dataMapped, true);
-                $this->entreprisePubliqueManager->save($entreprisePublique);
+                if (null !== $dataMapped['zips']) {
+                    $zips = explode('|', $dataMapped['zips']);
+                    foreach ($zips as $zip) {
+                        $dataMapped['zip'] = $zip;
+                        $this->createAndSaveEntreprise($dataMapped, $output);
+                    }
+                } else {
+                    $this->createAndSaveEntreprise($dataMapped, $output);
+                }
             }
         }
 
         $this->entreprisePubliqueManager->flush();
         if ($output) {
-            $progressBar->finish();
+            $this->progressBar->finish();
         }
+    }
+
+    private function createAndSaveEntreprise(array $dataMapped, ?OutputInterface $output = null)
+    {
+        ++$this->count;
+        if ($output) {
+            $this->progressBar->advance();
+        }
+        $entreprisePublique = $this->entreprisePubliqueManager->createOrUpdate($dataMapped, true);
+        $this->entreprisePubliqueManager->save($entreprisePublique);
     }
 
     public function countEntreprises(): int
