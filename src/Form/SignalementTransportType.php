@@ -132,7 +132,7 @@ class SignalementTransportType extends AbstractType
             ->add('transportLineNumber', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
-                    'maxlength' => '5',
+                    'maxlength' => '50',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -145,7 +145,7 @@ class SignalementTransportType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner le numéro de ligne.'),
-                    new Assert\Length(max: 5, maxMessage: 'Veuillez renseigner un numéro de ligne correcte.'),
+                    new Assert\Length(max: 50, maxMessage: 'Veuillez renseigner un numéro de ligne correcte.'),
                 ],
             ])
             ->add('isPlaceAvertie', ChoiceType::class, [

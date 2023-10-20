@@ -19,7 +19,7 @@ final class Version20231016145131 extends AbstractMigration
         $this->addSql('ALTER TABLE signalement ADD type VARCHAR(255) NOT NULL, ADD punaises_viewed_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', ADD place_type VARCHAR(255) DEFAULT NULL, ADD is_place_avertie TINYINT(1) DEFAULT NULL, ADD autres_informations LONGTEXT DEFAULT NULL, ADD nom_declarant VARCHAR(50) DEFAULT NULL, ADD prenom_declarant VARCHAR(50) DEFAULT NULL, ADD email_declarant VARCHAR(100) DEFAULT NULL');
         $this->addSql('UPDATE signalement SET type = \'TYPE_LOGEMENT\' WHERE type = \'\'');
         $this->addSql('ALTER TABLE signalement CHANGE nom_occupant nom_occupant VARCHAR(50) DEFAULT NULL, CHANGE prenom_occupant prenom_occupant VARCHAR(50) DEFAULT NULL');
-        $this->addSql('ALTER TABLE signalement ADD transport_line_number VARCHAR(5) DEFAULT NULL');
+        $this->addSql('ALTER TABLE signalement ADD transport_line_number VARCHAR(50) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void

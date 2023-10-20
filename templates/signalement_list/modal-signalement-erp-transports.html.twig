@@ -15,9 +15,11 @@
                             Type de signalement : {{signalement.type|signalement_type }} - 
                             {% if signalement.type is same as enum('App\\Entity\\Enum\\SignalementType').TYPE_TRANSPORT %}
                                 {{ signalement.placeType|place_type }}
+                                <em>({{ signalement.transportLineNumber|upper }})</em>
                             {% else %}
                                 {{ signalement.nomProprietaire }}
                             {% endif %}
+
                             <br>
                             Territoire : {{signalement.territoire.nomComplet}}
                             <br>
@@ -52,14 +54,4 @@
             </div>
         </div>
     </div>
-
-
-
-    Type : label "transport" (couleur info) - nom du transport
-    Territoire :
-    Commune :
-    Punaises vues le : [date] à [heure]
-    Etablissement prévenu : 
-
-
 </dialog>

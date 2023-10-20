@@ -204,7 +204,7 @@ class Signalement
     #[ORM\Column(type: 'string', enumType: PlaceType::class, nullable: true)]
     private ?PlaceType $placeType = null;
 
-    #[ORM\Column(length: 5, nullable: true)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $transportLineNumber = null;
 
     #[ORM\Column(nullable: true)]
