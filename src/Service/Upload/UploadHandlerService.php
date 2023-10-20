@@ -110,7 +110,11 @@ class UploadHandlerService
     ): array {
         $filesToSave = [];
         if (isset($filesPosted) && \is_array($filesPosted)) {
+            /** @var UploadedFile $file */
             foreach ($filesPosted as $file) {
+                if ($file->getError()) {
+                    return [];
+                }
                 $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
                 $title = $originalFilename.'.'.$file->guessExtension();
                 $safeFilename = $this->slugger->slug($originalFilename);

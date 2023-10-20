@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Signalement;
 use App\Form\SignalementTransportType;
 use App\Manager\SignalementManager;
+use App\Service\Mailer\MailerProvider;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -29,6 +30,7 @@ class SignalementTransportController extends AbstractController
         Request $request,
         SignalementManager $signalementManager,
         UploadHandlerService $uploadHandlerService,
+        MailerProvider $mailerProvider,
     ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementTransportType::class, $signalement);
@@ -40,6 +42,7 @@ class SignalementTransportController extends AbstractController
             $files = $uploadHandlerService->handleUploadFilesRequest($request->files->get('file-upload'));
             $signalement->setPhotos($files);
             $signalementManager->save($signalement);
+            $mailerProvider->sendSignalementValidationWithConseilsEviterPunaises($signalement);
 
             return $this->json(['response' => 'success']);
         }
