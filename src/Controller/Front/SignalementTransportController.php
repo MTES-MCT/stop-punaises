@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Signalement;
 use App\Form\SignalementTransportType;
 use App\Manager\SignalementManager;
+use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class SignalementTransportController extends AbstractController
     public function save(
         Request $request,
         SignalementManager $signalementManager,
+        UploadHandlerService $uploadHandlerService,
     ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementTransportType::class, $signalement);
@@ -35,6 +37,8 @@ class SignalementTransportController extends AbstractController
         if ($form->isValid() &&
             $this->isCsrfTokenValid('save_signalement_transport', $request->request->get('_csrf_token'))
         ) {
+            $files = $uploadHandlerService->handleUploadFilesRequest($request->files->get('file-upload'));
+            $signalement->setPhotos($files);
             $signalementManager->save($signalement);
 
             return $this->json(['response' => 'success']);
