@@ -13,8 +13,7 @@ import './bootstrap';
 
 import './controllers/form_signalement';
 import './controllers/form_signalement_front';
-import './controllers/form_signalement_transport';
-import './controllers/form_signalement_erp';
+import './controllers/form_signalement_erp_transport';
 import './controllers/form_send_message';
 import './controllers/form_send_estimation';
 import './controllers/form_refuse_signalement';
