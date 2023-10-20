@@ -77,4 +77,8 @@ function initSearchAddress() {
       $('.search-address').slideUp(200);
     }
   });
+
+  $('#adresse_afficher_les_champs button').on('click', function () {
+    $('#adresse_detail').toggleClass('fr-hidden');
+  });
 }

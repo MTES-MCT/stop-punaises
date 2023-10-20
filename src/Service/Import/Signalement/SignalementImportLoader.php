@@ -9,7 +9,7 @@ use App\Repository\SignalementRepository;
 use App\Repository\TerritoireRepository;
 use App\Service\Signalement\GeolocateService;
 use App\Service\Signalement\ReferenceGenerator;
-use App\Service\Signalement\ZipCodeService;
+use App\Service\Signalement\ZipCodeProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Psr\Log\LoggerInterface;
@@ -32,7 +32,7 @@ class SignalementImportLoader
         private EntityManagerInterface $entityManager,
         private ParameterBagInterface $parameterBag,
         private LoggerInterface $logger,
-        private ZipCodeService $zipCodeService,
+        private ZipCodeProvider $zipCodeService,
         private TerritoireRepository $territoireRepository,
         private GeolocateService $geolocateService,
         private ReferenceGenerator $referenceGenerator,
