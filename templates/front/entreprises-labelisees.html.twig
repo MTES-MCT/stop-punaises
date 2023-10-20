@@ -12,6 +12,18 @@
         <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--right">
             <div class="fr-col-3">
                 <div class="fr-select-group">
+                    <label class="fr-label" for="select-entreprises-filter">
+                        Filtré par
+                    </label>
+                    <select class="fr-select" id="select-entreprises-filter" name="select" data-redirect="{{ path('app_front_entreprises_labellisees') }}?code-postal={{ code_postal }}">
+                        <option value="all">Tous</option>
+                        <option value="intervention" {{ filter is same as 'intervention' ? 'selected' : '' }}>Intervention</option>
+                        <option value="detection-canine" {{ filter is same as 'detection-canine' ? 'selected' : '' }}>Détection canine</option>
+                    </select>
+                </div>
+            </div>
+            <div class="fr-col-3">
+                <div class="fr-select-group">
                     <label class="fr-label" for="select-entreprises-order">
                         Trié par
                     </label>
@@ -37,6 +49,14 @@
                                     <a href="{{ entreprise_publique.url }}" target="_blank" rel="noopener">{{ entreprise_publique.nom }}</a>
                                 </h3>
                                 <p class="fr-card__desc">{{ entreprise_publique.adresse }}</p>
+                                {% if entreprise_publique.isIntervention == 1 %}
+                                <p class="fr-card__desc fr-badge">Intervention</p>
+                                {% elseif entreprise_publique.isDetectionCanine == 1 %}
+                                <p class="fr-card__desc fr-badge">Détection canine</p>
+                                {% endif %}
+                                {% if entreprise_publique.isProOnly == 1 %}
+                                <p class="fr-card__desc fr-badge">Pour les professionnels uniquement</p>
+                                {% endif %}
                             </div>
                             <div class="fr-card__footer">
                                 <ul class="fr-links-group display-list-block">

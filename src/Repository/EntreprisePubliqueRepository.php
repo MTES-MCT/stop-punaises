@@ -39,11 +39,17 @@ class EntreprisePubliqueRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByZipCode(string $zipCode, string $order): array
+    public function findByZipCodeAndFilter(string $zipCode, string $order, string $filter): array
     {
         $qb = $this->createQueryBuilder('ep');
         $qb->where('ep.zip LIKE :zipCode')
             ->setParameter('zipCode', $zipCode);
+        if ('intervention' === $filter) {
+            $qb->andWhere('ep.isIntervention = 1');
+        }
+        if ('detection-canine' === $filter) {
+            $qb->andWhere('ep.isDetectionCanine = 1');
+        }
 
         if ('ASC' === $order || 'DESC' === $order) {
             $qb->orderBy('ep.nom', $order);
