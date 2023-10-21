@@ -10,7 +10,7 @@ class EntreprisePubliqueFactory
     {
         return (new EntreprisePublique())
         ->setNom($data['nom'])
-        ->setAdresse($data['adresse'] ?? '')// TODO à enlever une fois qu'on aura les adresses des entreprises de détection canine
+        ->setAdresse($data['adresse'])
         ->setUrl($data['url'])
         ->setTelephone($data['telephone'])
         ->setZip($data['zip'])
