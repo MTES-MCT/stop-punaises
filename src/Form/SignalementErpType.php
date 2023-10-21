@@ -91,6 +91,7 @@ class SignalementErpType extends AbstractType
             ->add('adresse', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'readonly' => true,
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -110,6 +111,7 @@ class SignalementErpType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'pattern' => '[0-9]{5}',
+                    'readonly' => true,
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -126,6 +128,7 @@ class SignalementErpType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'readonly' => true,
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
