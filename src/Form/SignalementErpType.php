@@ -182,10 +182,10 @@ class SignalementErpType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => 'Avez-vous prevenu l\'établissement ?',
+                'label' => 'Avez-vous prévenu l\'établissement ?',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prevenu l\'établissement.'),
+                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prévenu l\'établissement.'),
                 ],
             ])
             ->add('autresInformations', TextareaType::class, [
