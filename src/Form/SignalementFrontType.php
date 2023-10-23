@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class SignalementFrontType extends AbstractType
 {
@@ -72,14 +73,18 @@ class SignalementFrontType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'pattern' => '[0-9]{5}',
-                ],
-                'label_attr' => [
-                    'class' => 'fr-label',
                     'maxlength' => '5',
                     'minlength' => '5',
                 ],
+                'label_attr' => [
+                    'class' => 'fr-label',
+                ],
                 'label' => 'Code postal',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner le code postal'),
+                    new Assert\Regex('/[0-9]{5}/', 'Veuillez utiliser un code postal valide'),
+                ],
             ])
             ->add('codeInsee', HiddenType::class, [
                 'attr' => [

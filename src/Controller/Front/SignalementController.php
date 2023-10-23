@@ -68,26 +68,31 @@ class SignalementController extends AbstractController
             if ([] === $signalement->getGeoloc()) {
                 $geolocateService->geolocate($signalement);
             }
+            if (null !== $signalement->getCodePostal()) {
+                $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
+                $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
+                $signalement->setTerritoire($territoire);
 
-            $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
-            $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
-            $signalement->setTerritoire($territoire);
-
-            $signalementManager->save($signalement);
-
-            if ($signalement->isAutotraitement()) {
-                if ($signalement->getTerritoire()->isActive()) {
-                    $mailerProvider->sendSignalementValidationWithAutotraitement($signalement);
-                } else {
-                    $mailerProvider->sendSignalementValidationWithEntreprisesPubliques($signalement);
-                }
+                $signalementManager->save($signalement);
             } else {
-                $mailerProvider->sendSignalementValidationWithPro($signalement);
+                return $this->json(['response' => 'error', 'errors' => 'code postal null'], Response::HTTP_BAD_REQUEST);
+            }
 
-                $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
-                foreach ($entreprises as $entreprise) {
-                    if ($entreprise->getUser() && $entreprise->getUser()->getEmail()) {
-                        $mailerProvider->sendSignalementNewForPro($entreprise->getUser()->getEmail(), $signalement);
+            if (SignalementType::TYPE_LOGEMENT === $signalement->getType()) {
+                if ($signalement->isAutotraitement()) {
+                    if ($signalement->getTerritoire()->isActive()) {
+                        $mailerProvider->sendSignalementValidationWithAutotraitement($signalement);
+                    } else {
+                        $mailerProvider->sendSignalementValidationWithEntreprisesPubliques($signalement);
+                    }
+                } else {
+                    $mailerProvider->sendSignalementValidationWithPro($signalement);
+
+                    $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
+                    foreach ($entreprises as $entreprise) {
+                        if ($entreprise->getUser() && $entreprise->getUser()->getEmail()) {
+                            $mailerProvider->sendSignalementNewForPro($entreprise->getUser()->getEmail(), $signalement);
+                        }
                     }
                 }
             }

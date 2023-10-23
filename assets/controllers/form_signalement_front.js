@@ -87,10 +87,24 @@ class PunaisesFrontSignalementController {
     $('.link-back-back').on('click', function(){
       self.refreshStep(-2);
     });
-    if ($('form.front-signalement').data('code-postal') !== '') {
+    if (self.checkCodePostal('code-postal')) {
       $('#code-postal').val($('form.front-signalement').data('code-postal'));
       $('#step-home button').click();
     }
+  }
+
+  checkCodePostal(idInput) {
+    if ($('input#' + idInput).val() !== '') {    
+      const postalCodePattern = /^\d{5}$/;
+      if (!postalCodePattern.test($('input#' + idInput).val())) {
+        $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+        return false;
+      }
+    } else {
+      return false;
+    }
+    return true;
+
   }
 
   refreshStep(offset) {
@@ -249,7 +263,7 @@ class PunaisesFrontSignalementController {
   }
 
   checkStepHome() {
-    let canGoNext = self.checkSingleInput('code-postal');
+    let canGoNext = self.checkCodePostal('code-postal');
     if (canGoNext) {
       let inputContent = $('input#code-postal').val();
       let zipCode = inputContent.substring(0, 2);
@@ -273,6 +287,10 @@ class PunaisesFrontSignalementController {
     if (!self.checkSingleInput('signalement_front_codePostal')) {
       canGoNext = false;
     }
+    if (!self.checkCodePostal('signalement_front_codePostal')) {
+      canGoNext = false;
+    }
+
     if (!self.checkSingleInput('signalement_front_ville')) {
       canGoNext = false;
     }

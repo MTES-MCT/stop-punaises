@@ -122,6 +122,7 @@ class SignalementErpType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner le code postal.'),
+                    new Assert\Regex('/[0-9]{5}/', 'Veuillez utiliser un code postal valide'),
                 ],
             ])
             ->add('ville', TextType::class, [
