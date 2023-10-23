@@ -9,7 +9,7 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,11 +46,12 @@ class SignalementFrontType extends AbstractType
                 ],
                 'required' => true,
             ])
-            ->add('superficie', IntegerType::class, [
+            ->add('superficie', NumberType::class, [
                 'attr' => [
                     'class' => 'fr-input',
                     'placeholder' => '36',
                     'maxlength' => '10',
+                    'int' => true,
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
