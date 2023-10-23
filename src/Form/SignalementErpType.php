@@ -53,7 +53,7 @@ class SignalementErpType extends AbstractType
                 'label' => 'Date',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner la date'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner la date.'),
                 ],
             ])
             ->add('punaisesViewedTimeAt', TimeType::class, [
@@ -71,7 +71,7 @@ class SignalementErpType extends AbstractType
                 'label' => 'Heure',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner l\'heure'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner l\'heure.'),
                 ],
             ])
             ->add('nomProprietaire', TextType::class, [
@@ -85,7 +85,7 @@ class SignalementErpType extends AbstractType
                 'label' => 'Nom de l\'établissement',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le nom de l\'établissement'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner le nom de l\'établissement.'),
                 ],
             ])
             ->add('adresse', TextType::class, [
@@ -98,13 +98,13 @@ class SignalementErpType extends AbstractType
                     'maxlength' => '100',
                 ],
                 'label' => 'Adresse',
-                'help' => 'Tapez l\'adresse puis selectionnez-la dans la liste',
+                'help' => 'Tapez l\'adresse puis selectionnez-la dans la liste.',
                 'help_attr' => [
                     'class' => 'fr-hint-text',
                 ],
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner l\'adresse'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner l\'adresse.'),
                 ],
             ])
             ->add('codePostal', TextType::class, [
@@ -121,7 +121,7 @@ class SignalementErpType extends AbstractType
                 'label' => 'Code postal',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le code postal'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner le code postal.'),
                 ],
             ])
             ->add('ville', TextType::class, [
@@ -136,7 +136,7 @@ class SignalementErpType extends AbstractType
                 'label' => 'Ville',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner la ville'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner la ville.'),
                 ],
             ])
             ->add('codeInsee', HiddenType::class, [
@@ -167,7 +167,7 @@ class SignalementErpType extends AbstractType
                 'label' => 'Type d\'établissement',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez selectionner le type d\'établissement'),
+                    new Assert\NotBlank(message: 'Veuillez selectionner le type d\'établissement.'),
                 ],
             ])
             ->add('isPlaceAvertie', ChoiceType::class, [
@@ -185,7 +185,7 @@ class SignalementErpType extends AbstractType
                 'label' => 'Avez-vous prevenu l\'établissement ?',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prevenu l\'établissement ?'),
+                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prevenu l\'établissement.'),
                 ],
             ])
             ->add('autresInformations', TextareaType::class, [
@@ -199,7 +199,7 @@ class SignalementErpType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Autres informations (facultatif)',
-                'help' => 'Ajouter les informations que vous jugez utiles à votre signalement (500 caractères maximum)',
+                'help' => 'Ajouter les informations que vous jugez utiles à votre signalement (500 caractères maximum).',
                 'help_attr' => [
                     'class' => 'fr-hint-text',
                 ],
