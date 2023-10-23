@@ -11,6 +11,7 @@ use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
 use App\Repository\TerritoireRepository;
 use App\Service\Mailer\MailerProvider;
+use App\Service\Signalement\GeolocateService;
 use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\ZipCodeProvider;
 use App\Service\Upload\UploadHandlerService;
@@ -46,6 +47,7 @@ class SignalementController extends AbstractController
         ZipCodeProvider $zipCodeService,
         EntrepriseRepository $entrepriseRepository,
         EventDispatcherInterface $eventDispatcher,
+        GeolocateService $geolocateService,
     ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement, ['validation_groups' => 'front_add_signalement_logement']);
@@ -62,6 +64,10 @@ class SignalementController extends AbstractController
             $filesPosted = $request->files->get('file-upload');
             $filesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
             $signalement->setPhotos($filesToSave);
+
+            if ([] === $signalement->getGeoloc()) {
+                $geolocateService->geolocate($signalement);
+            }
 
             $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
             $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
