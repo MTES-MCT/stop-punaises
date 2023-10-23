@@ -28,5 +28,8 @@
         "datatables.net-dt": "^1.12.1",
         "jquery": "^3.6.1",
         "jquery-ui": "^1.13.2"
+    },
+    "engines": {
+        "node": "18.18.2"
     }
 }
