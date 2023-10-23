@@ -80,5 +80,12 @@ function initSearchAddress() {
 
   $('#adresse_afficher_les_champs button').on('click', function () {
     $('#adresse_detail').toggleClass('fr-hidden');
+    if ($('#adresse_afficher_les_champs button').hasClass('fr-icon-eye-line')) {
+      $('#adresse_afficher_les_champs button').removeClass('fr-icon-eye-line');
+      $('#adresse_afficher_les_champs button').addClass('fr-icon-eye-off-line');
+    } else {
+      $('#adresse_afficher_les_champs button').addClass('fr-icon-eye-line');
+      $('#adresse_afficher_les_champs button').removeClass('fr-icon-eye-off-line');
+    }
   });
 }

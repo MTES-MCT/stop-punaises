@@ -29,9 +29,7 @@ function sendSignalement() {
                 return;
             },
             error: function (xhr) {
-                console.log(xhr.status);
                 if (400 === xhr.status) {
-                    console.log(xhr.responseJSON.error);
                     xhr.responseJSON.error.forEach((element) => {
                        $('[name="' + element + '"]').next().removeClass('fr-hidden');
                        $('[name="' + element + '"]').closest('.fr-input-group').find('.fr-error-text').removeClass('fr-hidden');
