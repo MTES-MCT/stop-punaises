@@ -91,11 +91,11 @@ class SignalementErpType extends AbstractType
             ->add('adresse', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'maxlength' => '100',
                     'readonly' => true,
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '100',
                 ],
                 'label' => 'Adresse',
                 'help' => 'Tapez l\'adresse puis selectionnez-la dans la liste.',
@@ -111,12 +111,12 @@ class SignalementErpType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'pattern' => '[0-9]{5}',
+                    'maxlength' => '5',
+                    'minlength' => '5',
                     'readonly' => true,
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '5',
-                    'minlength' => '5',
                 ],
                 'label' => 'Code postal',
                 'required' => true,
