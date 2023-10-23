@@ -78,21 +78,19 @@ class SignalementController extends AbstractController
                 return $this->json(['response' => 'error', 'errors' => 'code postal null'], Response::HTTP_BAD_REQUEST);
             }
 
-            if (SignalementType::TYPE_LOGEMENT === $signalement->getType()) {
-                if ($signalement->isAutotraitement()) {
-                    if ($signalement->getTerritoire()->isActive()) {
-                        $mailerProvider->sendSignalementValidationWithAutotraitement($signalement);
-                    } else {
-                        $mailerProvider->sendSignalementValidationWithEntreprisesPubliques($signalement);
-                    }
+            if ($signalement->isAutotraitement()) {
+                if ($signalement->getTerritoire()->isActive()) {
+                    $mailerProvider->sendSignalementValidationWithAutotraitement($signalement);
                 } else {
-                    $mailerProvider->sendSignalementValidationWithPro($signalement);
+                    $mailerProvider->sendSignalementValidationWithEntreprisesPubliques($signalement);
+                }
+            } else {
+                $mailerProvider->sendSignalementValidationWithPro($signalement);
 
-                    $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
-                    foreach ($entreprises as $entreprise) {
-                        if ($entreprise->getUser() && $entreprise->getUser()->getEmail()) {
-                            $mailerProvider->sendSignalementNewForPro($entreprise->getUser()->getEmail(), $signalement);
-                        }
+                $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
+                foreach ($entreprises as $entreprise) {
+                    if ($entreprise->getUser() && $entreprise->getUser()->getEmail()) {
+                        $mailerProvider->sendSignalementNewForPro($entreprise->getUser()->getEmail(), $signalement);
                     }
                 }
             }
