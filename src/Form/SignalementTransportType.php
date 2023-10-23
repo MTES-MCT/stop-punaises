@@ -163,7 +163,7 @@ class SignalementTransportType extends AbstractType
                 'label' => 'Avez-vous prévenu la compagnie de transport ?',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prevenu la compagnie de transport.'),
+                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prévenu la compagnie de transport.'),
                 ],
             ])
             ->add('autresInformations', TextareaType::class, [
