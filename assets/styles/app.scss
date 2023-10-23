@@ -1,7 +1,3 @@
-.fr-input[type="date"] {
-    --data-uri-svg: none;
-}
-
 span.niveau-infestation {
     display: inline-block;
     padding: 5px 10px;
@@ -59,6 +55,9 @@ span.statut-infestation {
 }
 .align-justify {
     text-align: justify;
+}
+.align-right {
+    text-align: right;
 }
 
 .add-button-container {
@@ -143,7 +142,8 @@ span.statut-infestation {
     -moz-box-shadow: 0px 12px 8px -8px rgba(0, 0, 0, 0.15);
 }
 
-.search-address {
+.search-address,
+.search-commune {
     #rechercheAdresse {
         padding: .5rem 1.5rem;
     }
@@ -158,6 +158,7 @@ span.statut-infestation {
     }
     #rechercheAdresseListe {
         position: absolute;
+        z-index: 1;
         display: none;
         border: 1px solid;
         background: #FFF;
@@ -266,6 +267,37 @@ span.statut-infestation {
 
     > h2 {
         color: var(--grey-50-1000);
+    }
+}
+
+.signalement-list-intro {
+    h1 {
+        color: var(--blue-france-sun-113-625);
+        span {
+            color: #E2241C;
+        }
+    }
+}
+
+.signalement-list-items {
+    .fr-tile__content {
+        width: 100%;
+        .fr-tile__title {
+            span {
+                color: var(--blue-france-sun-113-625);
+                &::before {
+                    --icon-size: 2.5rem;
+                }
+            }
+        }
+        p.align-right {
+            color: var(--blue-france-sun-113-625);
+            span {
+                &::before {
+                    --icon-size: 2.5rem;
+                }
+            }
+        }
     }
 }
 
@@ -871,32 +903,6 @@ span.image-caption {
         }
     }
 
-    #step-home {
-        h1 {
-            font-size: 40px;
-            font-weight: 800;
-            text-align: center;
-            color: var(--blue-france-sun-113-625);
-        }
-
-        p {
-            text-align: center;
-
-            span.bons-reflexes {
-                font-size: 26px;
-                line-height: 40px;
-                font-weight: 800;
-                color: #E2241C;
-            }
-        }
-        
-        div {
-            img {
-                max-width: 100%;
-            }
-        }
-    }
-
     #step-info_logement {
         a.skip-search-address {
             color: var(--blue-france-sun-113-625);
@@ -914,7 +920,8 @@ span.image-caption {
     }
 }
 
-.suivi-usager {
+.suivi-usager,
+.signalement-punaises {
     .fr-btn {
         width: 100%;
         justify-content: center;
@@ -935,4 +942,19 @@ span.image-caption {
 
 .fr-links-group.display-list-block > li {
     display: block;
+}
+
+.fr-btn.btn-link {
+    background-color: #fff;
+    color: var(--blue-france-sun-113-625);
+    text-decoration: underline
+}
+
+.fr-btn.btn-link:not(:disabled):hover {
+    background-color: white;
+    color: var(--blue-france-sun-113-625-hover);
+}
+.fr-btn.btn-link:not(:disabled):active {
+    background-color: white;
+    color: var(--blue-france-sun-113-625-active);
 }

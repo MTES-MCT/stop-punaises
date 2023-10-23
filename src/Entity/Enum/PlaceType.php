@@ -52,6 +52,26 @@ enum PlaceType: string
         ];
     }
 
+    public static function getTransportTypes(): array
+    {
+        return [
+            self::TYPE_TRANSPORT_BUS,
+            self::TYPE_TRANSPORT_METRO,
+            self::TYPE_TRANSPORT_TRAM,
+            self::TYPE_TRANSPORT_TRAIN,
+            self::TYPE_TRANSPORT_AUTRE,
+        ];
+    }
+
+    public static function getErpTypes(): array
+    {
+        return [
+            self::TYPE_ERP_PUBLIC,
+            self::TYPE_ERP_PRIVE,
+            self::TYPE_ERP_NSP,
+        ];
+    }
+
     public static function fromLabel(string $label): self
     {
         $key = array_search($label, self::getLabelList());

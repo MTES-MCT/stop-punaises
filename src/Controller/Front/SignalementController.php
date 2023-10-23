@@ -12,7 +12,7 @@ use App\Repository\EntrepriseRepository;
 use App\Repository\TerritoireRepository;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\ReferenceGenerator;
-use App\Service\Signalement\ZipCodeService;
+use App\Service\Signalement\ZipCodeProvider;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -22,8 +22,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementController extends AbstractController
 {
-    #[Route('/signalement', name: 'app_front_signalement')]
-    public function signalement(Request $request): Response
+    #[Route('/signalement/logement', name: 'app_front_signalement_logement')]
+    public function signalementLogement(Request $request): Response
     {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
@@ -43,7 +43,7 @@ class SignalementController extends AbstractController
         UploadHandlerService $uploadHandlerService,
         TerritoireRepository $territoireRepository,
         MailerProvider $mailerProvider,
-        ZipCodeService $zipCodeService,
+        ZipCodeProvider $zipCodeService,
         EntrepriseRepository $entrepriseRepository,
         EventDispatcherInterface $eventDispatcher,
     ): Response {

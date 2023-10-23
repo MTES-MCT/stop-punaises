@@ -2,12 +2,8 @@
 
 namespace App\Service\Signalement;
 
-class ZipCodeService
+class ZipCodeProvider
 {
-    public function __construct()
-    {
-    }
-
     public function getByCodePostal($codePostal): string
     {
         $zipCode = substr($codePostal, 0, 2);

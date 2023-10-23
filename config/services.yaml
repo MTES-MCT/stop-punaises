@@ -12,6 +12,7 @@ parameters:
     url_bucket: '%env(resolve:S3_URL_BUCKET)%'
     doc_autotraitement: 'pdf/stop-punaises-protocole-auto-traitement.pdf'
     doc_domicile: 'pdf/stop-punaises-preparer-son-domicile.pdf'
+    doc_conseil: 'pdf/stop-punaises-eviter-punaises-de-lit.pdf'
     admin_email: '%env(resolve:CONTACT_EMAIL)%'
     inconnu_email: '%env(resolve:INCONNU_EMAIL)%'
 

@@ -204,6 +204,9 @@ class Signalement
     #[ORM\Column(type: 'string', enumType: PlaceType::class, nullable: true)]
     private ?PlaceType $placeType = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $transportLineNumber = null;
+
     #[ORM\Column(nullable: true)]
     private ?bool $isPlaceAvertie = null;
 
@@ -1001,6 +1004,18 @@ class Signalement
     public function setEmailDeclarant(?string $emailDeclarant): self
     {
         $this->emailDeclarant = $emailDeclarant;
+
+        return $this;
+    }
+
+    public function getTransportLineNumber(): ?string
+    {
+        return $this->transportLineNumber;
+    }
+
+    public function setTransportLineNumber(?string $transportLineNumber): self
+    {
+        $this->transportLineNumber = $transportLineNumber;
 
         return $this;
     }

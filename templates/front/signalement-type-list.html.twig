@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Stop punaises - Signaler un problème de punaises de lit{% endblock %}
+
+{% block body %}
+
+    <section class="fr-container fr-mt-3w fr-mt-md-6w signalement-list-intro">
+        <a href="{{ path('home') }}" class="fr-link fr-link--icon-left fr-icon-arrow-left-s-line">Retour</a>
+
+        <h1 class="fr-mt-5w">Signaler un problème de <span>punaises de lit</span> : dans quel lieu ?</h1>
+    </section>
+
+    <section class="fr-container fr-my-3w fr-my-md-6w signalement-list-items">
+        <div class=" fr-grid-row fr-grid-row--gutters">
+            <div class="fr-col-12 fr-col-md-4 fr-mt-5w fr-mt-md-3v">
+            <div class="fr-tile fr-tile--sm fr-tile--horizontal fr-enlarge-link" id="tile-logement">
+                <div class="fr-tile__body">
+                    <div class="fr-tile__content">
+                        <h3 class="fr-tile__title fr-h6">
+                            <span class="fr-icon-home-4-line" aria-hidden="true"></span>
+                            <a href="{{ path('app_front_signalement_logement') }}">Dans mon logement</a>
+                        </h3>
+                        <p class="fr-tile__detail">Stop Punaises vous accompagne pour trouver une solution</p>
+                        <p class="align-right"><span class="fr-icon-arrow-right-line" aria-hidden="true"></span></p>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="fr-col-12 fr-col-md-4 fr-mt-5w fr-mt-md-3v">
+            <div class="fr-tile fr-tile--sm fr-tile--horizontal fr-enlarge-link" id="tile-logement">
+                <div class="fr-tile__body">
+                    <div class="fr-tile__content">
+                        <h3 class="fr-tile__title fr-h6">
+                            <span class="fr-icon-bus-line" aria-hidden="true"></span>
+                            <a href="{{ path('app_signalement_transport') }}">Dans les transports</a>
+                        </h3>
+                        <p class="fr-tile__detail">Métro, tramways, train... Signaler un problème dans les transports</p>
+                        <p class="align-right"><span class="fr-icon-arrow-right-line" aria-hidden="true"></span></p>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="fr-col-12 fr-col-md-4 fr-mt-5w fr-mt-md-3v">
+            <div class="fr-tile fr-tile--sm fr-tile--horizontal fr-enlarge-link" id="tile-logement">
+                <div class="fr-tile__body">
+                    <div class="fr-tile__content">
+                        <h3 class="fr-tile__title fr-h6">
+                            <span class="fr-icon-hotel-line" aria-hidden="true"></span>
+                            <a href="{{ path('app_signalement_erp') }}">Dans un lieu public</a>
+                        </h3>
+                        <p class="fr-tile__detail">Signaler un problème dans un hôtel, restaurant, école, administration...</p>
+                        <p class="align-right"><span class="fr-icon-arrow-right-line" aria-hidden="true"></span></p>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -86,6 +86,9 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
         if (!empty($row['place_type'])) {
             $signalement->setPlaceType(PlaceType::from($row['place_type']));
         }
+        if (!empty($row['transport_line_number'])) {
+            $signalement->setTransportLineNumber($row['transport_line_number']);
+        }
         if (isset($row['is_place_averti'])) {
             $signalement->setIsPlaceAvertie(1 == $row['is_place_averti']);
         }

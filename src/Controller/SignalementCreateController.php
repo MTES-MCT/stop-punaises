@@ -10,7 +10,7 @@ use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
 use App\Repository\TerritoireRepository;
 use App\Service\Signalement\ReferenceGenerator;
-use App\Service\Signalement\ZipCodeService;
+use App\Service\Signalement\ZipCodeProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ class SignalementCreateController extends AbstractController
         Request $request,
         SignalementManager $signalementManager,
         TerritoireRepository $territoireRepository,
-        ZipCodeService $zipCodeService,
+        ZipCodeProvider $zipCodeService,
         ReferenceGenerator $referenceGenerator
     ): Response {
         $signalement = new Signalement();
