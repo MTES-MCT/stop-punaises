@@ -71,7 +71,7 @@ class SignalementTransportType extends AbstractType
                 'label' => 'Heure',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner la l\'heure'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner l\'heure'),
                 ],
             ])
             ->add('ville', TextType::class, [
@@ -82,8 +82,8 @@ class SignalementTransportType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => 'Commmune',
-                'help' => 'Indiquez le nom de la commune ou vous avez pris les transports. Pour les voyages en train, renseignez la commune de départ.',
+                'label' => 'Commune',
+                'help' => 'Indiquez le nom de la commune où vous avez pris les transports. Pour les voyages en train, renseignez la commune de départ.',
                 'help_attr' => [
                     'class' => 'fr-hint-text',
                 ],
@@ -126,7 +126,7 @@ class SignalementTransportType extends AbstractType
                 'label' => 'Type de transport',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner la type de transport'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner le type de transport'),
                 ],
             ])
             ->add('transportLineNumber', TextType::class, [
@@ -160,10 +160,10 @@ class SignalementTransportType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => 'Avez-vous prevenu la compagnie de transport ?',
+                'label' => 'Avez-vous prévenu la compagnie de transport ?',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prevenu la compagnie de transport ?'),
+                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prevenu la compagnie de transport'),
                 ],
             ])
             ->add('autresInformations', TextareaType::class, [

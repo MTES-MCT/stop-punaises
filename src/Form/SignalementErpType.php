@@ -71,7 +71,7 @@ class SignalementErpType extends AbstractType
                 'label' => 'Heure',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner la l\'heure'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner l\'heure'),
                 ],
             ])
             ->add('nomProprietaire', TextType::class, [
@@ -182,10 +182,10 @@ class SignalementErpType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => 'Avez-vous prevenu la compagnie de transport ?',
+                'label' => 'Avez-vous prevenu l\'établissement ?',
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prevenu la compagnie de transport ?'),
+                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prevenu l\'établissement ?'),
                 ],
             ])
             ->add('autresInformations', TextareaType::class, [
