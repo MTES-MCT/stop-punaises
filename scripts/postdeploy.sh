@@ -13,7 +13,7 @@ else
     composer dump-env dev && php bin/console -e dev doctrine:fixtures:load --no-interaction
     echo "Load entreprises publiques"
     php bin/console app:import-entreprise-publique --no-interaction
-    php bin/console app:import-entreprise-publique-detection-canine--no-interaction
+    php bin/console app:import-entreprise-publique-detection-canine --no-interaction
     echo "Optimize Composer Autoloader with dev dependencies"
     composer dump-autoload --classmap-authoritative
 fi
