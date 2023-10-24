@@ -34,6 +34,9 @@ function sendSignalement() {
                     xhr.responseJSON.error.forEach((element) => {
                        $('[name="' + element + '"]').next().removeClass('fr-hidden');
                        $('[name="' + element + '"]').closest('.fr-input-group').find('.fr-error-text').removeClass('fr-hidden');
+                       if (element.indexOf('adresse') > 0) {
+                           $('#rechercheAdresse').next().removeClass('fr-hidden');
+                       }
                     });
                 }
             },
