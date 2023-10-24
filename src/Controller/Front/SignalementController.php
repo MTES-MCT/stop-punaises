@@ -36,7 +36,7 @@ class SignalementController extends AbstractController
         ]);
     }
 
-    #[Route('/signalement/ajout', name: 'app_front_signalement_add', methods: ['POST'])]
+    #[Route('/signalement/logement/ajout', name: 'app_front_signalement_add', methods: ['POST'])]
     public function save(
         Request $request,
         SignalementManager $signalementManager,
