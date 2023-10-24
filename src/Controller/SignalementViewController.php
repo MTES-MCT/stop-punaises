@@ -43,7 +43,7 @@ class SignalementViewController extends AbstractController
     public function indexSignalement(
         Signalement $signalement,
         InterventionRepository $interventionRepository,
-        ): Response {
+    ): Response {
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
         }
@@ -112,13 +112,22 @@ class SignalementViewController extends AbstractController
         Signalement $signalement,
         InterventionManager $interventionManager,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+        InterventionRepository $interventionRepository,
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_accept', $request->get('_csrf_token'))) {
-            $intervention = new Intervention();
-            $intervention->setSignalement($signalement);
             /** @var User $user */
             $user = $this->getUser();
-            $intervention->setEntreprise($user->getEntreprise());
+            $intervention = null;
+            $intervention = $interventionRepository->findBySignalementAndEntreprise(
+                $signalement,
+                $user->getEntreprise()
+            );
+
+            if (null === $intervention) {
+                $intervention = new Intervention();
+                $intervention->setSignalement($signalement);
+                $intervention->setEntreprise($user->getEntreprise());
+            }
             $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
             $intervention->setAccepted(true);
             $interventionManager->save($intervention);
@@ -145,7 +154,7 @@ class SignalementViewController extends AbstractController
         EntrepriseManager $entrepriseManager,
         ValidatorInterface $validator,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
             $intervention->setSignalement($signalement);
@@ -200,7 +209,7 @@ class SignalementViewController extends AbstractController
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_estimation_send', $request->get('_csrf_token'))) {
             $montant = $request->get('montant');
             if (empty($montant) || !is_numeric($montant)) {
@@ -241,7 +250,7 @@ class SignalementViewController extends AbstractController
         SignalementManager $signalementManager,
         EventDispatcherInterface $eventDispatcher,
         MailerProvider $mailerProvider,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_admin_stop', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'La procédure est terminée !');
             $signalement->setClosedAt(new \DateTimeImmutable());
@@ -267,7 +276,7 @@ class SignalementViewController extends AbstractController
         Intervention $intervention,
         InterventionManager $interventionManager,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('intervention_stop', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
 
@@ -344,7 +353,7 @@ class SignalementViewController extends AbstractController
         Request $request,
         UploadHandlerService $uploadHandlerService,
         SignalementManager $signalementManager,
-        ): Response {
+    ): Response {
         $filesPosted = $request->files->get('file-upload');
         $filesToSave = $signalement->getPhotos();
         if (null == $filesToSave) {
@@ -364,8 +373,8 @@ class SignalementViewController extends AbstractController
         string $filename,
         Request $request,
         SignalementManager $signalementManager,
-        FilesystemOperator $fileStorage): Response
-    {
+        FilesystemOperator $fileStorage
+    ): Response {
         $this->denyAccessUnlessGranted('FILE_DELETE', $signalement);
         if ($this->isCsrfTokenValid('signalement_delete_file_'.$signalement->getId(), $request->get('_csrf_token'))) {
             $filesToSave = $signalement->getPhotos();
