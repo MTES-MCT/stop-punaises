@@ -41,13 +41,8 @@ class EntreprisePubliqueImportLoader
         foreach ($data as $item) {
             $dataMapped = $this->entreprisePubliqueImportMapper->map($headers, $item);
             if (!empty($dataMapped)) {
-                if ($isDetectionCanine) {
-                    $dataMapped['detection_canine'] = true;
-                    $dataMapped['intervention'] = false;
-                } else {
-                    $dataMapped['detection_canine'] = false;
-                    $dataMapped['intervention'] = true;
-                }
+                $dataMapped['detection_canine'] = $isDetectionCanine;
+                $dataMapped['intervention'] = !$isDetectionCanine;
 
                 if (null !== $dataMapped['zips']) {
                     $zips = explode('|', $dataMapped['zips']);
