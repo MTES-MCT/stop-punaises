@@ -23,7 +23,7 @@ enum PlaceType: string
         return [
             'TYPE_ERP_PUBLIC' => 'Public',
             'TYPE_ERP_PRIVE' => 'Privé',
-            'TYPE_ERP_NSP' => 'Ne sait pas',
+            'TYPE_ERP_NSP' => 'Je ne sais pas',
             'TYPE_TRANSPORT_BUS' => 'Bus',
             'TYPE_TRANSPORT_METRO' => 'Metro',
             'TYPE_TRANSPORT_TRAM' => 'Tram',
