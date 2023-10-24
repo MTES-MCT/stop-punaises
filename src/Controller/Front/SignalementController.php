@@ -36,7 +36,7 @@ class SignalementController extends AbstractController
         ]);
     }
 
-    #[Route('/signalement/ajout', name: 'app_front_signalement_add', methods: ['POST'])]
+    #[Route('/signalement/logement/ajout', name: 'app_front_signalement_add', methods: ['POST'])]
     public function save(
         Request $request,
         SignalementManager $signalementManager,
@@ -68,12 +68,15 @@ class SignalementController extends AbstractController
             if ([] === $signalement->getGeoloc()) {
                 $geolocateService->geolocate($signalement);
             }
+            if (null !== $signalement->getCodePostal()) {
+                $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
+                $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
+                $signalement->setTerritoire($territoire);
 
-            $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
-            $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
-            $signalement->setTerritoire($territoire);
-
-            $signalementManager->save($signalement);
+                $signalementManager->save($signalement);
+            } else {
+                return $this->json(['response' => 'error', 'errors' => 'code postal null'], Response::HTTP_BAD_REQUEST);
+            }
 
             if ($signalement->isAutotraitement()) {
                 if ($signalement->getTerritoire()->isActive()) {
