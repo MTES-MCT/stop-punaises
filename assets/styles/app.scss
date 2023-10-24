@@ -961,6 +961,15 @@ span.image-caption {
         top: -2.5rem;
         width: 100%;
     }
+
+    #adresse_afficher_les_champs {
+        margin-top: -2rem;
+        margin-bottom: 1rem;
+        button {
+            width: fit-content;
+            padding: 0 0.2rem;
+        }
+    }
 }
 
 .fr-background--white {
