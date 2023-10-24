@@ -581,12 +581,12 @@ class Signalement
         return $this;
     }
 
-    public function getSuperficie(): ?string
+    public function getSuperficie(): ?int
     {
         return $this->superficie;
     }
 
-    public function setSuperficie(string $superficie): self
+    public function setSuperficie(int $superficie): self
     {
         $this->superficie = $superficie;
 

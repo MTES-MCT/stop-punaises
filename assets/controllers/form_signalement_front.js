@@ -186,6 +186,29 @@ class PunaisesFrontSignalementController {
     return true;
   }
 
+  checkValidSuperficieInput(idInput) {
+    $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
+    $('input#' + idInput).siblings('.fr-error-text').text('Veuillez renseigner la superficie de votre logement.');
+
+    if ($('input#' + idInput).val() == '') {
+      $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      return false;
+    }
+    let intVal = parseInt($('input#' + idInput).val() );
+    if (isNaN(intVal)) {
+      $('input#' + idInput).siblings('.fr-error-text').text('La superficie n\'est pas au bon format.');
+      $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      return false;
+    }
+    if (intVal > 30000) {
+      $('input#' + idInput).siblings('.fr-error-text').text('La superficie doit être inférieure à 30000 m².');
+      $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      return false;
+    }
+    $('input#' + idInput).val(intVal);
+    return true;
+  }  
+
   checkChoicesInput(idInput, count) {
     $('div#signalement_front_' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
 
@@ -277,7 +300,8 @@ class PunaisesFrontSignalementController {
     if (!self.checkChoicesInput('typeLogement', 3)) {
       canGoNext = false;
     }
-    if (!self.checkSingleInput('signalement_front_superficie')) {
+
+    if (!self.checkValidSuperficieInput('signalement_front_superficie')) {
       canGoNext = false;
     }
     
