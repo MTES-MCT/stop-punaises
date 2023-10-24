@@ -52,7 +52,6 @@ function sendSignalement() {
 
 function handleFileUpload() {
     $('#file-upload').on('change', function(event) {
-        $('.fr-front-signalement-photos').empty();
         $('.fr-upload-group').next().addClass('fr-hidden');
 
         for (let i = 0; i < event.target.files.length; i++) {
