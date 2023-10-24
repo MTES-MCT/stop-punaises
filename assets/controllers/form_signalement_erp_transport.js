@@ -1,8 +1,9 @@
 import $ from 'jquery';
 
+let filesUploaded = [];
+
 $(function () {
     if ($('div.signalement-punaises').length > 0) {
-        var filesUploaded = [];
         $('.signalement-punaises-success').hide();
         sendSignalement();
         handleFileUpload();
@@ -14,7 +15,6 @@ $(function () {
 function sendSignalement() {
     const form = $('.signalement-punaises form');
     form.on('submit', function (event) {
-        console.log(event.target);
         event.preventDefault();
         $('.fr-error-text').addClass('fr-hidden');
         $('.signalement-punaises form [type=submit]').attr('disabled', true);
@@ -59,8 +59,6 @@ function handleFileUpload() {
 
         for (let i = 0; i < event.target.files.length; i++) {
             if (event.target.files[i].size < 10 * 1024 * 1024) {
-                //filesUploaded.push(event.target.files[i]);
-                // console.log(filesUploaded);
                 let filename = event.target.files[i].name;
                 let imgSrc = URL.createObjectURL(event.target.files[i]);
                 let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
@@ -68,6 +66,7 @@ function handleFileUpload() {
                 strAppend += '<br><br><button type="button" data-filename="' + filename  +'" class="fr-link fr-icon-close-circle-line fr-link--icon-left link--error file-uploaded"> Supprimer </button>';
                 strAppend += '</div>';
                 $('.fr-front-signalement-photos').append(strAppend);
+                filesUploaded.push(event.target.files[i]);
             } else {
                 $('.fr-upload-group').next().removeClass('fr-hidden');
                 break;
@@ -78,8 +77,11 @@ function handleFileUpload() {
 
 function deleteFileUploaded() {
     $('.fr-front-signalement-photos').on('click', '.file-uploaded', function(event) {
-       console.log(event.target);
-       console.log($('#file-upload').val());
+        const fileToDelete = event.target.getAttribute("data-filename");
+        filesUploaded = filesUploaded.filter(function (fileUploaded) {
+            return fileUploaded.name !== fileToDelete;
+        });
+        event.target.closest('div').remove();
     });
 }
 
