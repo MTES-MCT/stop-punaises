@@ -5,6 +5,7 @@ $(function () {
         $('.signalement-punaises-success').hide();
         sendSignalement();
         handleFileUpload();
+        handleBehaviourRadio();
     }
 });
 
@@ -46,12 +47,32 @@ function sendSignalement() {
 function handleFileUpload() {
     $('#file-upload').on('change', function(event) {
         $('.fr-front-signalement-photos').empty();
+        $('.fr-upload-group').next().addClass('fr-hidden');
+
         for (let i = 0; i < event.target.files.length; i++) {
-            let imgSrc = URL.createObjectURL(event.target.files[i]);
-            let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
-            strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
-            strAppend += '</div>';
-            $('.fr-front-signalement-photos').append(strAppend);
+            console.log(event.target.files[i], event.target.files[i] < 10 * 1024 * 1024);
+            if (event.target.files[i].size < 10 * 1024 * 1024) {
+                let imgSrc = URL.createObjectURL(event.target.files[i]);
+                let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
+                strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
+                strAppend += '</div>';
+                $('.fr-front-signalement-photos').append(strAppend);
+            } else {
+                console.log($('.fr-upload-group'));
+                $('.fr-upload-group').next().removeClass('fr-hidden');
+                break;
+            }
         }
     });
+}
+
+function handleBehaviourRadio() {
+    $('input[type=radio]').on('click', function(event) {
+        if (event.target.checked) {
+            $(this).parent().siblings().removeClass('is-checked');
+            $(this).parent().addClass('is-checked');
+        } else {
+            $(this).parent().removeClass('is-checked');
+        }
+    })
 }
