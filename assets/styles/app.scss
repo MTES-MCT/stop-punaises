@@ -1,3 +1,7 @@
+.fr-input[type="date"] {
+    --data-uri-svg: none;
+}
+
 input[type="time"]::-webkit-calendar-picker-indicator {
     background: none;
 }
@@ -960,6 +964,19 @@ span.image-caption {
         position: relative;
         top: -2.5rem;
         width: 100%;
+    }
+
+    #adresse_afficher_les_champs {
+        margin-top: -2rem;
+        margin-bottom: 1rem;
+        button {
+            width: fit-content;
+            padding: 0 0.2rem;
+        }
+    }
+
+    .link--error {
+        color: var(--text-default-error);
     }
 }
 
