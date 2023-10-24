@@ -1,3 +1,7 @@
+location ~* ^/_up/.*\.(jpg|jpeg|png)$ {
+    try_files $uri /index.php$is_args$args;
+}
+
 location ~* \.(css|js|jpg|jpeg|png|svg|webp|mp4|ico|woff2|woff|eot|ttf) {
     # Cache for 1 year.
     # Caching JS and CSS is safe too, as Symfony includes hashes in build filenames.

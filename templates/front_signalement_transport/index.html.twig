@@ -32,7 +32,9 @@
                 <div class="fr-form-group display-if-diagnostic display-if-traitement">
                     <div class="fr-input-group">
                         {{ form_label(form.punaisesViewedTimeAt) }}
-                        {{ form_widget(form.punaisesViewedTimeAt) }}
+                        <div class="fr-input-wrap fr-icon-timer-line">
+                            {{ form_widget(form.punaisesViewedTimeAt) }}
+                        </div>
                         <p class="fr-error-text fr-hidden">
                             Veuillez renseigner l'heure.
                         </p>
@@ -43,7 +45,9 @@
                     <div class="fr-select-group search-commune">
                         {{ form_label(form.ville) }}
                         {{ form_help(form.ville) }}
-                        {{ form_widget(form.ville) }}
+                        <div class="fr-input-wrap fr-icon-map-pin-2-line">
+                            {{ form_widget(form.ville) }}
+                        </div>
                         <p class="fr-error-text fr-hidden">
                             Veuillez renseigner la commune.
                         </p>
@@ -95,8 +99,10 @@
                         <label class="fr-label" for="file-upload">Photos (facultatif)</label>
                         <p>Vous avez pris des photos des punaises ? Ajoutez-les en cliquant sur le bouton
                             ci-dessous.</p>
+                        <label class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-add-line" for="file-upload">Ajouter
+                            des photos</label>
                         <input
-                                class="fr-upload"
+                                class="fr-upload custom-file-input"
                                 type="file"
                                 id="file-upload"
                                 name="file-upload[]"
@@ -104,6 +110,9 @@
                                 accept=".jpg, .jpeg, .png"
                         >
                     </div>
+                    <p class="fr-error-text fr-hidden">
+                        Merci d'ajouter une photo de moins de 10Mo.
+                    </p>
                     <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
                     </div>
                 </div>

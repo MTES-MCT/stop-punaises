@@ -31,7 +31,9 @@
                 <div class="fr-form-group display-if-diagnostic display-if-traitement">
                     <div class="fr-input-group">
                         {{ form_label(form.punaisesViewedTimeAt) }}
-                        {{ form_widget(form.punaisesViewedTimeAt) }}
+                        <div class="fr-input-wrap fr-icon-timer-line">
+                            {{ form_widget(form.punaisesViewedTimeAt) }}
+                        </div>
                         <p class="fr-error-text fr-hidden">
                             Veuillez renseigner l'heure.
                         </p>
@@ -51,16 +53,14 @@
                     <div class="fr-input-group search-address">
                         <label for="">Adresse de l'établissement</label>
                         <span class="fr-hint-text help-text">Tapez l'adresse puis selectionnez-la dans la liste</span>
-                        <input id="rechercheAdresse" type="text" class="fr-input">
-                        <div id="rechercheAdresseIcon">
-                            <span class="fr-icon-map-pin-2-line" aria-hidden="true"></span>
-                            <span class="fr-icon-timer-line" aria-hidden="true"></span>
+                        <div class="fr-input-wrap fr-icon-map-pin-2-line">
+                            <input id="rechercheAdresse" type="text" class="fr-input">
                         </div>
                         <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
                         </div>
                     </div>
                 </div>
-                <div id="adresse_afficher_les_champs" style="margin-top: -3rem">
+                <div id="adresse_afficher_les_champs">
                     <button type="button" class="fr-btn btn-link fr-btn--icon-left fr-icon-eye-line">
                         Afficher tous les champs
                     </button>
@@ -136,7 +136,8 @@
                         <label class="fr-label" for="file-upload">Photos (facultatif)</label>
                         <p>Vous avez pris des photos des punaises ? Ajoutez-les en cliquant sur le bouton
                             ci-dessous.</p>
-                        <input class="fr-upload"
+                        <label class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-add-line" for="file-upload">Ajouter des photos</label>
+                        <input class="fr-upload custom-file-input"
                                type="file"
                                id="file-upload"
                                name="file-upload[]"
@@ -144,6 +145,9 @@
                                accept=".jpg, .jpeg, .png"
                         >
                     </div>
+                    <p class="fr-error-text fr-hidden">
+                        Merci d'ajouter une photo de moins de 10Mo.
+                    </p>
                     <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
                     </div>
                 </div>
@@ -189,7 +193,7 @@
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('save_signalement_erp') }}">
                 <div class="fr-input-group">
-                    <button type="submit" class="fr-btn btn-next-next">
+                    <button type="submit" class="fr-btn btn-next fr-btn--icon-left fr-icon-check-line">
                         Signaler mon problème
                     </button>
                 </div>
