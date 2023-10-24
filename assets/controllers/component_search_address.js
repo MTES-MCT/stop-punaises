@@ -39,6 +39,7 @@ function initSearchAddress() {
             let adresseGeolocLat = feature.geometry.coordinates[1];
             let adresseGeolocLng = feature.geometry.coordinates[0];
             let elementData = '';
+            elementData += ' data-label="'+adresseLabel+'"';
             elementData += ' data-name="'+adresseName+'"';
             elementData += ' data-postcode="'+adressePostCode+'"';
             elementData += ' data-city="'+adresseCity+'"';
@@ -52,6 +53,7 @@ function initSearchAddress() {
 
             $('#rechercheAdresseListe div').on('click', function() {
               let formPrefix = ($('#signalement_history_adresse').length > 0) ? 'signalement_history' : 'signalement_front';
+              $('#rechercheAdresse').val($(this).data('label'));
               $('#' + formPrefix + '_adresse').val($(this).data('name'));
               $('#' + formPrefix + '_codePostal').val($(this).data('postcode'));
               $('#' + formPrefix + '_ville').val($(this).data('city'));
