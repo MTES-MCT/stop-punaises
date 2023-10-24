@@ -974,6 +974,10 @@ span.image-caption {
             padding: 0 0.2rem;
         }
     }
+
+    .link--error {
+        color: var(--text-default-error);
+    }
 }
 
 .fr-background--white {
