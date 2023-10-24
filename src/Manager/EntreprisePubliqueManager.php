@@ -35,11 +35,31 @@ class EntreprisePubliqueManager extends AbstractManager
 
     public function update(EntreprisePublique $entreprisePublique, array $data): EntreprisePublique
     {
-        return $entreprisePublique
-            ->setNom($data['nom'])
-            ->setAdresse($data['adresse'])
-            ->setUrl($data['url'])
-            ->setTelephone($data['telephone'])
-            ->setZip($data['zip']);
+        if (null !== $data['nom']) {
+            $entreprisePublique->setNom($data['nom']);
+        }
+        if (null !== $data['adresse']) {
+            $entreprisePublique->setAdresse($data['adresse']);
+        }
+        if (null !== $data['url']) {
+            $entreprisePublique->setUrl($data['url']);
+        }
+        if (null !== $data['telephone']) {
+            $entreprisePublique->setTelephone($data['telephone']);
+        }
+        if (null !== $data['zip']) {
+            $entreprisePublique->setZip($data['zip']);
+        }
+        if (null !== $data['detection_canine']) {
+            $entreprisePublique->setIsDetectionCanine($data['detection_canine']);
+        }
+        if (null !== $data['intervention']) {
+            $entreprisePublique->setIsIntervention($data['intervention']);
+        }
+        if (null !== $data['is_pro_only']) {
+            $entreprisePublique->setIsProOnly($data['is_pro_only']);
+        }
+
+        return $entreprisePublique;
     }
 }

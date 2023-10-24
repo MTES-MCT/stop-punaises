@@ -13,6 +13,9 @@ class EntreprisePubliqueFactory
         ->setAdresse($data['adresse'])
         ->setUrl($data['url'])
         ->setTelephone($data['telephone'])
-        ->setZip($data['zip']);
+        ->setZip($data['zip'])
+        ->setIsDetectionCanine($data['detection_canine'])
+        ->setIsIntervention($data['intervention'])
+        ->setIsProOnly($data['is_pro_only']);
     }
 }
