@@ -50,7 +50,6 @@ function handleFileUpload() {
         $('.fr-upload-group').next().addClass('fr-hidden');
 
         for (let i = 0; i < event.target.files.length; i++) {
-            console.log(event.target.files[i], event.target.files[i] < 10 * 1024 * 1024);
             if (event.target.files[i].size < 10 * 1024 * 1024) {
                 let imgSrc = URL.createObjectURL(event.target.files[i]);
                 let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
@@ -58,7 +57,6 @@ function handleFileUpload() {
                 strAppend += '</div>';
                 $('.fr-front-signalement-photos').append(strAppend);
             } else {
-                console.log($('.fr-upload-group'));
                 $('.fr-upload-group').next().removeClass('fr-hidden');
                 break;
             }
