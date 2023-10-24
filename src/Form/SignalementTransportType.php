@@ -138,7 +138,7 @@ class SignalementTransportType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Numéro de ligne',
-                'help' => 'Pour les voyages en train, renseignez le numéro du train.',
+                'help' => 'Pour les voyages en train, bus, metro, tram, renseignez le numéro du train ou de ligne.',
                 'help_attr' => [
                     'class' => 'fr-hint-text',
                 ],
