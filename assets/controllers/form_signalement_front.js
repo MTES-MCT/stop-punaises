@@ -186,6 +186,11 @@ class PunaisesFrontSignalementController {
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
       return false;
     }
+    if (intVal > 30000) {
+      $('input#' + idInput).siblings('.fr-error-text').text('La superficie doit être inférieure à 30000 m².');
+      $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      return false;
+    }
     $('input#' + idInput).val(intVal);
     return true;
   }  
