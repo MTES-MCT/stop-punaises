@@ -31,7 +31,10 @@ function sendSignalement() {
             },
             error: function (xhr) {
                 if (400 === xhr.status) {
-                    xhr.responseJSON.error.forEach((element) => {
+                    xhr.responseJSON.error.forEach((element, index) => {
+                       if (index === 0) { // focus on first error
+                           $('[name="' + element + '"]')[0].focus();
+                       }
                        $('[name="' + element + '"]').next().removeClass('fr-hidden');
                        $('[name="' + element + '"]').closest('.fr-input-group').find('.fr-error-text').removeClass('fr-hidden');
                        if (element.indexOf('adresse') > 0) {
