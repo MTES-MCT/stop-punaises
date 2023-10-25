@@ -20,6 +20,14 @@ function sendSignalement() {
         $('.signalement-punaises form [type=submit]').attr('disabled', true);
         const formElement = form[0];
         const formData = new FormData(formElement);
+
+        let index = 0;
+        formData.delete('file-upload[]');
+        for (const fileInput of filesUploaded) { // make sure all files will be submitted (upload one by one or multiple)
+            formData.append('file-upload[]', fileInput);
+            index++;
+        }
+
         $.ajax({
             type: 'POST',
             url: form.attr('action'),
@@ -39,7 +47,7 @@ function sendSignalement() {
                            $('[name="' + element + '"]')[0].focus();
                        }
                        $('[name="' + element + '"]').next().removeClass('fr-hidden');
-                       $('[name="' + element + '"]').closest('.fr-input-group').find('.fr-error-text').removeClass('fr-hidden');
+                       $('[name="' + element + '"]').closest('.fr-input-group, .fr-select-group').find('.fr-error-text').removeClass('fr-hidden');
                        if (element.indexOf('adresse') > 0) {
                            $('#rechercheAdresse').next().removeClass('fr-hidden');
                        }
