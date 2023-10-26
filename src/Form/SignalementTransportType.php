@@ -52,7 +52,7 @@ class SignalementTransportType extends AbstractType
                 ],
                 'label' => 'Date',
                 'required' => true,
-                'invalid_message' => 'La date que vous avez saisie est invalide. Assurez-vous de respecter le format de date correct.',
+                'invalid_message' => 'La date que vous avez saisie a un format de date incorrect.',
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner la date.'),
                     new Assert\LessThan(
