@@ -50,7 +50,7 @@ class SignalementTransportController extends AbstractController
         $errorMessage = [];
         /** @var FormError $error */
         foreach ($form->getErrors(true) as $error) {
-            $errorMessage[] = 'signalement_transport['.$error->getOrigin()->getName().']';
+            $errorMessage['signalement_transport['.$error->getOrigin()->getName().']'] = $error->getMessage();
         }
 
         return $this->json(['error' => $errorMessage], Response::HTTP_BAD_REQUEST);
