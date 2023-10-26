@@ -50,6 +50,7 @@ function sendSignalement() {
                        $('[name="' + element + '"]').closest('.fr-input-group, .fr-select-group').find('.fr-error-text').removeClass('fr-hidden');
                        if (element.indexOf('adresse') > 0) {
                            $('#rechercheAdresse').next().removeClass('fr-hidden');
+                           $('#rechercheAdresse')[0].focus();
                        }
                     });
                 }
