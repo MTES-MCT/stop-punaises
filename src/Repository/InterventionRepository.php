@@ -50,7 +50,9 @@ class InterventionRepository extends ServiceEntityRepository
             ->where('i.signalement = :signalement')
                 ->setParameter('signalement', $signalement)
             ->andWhere('i.entreprise = :entreprise')
-                ->setParameter('entreprise', $entreprise);
+                ->setParameter('entreprise', $entreprise)
+            ->orderBy('i.id')
+            ->setMaxResults(1);
 
         return $qb->getQuery()->getOneOrNullResult();
     }
