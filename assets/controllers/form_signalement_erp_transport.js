@@ -47,26 +47,31 @@ function sendSignalement() {
                     let index = 0;
                     for (let element in errors) {
                         if (errors.hasOwnProperty(element)) {
-                            if (index === 0) { // focus on first error
-                                $('[name="' + element + '"]')[0].focus();
+                            const elementField = $('[name="' + element + '"]');
+                            if (index === 0) {
+                                if (element.indexOf('adresse') === -1) {
+                                    elementField[0].focus(); // Focus on the first error
+                                } else if (element.indexOf('adresse') > 0) {
+                                    $('#rechercheAdresse')[0].focus();
+                                }
                             }
-                            $('[name="' + element + '"]')
+
+                            elementField
                                 .closest('.fr-input-group, .fr-select-group')
                                 .find('.fr-error-text')
                                 .text(errors[element]);
 
-                            $('[name="' + element + '"]')
+                            elementField
                                 .closest('.fr-input-group, .fr-select-group')
                                 .find('.fr-error-text')
                                 .removeClass('fr-hidden');
 
-                            $('[name="' + element + '"]')
+                            elementField
                                 .next()
                                 .removeClass('fr-hidden');
 
                             if (element.indexOf('adresse') > 0) {
                                 $('#rechercheAdresse').next().removeClass('fr-hidden');
-                                $('#rechercheAdresse')[0].focus();
                             }
                         }
                         index++;
