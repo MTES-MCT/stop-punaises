@@ -97,7 +97,7 @@ create-db-test: ## Create test database
 
 
 test: ## Run all tests
-	@$(DOCKER_COMP) exec stopunaises_phpfpm sh -c "$(PHPUNIT) --stop-on-failure --testdox -d memory_limit=-1"
+	@$(DOCKER_COMP) exec stopunaises_phpfpm sh -c "$(PHPUNIT) $(FILE) --stop-on-failure --testdox -d memory_limit=-1"
 
 test-coverage: ## Generate phpunit coverage report in html
 	@$(DOCKER_COMP) exec stopunaises_phpfpm sh -c "XDEBUG_MODE=coverage $(PHPUNIT) --coverage-html coverage"
