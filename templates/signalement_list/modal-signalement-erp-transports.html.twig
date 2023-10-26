@@ -23,6 +23,10 @@
                             <br>
                             Territoire : {{signalement.territoire.nomComplet}}
                             <br>
+                            {% if signalement.type is same as enum('App\\Entity\\Enum\\SignalementType').TYPE_ERP %}
+                                Adresse : {{ signalement.adresse }}
+                                <br>
+                            {% endif %}
                             Commune : {{signalement.codePostal}} {{signalement.ville}}
                             <br>
                             Punaises vues le : {{signalement.punaisesViewedAt.format('d/m/Y')}} à {{signalement.punaisesViewedAt.format('H:i')}} 
