@@ -257,6 +257,20 @@ class SignalementTransportType extends AbstractType
             }
         ));
 
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $form = $event->getForm();
+            /** @var Signalement $signalement */
+            $data = $event->getData();
+
+            if ($data['placeType'] === PlaceType::TYPE_TRANSPORT_AUTRE->name) {
+                $form->add('transportLineNumber', TextType::class, [
+                    'constraints' => [
+                        new Assert\Length(max: 50, maxMessage: 'Veuillez renseigner un numéro de ligne correcte.'),
+                    ],
+                ]);
+            }
+        });
+
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             /** @var Signalement $signalement */
