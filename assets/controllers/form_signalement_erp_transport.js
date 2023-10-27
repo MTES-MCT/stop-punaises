@@ -59,11 +59,7 @@ function sendSignalement() {
                             elementField
                                 .closest('.fr-input-group, .fr-select-group')
                                 .find('.fr-error-text')
-                                .text(errors[element]);
-
-                            elementField
-                                .closest('.fr-input-group, .fr-select-group')
-                                .find('.fr-error-text')
+                                .text(errors[element])
                                 .removeClass('fr-hidden');
 
                             elementField

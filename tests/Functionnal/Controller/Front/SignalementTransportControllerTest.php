@@ -8,7 +8,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SignalementTransportControllerTest extends WebTestCase
 {
-    public function testPostValidFormErp(): void
+    public function testPostValidFormTransport(): void
     {
         $client = static::createClient();
 
@@ -95,7 +95,7 @@ class SignalementTransportControllerTest extends WebTestCase
             json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testPostWithDateGreaterThanToday(): void
+    public function testPostFormTransportWithDateGreaterThanToday(): void
     {
         $client = static::createClient();
 
@@ -126,7 +126,7 @@ class SignalementTransportControllerTest extends WebTestCase
         );
     }
 
-    public function testPostWithTimeGreaterThanCurrentTime(): void
+    public function testPostFormTransportWithTimeGreaterThanCurrentTime(): void
     {
         $client = static::createClient();
 

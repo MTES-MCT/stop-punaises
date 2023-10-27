@@ -70,7 +70,7 @@ class SignalementErpControllerTest extends WebTestCase
             json_decode($client->getResponse()->getContent(), true));
     }
 
-    public function testPostWithDateGreaterThanToday(): void
+    public function testPostFormErpWithDateGreaterThanToday(): void
     {
         $client = static::createClient();
 
@@ -99,7 +99,7 @@ class SignalementErpControllerTest extends WebTestCase
         );
     }
 
-    public function testPostWithTimeGreaterThanCurrentTime(): void
+    public function testPostFormErpWithTimeGreaterThanCurrentTime(): void
     {
         $client = static::createClient();
 
