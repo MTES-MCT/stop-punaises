@@ -42,17 +42,36 @@ function sendSignalement() {
             },
             error: function (xhr) {
                 if (400 === xhr.status) {
-                    xhr.responseJSON.error.forEach((element, index) => {
-                       if (index === 0) { // focus on first error
-                           $('[name="' + element + '"]')[0].focus();
-                       }
-                       $('[name="' + element + '"]').next().removeClass('fr-hidden');
-                       $('[name="' + element + '"]').closest('.fr-input-group, .fr-select-group').find('.fr-error-text').removeClass('fr-hidden');
-                       if (element.indexOf('adresse') > 0) {
-                           $('#rechercheAdresse').next().removeClass('fr-hidden');
-                           $('#rechercheAdresse')[0].focus();
-                       }
-                    });
+                    const errors = xhr.responseJSON.error;
+
+                    let index = 0;
+                    for (let element in errors) {
+                        if (errors.hasOwnProperty(element)) {
+                            const elementField = $('[name="' + element + '"]');
+                            if (index === 0) {
+                                if (element.indexOf('adresse') === -1) {
+                                    elementField[0].focus(); // Focus on the first error
+                                } else if (element.indexOf('adresse') > 0) {
+                                    $('#rechercheAdresse')[0].focus();
+                                }
+                            }
+
+                            elementField
+                                .closest('.fr-input-group, .fr-select-group')
+                                .find('.fr-error-text')
+                                .text(errors[element])
+                                .removeClass('fr-hidden');
+
+                            elementField
+                                .next()
+                                .removeClass('fr-hidden');
+
+                            if (element.indexOf('adresse') > 0) {
+                                $('#rechercheAdresse').next().removeClass('fr-hidden');
+                            }
+                        }
+                        index++;
+                    }
                 }
             },
             complete: function(xhr) {

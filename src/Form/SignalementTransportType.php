@@ -7,8 +7,8 @@ use App\Entity\Enum\PlaceType;
 use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use App\Repository\TerritoireRepository;
-use App\Service\Signalement\PunaiseViewedDateFormatter;
 use App\Service\Signalement\ReferenceGenerator;
+use App\Service\Signalement\SignalementDateTimeProcessing;
 use App\Service\Signalement\ZipCodeProvider;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -52,8 +52,13 @@ class SignalementTransportType extends AbstractType
                 ],
                 'label' => 'Date',
                 'required' => true,
+                'invalid_message' => 'La date que vous avez saisie a un format de date incorrect.',
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner la date.'),
+                    new Assert\LessThan(
+                        value: new \DateTime(),
+                        message: 'La date renseignée n\'est pas encore passée, veuillez renseigner une nouvelle date.'
+                    ),
                 ],
             ])
             ->add('punaisesViewedTimeAt', TimeType::class, [
@@ -252,6 +257,19 @@ class SignalementTransportType extends AbstractType
             }
         ));
 
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $form = $event->getForm();
+            $data = $event->getData();
+
+            if ($data['placeType'] === PlaceType::TYPE_TRANSPORT_AUTRE->name) {
+                $form->add('transportLineNumber', TextType::class, [
+                    'constraints' => [
+                        new Assert\Length(max: 50, maxMessage: 'Veuillez renseigner un numéro de ligne correcte.'),
+                    ],
+                ]);
+            }
+        });
+
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             /** @var Signalement $signalement */
@@ -267,16 +285,7 @@ class SignalementTransportType extends AbstractType
                 ->setDeclarant(Declarant::DECLARANT_USAGER)
                 ->setType(SignalementType::TYPE_TRANSPORT);
 
-            if (!empty($form->get('punaisesViewedAt')->getData()) &&
-                !empty($form->get('punaisesViewedTimeAt')->getData())
-            ) {
-                $signalement->setPunaisesViewedAt(
-                    PunaiseViewedDateFormatter::format(
-                        $form->get('punaisesViewedAt')->getData(),
-                        $form->get('punaisesViewedTimeAt')->getData()
-                    )
-                );
-            }
+            SignalementDateTimeProcessing::processDateAndTime($form, $signalement);
 
             $event->setData($signalement);
         });

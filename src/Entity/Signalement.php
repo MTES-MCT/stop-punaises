@@ -21,6 +21,7 @@ class Signalement
 {
     use ActivableTrait;
     use TimestampableTrait;
+    public const DEFAULT_TIMEZONE = 'Europe/Paris';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
