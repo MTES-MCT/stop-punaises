@@ -14,6 +14,7 @@ use App\Event\SignalementResolvedEvent;
 use App\Event\SignalementSwitchedEvent;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
+use App\Repository\EntrepriseRepository;
 use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Service\Mailer\MailerProvider;
@@ -76,6 +77,8 @@ class SuiviUsagerViewController extends AbstractController
         Signalement $signalement,
         SignalementManager $signalementManager,
         EventDispatcherInterface $eventDispatcher,
+        MailerProvider $mailerProvider,
+        EntrepriseRepository $entrepriseRepository,
         ): Response {
         if ($this->isCsrfTokenValid('signalement_switch_pro', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre signalement est transféré ! Les entreprises vont vous contacter au plus vite !');
@@ -83,7 +86,12 @@ class SuiviUsagerViewController extends AbstractController
             $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
             $signalementManager->save($signalement);
 
-            // TODO : envoyer un message aux entreprises concernées ? Non spécifié
+            $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
+            foreach ($entreprises as $entreprise) {
+                if ($entreprise->getUser() && $entreprise->getUser()->getEmail()) {
+                    $mailerProvider->sendSignalementNewForPro($entreprise->getUser()->getEmail(), $signalement);
+                }
+            }
 
             $eventDispatcher->dispatch(
                 new SignalementSwitchedEvent(
