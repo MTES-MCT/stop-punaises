@@ -71,8 +71,8 @@
                                     {% endif %}
                                     {% if entreprise_publique.telephone %}
                                     <li>
-                                        <a class="fr-link fr-icon-phone-line fr-link--icon-right" href="tel:{{ entreprise_publique.telephone }}">
-                                            {{ entreprise_publique.telephone }}
+                                        <a class="fr-link fr-icon-phone-line fr-link--icon-right" href="tel:{{ entreprise_publique.telephone|format_phone }}">
+                                            {{ entreprise_publique.telephone|format_phone }}
                                         </a>
                                     </li>
                                     {% endif %}
