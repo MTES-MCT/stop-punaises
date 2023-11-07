@@ -370,6 +370,10 @@ class SignalementHistoryType extends AbstractType
         $builder->get('niveauInfestation')
             ->addModelTransformer(new CallbackTransformer(
                 function (?int $level) {
+                    if (empty($level)) {
+                        return InfestationLevel::from(InfestationLevel::NULLE->value);
+                    }
+
                     return InfestationLevel::from($level);
                 },
                 function (InfestationLevel $level) {

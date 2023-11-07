@@ -116,7 +116,6 @@ signalements:
   geoloc: "{\"lat\":\"43.2996767\",\"lng\":\"5.3876584\"}"
   type_logement: "maison"
   construit_avant1948: 1
-  type_intervention: "diagnostic"
   niveau_infestation: 3
   type_diagnostic: "visuel"
   code_insee: "13202"
@@ -133,7 +132,6 @@ signalements:
   geoloc: "{\"lat\":\"47.205291\",\"lng\":\"-1.5546\"}"
   type_logement: "maison"
   construit_avant1948: 1
-  type_intervention: "diagnostic"
   niveau_infestation: 2
   type_diagnostic: "visuel"
   code_insee: "14202"
