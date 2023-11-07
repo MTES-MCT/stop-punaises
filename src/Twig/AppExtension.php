@@ -57,7 +57,7 @@ class AppExtension extends AbstractExtension
 
     public function formatLabelInfestation(?int $niveau = 0): string
     {
-        if (empty($niveau)) {
+        if (empty($niveau) && 0 !== $niveau) {
             return '-';
         }
 
