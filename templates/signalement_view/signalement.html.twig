@@ -49,6 +49,7 @@
                         {% if entrepriseIntervention.accepted and
                             entrepriseIntervention.estimationSentAt is not null and
                             not entrepriseIntervention.canceledByEntrepriseAt and
+                            (not entrepriseIntervention.choiceByUsagerAt or entrepriseIntervention.acceptedByUsager) and
                             signalement.typeIntervention is null
                         %}
                             <form action="{{ path('app_intervention_stop', {'id': entrepriseIntervention.id }) }}" method="POST" class="form-back-stop-intervention fr-mt-1v">
