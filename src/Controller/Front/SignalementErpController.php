@@ -8,6 +8,7 @@ use App\Manager\SignalementManager;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class SignalementErpController extends AbstractController
 {
     #[Route('/signalement/erp', name: 'app_signalement_erp')]
-    public function index(): Response
+    public function index(ParameterBagInterface $parameterBag): Response
     {
+        if (!$parameterBag->get('feature_three_forms')) {
+            return $this->redirectToRoute('home');
+        }
+
         $form = $this->createForm(SignalementErpType::class, new Signalement());
 
         return $this->render('front_signalement_erp/index.html.twig', [
