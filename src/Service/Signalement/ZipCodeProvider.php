@@ -10,6 +10,9 @@ class ZipCodeProvider
         if ('97' == $zipCode) {
             $zipCode = substr($codePostal, 0, 3);
         }
+        if ('20' == $zipCode) {
+            $zipCode = $codePostal < 20200 ? '2A' : '2B';
+        }
 
         return $zipCode;
     }

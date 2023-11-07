@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Repository\EntreprisePubliqueRepository;
+use App\Service\Signalement\ZipCodeProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ class EntreprisesPubliquesController extends AbstractController
     public function signalement(
         Request $request,
         EntreprisePubliqueRepository $entreprisePubliqueRepository,
+        ZipCodeProvider $zipCodeProvider,
     ): Response {
         $codePostal = $request->get('code-postal');
         if (empty($codePostal)) {
@@ -31,10 +33,7 @@ class EntreprisesPubliquesController extends AbstractController
         }
 
         $codePostal = str_pad($codePostal, 5, '0', \STR_PAD_LEFT);
-        $zipCode = substr($codePostal, 0, 2);
-        if ('97' == $zipCode) {
-            $zipCode = substr($codePostal, 0, 3);
-        }
+        $zipCode = $zipCodeProvider->getByCodePostal($codePostal);
 
         $listEntreprisesPubliquesByZipCode = $entreprisePubliqueRepository->findByZipCodeAndFilter($zipCode, $order, $filter);
 

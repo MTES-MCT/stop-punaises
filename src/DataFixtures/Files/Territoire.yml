@@ -407,8 +407,3 @@ territoires:
     zip: "976"
     name: "Mayotte"
     active: 0
-
-  -
-    zip: "64"
-    name: "Agglo de Pau"
-    active: 0
