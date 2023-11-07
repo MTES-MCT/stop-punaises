@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Form\ContactType;
 use App\FormHandler\ContactFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,9 +19,11 @@ class HomeController extends AbstractController
     }
 
     #[Route('/signalement', name: 'app_front_signalement_type_list')]
-    public function signalementList(): Response
+    public function signalementList(ParameterBagInterface $parameterBag): Response
     {
-        return $this->render('front/signalement-type-list.html.twig');
+        return $this->render('front/signalement-type-list.html.twig', [
+            'feature_three_forms' => $parameterBag->get('feature_three_forms'),
+        ]);
     }
 
     #[Route('/information', name: 'app_front_information')]

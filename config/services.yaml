@@ -15,6 +15,7 @@ parameters:
     doc_conseil: 'pdf/stop-punaises-eviter-punaises-de-lit.pdf'
     admin_email: '%env(resolve:CONTACT_EMAIL)%'
     inconnu_email: '%env(resolve:INCONNU_EMAIL)%'
+    feature_three_forms: '%env(bool:FEATURE_THREE_FORMS_ENABLE)%'
 
 services:
     # default configuration for services in *this* file
