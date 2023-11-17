@@ -126,6 +126,11 @@ class PunaisesFrontSignalementController {
         });
         self.initStep();
       });
+    } else {
+      scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }
   }
 
