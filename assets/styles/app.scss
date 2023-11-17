@@ -171,10 +171,14 @@ span.statut-infestation {
         border: 1px solid;
         background: #FFF;
         min-width: 300px;
-        div {
-            cursor: pointer;
-            &:hover {
-                background-color: #dde5ff;
+        select {
+            width: 100%;
+            
+            option {
+                cursor: pointer;
+                &:hover {
+                    background-color: #dde5ff;
+                }
             }
         }
     }

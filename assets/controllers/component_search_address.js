@@ -17,7 +17,7 @@ function initSearchAddress() {
       ajaxObject.abort();
     }
 
-    $('#rechercheAdresseListe').empty();
+    $('#rechercheAdresseListe select').empty();
     $('#rechercheAdresseIcon .fr-icon-timer-line').show();
     $('#rechercheAdresseIcon .fr-icon-map-pin-2-line').hide();
 
@@ -46,12 +46,12 @@ function initSearchAddress() {
             elementData += ' data-citycode="'+adresseCityCode+'"';
             elementData += ' data-geoloclat="'+adresseGeolocLat+'"';
             elementData += ' data-geoloclng="'+adresseGeolocLng+'"';
-            $('#rechercheAdresseListe').append( '<div '+elementData+' class="fr-mb-1v fr-p-1v">'+adresseLabel+'</div>' );
+            $('#rechercheAdresseListe select').append( '<option '+elementData+' class="fr-mb-1v fr-p-1v">'+adresseLabel+'</option>' );
             $('#rechercheAdresseListe').show();
             $('#rechercheAdresseIcon .fr-icon-timer-line').hide();
             $('#rechercheAdresseIcon .fr-icon-map-pin-2-line').show();
 
-            $('#rechercheAdresseListe div').on('click', function() {
+            $('#rechercheAdresseListe select option').on('click', function() {
               let formPrefix = ($('#signalement_history_adresse').length > 0) ? 'signalement_history' : 'signalement_front';
               $('#rechercheAdresse').val($(this).data('label'));
               $('#' + formPrefix + '_adresse').val($(this).data('name'));
@@ -71,6 +71,13 @@ function initSearchAddress() {
       },
       300
     );
+  });
+
+  $('#rechercheAdresseListe select').on('keypress', function(e){		  
+    var code = e.keyCode || e.which;
+    if (code == 32 && $('#rechercheAdresseListe').is(':visible')) {
+      $('#rechercheAdresseListe select option:selected').trigger('click');
+    }
   });
 
   $('a.skip-search-address').on('click', function(){
