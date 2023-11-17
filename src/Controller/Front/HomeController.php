@@ -41,6 +41,13 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[Route('/politique-de-confidentialite', name: 'app_front_politique_confidentialite')]
+    public function politiqueConfidentialite(): Response
+    {
+        return $this->render('front/politique-de-confidentialite.html.twig', [
+        ]);
+    }
+
     #[Route('/contact', name: 'app_front_contact')]
     public function contact(
         Request $request,
