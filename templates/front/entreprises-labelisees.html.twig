@@ -46,7 +46,13 @@
                         <div class="fr-card__body">
                             <div class="fr-card__content">
                                 <h3 class="fr-card__title">
-                                    <a href="{{ entreprise_publique.url }}" target="_blank" rel="noopener">{{ entreprise_publique.nom }}</a>
+                                    {% if entreprise_publique.url %}
+                                        <a href="{{ entreprise_publique.url }}" target="_blank" rel="noopener">
+                                    {% endif %}
+                                        {{ entreprise_publique.nom }}
+                                    {% if entreprise_publique.url %}
+                                        </a>
+                                    {% endif %}
                                 </h3>
                                 {% if entreprise_publique.adresse %}
                                     <p class="fr-card__desc">{{ entreprise_publique.adresse }}</p>
