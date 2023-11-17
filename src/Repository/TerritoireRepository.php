@@ -38,4 +38,14 @@ class TerritoireRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findActiveTerritoire(...$columns)
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        return $qb->select($columns)
+            ->where('t.active = 1')
+            ->getQuery()
+            ->getSingleColumnResult();
+    }
 }

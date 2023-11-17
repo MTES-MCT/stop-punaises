@@ -44,7 +44,7 @@ class PunaisesFrontSignalementController {
     'autotraitement_info',
     'autotraitement_sent',
   ];
-  OPEN_TERRITORIES = [ '13', '69' ];
+  OPEN_TERRITORIES = [];
   step = 1;
   stepStr = 'home';
   isTerritoryOpen = true;
@@ -56,6 +56,7 @@ class PunaisesFrontSignalementController {
 
   init() {
     self = this;
+    self.fetchTeritoireOpen();
     $('.btn-next').on('click', function(){
       if (!self.isTerritoryOpen && self.stepStr === 'info_usager') {
         if (self.checkStepInfoUsagerOpen()) {
@@ -91,6 +92,16 @@ class PunaisesFrontSignalementController {
       $('#code-postal').val($('form.front-signalement').data('code-postal'));
       $('#step-home button').click();
     }
+  }
+
+  async fetchTeritoireOpen() {
+   try {
+     const urlTerritoireActive = $('form.front-signalement').attr('data-ajaxurl-territoires-actives');
+     const territoireOpen = await $.get(urlTerritoireActive);
+     this.OPEN_TERRITORIES = territoireOpen
+   } catch (error) {
+     console.error(error);
+   }
   }
 
   checkCodePostal(idInput) {
