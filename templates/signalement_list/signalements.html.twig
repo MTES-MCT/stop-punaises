@@ -7,23 +7,28 @@
     <div class="fr-container">
         <h1>Signalements usagers</h1>
 
-        <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-grid-row fr-grid-row--gutters" role="search">
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="fr-select-group fr-col-12 fr-col-lg-3">
                     {% include "common/components/filters/filter-territoire.html.twig" %}
                 </div>
 
-                <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
-                    <input type="text" class="fr-input" id="search-address" placeholder="Ville, CP...">
+                <div class="fr-input-group fr-col-12 fr-col-lg-3">
+                    <label class="fr-label" for="search-address">Ville, CP, ...</label>
+                    <div class="fr-input-wrap fr-icon-search-line">
+                        <input type="text" class="fr-input" id="search-address">
+                    </div>
                 </div>
 
-                <div class="fr-input-wrap fr-col-12 fr-col-lg-3">
-                    <input type="date" id="filter-date">
+                <div class="fr-input-group fr-col-12 fr-col-lg-3">
+                    <label class="fr-label" for="filter-date">Date</label>
+                    <input type="date" class="fr-input" id="filter-date">
                 </div>
                 
                 <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                    <label class="fr-label" for="filter-type">Type</label>
                     <select class="fr-select" id="filter-type">
-                        <option value="">Type</option>
+                        <option value="" selected>Tous</option>
                         <option value="A traiter">A traiter</option>
                         <option value="Auto-traitement">Auto-traitement</option>
                     </select>
@@ -34,8 +39,9 @@
                 </div>
 
                 <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                    <label class="fr-label" for="filter-etat-infestation">Etat infestation</label>
                     <select class="fr-select" id="filter-etat-infestation">
-                        <option value="">Etat infestation</option>
+                        <option value="" selected>Tous</option>
                         <option value="infestation-resolu">Résolu</option>
                         <option value="infestation-nonresolu">Non résolu</option>
                     </select>
@@ -46,8 +52,9 @@
                 </div>
 
                 <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                    <label class="fr-label" for="filter-motif-cloture">Motif de clôture</label>
                     <select class="fr-select" id="filter-motif-cloture">
-                        <option value="">Motif de clôture</option>
+                        <option value="" selected>Tous</option>
                         <option value="motif-resolu">Problème résolu</option>
                         <option value="motif-refuse">Estimations refusées</option>
                         <option value="motif-arret">Arrêt usager</option>
@@ -55,12 +62,16 @@
                 </div>
 
             {% else %}
-                <div class="fr-input-wrap fr-col-12 fr-col-lg-3">
-                    <input type="date" id="filter-date">
+                <div class="fr-input-group fr-col-12 fr-col-lg-3">
+                    <label class="fr-label" for="filter-date">Date</label>
+                    <input type="date" class="fr-input" id="filter-date">
                 </div>
 
-                <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
-                    <input type="text" class="fr-input" id="search-address" placeholder="Ville, CP...">
+                <div class="fr-input-group fr-col-12 fr-col-lg-3">
+                    <label class="fr-label" for="search-address">Ville, CP, ...</label>
+                    <div class="fr-input-wrap fr-icon-search-line">
+                        <input type="text" class="fr-input" id="search-address">
+                    </div>
                 </div>
 
                 <div class="fr-select-group fr-col-12 fr-col-lg-3">

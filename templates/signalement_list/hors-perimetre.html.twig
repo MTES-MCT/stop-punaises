@@ -10,17 +10,21 @@
     <div class="fr-container">
         <h1>Signalements hors périmètre</h1>
 
-        <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-grid-row fr-grid-row--gutters" role="search">
             <div class="fr-select-group fr-col-12 fr-col-lg-3">
                 {% include "common/components/filters/filter-territoire.html.twig" %}
             </div>
 
-            <div class="fr-input-wrap fr-icon-search-line fr-col-12 fr-col-lg-3">
-                <input type="text" class="fr-input" id="search-address" placeholder="CP...">
+            <div class="fr-input-group fr-col-12 fr-col-lg-3">
+                <label class="fr-label" for="search-address">CP, ...</label>
+                <div class="fr-input-wrap fr-icon-search-line">
+                    <input type="text" class="fr-input" id="search-address">
+                </div>
             </div>
 
-            <div class="fr-input-wrap fr-col-12 fr-col-lg-3">
-                <input type="date" id="filter-date">
+            <div class="fr-input-group fr-col-12 fr-col-lg-3">
+                <label class="fr-label" for="filter-date">Date</label>
+                <input type="date" class="fr-input" id="filter-date">
             </div>
         </div>
     </div>
