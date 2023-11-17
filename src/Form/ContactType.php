@@ -22,7 +22,7 @@ class ContactType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'fr-input',
-                    'placeholder' => 'Prénom Nom',
+                    'placeholder' => 'Claude Petit',
                 ],
                 'label' => 'Votre nom',
                 'constraints' => [
@@ -35,7 +35,7 @@ class ContactType extends AbstractType
                 ],
                 'attr' => [
                     'class' => 'fr-input',
-                    'placeholder' => 'prenom.nom@courriel.fr',
+                    'placeholder' => 'claude.petit@courriel.fr',
                 ],
                 'label' => 'Votre adresse courriel',
                 'constraints' => [
