@@ -9,6 +9,11 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SignalementTransportControllerTest extends WebTestCase
 {
+    protected function setUp(): void
+    {
+        date_default_timezone_set(Signalement::DEFAULT_TIMEZONE);
+    }
+
     public function testPostValidFormTransport(): void
     {
         $client = static::createClient();
@@ -137,10 +142,7 @@ class SignalementTransportControllerTest extends WebTestCase
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
 
-        $dateFuture = (new \DateTimeImmutable())
-            ->setTimezone(new \DateTimeZone(Signalement::DEFAULT_TIMEZONE))
-            ->modify('+5 minutes');
-
+        $dateFuture = (new \DateTimeImmutable())->modify('+5 minutes');
         $form['signalement_transport[punaisesViewedAt]'] = date('Y-m-d');
         $form['signalement_transport[punaisesViewedTimeAt]'] = $dateFuture->format('H:i:s');
         $form['signalement_transport[ville]'] = 'Marseille';

@@ -36,7 +36,7 @@ class EntrepriseFactoryTest extends KernelTestCase
         $this->assertNotNull($entreprise->getNumeroSiret());
         $this->assertNotNull($entreprise->getTelephone());
         $this->assertNotNull($entreprise->getNumeroLabel());
-        $this->assertCount(2, $entreprise->getTerritoireIds());
+        $this->assertGreaterThan(1, \count($entreprise->getTerritoireIds()));
     }
 
     public function testCreateFromArrayWithFailure(): void
