@@ -17,8 +17,8 @@
 
                             <div class="fr-form-group">
                                 <div class="fr-input-group">
-                                    {{ form_label(formEditEmploye.nom) }}
-                                    {{ form_widget(formEditEmploye.nom) }}
+                                    <label class="fr-label required" for="employe_nom_{{employeUuid}}">Nom</label>
+                                    {{ form_widget(formEditEmploye.nom, { 'id': 'employe_nom_'~employeUuid }) }}
                                     <p class="fr-error-text fr-hidden">
                                         Veuillez renseigner le nom.
                                     </p>
@@ -27,8 +27,8 @@
 
                             <div class="fr-form-group">
                                 <div class="fr-input-group">
-                                    {{ form_label(formEditEmploye.prenom) }}
-                                    {{ form_widget(formEditEmploye.prenom) }}
+                                    <label class="fr-label required" for="employe_prenom_{{employeUuid}}">Prénom</label>
+                                    {{ form_widget(formEditEmploye.prenom, { 'id': 'employe_prenom_'~employeUuid }) }}
                                     <p class="fr-error-text fr-hidden">
                                         Veuillez renseigner le prénom.
                                     </p>
@@ -37,8 +37,8 @@
                             
                             <div class="fr-form-group">
                                 <div class="fr-input-group">
-                                    {{ form_label(formEditEmploye.numeroCertification) }}
-                                    {{ form_widget(formEditEmploye.numeroCertification) }}
+                                    <label class="fr-label required" for="employe_numeroCertification_{{employeUuid}}">Certification Biocide</label>
+                                    {{ form_widget(formEditEmploye.numeroCertification, { 'id': 'employe_numeroCertification_'~employeUuid }) }}
                                     <p class="fr-error-text fr-hidden">
                                         Veuillez renseigner le numéro de certification.
                                     </p>
@@ -47,15 +47,15 @@
                             
                             <div class="fr-form-group">
                                 <div class="fr-input-group">
-                                    {{ form_label(formEditEmploye.telephone) }}
-                                    {{ form_widget(formEditEmploye.telephone) }}
+                                    <label class="fr-label" for="employe_telephone_{{employeUuid}}">Téléphone (facultatif)</label>
+                                    {{ form_widget(formEditEmploye.telephone, { 'id': 'employe_telephone_'~employeUuid }) }}
                                 </div>
                             </div>
                             
                             <div class="fr-form-group">
                                 <div class="fr-input-group">
-                                    {{ form_label(formEditEmploye.email) }}
-                                    {{ form_widget(formEditEmploye.email) }}
+                                    <label class="fr-label" for="employe_email_{{employeUuid}}">Email (facultatif)</label>
+                                    {{ form_widget(formEditEmploye.email, { 'id': 'employe_email_'~employeUuid }) }}
                                 </div>
                             </div>
 

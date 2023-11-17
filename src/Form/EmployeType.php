@@ -63,10 +63,10 @@ class EmployeType extends AbstractType
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'maxlength' => '100',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '100',
                 ],
                 'label' => 'Email (facultatif)',
                 'required' => false,
