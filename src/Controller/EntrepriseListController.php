@@ -22,7 +22,6 @@ class EntrepriseListController extends AbstractController
         EventDispatcherInterface $eventDispatcher
     ): Response {
         $entreprise = new Entreprise();
-        $entreprise->setUuid(uniqid());
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {

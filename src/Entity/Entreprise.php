@@ -70,6 +70,7 @@ class Entreprise
         $this->employes = new ArrayCollection();
         $this->interventions = new ArrayCollection();
         $this->messagesThread = new ArrayCollection();
+        $this->uuid = uniqid();
     }
 
     public function __toString(): string
