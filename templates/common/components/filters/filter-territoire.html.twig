@@ -1,5 +1,6 @@
+<label class="fr-label" for="filter-territoire">Territoire</label>
 <select class="fr-select" id="filter-territoire">
-    <option value="">Territoire</option>
+    <option value="" selected>Tous</option>
     {% if territoires is not empty %}
         {% for territoire in territoires %}
             <option value="{{ territoire.nomComplet }}">{{ territoire.nomComplet }}</option>
