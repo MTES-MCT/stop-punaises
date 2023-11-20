@@ -57,7 +57,8 @@ class ImportCompteUtilisateurCommand extends Command
         );
 
         $metadata = $this->compteUtilisateurLoader->getMetadata();
-        if (\count($errors = $metadata[CompteUtilisateurLoader::METADATA_ERRORS]) > 0) {
+        $errors = $metadata[CompteUtilisateurLoader::METADATA_ERRORS];
+        if (null !== $errors && \count($errors) > 0) {
             $io->error('Ces entreprises n\'ont pas pu être créées');
             foreach ($errors as $error) {
                 $io->warning($error);

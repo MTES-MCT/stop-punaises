@@ -55,11 +55,11 @@ class CompteUtilisateurLoader
 
                 if (null !== $entreprise && 0 === $errors->count()) {
                     $this->metadata[self::METADATA_ENTREPRISE_ACCOUNT_TO_CREATE][] = $entreprise;
+                    ++$this->metadata[self::METADATA_NB_USERS_CREATED];
                     if (0 === $countEntreprise % self::FLUSH_COUNT) {
                         $this->logger->info(sprintf('in progress - %s entreprise saved', $countEntreprise));
                         $this->entrepriseManager->flush();
                     } else {
-                        ++$this->metadata[self::METADATA_NB_USERS_CREATED];
                         $this->entrepriseManager->persist($entreprise);
                         unset($entreprise);
                     }
