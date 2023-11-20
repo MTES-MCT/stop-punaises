@@ -7,7 +7,7 @@
 <form action="{{ path('app_front_signalement_add') }}"
       class="front-signalement fr-container fr-my-3w"
       data-code-postal="{{ code_postal }}"
-      data-ajaxurl-territoires-actives="{{ path('ws_territory_active') }}">
+      data-ajaxurl-territoires-actives="{{ path('app_territory_active') }}">
 
     {% include 'front_signalement/_partial_step_home.html.twig' %}
 

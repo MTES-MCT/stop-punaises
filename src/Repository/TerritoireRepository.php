@@ -39,13 +39,13 @@ class TerritoireRepository extends ServiceEntityRepository
         }
     }
 
-    public function findActiveTerritoire(...$columns)
+    public function findActiveTerritoires(string ...$columns): array
     {
-        $qb = $this->createQueryBuilder('t');
-
-        return $qb->select($columns)
+        $qb = $this->createQueryBuilder('t')
+            ->select($columns)
             ->where('t.active = 1')
-            ->getQuery()
-            ->getSingleColumnResult();
+            ->getQuery();
+
+        return 1 === \count($columns) ? $qb->getSingleColumnResult() : $qb->getResult();
     }
 }

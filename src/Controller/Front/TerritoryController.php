@@ -9,9 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TerritoryController extends AbstractController
 {
-    #[Route('/territoire/active', name: 'ws_territory_active')]
+    #[Route('/territoires/active', name: 'app_territory_active')]
     public function index(TerritoireRepository $territoireRepository): JsonResponse
     {
-        return $this->json($territoireRepository->findActiveTerritoire('t.zip'));
+        return $this->json($territoireRepository->findActiveTerritoires('t.zip'));
     }
 }
