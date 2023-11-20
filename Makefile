@@ -105,6 +105,8 @@ test-coverage: ## Generate phpunit coverage report in html
 e2e: ## Run E2E tests
 	@$(NPX) cypress open
 
+k6: ## Run K6 tests
+	@$(DOCKER_COMP) run --rm -T stopunaises_k6 run -<tools/k6/k6-50000.js --env "URL=$(URL)"
 
 stan: ## Run PHPStan
 	@$(DOCKER_COMP) exec -it stopunaises_phpfpm composer stan
