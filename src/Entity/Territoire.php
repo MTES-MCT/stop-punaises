@@ -13,6 +13,9 @@ class Territoire
 {
     use ActivableTrait;
 
+    public const CORSE_DU_SUD_CODE_DEPARTMENT_2A = '2A';
+    public const HAUTE_CORSE_CODE_DEPARTMENT_2B = '2B';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
