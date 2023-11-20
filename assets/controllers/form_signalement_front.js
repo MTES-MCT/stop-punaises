@@ -95,13 +95,10 @@ class PunaisesFrontSignalementController {
   }
 
   async fetchTerritoireOpened() {
-   try {
-     const urlTerritoireActive = $('form.front-signalement').attr('data-ajaxurl-territoires-actives');
-     const territoireOpen = await $.get(urlTerritoireActive);
-     this.OPEN_TERRITORIES = territoireOpen
-   } catch (error) {
-     console.error(error);
-   }
+     const territoires = $('form.front-signalement').attr('data-territoires-actives');
+     if (territoires.length > 0) {
+       this.OPEN_TERRITORIES = territoires.split(',');
+     }
   }
 
   checkCodePostal(idInput) {
