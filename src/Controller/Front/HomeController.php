@@ -13,14 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Cache(public: true, maxage: 600)]
+    #[Cache(public: true, maxage: 3600)]
     #[Route('/', name: 'home')]
     public function index(): Response
     {
         return $this->render('front/index.html.twig', []);
     }
 
-    #[Cache(public: true, maxage: 600)]
+    #[Cache(public: true, maxage: 3600)]
     #[Route('/signalement', name: 'app_front_signalement_type_list')]
     public function signalementList(ParameterBagInterface $parameterBag): Response
     {
@@ -29,7 +29,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Cache(public: true, maxage: 600)]
+    #[Cache(public: true, maxage: 3600)]
     #[Route('/information', name: 'app_front_information')]
     public function information(): Response
     {
@@ -38,7 +38,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Cache(public: true, maxage: 600)]
+    #[Cache(public: true, maxage: 3600)]
     #[Route('/mentions-legales', name: 'app_front_mentions_legales')]
     public function mentionsLegales(): Response
     {
@@ -46,7 +46,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Cache(public: true, maxage: 600)]
+    #[Cache(public: true, maxage: 3600)]
     #[Route('/politique-de-confidentialite', name: 'app_front_politique_confidentialite')]
     public function politiqueConfidentialite(): Response
     {
