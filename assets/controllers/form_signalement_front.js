@@ -56,7 +56,7 @@ class PunaisesFrontSignalementController {
 
   init() {
     self = this;
-    self.fetchTeritoireOpen();
+    self.fetchTerritoireOpened();
     $('.btn-next').on('click', function(){
       if (!self.isTerritoryOpen && self.stepStr === 'info_usager') {
         if (self.checkStepInfoUsagerOpen()) {
@@ -94,7 +94,7 @@ class PunaisesFrontSignalementController {
     }
   }
 
-  async fetchTeritoireOpen() {
+  async fetchTerritoireOpened() {
    try {
      const urlTerritoireActive = $('form.front-signalement').attr('data-ajaxurl-territoires-actives');
      const territoireOpen = await $.get(urlTerritoireActive);
