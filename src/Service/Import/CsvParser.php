@@ -92,4 +92,11 @@ class CsvParser
     {
         return $this->options;
     }
+
+    public function setDelimiter(string $delimiter): self
+    {
+        $this->options['delimiter'] = $delimiter;
+
+        return $this;
+    }
 }

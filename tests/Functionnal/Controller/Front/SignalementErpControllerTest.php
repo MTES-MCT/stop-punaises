@@ -2,12 +2,18 @@
 
 namespace App\Tests\Functionnal\Controller\Front;
 
+use App\Entity\Signalement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 
 class SignalementErpControllerTest extends WebTestCase
 {
+    protected function setUp(): void
+    {
+        date_default_timezone_set(Signalement::DEFAULT_TIMEZONE);
+    }
+
     public function testPostValidFormErp(): void
     {
         $client = static::createClient();
@@ -109,8 +115,7 @@ class SignalementErpControllerTest extends WebTestCase
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
 
-        $dateFuture = (new \DateTimeImmutable())->modify('+5 hour');
-
+        $dateFuture = (new \DateTimeImmutable())->modify('+5 minutes');
         $form['signalement_front[punaisesViewedAt]'] = date('Y-m-d');
         $form['signalement_front[punaisesViewedTimeAt]'] = $dateFuture->format('H:i:s');
         $form['signalement_front[nomProprietaire]'] = 'Monsieur patate';

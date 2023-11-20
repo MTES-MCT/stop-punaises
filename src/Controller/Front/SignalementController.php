@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Enum\Declarant;
 use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
+use App\Entity\Territoire;
 use App\Event\SignalementAddedEvent;
 use App\Form\SignalementFrontType;
 use App\Manager\SignalementManager;
@@ -24,15 +25,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class SignalementController extends AbstractController
 {
     #[Route('/signalement/logement', name: 'app_front_signalement_logement')]
-    public function signalementLogement(Request $request): Response
+    public function signalementLogement(Request $request, TerritoireRepository $territoireRepository): Response
     {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
         $codePostal = $request->get('code-postal');
 
+        $activeTerritoires = array_map(function ($codeDepartement) {
+            if (Territoire::CORSE_DU_SUD_CODE_DEPARTMENT_2A === $codeDepartement ||
+                Territoire::HAUTE_CORSE_CODE_DEPARTMENT_2B === $codeDepartement) {
+                return '20';
+            }
+
+            return $codeDepartement;
+        }, $territoireRepository->findActiveTerritoires('t.zip'));
+
         return $this->render('front_signalement/index.html.twig', [
             'form' => $form->createView(),
             'code_postal' => $codePostal,
+            'territoires_actives' => implode(',', array_unique($activeTerritoires)),
         ]);
     }
 

@@ -51,6 +51,11 @@ else
       aws s3 cp data/entreprises-detection-canine.csv s3://${BUCKET_URL}/csv/ ${debug}
       aws s3 ls s3://${BUCKET_URL}/csv/entreprises-detection-canine.csv
       ;;
+    "entreprises-utilisateurs")
+      echo "Upload entreprises-utilisateurs.csv to cloud..."
+      aws s3 cp data/entreprises-utilisateurs.csv s3://${BUCKET_URL}/csv/ ${debug}
+      aws s3 ls s3://${BUCKET_URL}/csv/entreprises-utilisateurs.csv
+      ;;
     *)
       echo "Invalid argument. Please use 'signalement' or 'entreprisespubliques' or 'entreprisespubliques-detectioncanine'"
       ;;
