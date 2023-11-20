@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[AsCommand(
     name: 'app:import-compte-utilisateur',
-    description: 'Add a short description for your command',
+    description: 'Importe les comptes utilisateurs entreprise depuis un fichier CSV',
 )]
 class ImportCompteUtilisateurCommand extends Command
 {
@@ -58,7 +58,7 @@ class ImportCompteUtilisateurCommand extends Command
 
         $metadata = $this->compteUtilisateurLoader->getMetadata();
         if (\count($errors = $metadata[CompteUtilisateurLoader::METADATA_ERRORS]) > 0) {
-            $io->error('Ces entreprises n\'ont pas pu être crées');
+            $io->error('Ces entreprises n\'ont pas pu être créées');
             foreach ($errors as $error) {
                 $io->warning($error);
             }

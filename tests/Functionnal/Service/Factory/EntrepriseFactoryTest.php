@@ -26,7 +26,7 @@ class EntrepriseFactoryTest extends KernelTestCase
             'entreprise_numero_siret' => '0000000000',
             'entreprise_telephone' => $faker->phoneNumber,
             'entreprise_numero_label' => $faker->buildingNumber(),
-            'entreprise_territoires_zip' => [substr($faker->postcode(), 0, 2), substr($faker->postcode(), 0, 2)],
+            'entreprise_territoires_zip' => ['13', '69'],
         ];
 
         $entreprise = (new EntrepriseFactory($this->territoireRepository))->createFromArray($data);
