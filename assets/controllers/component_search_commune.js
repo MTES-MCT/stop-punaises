@@ -18,7 +18,7 @@ function initSearchCommune() {
             ajaxObject.abort();
         }
 
-        $('#rechercheAdresseListe').empty();
+        $('#rechercheAdresseListe select').empty();
 
         idTimeoutInputCommune = setTimeout(
             () => {
@@ -39,10 +39,18 @@ function initSearchCommune() {
                         elementData += ' data-citycode="'+cityCode+'"';
                         elementData += ' data-geoloclat="'+geolocLat+'"';
                         elementData += ' data-geoloclng="'+geolocLng+'"';
-                        $('#rechercheAdresseListe').append( '<div '+elementData+' class="fr-mb-1v fr-p-1v">'+city+'</div>' );
+                        $('#rechercheAdresseListe select').append( '<option '+elementData+' class="fr-mb-1v fr-p-1v">'+city+'</option>' );
                         $('#rechercheAdresseListe').show();
+                        
+                        const OFFSET = 200;
+                        if ($('#rechercheAdresseListe').offset().top + OFFSET > $(window).scrollTop() + window.innerHeight) {
+                          scrollTo({
+                            top: $(window).scrollTop() + OFFSET,
+                            behavior: "smooth"
+                          });
+                        }
 
-                        $('#rechercheAdresseListe div').on('click', function() {
+                        $('#rechercheAdresseListe select option').on('click', function() {
                             $('#signalement_transport_ville').val($(this).data('city'));
                             $('#signalement_transport_codePostal').val($(this).data('postcode'));
                             $('#signalement_transport_codeInsee').val($(this).data('citycode'));
@@ -55,5 +63,12 @@ function initSearchCommune() {
             },
             300
         );
+    });
+    
+    $('#rechercheAdresseListe select').on('keypress', function(e){		  
+      var code = e.keyCode || e.which;
+      if (code == 32 && $('#rechercheAdresseListe').is(':visible')) {
+        $('#rechercheAdresseListe select option:selected').trigger('click');
+      }
     });
 }
