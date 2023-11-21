@@ -51,6 +51,14 @@ function initSearchAddress() {
             $('#rechercheAdresseIcon .fr-icon-timer-line').hide();
             $('#rechercheAdresseIcon .fr-icon-map-pin-2-line').show();
 
+            const OFFSET = 200;
+            if ($('#rechercheAdresseListe').offset().top + OFFSET > $(window).scrollTop() + window.innerHeight) {
+              scrollTo({
+                top: $(window).scrollTop() + OFFSET,
+                behavior: "smooth"
+              });
+            }
+
             $('#rechercheAdresseListe select option').on('click', function() {
               let formPrefix = ($('#signalement_history_adresse').length > 0) ? 'signalement_history' : 'signalement_front';
               $('#rechercheAdresse').val($(this).data('label'));

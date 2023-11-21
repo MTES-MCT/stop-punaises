@@ -41,6 +41,14 @@ function initSearchCommune() {
                         elementData += ' data-geoloclng="'+geolocLng+'"';
                         $('#rechercheAdresseListe select').append( '<option '+elementData+' class="fr-mb-1v fr-p-1v">'+city+'</option>' );
                         $('#rechercheAdresseListe').show();
+                        
+                        const OFFSET = 200;
+                        if ($('#rechercheAdresseListe').offset().top + OFFSET > $(window).scrollTop() + window.innerHeight) {
+                          scrollTo({
+                            top: $(window).scrollTop() + OFFSET,
+                            behavior: "smooth"
+                          });
+                        }
 
                         $('#rechercheAdresseListe select option').on('click', function() {
                             $('#signalement_transport_ville').val($(this).data('city'));
