@@ -2,6 +2,7 @@
 .PHONY: help
 
 DOCKER_COMP   = docker compose
+DOCKER_COMP_FILE_TOOLS   = docker-compose.tools.yml
 DATABASE_USER = stopunaises
 DATABASE_NAME = stopunaises_db
 PATH_DUMP_SQL = data/dump.sql
@@ -105,9 +106,6 @@ test-coverage: ## Generate phpunit coverage report in html
 e2e: ## Run E2E tests
 	@$(NPX) cypress open
 
-k6: ## Run K6 tests
-	@$(DOCKER_COMP) run --rm -T stopunaises_k6 run -<tools/k6/k6-50000.js --env "URL=$(URL)"
-
 stan: ## Run PHPStan
 	@$(DOCKER_COMP) exec -it stopunaises_phpfpm composer stan
 
@@ -143,3 +141,30 @@ npm-build: ## Build the dependencies in the local node_modules folder
 
 .sleep:
 	@sleep 30
+
+## Tools
+tools-build: ## [Tools] Install tools (k6, ...) in local environement
+	@bash -l -c 'make .check .tools-destroy .tools-setup tools-run'
+
+.tools-destroy:
+	@echo "\033[33mRemoving tools containers ...\033[0m"
+	@$(DOCKER_COMP) -f $(DOCKER_COMP_FILE_TOOLS) rm -v --force --stop || true
+	@echo "\033[32mContainers removed!\033[0m"
+
+.tools-setup:
+	@echo "\033[33mBuilding tools containers ...\033[0m"
+	@$(DOCKER_COMP) -f $(DOCKER_COMP_FILE_TOOLS) build
+	@echo "\033[32mContainers built!\033[0m"
+
+tools-run: ## [Tools] Start tools containers
+	@echo -e '\e[1;32mStart tools containers\032'
+	@bash -l -c '$(DOCKER_COMP) -f $(DOCKER_COMP_FILE_TOOLS) up -d'
+	@echo -e '\e[1;32mContainers tools running\032'
+
+tools-down: ## [Tools] Shutdown tools containers
+	@echo -e '\e[1;32mStop tools containers\032'
+	@bash -l -c '$(DOCKER_COMP) -f $(DOCKER_COMP_FILE_TOOLS) down'
+	@echo -e '\e[1;32mContainers tools stopped\032'
+
+k6: ## Run K6 tests
+	@$(DOCKER_COMP) -f $(DOCKER_COMP_FILE_TOOLS) run --rm -T stopunaises_k6 run -<tools/k6/k6-50000.js --env "URL=$(URL)"

@@ -64,13 +64,5 @@ services:
     image: redis:7.0-alpine
     container_name: stopunaises_redis
 
-  stopunaises_k6:
-    container_name: stopunaises_k6
-    image: grafana/k6:latest
-    ports:
-      - 6565:6565
-    volumes:
-      - ./samples:/scripts
-
 volumes:
   dbdata:
