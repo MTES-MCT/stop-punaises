@@ -1,0 +1,11 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  stopunaises_k6:
+    container_name: stopunaises_k6
+    image: grafana/k6:latest
+    ports:
+      - 6565:6565
+    volumes:
+      - ./samples:/scripts
