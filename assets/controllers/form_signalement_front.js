@@ -303,6 +303,9 @@ class PunaisesFrontSignalementController {
     if (canGoNext) {
       let inputContent = $('input#code-postal').val();
       let zipCode = inputContent.substring(0, 2);
+      if (zipCode === '97') {
+        zipCode = inputContent.substring(0, 3);
+      }
       self.isTerritoryOpen = (self.OPEN_TERRITORIES.indexOf(zipCode) > -1);
     }
     return canGoNext;
@@ -343,6 +346,9 @@ class PunaisesFrontSignalementController {
     if (canGoNext) {
       let inputContent = $('input#signalement_front_codePostal').val();
       let zipCode = inputContent.substring(0, 2);
+      if (zipCode === '97') {
+        zipCode = inputContent.substring(0, 3);
+      }
       self.isTerritoryOpen = (self.OPEN_TERRITORIES.indexOf(zipCode) > -1);
       if (!self.isTerritoryOpen) {
         self.step = 1;
