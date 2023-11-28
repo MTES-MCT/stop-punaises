@@ -61,7 +61,7 @@ class InterventionEntrepriseCanceledSubscriber implements EventSubscriberInterfa
         $event = $this->eventManager->createEventEstimationSent(
             signalement: $signalement,
             title: 'Estimation '.$intervention->getEntreprise()->getNom(),
-            description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a annulé son intervention',
+            description: 'L\'entreprise sélectionnée a annulé son intervention',
             recipient: null,
             userId: Event::USER_ALL,
             userIdExcluded: $intervention->getEntreprise()->getUser()->getId(),

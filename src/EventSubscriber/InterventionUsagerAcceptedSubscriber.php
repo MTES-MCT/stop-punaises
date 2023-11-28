@@ -43,8 +43,8 @@ class InterventionUsagerAcceptedSubscriber implements EventSubscriberInterface
 
         $event = $this->eventManager->createEventEstimationSent(
             signalement: $signalement,
-            title: 'Estimation '.$intervention->getEntreprise()->getNom(),
-            description: 'L\'entreprise '.$intervention->getEntreprise()->getNom().' a envoyé une estimation',
+            title: 'Estimation autre entreprise',
+            description: 'L\'usager a accepté l\'estimation d\'une entreprise',
             recipient: null,
             userId: Event::USER_ALL,
             userIdExcluded: $intervention->getEntreprise()->getUser()->getId(),
