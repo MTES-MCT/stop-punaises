@@ -58,18 +58,20 @@ class InterventionEntrepriseCanceledSubscriber implements EventSubscriberInterfa
         );
         $this->eventRepository->updateCreatedAt($event, $interventionEntrepriseCanceledEvent->getCreatedAt());
 
-        $event = $this->eventManager->createEventEstimationSent(
-            signalement: $signalement,
-            title: 'Estimation '.$intervention->getEntreprise()->getNom(),
-            description: 'L\'entreprise sélectionnée a annulé son intervention',
-            recipient: null,
-            userId: Event::USER_ALL,
-            userIdExcluded: $intervention->getEntreprise()->getUser()->getId(),
-            label: self::LABEL_CANCELED,
-            actionLabel: null,
-            actionLink: null,
-        );
-        $this->eventRepository->updateCreatedAt($event, $interventionEntrepriseCanceledEvent->getCreatedAt());
+        if ($intervention->isAcceptedByUsager()) {
+            $event = $this->eventManager->createEventEstimationSent(
+                signalement: $signalement,
+                title: 'Estimation autre entreprise',
+                description: 'L\'entreprise sélectionnée a annulé son intervention',
+                recipient: null,
+                userId: Event::USER_ALL,
+                userIdExcluded: $intervention->getEntreprise()->getUser()->getId(),
+                label: self::LABEL_CANCELED,
+                actionLabel: null,
+                actionLink: null,
+            );
+            $this->eventRepository->updateCreatedAt($event, $interventionEntrepriseCanceledEvent->getCreatedAt());
+        }
 
         $event = $this->eventManager->createEventEstimationSent(
             signalement: $signalement,
