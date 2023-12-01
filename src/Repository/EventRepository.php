@@ -65,6 +65,7 @@ class EventRepository extends ServiceEntityRepository
             ->andWhere('e.userId = :userIdAdmin OR e.userId = :userIdAll')
             ->setParameter('userIdAll', Event::USER_ALL)
             ->setParameter('userIdAdmin', Event::USER_ADMIN)
+            ->andWhere('e.title NOT LIKE \'Estimation autre entreprise\'')
             ->andWhere('e.active = 1')
             ->orderBy('e.createdAt', 'DESC');
 
