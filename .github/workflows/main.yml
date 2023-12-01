@@ -107,7 +107,7 @@ jobs:
 
       - name: Run tests
         run: |
-          composer require --dev dama/doctrine-test-bundle
+          composer require --dev dama/doctrine-test-bundle:7.3
           ./vendor/bin/phpunit --stop-on-failure --testdox -d memory_limit=-1
         env:
           DATABASE_URL: mysql://root:stopunaises@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/stopunaises_db
