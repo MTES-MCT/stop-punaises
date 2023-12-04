@@ -6,7 +6,7 @@
 parameters:
     .container.dumper.inline_factories: true
     from: '%env(resolve:NOTIFICATIONS_EMAIL)%'
-    token_lifetime: '10 minutes'
+    token_lifetime: '1 hour'
     base_url: '%env(resolve:APP_URL)%'
     uploads_tmp_dir: '%kernel.project_dir%/tmp/'
     url_bucket: '%env(resolve:S3_URL_BUCKET)%'
