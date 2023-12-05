@@ -27,6 +27,15 @@
                     <label class="fr-label" for="login-password">Mot de passe</label>
                     <input class="fr-input" type="password" id="login-password" name="password" required>
                 </div>
+                
+                <div class="fr-checkbox-group">
+                    <p>
+                        <input name="_remember_me" id="_remember_me" type="checkbox" >
+                        <label class="fr-label" for="_remember_me">
+                            Se souvenir de moi
+                        </label>
+                    </p>
+                </div>
 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
