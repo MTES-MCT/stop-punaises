@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsCommand(
@@ -45,18 +44,7 @@ class ReinitAdminPasswordsCommand extends Command
         $users = $this->userRepository->findActiveAdmins();
 
         foreach ($users as $user) {
-            $password = $this->hasher->hashPassword($user, $this->tokenGenerator->generateToken());
-            $user->setPassword($password)->setStatus(Status::INACTIVE);
-
-            /** @var ConstraintViolationList $errors */
-            $errors = $this->validator->validate($user);
-
-            if (\count($errors) > 0) {
-                $this->io->error((string) $errors);
-
-                return Command::FAILURE;
-            }
-
+            $user->setPassword('')->setStatus(Status::INACTIVE);
             $this->userManager->save($user);
 
             $this->userManager->requestActivationFrom($user->getEmail());
