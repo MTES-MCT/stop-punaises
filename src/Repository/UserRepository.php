@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Enum\Status;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,5 +38,18 @@ class UserRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findActiveAdmins(): ?array
+    {
+        $queryBuilder = $this->createQueryBuilder('u');
+
+        return $queryBuilder
+            ->andWhere('u.roles LIKE :role')
+            ->setParameter('role', '%"ROLE_ADMIN"%')
+            ->andWhere('u.status LIKE :active')
+            ->setParameter('active', Status::ACTIVE)
+            ->getQuery()
+            ->getResult();
     }
 }
