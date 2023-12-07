@@ -66,7 +66,7 @@ class ContactType extends AbstractType
             'attr' => [
                 'id' => 'front_contact',
                 'class' => 'needs-validation',
-                'novalidate' => 'true',
+                'novalidate' => 'novalidate',
             ],
         ]);
     }

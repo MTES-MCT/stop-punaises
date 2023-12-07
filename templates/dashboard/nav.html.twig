@@ -1,6 +1,6 @@
 <div class="dashboard-menu">
     <div class="fr-container">
-        <nav class="fr-nav" id="header-navigation" role="navigation" aria-label="Menu du tableau de bord">
+        <nav class="fr-nav" id="header-navigation" aria-label="Menu du tableau de bord">
             <ul class="fr-nav__list">
                 <li class="fr-nav__item">
                     <a class="fr-nav__link" href="{{ path('app_signalement_list') }}" target="_self" {% if app.request.get('_route') == 'app_signalement_list' or app.request.get('_route') == 'app_signalement_view' %}aria-current="page"{% endif %}>Signalements</a>

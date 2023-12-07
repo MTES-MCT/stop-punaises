@@ -41,7 +41,6 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '100',
                 ],
                 'label' => 'Adresse',
                 'required' => true,
@@ -66,7 +65,6 @@ class SignalementHistoryType extends AbstractType
             ->add('codeInsee', HiddenType::class, [
                 'attr' => [
                     'class' => 'fr-hidden',
-                    'pattern' => '[0-9]{5}',
                 ],
                 'required' => false,
             ])

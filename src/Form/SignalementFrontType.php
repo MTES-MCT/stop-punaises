@@ -52,7 +52,6 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-input',
                     'placeholder' => '36',
                     'maxlength' => '10',
-                    'int' => true,
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -66,7 +65,6 @@ class SignalementFrontType extends AbstractType
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
-                    'maxlength' => '100',
                 ],
                 'label' => 'Adresse',
                 'required' => true,
@@ -91,7 +89,6 @@ class SignalementFrontType extends AbstractType
             ->add('codeInsee', HiddenType::class, [
                 'attr' => [
                     'class' => 'fr-hidden',
-                    'pattern' => '[0-9]{5}',
                 ],
                 'required' => false,
             ])
@@ -273,7 +270,6 @@ class SignalementFrontType extends AbstractType
             ->add('niveauInfestation', HiddenType::class, [
                 'attr' => [
                     'class' => 'fr-hidden',
-                    'pattern' => '[0-9]',
                 ],
                 'required' => false,
             ])
@@ -325,7 +321,6 @@ class SignalementFrontType extends AbstractType
                 'attr' => [
                     'class' => 'fr-hidden',
                 ],
-                'required' => true,
                 'empty_data' => false,
             ])
         ;
