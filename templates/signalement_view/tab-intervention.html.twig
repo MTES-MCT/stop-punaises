@@ -13,8 +13,7 @@
     <div class="fr-container fr-px-2w">
         <div class="fr-grid-row fr-grid fr-grid-row--gutters">
             <div class="fr-col-12 fr-col-lg-5 fr-mr-3v fr-mb-3v edit-zone">
-                <strong>Infos générales</strong>
-                <br>
+                <h3 class="fr-tile__title fr-mb-1v">Infos générales</h3>
                 Entreprise : {{ signalement.entreprise }}
                 <br>
                 Agent : {{ signalement.agent }}
@@ -26,7 +25,7 @@
                 Prix facturé : {{ signalement.prixFactureHT }} €
             </div>
             <div class="fr-col-12 fr-col-lg-5 fr-mb-3v edit-zone">
-                <strong>Détails de l'intervention</strong>
+                <h3 class="fr-tile__title fr-mb-1v">Détails de l'intervention</h3>
                 <br>
 
                 {% if 'traitement' in signalement.typeIntervention %}
