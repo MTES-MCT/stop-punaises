@@ -88,10 +88,6 @@ class PunaisesFrontSignalementController {
     $('.link-back-back').on('click', function(){
       self.refreshStep(-2);
     });
-    if (self.checkCodePostal('code-postal')) {
-      $('#code-postal').val($('form.front-signalement').data('code-postal'));
-      $('#step-home button').click();
-    }
   }
 
   async fetchTerritoireOpened() {
@@ -109,8 +105,10 @@ class PunaisesFrontSignalementController {
         return false;
       }
     } else {
+      $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
       return false;
     }
+    $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
     return true;
 
   }
