@@ -16,7 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementTransportController extends AbstractController
 {
-    #[Route('/signalement/transport', name: 'app_signalement_transport')]
+    #[Route(
+        '/signalement/transport',
+        name: 'app_signalement_transport',
+        defaults: ['sitemap_category' => 'main']
+    )]
     public function index(ParameterBagInterface $parameterBag): Response
     {
         if (!$parameterBag->get('feature_three_forms')) {

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Plan du site{% endblock %}
+
+{% block body %}
+    <section class="fr-container fr-mt-3w fr-mb-6w fr-mt-md-6w plan-du-site-header">
+        <div class="fr-container fr-mt-3w">
+            <div class="fr-grid-row justify-content-center">
+                <div class="fr-col-md-12">
+                    <h1>Plan du site</h1>
+                    <p>Le site officiel de l'Etat Français pour lutter contre les infestations de punaises de lit !</p>
+                    {% for title in titles['main'] %}
+                        <h2 class="fr-h4"><a href="{{ title.url }}">{{ title.name }}</a></h2>
+                    {% endfor %}
+                </div>
+                <div class="fr-col-md-12">
+                    <h2 class="fr-h4">Autres pages</h2>
+                    <ul>
+                        {% for title in titles['others'] %}
+                            <li><a href="{{ title.url }}">{{ title.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
