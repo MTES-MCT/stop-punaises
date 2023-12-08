@@ -595,6 +595,14 @@ span.image-caption {
         text-align: center;
         color: var(--blue-france-sun-113-625);
     }
+
+    form {
+        .fr-input-group {
+            li {
+                color: var(--text-default-error);
+            }
+        }
+    }
 }
 
 
