@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Stop punaises - Contact{% endblock %}
+{% block title %}Contact{% endblock %}
 
 {% block body %}
     <main id="contact-container" class="fr-container--fluid">
@@ -30,15 +30,17 @@
                 </p>
             </div>
 
-            <p class="fr-col-11 fr-col-md-8 fr-h6 fr-mt-5w">
+            <h2 class="fr-col-11 fr-col-md-8 fr-h6 fr-mt-5w">
                 Une question ? Une précision ? N'hésitez pas à nous envoyer un message !
-            </p>
+            </h2>
 
             <p class="fr-col-11 fr-col-md-8">
                 <strong>Attention :</strong>
                 le formulaire de contact ne permet pas de déposer un signalement.
                 Si vous souhaitez signaler un problème de logement, remplissez
                 <a href="{{ path('app_front_signalement_type_list') }}">le formulaire de signalement</a>.
+                <br><br>
+                Tous les champs sont obligatoires.
             </p>
 
             <div class="fr-col-11 fr-col-md-8 fr-py-5w">
