@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         
-        <link rel="stylesheet" href="{{ asset('build/dsfr/dsfr.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('build/dsfr/dsfr.min.css') }}">
         <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-buildings/icons-buildings.min.css') }}">
         <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-design/icons-design.min.css') }}">
         <link rel="stylesheet" href="{{ asset('build/dsfr/utility/icons/icons-development/icons-development.min.css') }}">
@@ -25,7 +25,7 @@
         {% block custom_stylesheets %}{% endblock %}
 
         {% if 'app_cartographie' in app.request.get('_route') %}
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
             <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.js"></script>
             <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js" ></script>
         {% endif %}
