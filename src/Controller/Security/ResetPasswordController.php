@@ -18,7 +18,10 @@ class ResetPasswordController extends AbstractController
 {
     use ValidatorPasswordResetableTrait;
 
-    #[Route(path: '/mot-de-passe-perdu', name: 'request_password')]
+    #[Route(path: '/mot-de-passe-perdu',
+        name: 'request_password',
+        defaults: ['show_sitemap' => true]
+    )]
     public function requestPassword(
         Request $request,
         UserManager $userManager

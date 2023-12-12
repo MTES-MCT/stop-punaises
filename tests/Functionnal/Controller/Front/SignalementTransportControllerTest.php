@@ -20,7 +20,7 @@ class SignalementTransportControllerTest extends WebTestCase
 
         /** @var RouterInterface $router */
         $router = static::getContainer()->get(RouterInterface::class);
-        $route = $router->generate('app_signalement_transport');
+        $route = $router->generate('app_front_signalement_transport');
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
 
@@ -48,7 +48,7 @@ class SignalementTransportControllerTest extends WebTestCase
 
         /** @var RouterInterface $router */
         $router = static::getContainer()->get(RouterInterface::class);
-        $route = $router->generate('app_signalement_transport');
+        $route = $router->generate('app_front_signalement_transport');
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
 
@@ -75,7 +75,7 @@ class SignalementTransportControllerTest extends WebTestCase
 
         /** @var RouterInterface $router */
         $router = static::getContainer()->get(RouterInterface::class);
-        $route = $router->generate('app_signalement_transport');
+        $route = $router->generate('app_front_signalement_transport');
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
         $form['signalement_transport[punaisesViewedAt]'] = '2023-10-10';
@@ -107,7 +107,7 @@ class SignalementTransportControllerTest extends WebTestCase
 
         /** @var RouterInterface $router */
         $router = static::getContainer()->get(RouterInterface::class);
-        $route = $router->generate('app_signalement_transport');
+        $route = $router->generate('app_front_signalement_transport');
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
 
@@ -138,7 +138,7 @@ class SignalementTransportControllerTest extends WebTestCase
 
         /** @var RouterInterface $router */
         $router = static::getContainer()->get(RouterInterface::class);
-        $route = $router->generate('app_signalement_transport');
+        $route = $router->generate('app_front_signalement_transport');
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
 

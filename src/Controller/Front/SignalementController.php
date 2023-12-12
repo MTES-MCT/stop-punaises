@@ -24,7 +24,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementController extends AbstractController
 {
-    #[Route('/signalement/logement', name: 'app_front_signalement_logement')]
+    #[Route(
+        '/signalement/logement',
+        name: 'app_front_signalement_logement',
+        defaults: ['show_sitemap' => true]
+    )]
     public function signalementLogement(Request $request, TerritoireRepository $territoireRepository): Response
     {
         $signalement = new Signalement();

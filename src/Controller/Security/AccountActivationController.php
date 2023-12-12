@@ -18,7 +18,11 @@ class AccountActivationController extends AbstractController
 {
     use ValidatorPasswordResetableTrait;
 
-    #[Route(path: '/activation-compte', name: 'request_account_activation')]
+    #[Route(
+        path: '/activation-compte',
+        name: 'request_account_activation',
+        defaults: ['show_sitemap' => true]
+    )]
     public function requestPassword(
         Request $request,
         UserManager $userManager

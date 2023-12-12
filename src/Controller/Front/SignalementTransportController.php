@@ -16,7 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementTransportController extends AbstractController
 {
-    #[Route('/signalement/transport', name: 'app_signalement_transport')]
+    #[Route(
+        '/signalement/transport',
+        name: 'app_front_signalement_transport',
+        defaults: ['show_sitemap' => false]
+    )]
     public function index(ParameterBagInterface $parameterBag): Response
     {
         if (!$parameterBag->get('feature_three_forms')) {
@@ -30,7 +34,7 @@ class SignalementTransportController extends AbstractController
         ]);
     }
 
-    #[Route('/signalement/transport/ajout', name: 'app_signalement_transport_save', methods: ['POST'])]
+    #[Route('/signalement/transport/ajout', name: 'app_front_signalement_transport_save', methods: ['POST'])]
     public function save(
         Request $request,
         SignalementManager $signalementManager,
