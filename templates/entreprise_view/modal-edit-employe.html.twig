@@ -1,4 +1,4 @@
-<dialog aria-labelledby="fr-modal-title-modal-edit-employe-{{employeUuid}}" role="dialog" id="fr-modal-edit-employe-{{employeUuid}}" class="fr-modal fr-sidemodal">
+<dialog aria-labelledby="fr-modal-title-modal-edit-employe-{{employeUuid}}" id="fr-modal-edit-employe-{{employeUuid}}" class="fr-modal fr-sidemodal">
     <div class="fr-container fr-container--fluid fr-container-md">
         <div class="fr-grid-row fr-grid-row--center">
             <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
@@ -11,7 +11,7 @@
                         <p>Modifiez les informations en complétant les champs ci-dessous.</p>
 
                         <form action="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" method="POST" class="fr-my-5w">
-                            {{ form_row(formEditEmploye._token) }}
+                            {{ form_row(formEditEmploye._token, { 'id': 'employe_token_'~employeUuid }) }}
 
                             <input type="hidden" name="editEmploye" value="{{employeUuid}}">
 
