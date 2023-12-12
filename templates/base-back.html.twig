@@ -33,6 +33,7 @@
         {% include 'common/analytics.html.twig' %}
     </head>
     <body>
+        {% include "common/skiplink-back.html.twig" %}
         {% include "common/header-back.html.twig" %}
         {% include "dashboard/nav.html.twig" %}
 
@@ -46,7 +47,9 @@
             {% endfor %}
         {% endfor %}
         
+        <div id="contenu">
         {% block body %}{% endblock %}
+        </div>
         
         {% block javascripts %}
             {% if 'app_cartographie' in app.request.get('_route') %}

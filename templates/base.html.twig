@@ -27,9 +27,12 @@
         {% include 'common/analytics.html.twig' %}
     </head>
     <body>
+        {% include "common/skiplink.html.twig" %}
         {% include "common/header.html.twig" %}
 
+        <div id="contenu">
         {% block body %}{% endblock %}
+        </div>
 
         {% include "common/footer.html.twig" %}
     </body>
