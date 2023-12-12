@@ -5,6 +5,7 @@ namespace App\Tests\Functionnal\Service\Import\CompteUtilisateur;
 use App\Entity\Entreprise;
 use App\Factory\EntrepriseFactory;
 use App\Manager\EntrepriseManager;
+use App\Manager\UserManager;
 use App\Repository\EntrepriseRepository;
 use App\Service\Import\CompteUtilisateur\CompteUtilisateurLoader;
 use App\Service\Import\CompteUtilisateur\CompteUtilisateurMapper;
@@ -21,6 +22,7 @@ class CompteUtilisateurLoaderTest extends KernelTestCase
     private EntrepriseRepository $entrepriseRepository;
     private LoggerInterface $logger;
     private ValidatorInterface $validator;
+    private UserManager $userManager;
 
     protected function setUp(): void
     {
@@ -31,6 +33,7 @@ class CompteUtilisateurLoaderTest extends KernelTestCase
         $this->entrepriseRepository = self::getContainer()->get(EntrepriseRepository::class);
         $this->logger = self::getContainer()->get(LoggerInterface::class);
         $this->validator = self::getContainer()->get(ValidatorInterface::class);
+        $this->userManager = self::getContainer()->get(UserManager::class);
     }
 
     public function testLoad(): void
@@ -42,6 +45,7 @@ class CompteUtilisateurLoaderTest extends KernelTestCase
             $this->entrepriseRepository,
             $this->validator,
             $this->logger,
+            $this->userManager,
         );
 
         $compteUtilisateurLoader->load($this->getData(), [
@@ -55,6 +59,7 @@ class CompteUtilisateurLoaderTest extends KernelTestCase
 
         $metadata = $compteUtilisateurLoader->getMetadata();
         $this->assertEquals(20, $metadata['nb_users_created']);
+        $this->assertEquals(0, $metadata['nb_users_updated']);
         $this->assertNull($metadata['errors']);
         $this->assertContainsOnlyInstancesOf(Entreprise::class, $metadata['account_exists']);
     }
