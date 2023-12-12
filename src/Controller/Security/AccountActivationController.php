@@ -21,7 +21,7 @@ class AccountActivationController extends AbstractController
     #[Route(
         path: '/activation-compte',
         name: 'request_account_activation',
-        defaults: ['sitemap_title_page' => 'Activer mon compte', 'sitemap_category' => 'main']
+        defaults: ['show_sitemap' => true]
     )]
     public function requestPassword(
         Request $request,

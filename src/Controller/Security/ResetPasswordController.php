@@ -20,7 +20,7 @@ class ResetPasswordController extends AbstractController
 
     #[Route(path: '/mot-de-passe-perdu',
         name: 'request_password',
-        defaults: ['sitemap_title_page' => 'Réinitialiser mon mot de passe', 'sitemap_category' => 'main']
+        defaults: ['show_sitemap' => true]
     )]
     public function requestPassword(
         Request $request,

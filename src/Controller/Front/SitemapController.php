@@ -18,20 +18,7 @@ class SitemapController extends AbstractController
         #[Autowire(param: 'base_url')]
         string $baseUrl,
     ): Response {
-        $titles = [];
-        $routes = $router->getRouteCollection()->all();
-        foreach ($routes as $route) {
-            if (isset($route->getDefaults()['sitemap_title_page'])) {
-                $titles[$route->getDefault('sitemap_category') ?? 'others'][] = [
-                    'name' => $route->getDefault('sitemap_title_page'),
-                    'url' => $baseUrl.$route->getPath(),
-                    ];
-            }
-        }
-
-        return $this->render('sitemap/index.html.twig', [
-            'titles' => $titles,
-        ]);
+        return $this->render('sitemap/index.html.twig');
     }
 
     #[Cache(public: true, maxage: 3600)]
@@ -44,7 +31,7 @@ class SitemapController extends AbstractController
         $urls = [];
         $routes = $router->getRouteCollection()->all();
         foreach ($routes as $route) {
-            if (isset($route->getDefaults()['sitemap_title_page'])) {
+            if ($route->getDefaults()['show_sitemap'] ?? false) {
                 $urls[] = ['loc' => $baseUrl.$route->getPath()];
             }
         }

@@ -29,23 +29,27 @@
                     <h2>Signalement</h2>
                     <ul>
                         <li>
-                            <a href="{{ path('app_front_signalement_type_list') }}">Signaler un problème de punaises de lit</a>
+                            <a href="{{ path('app_front_signalement_type_list') }}">Signaler un problème de punaises de
+                                lit</a>
                             <ul>
                                 <li>
                                     <a href="{{ path('app_front_signalement_logement') }}">Signaler un problème dans
                                         le
                                         logement</a>
                                 </li>
-                                <li>
-                                    <a href="{{ path('app_front_signalement_transport') }}">Signaler un problème dans
-                                        les
-                                        transports</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('app_front_signalement_erp') }}">Signaler un problème dans
-                                        un
-                                        lieu public</a>
-                                </li>
+                                {% if feature_three_forms %}
+                                    <li>
+                                        <a href="{{ path('app_front_signalement_transport') }}">Signaler un problème
+                                            dans
+                                            les
+                                            transports</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('app_front_signalement_erp') }}">Signaler un problème dans
+                                            un
+                                            lieu public</a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li><span class="fr-icon-account-line" title="Page réservée aux utilisateurs connectés"
@@ -56,10 +60,12 @@
                                   aria-hidden="true"></span>
                             <a href="{{ path('app_horsperimetre_list') }}">Signalements hors périmètre</a>
                         </li>
+                        {% if feature_three_forms %}
                         <li><span class="fr-icon-account-line" title="Page réservée aux utilisateurs connectés"
-                                  aria-hidden="true"></span>
-                            <a href="{{ path('app_erptransports_list') }}">Signalements ERP et transports</a>
-                        </li>
+                                      aria-hidden="true"></span>
+                                <a href="{{ path('app_erptransports_list') }}">Signalements ERP et transports</a>
+                            </li>
+                        {% endif %}
                         <li><span class="fr-icon-account-line" title="Page réservée aux utilisateurs connectés"
                                   aria-hidden="true"></span>
                             <a href="{{ path('app_historique_list') }}">Données historiques</a>
@@ -101,11 +107,6 @@
                         <li><span class="fr-icon-account-line" title="Page réservée aux utilisateurs connectés"
                                   aria-hidden="true"></span>
                             <a href="{{ path('app_entreprise_list') }}">Les entreprises partenaires</a>
-                        </li>
-                        <li>
-                            <span class="fr-icon-account-line" title="Page réservée aux utilisateurs connectés"
-                                  aria-hidden="true"></span>
-                            <a href="{{ path('app_front_entreprises_labellisees') }}">Les entreprise labellisées</a>
                         </li>
                         <li><span class="fr-icon-account-line" title="Page réservée aux utilisateurs connectés"
                                   aria-hidden="true"></span>

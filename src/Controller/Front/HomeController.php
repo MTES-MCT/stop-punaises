@@ -17,7 +17,7 @@ class HomeController extends AbstractController
     #[Route(
         '/',
         name: 'home',
-        defaults: ['sitemap_title_page' => 'Accueil de la plafeforme', 'sitemap_category' => 'main']
+        defaults: ['show_sitemap' => true]
     )]
     public function index(): Response
     {
@@ -28,7 +28,7 @@ class HomeController extends AbstractController
     #[Route(
         '/signalement',
         name: 'app_front_signalement_type_list',
-        defaults: ['sitemap_title_page' => 'Signaler un problème de punaises de lit', 'sitemap_category' => 'main']
+        defaults: ['show_sitemap' => true]
     )]
     public function signalementList(ParameterBagInterface $parameterBag): Response
     {
@@ -41,7 +41,7 @@ class HomeController extends AbstractController
     #[Route(
         '/information',
         name: 'app_front_information',
-        defaults: ['sitemap_title_page' => 'Informations', 'sitemap_category' => 'main']
+        defaults: ['show_sitemap' => true]
     )]
     public function information(): Response
     {
@@ -54,7 +54,8 @@ class HomeController extends AbstractController
     #[Route(
         '/mentions-legales',
         name: 'app_front_mentions_legales',
-        defaults: ['sitemap_title_page' => 'Mentions légales'])]
+        defaults: ['show_sitemap' => true]
+    )]
     public function mentionsLegales(): Response
     {
         return $this->render('front/mentions-legales.html.twig', [
@@ -65,7 +66,7 @@ class HomeController extends AbstractController
     #[Route(
         '/politique-de-confidentialite',
         name: 'app_front_politique_confidentialite',
-        defaults: ['sitemap_title_page' => 'Politique de confidentialité']
+        defaults: ['show_sitemap' => true]
     )]
     public function politiqueConfidentialite(): Response
     {
@@ -76,7 +77,8 @@ class HomeController extends AbstractController
     #[Route(
         '/contact',
         name: 'app_front_contact',
-        defaults: ['sitemap_title_page' => 'Contact', 'sitemap_category' => 'main'])]
+        defaults: ['show_sitemap' => true]
+    )]
     public function contact(
         Request $request,
         ContactFormHandler $contactFormHandler,

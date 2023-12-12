@@ -15,7 +15,8 @@ class SecurityController extends AbstractController
     #[Route(
         path: '/login',
         name: 'app_login',
-        defaults: ['sitemap_title_page' => 'Se connecter à l\'espace pro', 'sitemap_category' => 'main'])]
+        defaults: ['show_sitemap' => true]
+    )]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {

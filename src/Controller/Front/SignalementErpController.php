@@ -19,7 +19,7 @@ class SignalementErpController extends AbstractController
     #[Route(
         '/signalement/erp',
         name: 'app_front_signalement_erp',
-        defaults: ['sitemap_category' => 'main']
+        defaults: ['show_sitemap' => false]
     )]
     public function index(ParameterBagInterface $parameterBag): Response
     {

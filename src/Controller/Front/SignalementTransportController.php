@@ -19,7 +19,7 @@ class SignalementTransportController extends AbstractController
     #[Route(
         '/signalement/transport',
         name: 'app_front_signalement_transport',
-        defaults: ['sitemap_category' => 'main']
+        defaults: ['show_sitemap' => false]
     )]
     public function index(ParameterBagInterface $parameterBag): Response
     {
