@@ -35,7 +35,7 @@ class SitemapController extends AbstractController
     }
 
     #[Cache(public: true, maxage: 3600)]
-    #[Route('/sitemap.{_format}', name: 'sitemap', defaults: ['_format' => 'xml'])]
+    #[Route('/sitemap.{_format}', name: 'app_front_sitemap', defaults: ['_format' => 'xml'])]
     public function generateSitemap(
         RouterInterface $router,
         #[Autowire(param: 'base_url')]

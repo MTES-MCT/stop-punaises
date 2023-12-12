@@ -18,7 +18,7 @@ class SignalementTransportController extends AbstractController
 {
     #[Route(
         '/signalement/transport',
-        name: 'app_signalement_transport',
+        name: 'app_front_signalement_transport',
         defaults: ['sitemap_category' => 'main']
     )]
     public function index(ParameterBagInterface $parameterBag): Response
@@ -34,7 +34,7 @@ class SignalementTransportController extends AbstractController
         ]);
     }
 
-    #[Route('/signalement/transport/ajout', name: 'app_signalement_transport_save', methods: ['POST'])]
+    #[Route('/signalement/transport/ajout', name: 'app_front_signalement_transport_save', methods: ['POST'])]
     public function save(
         Request $request,
         SignalementManager $signalementManager,

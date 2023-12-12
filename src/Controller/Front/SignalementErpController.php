@@ -18,7 +18,7 @@ class SignalementErpController extends AbstractController
 {
     #[Route(
         '/signalement/erp',
-        name: 'app_signalement_erp',
+        name: 'app_front_signalement_erp',
         defaults: ['sitemap_category' => 'main']
     )]
     public function index(ParameterBagInterface $parameterBag): Response
@@ -34,7 +34,7 @@ class SignalementErpController extends AbstractController
         ]);
     }
 
-    #[Route('/signalement/erp/ajout', name: 'app_signalement_erp_save', methods: ['POST'])]
+    #[Route('/signalement/erp/ajout', name: 'app_front_signalement_erp_save', methods: ['POST'])]
     public function save(
         Request $request,
         SignalementManager $signalementManager,

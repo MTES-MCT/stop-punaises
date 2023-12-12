@@ -20,7 +20,7 @@ class SignalementErpControllerTest extends WebTestCase
 
         /** @var RouterInterface $router */
         $router = static::getContainer()->get(RouterInterface::class);
-        $route = $router->generate('app_signalement_erp');
+        $route = $router->generate('app_front_signalement_erp');
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
         $form['signalement_front[punaisesViewedAt]'] = '2023-10-10';
@@ -49,7 +49,7 @@ class SignalementErpControllerTest extends WebTestCase
 
         /** @var RouterInterface $router */
         $router = static::getContainer()->get(RouterInterface::class);
-        $route = $router->generate('app_signalement_erp');
+        $route = $router->generate('app_front_signalement_erp');
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
         $form['signalement_front[punaisesViewedAt]'] = '2023-10-10';
@@ -82,7 +82,7 @@ class SignalementErpControllerTest extends WebTestCase
 
         /** @var RouterInterface $router */
         $router = static::getContainer()->get(RouterInterface::class);
-        $route = $router->generate('app_signalement_erp');
+        $route = $router->generate('app_front_signalement_erp');
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
 
@@ -111,7 +111,7 @@ class SignalementErpControllerTest extends WebTestCase
 
         /** @var RouterInterface $router */
         $router = static::getContainer()->get(RouterInterface::class);
-        $route = $router->generate('app_signalement_erp');
+        $route = $router->generate('app_front_signalement_erp');
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
 
