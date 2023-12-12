@@ -82,7 +82,12 @@
                 {% for index,photo in photos %}
                     <div class="fr-col-6 fr-col-md-3">
                         <div style="background: url('{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}')no-repeat center center/cover">
-                            <a class="fr-btn fr-icon-eye-line" href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank" rel="noopener"></a>
+                            <a class="fr-btn fr-icon-eye-line"
+                               href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}"
+                               title="{{ 'Photo ' ~ (index + 1) ~ ' envoyée par l\'usager' }}"
+                               aria-label="{{ 'Photo ' ~ (index + 1) ~ 'envoyée par l\'usager' }}"
+                               target="_blank"
+                               rel="noopener"></a>
                         </div>
                     </div>
                 {% endfor %}
