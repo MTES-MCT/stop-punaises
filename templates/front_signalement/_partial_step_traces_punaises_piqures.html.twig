@@ -47,11 +47,17 @@
 
     <div class="fr-form-group">
         <div class="fr-select-group">
-            <label class="fr-label required">J'ai des <span class="underline">piqûres</span> de punaises de lit <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-piqures">i</a></label>
-            {{ form_widget(form.piquresExistantes) }}
-            <p class="fr-error-text fr-hidden">
-                Veuillez renseigner si vous avez des piqûres de punaises de lit.
-            </p>
+            <label class="fr-label required">
+                J'ai des <span class="underline">piqûres</span> de punaises de lit
+                <br>
+                <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-piqures">Plus d'informations</a>
+            </label>
+            <div class="fr-mt-3v">
+                {{ form_widget(form.piquresExistantes) }}
+                <p class="fr-error-text fr-hidden">
+                    Veuillez renseigner si vous avez des piqûres de punaises de lit.
+                </p>
+            </div>
         </div>
     </div>
 
