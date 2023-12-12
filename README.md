@@ -106,3 +106,7 @@ Rhône       | company-69-02@punaises.fr | ROLE_ENTREPRISE
 ## Documentaton projet
 
 [Consulter la documentation](https://github.com/MTES-MCT/stop-punaises/wiki)
+
+## Contribuer
+
+[Consulter les instructions de contributions](./CONTRIBUTING.md).
