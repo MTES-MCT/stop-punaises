@@ -20,6 +20,9 @@ final class Version20231124140038 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        $territoires = $this->connection->fetchAssociative('SELECT * FROM territoire');
+        $this->skipIf(!$territoires, 'Territoire table does not exist yet, please execute migration manually');
+
         foreach (self::TERRITOIRES as $zipCode) {
             $this->addSql('UPDATE territoire SET active = 1 WHERE zip = :zip', ['zip' => $zipCode]);
         }
