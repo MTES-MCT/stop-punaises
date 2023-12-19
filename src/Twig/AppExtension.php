@@ -24,6 +24,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('reference_sortable', [$this, 'formatSortableReference']),
             new TwigFilter('signalement_type', [$this, 'formatSignalementType']),
             new TwigFilter('place_type', [$this, 'formatPlaceType']),
+            new TwigFilter('format_bytes', [$this, 'formatBytes']),
         ];
     }
 
@@ -108,5 +109,17 @@ class AppExtension extends AbstractExtension
         }
 
         return $referenceSplit[0].'-'.str_pad($referenceSplit[1], 10, 0, \STR_PAD_LEFT);
+    }
+
+    public function formatBytes($bytes, $precision = 2): string
+    {
+        $units = ['o', 'Ko', 'Mo', 'Go', 'To'];
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, \count($units) - 1);
+
+        $bytes /= 1024 ** $pow;
+
+        return round($bytes, $precision).' '.$units[$pow];
     }
 }
