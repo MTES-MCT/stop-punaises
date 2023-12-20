@@ -6,6 +6,7 @@ use App\Entity\Enum\InfestationLevel;
 use App\Entity\Enum\PlaceType;
 use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
+use App\Utils\FileHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -113,13 +114,6 @@ class AppExtension extends AbstractExtension
 
     public function formatBytes($bytes, $precision = 2): string
     {
-        $units = ['o', 'Ko', 'Mo', 'Go', 'To'];
-        $bytes = max($bytes, 0);
-        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
-        $pow = min($pow, \count($units) - 1);
-
-        $bytes /= 1024 ** $pow;
-
-        return round($bytes, $precision).' '.$units[$pow];
+        return FileHelper::fileSizeFormatter($bytes, $precision);
     }
 }
