@@ -694,10 +694,6 @@ span.image-caption {
         .fr-input-wrap::before {
             right: 1rem;
         }
-
-        .fr-input, .fr-select {
-            background-color: var(--grey-1000-50);   
-        }
     }
 
     .dataTables_wrapper {
@@ -727,7 +723,6 @@ span.image-caption {
         width: 100%;
         line-height: 1.5rem;
         height: 2.5rem;
-        background-color: white;
     }
 }
 
@@ -782,10 +777,6 @@ span.image-caption {
     .fr-container {
         .fr-input-wrap::before {
             right: 1rem;
-        }
-
-        .fr-input, .fr-select {
-            background-color: var(--grey-1000-50);   
         }
     }
 
