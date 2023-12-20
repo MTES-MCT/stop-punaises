@@ -1037,7 +1037,36 @@ span.image-caption {
       border: 5px solid var(--border-action-high-grey);
     }
   
-    .fr-tabs__tab {
+    .fr-tabs__tab, .fr-modal__body {
       border: 2px solid var(--border-action-high-grey);
     }
+
+    .fr-header{
+        border-bottom: 2px solid var(--border-action-high-grey);
+    }
+
+    .fr-footer {
+        border-top: 2px solid var(--border-action-high-grey);
+    }
+    .fr-footer__bottom-list{
+        border-top: 1px solid var(--border-action-high-grey);
+    }
+
+    .fr-accordion{
+        border-bottom: 1px solid var(--border-action-high-grey);
+    }
+
+    .fr-alert, 
+    .fr-card,
+    .fr-tile,
+    .fiche-signalement .fr-tabs__panel .edit-zone,
+    .fr-checkbox-group input[type="checkbox"] + label::before{
+        border: 1px solid var(--border-action-high-grey);
+    }
+
+    .fr-input::placeholder {
+        font-weight: 300;
+    }
+
+
   }
