@@ -22,7 +22,7 @@
             <h2><span id="count-entreprise">{{ count_entreprises }}</span> entreprises trouvées</h2>
 
             {% if entreprises is not empty %}
-                <table id="datatable">
+                <table id="datatable" class="nowrap">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -38,7 +38,7 @@
                         {% for entreprise in entreprises %}
                             <tr>
                                 <td>{{ entreprise.id }}</td>
-                                <td>{{ entreprise.nom }} <span>{{ entreprise.numeroSiret }} {{ entreprise.numeroLabel }}</span></td>
+                                <td>{{ entreprise.nom }} <span class="fr-hidden">{{ entreprise.numeroSiret }} {{ entreprise.numeroLabel }}</span></td>
                                 <td>{{ entreprise.numeroSiret }}</span></td>
                                 <td>{{ entreprise.numeroLabel }}</td>
                                 <td><span>{{ entreprise.employes.count }}</span></td>

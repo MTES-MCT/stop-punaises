@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-dt';
+import 'datatables.net-responsive-dt';
 
 $(function() {
   if ($('div.liste-signalements').length > 0) {
@@ -10,7 +11,8 @@ $(function() {
 
 var listTable = null;
 function startListeSignalementsApp() {
-  listTable = $('table#datatable').DataTable({
+  listTable = $('table#datatable').DataTable({    
+    responsive: true,
     pageLength: 20,
     searching: true,
     ordering: true,

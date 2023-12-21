@@ -27,6 +27,10 @@ Encore
         to: 'datatables/[path][name].[ext]'
     })
     .copyFiles({
+        from: './node_modules/datatables.net-responsive-dt/css/',
+        to: 'datatables/[path][name].[ext]'
+    })
+    .copyFiles({
         from: './node_modules/jquery-ui/dist/themes/base/',
         to: 'jquery-ui/[path][name].[ext]'
     })

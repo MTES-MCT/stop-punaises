@@ -37,7 +37,7 @@
         <h2><span id="count-signalement">{{ count_signalement }}</span> signalements trouvés</h2>
 
         {% if signalements is not empty %}
-            <table id="datatable" class="liste-signalements-erp-transports">
+            <table id="datatable" class="liste-signalements-erp-transports nowrap">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -52,7 +52,7 @@
                 <tbody>
                     {% for signalement in signalements %}
                         <tr>
-                            <td data-order="{{ signalement.reference|reference_sortable }}">{{ signalement.reference }} <span>{{ signalement.nomOccupant }} {{ signalement.prenomOccupant }} {{ signalement.emailOccupant }}</span></td>
+                            <td data-order="{{ signalement.reference|reference_sortable }}">{{ signalement.reference }} <span class="fr-hidden">{{ signalement.nomOccupant }} {{ signalement.prenomOccupant }} {{ signalement.emailOccupant }}</span></td>
                             <td data-order="{{ signalement.createdAt.format('Y-m-d') }}">{{ signalement.createdAt.format('d/m/Y') }}</td>
                             <td>{{ signalement.type|signalement_type }}</td>
                             {% if signalement.type is same as enum('App\\Entity\\Enum\\SignalementType').TYPE_TRANSPORT %}

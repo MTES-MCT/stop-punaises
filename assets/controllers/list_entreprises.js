@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-dt';
+import 'datatables.net-responsive-dt';
 
 $(function() {
   if ($('div.liste-entreprises').length > 0) {
@@ -11,6 +12,7 @@ $(function() {
 var listTable = null;
 function startListeEntreprisesApp() {
   listTable = $('table#datatable').DataTable({
+    responsive: true,
     pageLength: 20,
     searching: true,
     ordering: true,
