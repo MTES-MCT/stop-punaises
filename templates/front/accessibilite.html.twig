@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions légales{% endblock %}
+
+{% block body %}
+
+    <section class="fr-container fr-my-3w fr-my-md-5w">
+        <h1>Déclaration d’accessibilité</h1>
+
+        <p>Établie le <span>14 novembre 2023</span>.</p>
+
+        <p>
+            Le <span>Ministère de la Transition Ecologique et de la Cohésion des Territoires</span>
+            s’engage à rendre son service accessible, conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.
+        </p>
+
+        <p>
+            Cette déclaration d’accessibilité s’applique à <strong>Stop-Punaises</strong>
+            (https://stop-punaises.beta.gouv.fr).
+        </p>
+
+        <h2>État de conformité</h2>
+        <p>
+            <strong>Stop-Punaises</strong> est  <strong>non conforme</strong> avec le 
+            <abbr title="Référentiel général d’amélioration de l’accessibilité">RGAA</abbr>.
+            <br>
+            Le site n’a encore pas été audité.
+        </p>
+
+        <h2>Contenus non accessibles</h2>
+        <p>
+            Le site n’a encore pas été audité.
+        </p>
+
+        <h2>Amélioration et contact</h2>
+
+        <p>
+            Si vous n’arrivez pas à accéder à un contenu ou à un service, vous pouvez contacter le responsable de 
+            Stop-Punaises pour être orienté vers une alternative accessible ou obtenir le contenu sous une autre forme.
+        </p>
+
+        <ul class="basic-information feedback h-card">
+            <li>Téléphone&nbsp;: <span>+33 1 40 81 21 22</span></li>
+            <li>E-mail&nbsp;: <a href="mailto:contact@stop-punaises.beta.gouv.fr">contact@stop-punaises.beta.gouv.fr</a></li>
+            <li>Formulaire de contact&nbsp;: <a href="{{ path('app_front_contact') }}">https://stop-punaises.beta.gouv.fr/contact</a></li>
+            <li>Adresse&nbsp;: <span>DGALN, Tour Sequoia, La Défense</span></li>
+        </ul>
+
+        <p>
+            Nous essayons de répondre dans les <span>2 jours ouvrés</span>.
+        </p>
+
+        <h2>Voie de recours</h2>
+
+        <p>
+            Cette procédure est à utiliser dans le cas suivant&nbsp;: vous avez signalé au responsable du site internet
+            un défaut d’accessibilité qui vous empêche d’accéder à un contenu ou à un des services du portail 
+            et vous n’avez pas obtenu de réponse satisfaisante.
+        </p>
+
+        <p>Vous pouvez&nbsp;:</p>
+
+        <ul>
+            <li>Écrire un message au <a href="https://formulaire.defenseurdesdroits.fr/" target="_blank" rel="noopener">Défenseur des droits</a></li>
+            <li>Contacter <a href="https://www.defenseurdesdroits.fr/saisir/delegues" target="_blank" rel="noopener">le délégué du Défenseur des droits dans votre région</a></li>
+            <li>
+                Envoyer un courrier par la poste (gratuit, ne pas mettre de timbre)&nbsp;:<br>
+                Défenseur des droits<br>
+                Libre réponse 71120<br>
+                75342 Paris CEDEX 07
+            </li>
+        </ul>
+
+        <hr>
+        
+        <p>
+            Cette déclaration d’accessibilité a été créé le <span>14 novembre 2023</span> grâce au 
+            <a href="https://betagouv.github.io/a11y-generateur-declaration/#create" target="_blank" rel="noopener">Générateur de Déclaration d’Accessibilité de BetaGouv</a>.
+        </p>
+    </section>
+
+{% endblock %}
