@@ -57,6 +57,12 @@ class PunaisesFrontSignalementController {
   init() {
     self = this;
     self.fetchTerritoireOpened();
+    $('input').on('keyup', function(e){
+      if (e.which == 13) {
+        e.preventDefault();
+        $('#step-'+self.stepStr + ' .btn-next').trigger( "click" );
+      }
+    });
     $('.btn-next').on('click', function(){
       if (!self.isTerritoryOpen && self.stepStr === 'info_usager') {
         if (self.checkStepInfoUsagerOpen()) {
