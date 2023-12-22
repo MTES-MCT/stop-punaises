@@ -52,6 +52,18 @@ class HomeController extends AbstractController
 
     #[Cache(public: true, maxage: 3600)]
     #[Route(
+        '/accessibilite',
+        name: 'app_front_accessibilite',
+        defaults: ['show_sitemap' => true]
+    )]
+    public function accessibilite(): Response
+    {
+        return $this->render('front/accessibilite.html.twig', [
+        ]);
+    }
+
+    #[Cache(public: true, maxage: 3600)]
+    #[Route(
         '/mentions-legales',
         name: 'app_front_mentions_legales',
         defaults: ['show_sitemap' => true]
