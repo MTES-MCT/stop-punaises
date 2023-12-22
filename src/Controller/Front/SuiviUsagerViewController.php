@@ -57,10 +57,7 @@ class SuiviUsagerViewController extends AbstractController
         }
 
         $docFile = $signalement->isAutotraitement() ? $this->getParameter('doc_autotraitement') : $this->getParameter('doc_domicile');
-        $docSize = 0;
-        if (file_exists('./build/'.$docFile)) {
-            $docSize = filesize('./build/'.$docFile);
-        }
+        $docSize = $signalement->isAutotraitement() ? $this->getParameter('doc_autotraitement_size') : $this->getParameter('doc_domicile_size');
 
         return $this->render('front_suivi_usager/index.html.twig', [
             'signalement' => $signalement,

@@ -12,8 +12,9 @@ class SignalementAddedEvent extends Event
     public function __construct(
         private Signalement $signalement,
         private string $pdfUrl,
+        private int $pdfSize,
         private ?\DateTimeImmutable $createdAt = null,
-        ) {
+    ) {
     }
 
     public function getSignalement(): Signalement
@@ -29,5 +30,10 @@ class SignalementAddedEvent extends Event
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getPdfSize(): string
+    {
+        return $this->pdfSize;
     }
 }

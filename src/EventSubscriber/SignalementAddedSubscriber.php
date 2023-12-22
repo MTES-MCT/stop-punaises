@@ -48,6 +48,7 @@ class SignalementAddedSubscriber implements EventSubscriberInterface
                 recipient: $signalement->getEmailOccupant(),
                 userId: null,
                 pdfUrl: $signalementAddedEvent->getPdfUrl(),
+                pdfSize: $signalementAddedEvent->getPdfSize(),
             );
             $this->eventRepository->updateCreatedAt($event, $signalementAddedEvent->getCreatedAt());
 
@@ -56,6 +57,7 @@ class SignalementAddedSubscriber implements EventSubscriberInterface
                 recipient: null,
                 userId: Event::USER_ALL,
                 pdfUrl: null,
+                pdfSize: null,
             );
             $this->eventRepository->updateCreatedAt($event, $signalementAddedEvent->getCreatedAt());
         }

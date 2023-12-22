@@ -113,7 +113,8 @@ class SignalementController extends AbstractController
             $eventDispatcher->dispatch(
                 new SignalementAddedEvent(
                     $signalement,
-                    $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement')
+                    $this->getParameter('base_url').'/build/'.$this->getParameter('doc_autotraitement'),
+                    $this->getParameter('doc_autotraitement_size')
                 ),
                 SignalementAddedEvent::NAME
             );
