@@ -86,7 +86,7 @@
                                 <td>{{ signalement.entreprise ? signalement.entreprise.nom : '/' }}</td>
                             {% endif %}
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                            <td class="button-view"><a href="{{ path('app_signalement_historique_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a></td>
+                            <td class="button-view"><a href="{{ path('app_signalement_historique_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement {{ signalement.reference }}"></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

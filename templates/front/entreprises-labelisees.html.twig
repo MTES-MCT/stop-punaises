@@ -47,7 +47,9 @@
                             <div class="fr-card__content">
                                 <h3 class="fr-card__title">
                                     {% if entreprise_publique.url %}
-                                        <a href="{{ entreprise_publique.url }}" target="_blank" rel="noopener">
+                                        <a target="_blank" rel="noopener"
+                                            href="{{ entreprise_publique.url }}"
+                                            title="Accéder au site web de l'entreprise {{ entreprise_publique.nom }}">
                                     {% endif %}
                                         {{ entreprise_publique.nom }}
                                     {% if entreprise_publique.url %}
@@ -70,14 +72,18 @@
                                 <ul class="fr-links-group display-list-block">
                                     {% if entreprise_publique.url %}
                                     <li>
-                                        <a class="fr-link fr-icon-arrow-right-line fr-link--icon-right" href="{{ entreprise_publique.url }}" target="_blank" rel="noopener">
+                                        <a class="fr-link fr-icon-arrow-right-line fr-link--icon-right" target="_blank" rel="noopener"
+                                            href="{{ entreprise_publique.url }}"
+                                            title="Accéder au site web de l'entreprise {{ entreprise_publique.nom }}"
+                                            >
                                             Accéder au site web
                                         </a>
                                     </li>
                                     {% endif %}
                                     {% if entreprise_publique.telephone %}
                                     <li>
-                                        <a class="fr-link fr-icon-phone-line fr-link--icon-right" href="tel:{{ entreprise_publique.telephone|format_phone }}">
+                                        <a class="fr-link fr-icon-phone-line fr-link--icon-right" href="tel:{{ entreprise_publique.telephone|format_phone }}"
+                                            title="Appeler l'entreprise {{ entreprise_publique.nom }}">
                                             {{ entreprise_publique.telephone|format_phone }}
                                         </a>
                                     </li>

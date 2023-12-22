@@ -123,7 +123,7 @@
                                 </td>
                             {% endif %}
                             <td class="button-view">
-                                <a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement"></a>
+                                <a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement {{ signalement.reference }}"></a>
                                 <span style="display: none;">
                                     {% if signalement.closedAt %}
                                         motif-arret
