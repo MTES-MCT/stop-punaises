@@ -80,6 +80,7 @@ class InitSignalementEventsCommand extends Command
             new SignalementAddedEvent(
                 $signalement,
                 $this->parameterBag->get('base_url').'/build/'.$this->parameterBag->get('doc_autotraitement'),
+                $this->parameterBag->get('doc_autotraitement_size'),
                 $signalement->getCreatedAt(),
             ),
             SignalementAddedEvent::NAME

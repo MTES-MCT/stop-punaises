@@ -57,10 +57,12 @@ class SuiviUsagerViewController extends AbstractController
         }
 
         $docFile = $signalement->isAutotraitement() ? $this->getParameter('doc_autotraitement') : $this->getParameter('doc_domicile');
+        $docSize = $signalement->isAutotraitement() ? $this->getParameter('doc_autotraitement_size') : $this->getParameter('doc_domicile_size');
 
         return $this->render('front_suivi_usager/index.html.twig', [
             'signalement' => $signalement,
             'link_pdf' => $this->getParameter('base_url').'/build/'.$docFile,
+            'size_pdf' => $docSize,
             'niveau_infestation' => $signalement->getNiveauInfestation() ? InfestationLevel::from($signalement->getNiveauInfestation())->label() : 'Non déterminée',
             'events' => $events,
             'accepted_interventions' => $acceptedInterventions,
@@ -79,7 +81,7 @@ class SuiviUsagerViewController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
         MailerProvider $mailerProvider,
         EntrepriseRepository $entrepriseRepository,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_switch_pro', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre signalement est transféré ! Les entreprises vont vous contacter au plus vite !');
             $signalement->setAutotraitement(false);
@@ -111,7 +113,7 @@ class SuiviUsagerViewController extends AbstractController
         SignalementManager $signalementManager,
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_switch_autotraitement', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre choix a été enregistré. Vous pouvez consulter le protocole d\'auto-traitement.');
             $signalement->setAutotraitement(true);
@@ -140,7 +142,7 @@ class SuiviUsagerViewController extends AbstractController
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_resolve', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
 
@@ -175,7 +177,7 @@ class SuiviUsagerViewController extends AbstractController
         Signalement $signalement,
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_confirm_toujours_punaises', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Stop Punaises a été prévenu de votre retour.');
             $mailerProvider->sendAdminToujoursPunaises($this->getParameter('admin_email'), $signalement);
@@ -197,7 +199,7 @@ class SuiviUsagerViewController extends AbstractController
         Signalement $signalement,
         SignalementManager $signalementManager,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_stop', $request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
             $signalement->setClosedAt(new \DateTimeImmutable());
@@ -222,7 +224,7 @@ class SuiviUsagerViewController extends AbstractController
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         if ($this->isCsrfTokenValid('signalement_estimation_choice', $request->get('_csrf_token'))) {
             if ('accept' == $request->get('action')) {
                 $this->addFlash('success', 'L\'estimation a bien été acceptée');
@@ -273,8 +275,10 @@ class SuiviUsagerViewController extends AbstractController
         return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
     }
 
-    #[Route('/signalements/{signalement_uuid}/messages-thread/{thread_uuid}',
-        name: 'app_suivi_usager_view_messages_thread')]
+    #[Route(
+        '/signalements/{signalement_uuid}/messages-thread/{thread_uuid}',
+        name: 'app_suivi_usager_view_messages_thread'
+    )]
     #[ParamConverter('signalement', options: ['mapping' => ['signalement_uuid' => 'uuid']])]
     #[ParamConverter('messageThread', options: ['mapping' => ['thread_uuid' => 'uuid']])]
     public function displayThreadMessages(Request $request, Signalement $signalement, MessageThread $messageThread): Response

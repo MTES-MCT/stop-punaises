@@ -13,6 +13,9 @@ parameters:
     doc_autotraitement: 'pdf/stop-punaises-protocole-auto-traitement.pdf'
     doc_domicile: 'pdf/stop-punaises-preparer-son-domicile.pdf'
     doc_conseil: 'pdf/stop-punaises-eviter-punaises-de-lit.pdf'
+    doc_autotraitement_size: 1040399
+    doc_domicile_size: 1135206
+    doc_conseil_size: 1286256
     admin_email: '%env(resolve:CONTACT_EMAIL)%'
     inconnu_email: '%env(resolve:INCONNU_EMAIL)%'
     feature_three_forms: '%env(bool:FEATURE_THREE_FORMS_ENABLE)%'

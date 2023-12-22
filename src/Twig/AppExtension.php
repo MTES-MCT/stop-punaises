@@ -6,6 +6,7 @@ use App\Entity\Enum\InfestationLevel;
 use App\Entity\Enum\PlaceType;
 use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
+use App\Utils\FileHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -24,6 +25,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('reference_sortable', [$this, 'formatSortableReference']),
             new TwigFilter('signalement_type', [$this, 'formatSignalementType']),
             new TwigFilter('place_type', [$this, 'formatPlaceType']),
+            new TwigFilter('format_bytes', [$this, 'formatBytes']),
         ];
     }
 
@@ -108,5 +110,10 @@ class AppExtension extends AbstractExtension
         }
 
         return $referenceSplit[0].'-'.str_pad($referenceSplit[1], 10, 0, \STR_PAD_LEFT);
+    }
+
+    public function formatBytes($bytes, $precision = 2): string
+    {
+        return FileHelper::fileSizeFormatter($bytes, $precision);
     }
 }

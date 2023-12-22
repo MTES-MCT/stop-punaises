@@ -55,7 +55,7 @@
             {% if not signalement.resolvedAt and not signalement.closedAt %}
             <div class="fr-grid-row fr-grid-row--gutters align-center">
                 <div class="fr-col fr-col-12 fr-col-lg-6 fr-mb-3v">
-                    <a class="fr-btn fr-btn--icon-left fr-icon-download-line" href="{{ link_pdf }}" target="_blank">Télécharger le protocole</a>
+                    <a class="fr-btn fr-btn--icon-left fr-icon-download-line" href="{{ link_pdf }}" target="_blank">Télécharger le protocole ({{size_pdf|format_bytes}})</a>
                 </div>
 
                 <div class="fr-col fr-col-12 fr-col-lg-6 fr-mb-3v">
