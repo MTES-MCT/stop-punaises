@@ -9,9 +9,9 @@ $(function() {
   }
 });
 
-var listTable = null;
+let listTable = null;
 function startListeSignalementsApp() {
-  listTable = $('table#datatable').DataTable({    
+  let options = {
     responsive: true,
     pageLength: 20,
     searching: true,
@@ -30,7 +30,15 @@ function startListeSignalementsApp() {
         last: "&gt;|"
       }
     }
-  });
+  }
+  let idTable = 'table#datatable'
+  if ($('table#datatable-ajax').length > 0) {
+    idTable += '-ajax';
+    options.ajax = '/bo/liste-signalements';
+    options.serverSide = true;
+    options.pageLength = 3;
+  }
+  listTable = $(idTable).DataTable(options);
   initComponentsEvents();
 }
 

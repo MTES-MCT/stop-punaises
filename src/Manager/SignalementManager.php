@@ -45,14 +45,19 @@ class SignalementManager extends AbstractManager
         return $this->findBy($parameters);
     }
 
-    public function findDeclaredByOccupants(): ?array
-    {
+    public function findDeclaredByOccupants(
+        ?string $start = null,
+        ?string $length = null,
+    ): ?array {
         /** @var User $user */
         $user = $this->security->getUser();
+        $entreprise = $this->security->isGranted(Role::ROLE_ADMIN->value) ? null : $user->getEntreprise();
 
-        return $this->security->isGranted(Role::ROLE_ADMIN->value)
-        ? $this->signalementRepository->findDeclaredByOccupants()
-        : $this->signalementRepository->findDeclaredByOccupants($user->getEntreprise());
+        return $this->signalementRepository->findDeclaredByOccupants(
+            entreprise: $entreprise,
+            start: $start,
+            length: $length,
+        );
     }
 
     public function countSignalements(): ?array
