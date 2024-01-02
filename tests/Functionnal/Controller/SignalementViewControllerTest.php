@@ -22,7 +22,7 @@ class SignalementViewControllerTest extends WebTestCase
         $user = $userRepository->findOneBy(['email' => 'admin@punaises.fr']);
         /** @var SignalementRepository $signalementRepository */
         $signalementRepository = static::getContainer()->get(SignalementRepository::class);
-        $signalement = $signalementRepository->findOneBy(['reference' => '2023-1']);
+        $signalement = $signalementRepository->findOneBy(['reference' => '2024-1']);
 
         $client->loginUser($user);
 
@@ -44,7 +44,7 @@ class SignalementViewControllerTest extends WebTestCase
         $user = $userRepository->findOneBy(['email' => 'company-01@punaises.fr']);
         /** @var SignalementRepository $signalementRepository */
         $signalementRepository = static::getContainer()->get(SignalementRepository::class);
-        $signalement = $signalementRepository->findOneBy(['reference' => '2023-1']);
+        $signalement = $signalementRepository->findOneBy(['reference' => '2024-1']);
 
         $client->loginUser($user);
 
