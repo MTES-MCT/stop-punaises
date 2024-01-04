@@ -97,6 +97,10 @@ class SignalementRepository extends ServiceEntityRepository
         ?string $length,
         ?string $zip,
         ?string $statut,
+        ?string $date,
+        ?string $niveauInfestation,
+        ?string $adresse,
+        ?string $type,
     ): ?array {
         $qb = $this->createQueryBuilder('s')
             ->leftJoin('s.territoire', 't')
@@ -112,6 +116,26 @@ class SignalementRepository extends ServiceEntityRepository
         if (!empty($zip)) {
             $qb->andWhere('t.zip = :zip')
                 ->setParameter('zip', $zip);
+        }
+        if (!empty($date)) {
+            $qb->andWhere('DATE(s.createdAt) = :date')
+                ->setParameter('date', $date);
+        }
+        if (!empty($niveauInfestation) || '0' === $niveauInfestation) {
+            $qb->andWhere('s.niveauInfestation = :infestation')
+                ->setParameter('infestation', $niveauInfestation);
+        }
+        if (!empty($adresse)) {
+            $qb->andWhere('s.codePostal LIKE :adresse OR s.ville LIKE :adresse')
+                ->setParameter('adresse', '%'.$adresse.'%');
+        }
+        if (!empty($type)) {
+            if ('a-traiter' === $type) {
+                $qb->andWhere('s.logementSocial != true')
+                    ->andWhere('s.autotraitement != true');
+            } elseif ('auto-traitement' === $type) {
+                $qb->andWhere('s.autotraitement = true');
+            }
         }
 
         if (!empty($start)) {

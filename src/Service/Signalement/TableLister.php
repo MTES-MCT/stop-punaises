@@ -34,6 +34,14 @@ class TableLister
         $requestColumns = $request->get('columns');
         // TODO : $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
         $searchTerritoireZip = $requestColumns[self::COL_SEARCH_TERRITOIRE]['search']['value'];
+        $searchDate = $requestColumns[self::COL_SEARCH_DATE]['search']['value'];
+        $searchNiveauInfestation = $requestColumns[self::COL_SEARCH_NIVEAU_INFESTATION]['search']['value'];
+        $searchAdresse = $requestColumns[self::COL_SEARCH_ADRESSE]['search']['value'];
+        $searchType = $requestColumns[self::COL_SEARCH_TYPE]['search']['value'];
+        /*
+        private const COL_SEARCH_ETAT_INFESTATION = 6;
+        private const COL_SEARCH_MOTIF_CLOTURE = 7;
+        */
 
         $signalementsTotal = $this->signalementManager->findDeclaredByOccupants(
         );
@@ -42,12 +50,20 @@ class TableLister
             length: null,
             zip: $searchTerritoireZip,
             statut: null,
+            date: $searchDate,
+            niveauInfestation: $searchNiveauInfestation,
+            adresse: $searchAdresse,
+            type: $searchType,
         );
         $signalementsFilteredData = $this->signalementManager->findDeclaredByOccupants(
             start: $request->get('start'),
             length: $request->get('length'),
             zip: $searchTerritoireZip,
             statut: null,
+            date: $searchDate,
+            niveauInfestation: $searchNiveauInfestation,
+            adresse: $searchAdresse,
+            type: $searchType,
         );
 
         $signalementsFilteredFormated = [];

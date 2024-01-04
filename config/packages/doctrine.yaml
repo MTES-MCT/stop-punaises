@@ -19,6 +19,7 @@ doctrine:
             string_functions:
                 YEAR: DoctrineExtensions\Query\Mysql\Year
                 DATEDIFF: DoctrineExtensions\Query\Mysql\DateDiff
+                DATE: DoctrineExtensions\Query\Mysql\Date
             numeric_functions:
                  rand: DoctrineExtensions\Query\Mysql\Rand
 

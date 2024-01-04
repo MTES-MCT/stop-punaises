@@ -10,6 +10,7 @@ $(function() {
 });
 
 let listTable = null;
+let searchTimeout = null;
 function startListeSignalementsApp() {
   let options = {
     responsive: true,
@@ -54,7 +55,10 @@ function initComponentsEvents() {
   }
   if ($('#search-address').length > 0) {
     $('#search-address').on('keyup', function() {
-      refreshTableWithSearch();
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        refreshTableWithSearch();
+      }, 150);
     });
   }
   if ($('#filter-infestation').length > 0) {
@@ -64,11 +68,6 @@ function initComponentsEvents() {
   }
   if ($('#filter-entreprise').length > 0) {
     $('#filter-entreprise').on('change', function() {
-      refreshTableWithSearch();
-    });
-  }
-  if ($('#filter-type').length > 0) {
-    $('#filter-type').on('change', function() {
       refreshTableWithSearch();
     });
   }
@@ -180,12 +179,7 @@ function refreshTableErpTransports() {
 function refreshTableUsagers() {
   if ($('#filter-date').length > 0) {
     let dateInput = $('#filter-date').val();
-    let dateFilter = '';
-    if (dateInput != '') {
-      let dateSplit = dateInput.split('-');
-      dateFilter = dateSplit[2] + '/' + dateSplit[1] + '/' + dateSplit[0];
-    }
-    listTable.columns(2).search(dateFilter);
+    listTable.columns(2).search(dateInput);
   }
   if ($('#filter-infestation').length > 0) {
     let niveauInfestation = $('#filter-infestation').val();
