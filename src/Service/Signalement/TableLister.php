@@ -5,6 +5,7 @@ namespace App\Service\Signalement;
 use App\Entity\Enum\Role;
 use App\Entity\Signalement;
 use App\Manager\SignalementManager;
+use App\Twig\AppExtension;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -24,13 +25,14 @@ class TableLister
         private SignalementManager $signalementManager,
         private Security $security,
         private UrlGeneratorInterface $urlGenerator,
+        private AppExtension $appExtension,
     ) {
     }
 
     public function list(Request $request): array
     {
         $requestColumns = $request->get('columns');
-        $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
+        // TODO : $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
         $searchTerritoireZip = $requestColumns[self::COL_SEARCH_TERRITOIRE]['search']['value'];
 
         $signalementsTotal = $this->signalementManager->findDeclaredByOccupants(
@@ -39,30 +41,30 @@ class TableLister
             start: null,
             length: null,
             zip: $searchTerritoireZip,
-            statut: $searchStatut,
+            statut: null,
         );
         $signalementsFilteredData = $this->signalementManager->findDeclaredByOccupants(
             start: $request->get('start'),
             length: $request->get('length'),
             zip: $searchTerritoireZip,
-            statut: $searchStatut,
+            statut: null,
         );
 
         $signalementsFilteredFormated = [];
         /** @var Signalement $signalement */
         foreach ($signalementsFilteredData as $signalement) {
             $signalementFormatted = [
-                self::formatStatut($signalement, $this->security),
+                $this->formatStatut($signalement),
                 $signalement->getReference(),
                 $signalement->getCreatedAt()->format('d/m/Y'),
-                self::formatNiveauInfestation($signalement),
-                self::formatCodePostal($signalement),
+                $this->formatNiveauInfestation($signalement),
+                $this->formatCodePostal($signalement),
             ];
             if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
-                $signalementFormatted[] = self::formatTypeSignalement($signalement);
-                $signalementFormatted[] = self::formatProcedure($signalement);
+                $signalementFormatted[] = $this->formatTypeSignalement($signalement);
+                $signalementFormatted[] = $this->formatProcedure($signalement);
             }
-            $signalementFormatted[] = self::formatButton($signalement, $this->urlGenerator);
+            $signalementFormatted[] = $this->formatButton($signalement);
 
             $signalementsFilteredFormated[] = $signalementFormatted;
         }
@@ -75,27 +77,28 @@ class TableLister
         ];
     }
 
-    private static function formatStatut(Signalement $signalement, Security $security): string
+    private function formatStatut(Signalement $signalement): string
     {
-        $statutFormat = new StatutFormat($security, $signalement);
+        $statutFormat = new StatutFormat($this->security, $signalement);
 
         return '<p class="fr-badge fr-badge--'.$statutFormat->getBadgeName()
                 .' fr-badge--no-icon">'
                 .$statutFormat->getLabel().'</p>';
     }
 
-    private static function formatNiveauInfestation(Signalement $signalement): string
+    private function formatNiveauInfestation(Signalement $signalement): string
     {
-        // <td>{% include "common/components/niveau-infestation.html.twig" %}</td>
-        return 'TODO niv inf';
+        return '<span class="niveau-infestation niveau-'.$signalement->getNiveauInfestation().'">'
+                .$this->appExtension->formatLabelInfestation($signalement->getNiveauInfestation()).
+                '</span>';
     }
 
-    private static function formatCodePostal(Signalement $signalement): string
+    private function formatCodePostal(Signalement $signalement): string
     {
         return $signalement->getCodePostal().' '.$signalement->getVille();
     }
 
-    private static function formatTypeSignalement(Signalement $signalement): string
+    private function formatTypeSignalement(Signalement $signalement): string
     {
         if ($signalement->isLogementSocial()) {
             return 'Logement social';
@@ -108,15 +111,18 @@ class TableLister
         return 'A traiter';
     }
 
-    private static function formatProcedure(Signalement $signalement): string
+    private function formatProcedure(Signalement $signalement): string
     {
-        // <td>{% include "common/components/signalement-procedure.html.twig" %}</td>
-        return 'TODO procedure';
+        $procedureFormat = new ProcedureFormat($signalement);
+
+        return '<label>'.$procedureFormat->getLabel().'</label>
+                <br>
+                <progress value="'.$procedureFormat->getPercent().'" max="100"></progress>';
     }
 
-    private static function formatButton(Signalement $signalement, UrlGeneratorInterface $urlGenerator): string
+    private function formatButton(Signalement $signalement): string
     {
-        $link = $urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
 
         return '<span class="button-view">
                 <a class="fr-btn fr-icon-arrow-right-fill"
