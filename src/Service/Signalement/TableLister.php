@@ -7,6 +7,7 @@ use App\Entity\Signalement;
 use App\Manager\SignalementManager;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class TableLister
 {
@@ -22,25 +23,36 @@ class TableLister
     public function __construct(
         private SignalementManager $signalementManager,
         private Security $security,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
     public function list(Request $request): array
     {
         $requestColumns = $request->get('columns');
-        $searchTerritoire = $requestColumns[self::COL_SEARCH_TERRITOIRE]['search']['value'];
+        $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
+        $searchTerritoireZip = $requestColumns[self::COL_SEARCH_TERRITOIRE]['search']['value'];
+
         $signalementsTotal = $this->signalementManager->findDeclaredByOccupants(
         );
         $signalementsFiltered = $this->signalementManager->findDeclaredByOccupants(
+            start: null,
+            length: null,
+            zip: $searchTerritoireZip,
+            statut: $searchStatut,
+        );
+        $signalementsFilteredData = $this->signalementManager->findDeclaredByOccupants(
             start: $request->get('start'),
             length: $request->get('length'),
+            zip: $searchTerritoireZip,
+            statut: $searchStatut,
         );
 
         $signalementsFilteredFormated = [];
         /** @var Signalement $signalement */
-        foreach ($signalementsFiltered as $signalement) {
+        foreach ($signalementsFilteredData as $signalement) {
             $signalementFormatted = [
-                self::formatStatut($signalement),
+                self::formatStatut($signalement, $this->security),
                 $signalement->getReference(),
                 $signalement->getCreatedAt()->format('d/m/Y'),
                 self::formatNiveauInfestation($signalement),
@@ -50,25 +62,26 @@ class TableLister
                 $signalementFormatted[] = self::formatTypeSignalement($signalement);
                 $signalementFormatted[] = self::formatProcedure($signalement);
             }
-            $signalementFormatted[] = self::formatButton($signalement);
+            $signalementFormatted[] = self::formatButton($signalement, $this->urlGenerator);
 
             $signalementsFilteredFormated[] = $signalementFormatted;
         }
 
-        $payload = [
+        return [
             'draw' => $request->get('draw'),
             'recordsTotal' => \count($signalementsTotal),
-            'recordsFiltered' => \count($signalementsFilteredFormated),
+            'recordsFiltered' => \count($signalementsFiltered),
             'data' => $signalementsFilteredFormated,
         ];
-
-        return $payload;
     }
 
-    private static function formatStatut(Signalement $signalement): string
+    private static function formatStatut(Signalement $signalement, Security $security): string
     {
-        // <td>{% include "common/components/signalement-statut.html.twig" %}</td>
-        return 'TODO statut';
+        $statutFormat = new StatutFormat($security, $signalement);
+
+        return '<p class="fr-badge fr-badge--'.$statutFormat->getBadgeName()
+                .' fr-badge--no-icon">'
+                .$statutFormat->getLabel().'</p>';
     }
 
     private static function formatNiveauInfestation(Signalement $signalement): string
@@ -101,9 +114,14 @@ class TableLister
         return 'TODO procedure';
     }
 
-    private static function formatButton(Signalement $signalement): string
+    private static function formatButton(Signalement $signalement, UrlGeneratorInterface $urlGenerator): string
     {
-        // <a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement {{ signalement.reference }}"></a>
-        return 'TODO button';
+        $link = $urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+
+        return '<span class="button-view">
+                <a class="fr-btn fr-icon-arrow-right-fill"
+                href="'.$link.'"
+                title="Voir le signalement '.$signalement->getReference().'"
+                ></a></span>';
     }
 }

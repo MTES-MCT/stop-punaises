@@ -48,6 +48,8 @@ class SignalementManager extends AbstractManager
     public function findDeclaredByOccupants(
         ?string $start = null,
         ?string $length = null,
+        ?string $zip = null,
+        ?string $statut = null,
     ): ?array {
         /** @var User $user */
         $user = $this->security->getUser();
@@ -57,6 +59,8 @@ class SignalementManager extends AbstractManager
             entreprise: $entreprise,
             start: $start,
             length: $length,
+            zip: $zip,
+            statut: $statut,
         );
     }
 

@@ -91,8 +91,13 @@ class SignalementRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findDeclaredByOccupants(Entreprise|null $entreprise = null, ?string $start, ?string $length): ?array
-    {
+    public function findDeclaredByOccupants(
+        Entreprise|null $entreprise = null,
+        ?string $start,
+        ?string $length,
+        ?string $zip,
+        ?string $statut,
+    ): ?array {
         $qb = $this->createQueryBuilder('s')
             ->leftJoin('s.territoire', 't')
             ->where('t.active = true')
@@ -103,6 +108,10 @@ class SignalementRepository extends ServiceEntityRepository
             $qb->andWhere('s.autotraitement != true')
                 ->andWhere('s.territoire IN (:territoires)')
                     ->setParameter('territoires', $entreprise->getTerritoires());
+        }
+        if (!empty($zip)) {
+            $qb->andWhere('t.zip = :zip')
+                ->setParameter('zip', $zip);
         }
 
         if (!empty($start)) {

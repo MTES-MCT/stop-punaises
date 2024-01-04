@@ -37,6 +37,10 @@ function startListeSignalementsApp() {
     options.ajax = '/bo/liste-signalements';
     options.serverSide = true;
     options.pageLength = 3;
+    // refresh count when ajax call is done
+    options.fnDrawCallback = function( oSettings ) {
+      $("span#count-signalement").text(oSettings.json.recordsFiltered);
+    }
   }
   listTable = $(idTable).DataTable(options);
   initComponentsEvents();
@@ -214,8 +218,6 @@ function refreshTableUsagers() {
   }
 
   listTable.draw();
-  let countSignalement = listTable.rows( {search:'applied'} ).count();
-  $("span#count-signalement").text(countSignalement);
 }
 
 function refreshTableHistorique() {
