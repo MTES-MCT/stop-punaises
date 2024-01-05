@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
 use App\Entity\Enum\SignalementType;
+use App\Entity\Intervention;
 use App\Entity\Signalement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
@@ -101,6 +102,8 @@ class SignalementRepository extends ServiceEntityRepository
         ?string $niveauInfestation,
         ?string $adresse,
         ?string $type,
+        ?string $etatInfestation,
+        ?string $motifCloture,
     ): ?array {
         $qb = $this->createQueryBuilder('s')
             ->leftJoin('s.territoire', 't')
@@ -131,10 +134,47 @@ class SignalementRepository extends ServiceEntityRepository
         }
         if (!empty($type)) {
             if ('a-traiter' === $type) {
-                $qb->andWhere('s.logementSocial != true')
-                    ->andWhere('s.autotraitement != true');
+                $qb->andWhere('s.logementSocial != true OR s.logementSocial IS NULL')
+                    ->andWhere('s.autotraitement != true OR s.autotraitement IS NULL');
             } elseif ('auto-traitement' === $type) {
                 $qb->andWhere('s.autotraitement = true');
+            }
+        }
+        if (!empty($etatInfestation)) {
+            if ('infestation-resolu' === $etatInfestation) {
+                $qb->andWhere('s.resolvedAt IS NOT NULL');
+            } elseif ('infestation-nonresolu' === $etatInfestation) {
+                $qb->andWhere('s.resolvedAt IS NULL');
+            }
+        }
+        if (!empty($motifCloture)) {
+            switch ($motifCloture) {
+                case 'motif-resolu':
+                    $qb->andWhere('s.resolvedAt IS NOT NULL');
+                    break;
+                case 'motif-refuse':
+                    $qb->leftJoin('s.interventions', 'i')
+                        ->andWhere('i.id IS NOT NULL');
+
+                    $subquery = $this->_em->createQueryBuilder()
+                        ->select('IDENTITY(interv.signalement)')
+                        ->from(Intervention::class, 'interv')
+                        ->where('interv.acceptedByUsager IS NULL')
+                        ->orWhere('interv.acceptedByUsager = true')
+                        ->distinct();
+                    $subqueryResult = $subquery->getQuery()->getSingleColumnResult();
+
+                    if (!empty($subqueryResult)) {
+                        $qb->andWhere('s.id NOT IN (:subquery)')
+                            ->setParameter('subquery', $subqueryResult);
+                    }
+                    break;
+                case 'motif-arret':
+                    $qb->andWhere('s.closedAt IS NOT NULL');
+                    break;
+
+                default:
+                    break;
             }
         }
 

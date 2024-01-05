@@ -54,6 +54,8 @@ class SignalementManager extends AbstractManager
         ?string $niveauInfestation = null,
         ?string $adresse = null,
         ?string $type = null,
+        ?string $etatInfestation = null,
+        ?string $motifCloture = null,
     ): ?array {
         /** @var User $user */
         $user = $this->security->getUser();
@@ -69,6 +71,8 @@ class SignalementManager extends AbstractManager
             niveauInfestation: $niveauInfestation,
             adresse: $adresse,
             type: $type,
+            etatInfestation: $etatInfestation,
+            motifCloture: $motifCloture,
         );
     }
 
