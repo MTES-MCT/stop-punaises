@@ -111,6 +111,47 @@ class SignalementRepository extends ServiceEntityRepository
 
         if ($returnCount) {
             $qb->select('COUNT(DISTINCT s.id) as count');
+        } else {
+            $qb->select('s');
+
+            if (empty($entreprise)) {
+                $qb->leftJoin('s.interventions', 'i');
+                $qb->addSelect('
+                    CASE
+                    WHEN (s.autotraitement = true) THEN
+                        CASE
+                        WHEN (s.resolvedAt IS NOT NULL) THEN
+                            \'Confirmation usager\'
+                        WHEN (s.closedAt IS NOT NULL) THEN
+                            \'Confirmation usager\'
+                        WHEN (s.reminderAutotraitementAt IS NOT NULL) THEN
+                            \'Feedback envoyé\'
+                        ELSE
+                            \'Protocole envoyé\'
+                        END
+                    ELSE
+                        CASE
+                        WHEN (i.id IS NOT NULL) THEN
+                            CASE
+                            WHEN (s.resolvedAt IS NOT NULL) THEN
+                                \'Confirmation usager\'
+                            WHEN (s.typeIntervention IS NOT NULL) THEN
+                                \'Intervention faite\'
+                            WHEN (i.canceledByEntrepriseAt IS NOT NULL) THEN
+                                \'Intervention annulée\'
+                            WHEN (i.acceptedByUsager = true) THEN
+                                \'Estimation acceptée\'
+                            WHEN (i.acceptedByUsager = false) THEN
+                                \'Estimation refusée\'
+                            ELSE
+                                \'Contact usager\'
+                            END
+                        ELSE
+                            \'Réception\'
+                        END
+                    END AS procedure
+                ');
+            }
         }
 
         $qb->leftJoin('s.territoire', 't')
@@ -212,7 +253,7 @@ class SignalementRepository extends ServiceEntityRepository
                     $qb->orderBy('s.autotraitement', $orderDirection);
                     break;
                 case 'procedure':
-                    // TODO : order in query
+                    $qb->orderBy('procedure', $orderDirection);
                     break;
                 case 'statut':
                     // TODO : order in query

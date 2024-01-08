@@ -90,8 +90,10 @@ class TableLister
         );
 
         $signalementsFilteredFormated = [];
-        /** @var Signalement $signalement */
-        foreach ($signalementsFilteredData as $signalement) {
+        /* @var Signalement $signalement */
+        foreach ($signalementsFilteredData as $row) {
+            $signalement = $row[0];
+            $procedure = $row['procedure'];
             $signalementFormatted = [
                 $this->formatStatut($signalement),
                 $signalement->getReference(),
@@ -101,7 +103,7 @@ class TableLister
             ];
             if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
                 $signalementFormatted[] = $this->formatTypeSignalement($signalement);
-                $signalementFormatted[] = $this->formatProcedure($signalement);
+                $signalementFormatted[] = $this->formatProcedure($procedure);
             }
             $signalementFormatted[] = $this->formatButton($signalement);
 
@@ -181,9 +183,9 @@ class TableLister
         return 'A traiter';
     }
 
-    private function formatProcedure(Signalement $signalement): string
+    private function formatProcedure(string $procedure): string
     {
-        $procedureFormat = new ProcedureFormat($signalement);
+        $procedureFormat = new ProcedureFormat($procedure);
 
         return '<label>'.$procedureFormat->getLabel().'</label>
                 <br>
