@@ -47,7 +47,7 @@ class TableLister
         $searchEtatInfestation = null;
         $searchMotifCloture = null;
         if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
-            // TODO : $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
+            $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
             $searchTerritoireZip = $requestColumns[self::COL_SEARCH_TERRITOIRE]['search']['value'];
             $searchType = $requestColumns[self::COL_SEARCH_TYPE]['search']['value'];
             $searchEtatInfestation = $requestColumns[self::COL_SEARCH_ETAT_INFESTATION]['search']['value'];
@@ -69,7 +69,6 @@ class TableLister
             start: null,
             length: null,
             zip: $searchTerritoireZip,
-            statut: null,
             date: $searchDate,
             niveauInfestation: $searchNiveauInfestation,
             adresse: $searchAdresse,
@@ -84,7 +83,6 @@ class TableLister
             orderColumn: $orderColumn,
             orderDirection: $orderDirection,
             zip: $searchTerritoireZip,
-            statut: null,
             date: $searchDate,
             niveauInfestation: $searchNiveauInfestation,
             adresse: $searchAdresse,
@@ -110,6 +108,21 @@ class TableLister
             $signalementFormatted[] = $this->formatButton($signalement);
 
             $signalementsFilteredFormated[] = $signalementFormatted;
+        }
+
+        // Statut filter is too hard to filter in query
+        if (!empty($searchStatut)) {
+            $searchStatutWithDom = '<p class="fr-badge fr-badge--'.StatutFormat::getBadgeNameByLabel($searchStatut)
+            .' fr-badge--no-icon">'
+            .$searchStatut.'</p>';
+
+            $countSignalementsFilteredFormated = \count($signalementsFilteredFormated);
+            $signalementsFilteredFormated = array_filter(
+                $signalementsFilteredFormated,
+                fn ($a) => $a[0] == $searchStatutWithDom
+            );
+            $diffCount = $countSignalementsFilteredFormated - \count($signalementsFilteredFormated);
+            $countSignalementsFiltered -= $diffCount;
         }
 
         $signalementsFilteredFormated = $this->checkIfReorder($signalementsFilteredFormated, $orderColumn, $orderDirection);

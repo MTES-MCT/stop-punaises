@@ -100,7 +100,6 @@ class SignalementRepository extends ServiceEntityRepository
         ?string $orderColumn,
         ?string $orderDirection,
         ?string $zip,
-        ?string $statut,
         ?string $date,
         ?string $niveauInfestation,
         ?string $adresse,

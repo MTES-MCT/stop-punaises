@@ -7,6 +7,15 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class StatutFormat
 {
+    private const BADGE_BY_LABEL = [
+        'Nouveau' => 'orange-terre-battue',
+        'Fermé' => 'blue-ecume',
+        'Traité' => 'green-menthe',
+        'Annulé' => 'beige-gris-galet',
+        'Refusé' => 'beige-gris-galet',
+        'En cours' => 'success',
+    ];
+
     private string $badgeName;
     private string $label;
 
@@ -15,6 +24,11 @@ class StatutFormat
         private Signalement $signalement
     ) {
         $this->init();
+    }
+
+    public static function getBadgeNameByLabel(string $label): string
+    {
+        return self::BADGE_BY_LABEL[$label];
     }
 
     public function getBadgeName(): string
@@ -29,14 +43,12 @@ class StatutFormat
 
     private function init(): void
     {
-        $this->badgeName = 'orange-terre-battue';
         $this->label = 'Nouveau';
 
         if ($this->signalement->getResolvedAt()
             || $this->signalement->getClosedAt()
             || ($this->signalement->isAutotraitement() && !$this->security->isGranted('ROLE_ADMIN'))
         ) {
-            $this->badgeName = 'blue-ecume';
             $this->label = 'Fermé';
         } elseif (!$this->signalement->isAutotraitement() && !empty($this->signalement->getInterventions())) {
             $isAnnule = false;
@@ -74,21 +86,18 @@ class StatutFormat
             }
 
             if ($isTraite) {
-                $this->badgeName = 'green-menthe';
                 $this->label = 'Traité';
             } elseif ($isAutreEntrepriseChoisie) {
-                $this->badgeName = 'blue-ecume';
                 $this->label = 'Fermé';
             } elseif ($isAnnule) {
-                $this->badgeName = 'beige-gris-galet';
                 $this->label = 'Annulé';
             } elseif ($isRefuse) {
-                $this->badgeName = 'beige-gris-galet';
                 $this->label = 'Refusé';
             } elseif ($isInterventionExistante) {
-                $this->badgeName = 'success';
                 $this->label = 'En cours';
             }
         }
+
+        $this->badgeName = self::BADGE_BY_LABEL[$this->label];
     }
 }
