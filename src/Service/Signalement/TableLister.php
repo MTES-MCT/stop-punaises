@@ -32,14 +32,22 @@ class TableLister
     public function list(Request $request): array
     {
         $requestColumns = $request->get('columns');
-        // TODO : $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
-        $searchTerritoireZip = $requestColumns[self::COL_SEARCH_TERRITOIRE]['search']['value'];
+
+        $searchStatut = null;
+        $searchTerritoireZip = null;
+        $searchType = null;
+        $searchEtatInfestation = null;
+        $searchMotifCloture = null;
+        if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
+            // TODO : $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
+            $searchTerritoireZip = $requestColumns[self::COL_SEARCH_TERRITOIRE]['search']['value'];
+            $searchType = $requestColumns[self::COL_SEARCH_TYPE]['search']['value'];
+            $searchEtatInfestation = $requestColumns[self::COL_SEARCH_ETAT_INFESTATION]['search']['value'];
+            $searchMotifCloture = $requestColumns[self::COL_SEARCH_MOTIF_CLOTURE]['search']['value'];
+        }
         $searchDate = $requestColumns[self::COL_SEARCH_DATE]['search']['value'];
         $searchNiveauInfestation = $requestColumns[self::COL_SEARCH_NIVEAU_INFESTATION]['search']['value'];
         $searchAdresse = $requestColumns[self::COL_SEARCH_ADRESSE]['search']['value'];
-        $searchType = $requestColumns[self::COL_SEARCH_TYPE]['search']['value'];
-        $searchEtatInfestation = $requestColumns[self::COL_SEARCH_ETAT_INFESTATION]['search']['value'];
-        $searchMotifCloture = $requestColumns[self::COL_SEARCH_MOTIF_CLOTURE]['search']['value'];
 
         $countSignalementsTotal = $this->signalementManager->findDeclaredByOccupants(
             returnCount: true,
