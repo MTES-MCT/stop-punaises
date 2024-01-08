@@ -94,6 +94,7 @@ class SignalementRepository extends ServiceEntityRepository
 
     public function findDeclaredByOccupants(
         Entreprise|null $entreprise = null,
+        bool $returnCount,
         ?string $start,
         ?string $length,
         ?string $zip,
@@ -104,9 +105,14 @@ class SignalementRepository extends ServiceEntityRepository
         ?string $type,
         ?string $etatInfestation,
         ?string $motifCloture,
-    ): ?array {
-        $qb = $this->createQueryBuilder('s')
-            ->leftJoin('s.territoire', 't')
+    ): array|int {
+        $qb = $this->createQueryBuilder('s');
+
+        if ($returnCount) {
+            $qb->select('COUNT(DISTINCT s.id) as count');
+        }
+
+        $qb->leftJoin('s.territoire', 't')
             ->where('t.active = true')
             ->andWhere('s.declarant = :declarant')
                 ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT);
@@ -183,6 +189,11 @@ class SignalementRepository extends ServiceEntityRepository
         }
         if (!empty($length)) {
             $qb->setMaxResults($length);
+        }
+
+        if ($returnCount) {
+            return $qb->getQuery()
+                ->getSingleScalarResult();
         }
 
         return $qb->getQuery()

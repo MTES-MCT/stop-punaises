@@ -46,6 +46,7 @@ class SignalementManager extends AbstractManager
     }
 
     public function findDeclaredByOccupants(
+        bool $returnCount = false,
         ?string $start = null,
         ?string $length = null,
         ?string $zip = null,
@@ -56,13 +57,14 @@ class SignalementManager extends AbstractManager
         ?string $type = null,
         ?string $etatInfestation = null,
         ?string $motifCloture = null,
-    ): ?array {
+    ): array|int {
         /** @var User $user */
         $user = $this->security->getUser();
         $entreprise = $this->security->isGranted(Role::ROLE_ADMIN->value) ? null : $user->getEntreprise();
 
         return $this->signalementRepository->findDeclaredByOccupants(
             entreprise: $entreprise,
+            returnCount: $returnCount,
             start: $start,
             length: $length,
             zip: $zip,

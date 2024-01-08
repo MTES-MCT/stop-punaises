@@ -41,9 +41,11 @@ class TableLister
         $searchEtatInfestation = $requestColumns[self::COL_SEARCH_ETAT_INFESTATION]['search']['value'];
         $searchMotifCloture = $requestColumns[self::COL_SEARCH_MOTIF_CLOTURE]['search']['value'];
 
-        $signalementsTotal = $this->signalementManager->findDeclaredByOccupants(
+        $countSignalementsTotal = $this->signalementManager->findDeclaredByOccupants(
+            returnCount: true,
         );
-        $signalementsFiltered = $this->signalementManager->findDeclaredByOccupants(
+        $countSignalementsFiltered = $this->signalementManager->findDeclaredByOccupants(
+            returnCount: true,
             start: null,
             length: null,
             zip: $searchTerritoireZip,
@@ -56,6 +58,7 @@ class TableLister
             motifCloture: $searchMotifCloture,
         );
         $signalementsFilteredData = $this->signalementManager->findDeclaredByOccupants(
+            returnCount: false,
             start: $request->get('start'),
             length: $request->get('length'),
             zip: $searchTerritoireZip,
@@ -89,8 +92,8 @@ class TableLister
 
         return [
             'draw' => $request->get('draw'),
-            'recordsTotal' => \count($signalementsTotal),
-            'recordsFiltered' => \count($signalementsFiltered),
+            'recordsTotal' => $countSignalementsTotal,
+            'recordsFiltered' => $countSignalementsFiltered,
             'data' => $signalementsFilteredFormated,
         ];
     }
