@@ -97,6 +97,8 @@ class SignalementRepository extends ServiceEntityRepository
         bool $returnCount,
         ?string $start,
         ?string $length,
+        ?string $orderColumn,
+        ?string $orderDirection,
         ?string $zip,
         ?string $statut,
         ?string $date,
@@ -189,6 +191,36 @@ class SignalementRepository extends ServiceEntityRepository
         }
         if (!empty($length)) {
             $qb->setMaxResults($length);
+        }
+
+        if (!empty($orderColumn)) {
+            switch ($orderColumn) {
+                case 'id':
+                    $qb->orderBy('s.id', $orderDirection);
+                    break;
+                case 'date':
+                    $qb->orderBy('s.createdAt', $orderDirection);
+                    break;
+                case 'infestation':
+                    $qb->orderBy('s.niveauInfestation', $orderDirection);
+                    break;
+                case 'commune':
+                    $qb->orderBy('s.codePostal', $orderDirection);
+                    $qb->orderBy('s.ville', $orderDirection);
+                    break;
+                case 'type':
+                    $qb->orderBy('s.logementSocial', $orderDirection);
+                    $qb->orderBy('s.autotraitement', $orderDirection);
+                    break;
+                case 'procedure':
+                    // can't order in query
+                    break;
+                case 'statut':
+                    // can't order in query
+                    break;
+                default:
+                    break;
+            }
         }
 
         if ($returnCount) {
