@@ -212,10 +212,10 @@ class SignalementRepository extends ServiceEntityRepository
                     $qb->orderBy('s.autotraitement', $orderDirection);
                     break;
                 case 'procedure':
-                    // can't order in query
+                    // TODO : order in query
                     break;
                 case 'statut':
-                    // can't order in query
+                    // TODO : order in query
                     break;
                 default:
                     break;
