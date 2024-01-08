@@ -183,13 +183,11 @@ class TableLister
         return 'A traiter';
     }
 
-    private function formatProcedure(string $procedure): string
+    private function formatProcedure(string $procedureLabel): string
     {
-        $procedureFormat = new ProcedureFormat($procedure);
-
-        return '<label>'.$procedureFormat->getLabel().'</label>
+        return '<label>'.$procedureLabel.'</label>
                 <br>
-                <progress value="'.$procedureFormat->getPercent().'" max="100"></progress>';
+                <progress value="'.ProcedureFormat::getPercentByLabel($procedureLabel).'" max="100"></progress>';
     }
 
     private function formatButton(Signalement $signalement): string

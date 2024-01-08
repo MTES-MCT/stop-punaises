@@ -4,62 +4,42 @@ namespace App\Service\Signalement;
 
 class ProcedureFormat
 {
-    private string $percent;
-    private string $label;
-
-    public function __construct(
-        private string $procedureLabel
-    ) {
-        $this->init();
-    }
-
-    public function getPercent(): string
+    public static function getPercentByLabel(string $label): int
     {
-        return $this->percent;
-    }
-
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
-
-    private function init(): void
-    {
-        $this->label = $this->procedureLabel;
-        switch ($this->procedureLabel) {
+        switch ($label) {
             case 'Protocole envoyé':
-                $this->percent = 33;
+                return 33;
                 break;
             case 'Confirmation usager':
-                $this->percent = 100;
+                return 100;
                 break;
             case 'Feedback envoyé':
-                $this->percent = 66;
+                return 66;
                 break;
 
             case 'Réception':
-                $this->percent = 5;
+                return 5;
                 break;
             case 'Contact usager':
-                $this->percent = 20;
+                return 20;
                 break;
             case 'Intervention faite':
-                $this->percent = 80;
+                return 80;
                 break;
             case 'Estimation acceptée':
-                $this->percent = 60;
+                return 60;
                 break;
             case 'Estimation envoyée':
-                $this->percent = 40;
+                return 40;
                 break;
             case 'Estimation refusée':
-                $this->percent = 100;
+                return 100;
                 break;
             case 'Intervention annulée':
-                $this->percent = 5;
+                return 5;
                 break;
             default:
-                $this->percent = 0;
+                return 0;
                 break;
         }
     }
