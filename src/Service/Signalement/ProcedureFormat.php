@@ -4,43 +4,25 @@ namespace App\Service\Signalement;
 
 class ProcedureFormat
 {
+    private const LABEL_PERCENT = [
+        'Protocole envoyé' => 33,
+        'Confirmation usager' => 100,
+        'Feedback envoyé' => 66,
+        'Réception' => 5,
+        'Contact usager' => 20,
+        'Intervention faite' => 80,
+        'Estimation acceptée' => 60,
+        'Estimation envoyée' => 40,
+        'Estimation refusée' => 100,
+        'Intervention annulée' => 5,
+    ];
+
     public static function getPercentByLabel(string $label): int
     {
-        switch ($label) {
-            case 'Protocole envoyé':
-                return 33;
-                break;
-            case 'Confirmation usager':
-                return 100;
-                break;
-            case 'Feedback envoyé':
-                return 66;
-                break;
-
-            case 'Réception':
-                return 5;
-                break;
-            case 'Contact usager':
-                return 20;
-                break;
-            case 'Intervention faite':
-                return 80;
-                break;
-            case 'Estimation acceptée':
-                return 60;
-                break;
-            case 'Estimation envoyée':
-                return 40;
-                break;
-            case 'Estimation refusée':
-                return 100;
-                break;
-            case 'Intervention annulée':
-                return 5;
-                break;
-            default:
-                return 0;
-                break;
+        if (!empty(self::LABEL_PERCENT[$label])) {
+            return self::LABEL_PERCENT[$label];
         }
+
+        return 0;
     }
 }

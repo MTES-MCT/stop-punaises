@@ -92,6 +92,45 @@ class SignalementRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    private function buildProcedureSelect(): string
+    {
+        return '
+            CASE
+            WHEN (s.autotraitement = true) THEN
+                CASE
+                WHEN (s.resolvedAt IS NOT NULL) THEN
+                    \'Confirmation usager\'
+                WHEN (s.closedAt IS NOT NULL) THEN
+                    \'Confirmation usager\'
+                WHEN (s.reminderAutotraitementAt IS NOT NULL) THEN
+                    \'Feedback envoyé\'
+                ELSE
+                    \'Protocole envoyé\'
+                END
+            ELSE
+                CASE
+                WHEN (i.id IS NOT NULL) THEN
+                    CASE
+                    WHEN (s.resolvedAt IS NOT NULL) THEN
+                        \'Confirmation usager\'
+                    WHEN (s.typeIntervention IS NOT NULL) THEN
+                        \'Intervention faite\'
+                    WHEN (i.canceledByEntrepriseAt IS NOT NULL) THEN
+                        \'Intervention annulée\'
+                    WHEN (i.acceptedByUsager = true) THEN
+                        \'Estimation acceptée\'
+                    WHEN (i.acceptedByUsager = false) THEN
+                        \'Estimation refusée\'
+                    ELSE
+                        \'Contact usager\'
+                    END
+                ELSE
+                    \'Réception\'
+                END
+            END AS procedure
+        ';
+    }
+
     public function findDeclaredByOccupants(
         Entreprise|null $entreprise = null,
         bool $returnCount,
@@ -116,41 +155,7 @@ class SignalementRepository extends ServiceEntityRepository
 
             if (empty($entreprise)) {
                 $qb->leftJoin('s.interventions', 'i');
-                $qb->addSelect('
-                    CASE
-                    WHEN (s.autotraitement = true) THEN
-                        CASE
-                        WHEN (s.resolvedAt IS NOT NULL) THEN
-                            \'Confirmation usager\'
-                        WHEN (s.closedAt IS NOT NULL) THEN
-                            \'Confirmation usager\'
-                        WHEN (s.reminderAutotraitementAt IS NOT NULL) THEN
-                            \'Feedback envoyé\'
-                        ELSE
-                            \'Protocole envoyé\'
-                        END
-                    ELSE
-                        CASE
-                        WHEN (i.id IS NOT NULL) THEN
-                            CASE
-                            WHEN (s.resolvedAt IS NOT NULL) THEN
-                                \'Confirmation usager\'
-                            WHEN (s.typeIntervention IS NOT NULL) THEN
-                                \'Intervention faite\'
-                            WHEN (i.canceledByEntrepriseAt IS NOT NULL) THEN
-                                \'Intervention annulée\'
-                            WHEN (i.acceptedByUsager = true) THEN
-                                \'Estimation acceptée\'
-                            WHEN (i.acceptedByUsager = false) THEN
-                                \'Estimation refusée\'
-                            ELSE
-                                \'Contact usager\'
-                            END
-                        ELSE
-                            \'Réception\'
-                        END
-                    END AS procedure
-                ');
+                $qb->addSelect($this->buildProcedureSelect());
             }
         }
 
