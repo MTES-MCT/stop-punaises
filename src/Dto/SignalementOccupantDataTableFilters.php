@@ -16,42 +16,42 @@ class SignalementOccupantDataTableFilters
     ) {
     }
 
-    public function getStatut(): string
+    public function getStatut(): ?string
     {
         return $this->statut;
     }
 
-    public function getZip(): string
+    public function getZip(): ?string
     {
         return $this->zip;
     }
 
-    public function getDate(): string
+    public function getDate(): ?string
     {
         return $this->date;
     }
 
-    public function getNiveauInfestation(): string
+    public function getNiveauInfestation(): ?string
     {
         return $this->niveauInfestation;
     }
 
-    public function getAdresse(): string
+    public function getAdresse(): ?string
     {
         return $this->adresse;
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function getEtatInfestation(): string
+    public function getEtatInfestation(): ?string
     {
         return $this->etatInfestation;
     }
 
-    public function getMotifCloture(): string
+    public function getMotifCloture(): ?string
     {
         return $this->motifCloture;
     }
