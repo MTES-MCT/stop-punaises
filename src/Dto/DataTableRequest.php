@@ -2,8 +2,6 @@
 
 namespace App\Dto;
 
-use Symfony\Component\HttpFoundation\Request;
-
 class DataTableRequest
 {
     private ?string $orderColumn = null;
@@ -25,17 +23,6 @@ class DataTableRequest
                 $this->search[$item['data']] = $item['search']['value'] ?? null;
             }
         }
-    }
-
-    public static function buildFromRequest(Request $request): self
-    {
-        return new self(
-            draw: $request->get('draw'),
-            start: $request->get('start'),
-            length: $request->get('length'),
-            columns: $request->get('columns'),
-            order: $request->get('order'),
-        );
     }
 
     public function getDraw(): int
