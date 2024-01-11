@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
 use App\Entity\Enum\ProcedureProgress;
+use App\Entity\Enum\SignalementStatus;
 use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -98,31 +99,31 @@ class SignalementRepository extends ServiceEntityRepository
             WHEN (s.autotraitement = true) THEN
                 CASE
                 WHEN (s.resolved_at IS NOT NULL OR s.closed_at IS NOT NULL) THEN
-                    '.ProcedureProgress::AUTO_CONFIRMATION_USAGER->value.'
+                    \''.ProcedureProgress::AUTO_CONFIRMATION_USAGER->value.'\'
                 WHEN (s.reminder_autotraitement_at IS NOT NULL) THEN
-                    '.ProcedureProgress::AUTO_FEEDBACK_ENVOYE->value.'
+                    \''.ProcedureProgress::AUTO_FEEDBACK_ENVOYE->value.'\'
                 ELSE
-                    '.ProcedureProgress::AUTO_PROTOCOLE_ENVOYE->value.'
+                    \''.ProcedureProgress::AUTO_PROTOCOLE_ENVOYE->value.'\'
                 END
             ELSE
                 CASE
                 WHEN (i.id IS NOT NULL) THEN
                     CASE
                     WHEN (s.resolved_at IS NOT NULL) THEN
-                        '.ProcedureProgress::AUTO_CONFIRMATION_USAGER->value.'
+                        \''.ProcedureProgress::AUTO_CONFIRMATION_USAGER->value.'\'
                     WHEN (s.type_intervention IS NOT NULL) THEN
-                        '.ProcedureProgress::PRO_INTERVENTION_FAITE->value.'
+                        \''.ProcedureProgress::PRO_INTERVENTION_FAITE->value.'\'
                     WHEN (i.canceled_by_entreprise_at IS NOT NULL) THEN
-                        '.ProcedureProgress::PRO_INTERVENTION_ANNULEE->value.'
+                        \''.ProcedureProgress::PRO_INTERVENTION_ANNULEE->value.'\'
                     WHEN (i.accepted_by_usager = true) THEN
-                        '.ProcedureProgress::PRO_ESTIMATION_ACCEPTEE->value.'
+                        \''.ProcedureProgress::PRO_ESTIMATION_ACCEPTEE->value.'\'
                     WHEN (i.accepted_by_usager = false) THEN
-                        '.ProcedureProgress::PRO_ESTIMATION_REFUSEE->value.'
+                        \''.ProcedureProgress::PRO_ESTIMATION_REFUSEE->value.'\'
                     ELSE
-                        '.ProcedureProgress::PRO_ESTIMATION_ENVOYEE->value.'
+                        \''.ProcedureProgress::PRO_ESTIMATION_ENVOYEE->value.'\'
                     END
                 ELSE
-                    '.ProcedureProgress::PRO_RECEPTION->value.'
+                    \''.ProcedureProgress::PRO_RECEPTION->value.'\'
                 END
             END AS procedure_progress';
     }
@@ -132,39 +133,39 @@ class SignalementRepository extends ServiceEntityRepository
         if (empty($entreprise)) {
             return 'CASE
                 WHEN (s.resolved_at IS NOT NULL OR s.closed_at IS NOT NULL) THEN
-                    \'Fermé\'
+                    \''.SignalementStatus::CLOSED->value.'\'
                 WHEN (s.autotraitement != 1 AND i.id IS NOT NULL) THEN
                     CASE
                     WHEN (s.type_intervention IS NOT NULL AND s.type_intervention != \'\') THEN
-                        \'Traité\'
+                        \''.SignalementStatus::PROCESSED->value.'\'
                     ELSE
-                        \'En cours\'
+                        \''.SignalementStatus::ACTIVE->value.'\'
                     END
                 ELSE
-                    \'Nouveau\'
+                    \''.SignalementStatus::NEW->value.'\'
                 END AS statut';
         }
 
         return 'CASE
                 WHEN (s.resolved_at IS NOT NULL OR s.closed_at IS NOT NULL OR s.autotraitement = 1) THEN
-                    \'Fermé\'
+                    \''.SignalementStatus::CLOSED->value.'\'
                 WHEN (i.id IS NOT NULL) THEN
                     CASE
                     WHEN (i.accepted = true AND i.accepted_by_usager = true AND i.entreprise_id != '.$entreprise->getId().') THEN
-                        \'Fermé\'
+                        \''.SignalementStatus::CLOSED->value.'\'
                     WHEN (i.accepted != true AND i.canceled_by_entreprise_at IS NOT NULL AND i.entreprise_id = '.$entreprise->getId().') THEN
-                        \'Annulé\'
+                        \''.SignalementStatus::CANCELED->value.'\'
                     WHEN (i.accepted != true AND i.entreprise_id = '.$entreprise->getId().') THEN
-                        \'Refusé\'
+                        \''.SignalementStatus::REFUSED->value.'\'
                     WHEN (i.accepted_by_usager = false AND i.entreprise_id = '.$entreprise->getId().') THEN
-                        \'Refusé\'
+                        \''.SignalementStatus::REFUSED->value.'\'
                     WHEN (i.accepted != true AND i.accepted_by_usager = true AND s.type_intervention IS NOT NULL AND s.type_intervention != \'\') THEN
-                        \'Traité\'
+                        \''.SignalementStatus::PROCESSED->value.'\'
                     ELSE
-                        \'En cours\'
+                        \''.SignalementStatus::ACTIVE->value.'\'
                     END
                 ELSE
-                    \'Nouveau\'
+                    \''.SignalementStatus::NEW->value.'\'
                 END AS statut';
     }
 

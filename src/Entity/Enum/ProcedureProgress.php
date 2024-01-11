@@ -2,18 +2,18 @@
 
 namespace App\Entity\Enum;
 
-enum ProcedureProgress: int
+enum ProcedureProgress: string
 {
-    case AUTO_PROTOCOLE_ENVOYE = 33;
-    case AUTO_FEEDBACK_ENVOYE = 66;
-    case AUTO_CONFIRMATION_USAGER = 100;
-    case PRO_RECEPTION = 5;
-    case PRO_INTERVENTION_ANNULEE = 6;
-    case PRO_CONTACT_USAGER = 20;
-    case PRO_ESTIMATION_ENVOYEE = 40;
-    case PRO_ESTIMATION_ACCEPTEE = 60;
-    case PRO_INTERVENTION_FAITE = 80;
-    case PRO_ESTIMATION_REFUSEE = 99;
+    case AUTO_PROTOCOLE_ENVOYE = 'AUTO_PROTOCOLE_ENVOYE';
+    case AUTO_FEEDBACK_ENVOYE = 'AUTO_FEEDBACK_ENVOYE';
+    case AUTO_CONFIRMATION_USAGER = 'AUTO_CONFIRMATION_USAGER';
+    case PRO_RECEPTION = 'PRO_RECEPTION';
+    case PRO_INTERVENTION_ANNULEE = 'PRO_INTERVENTION_ANNULEE';
+    case PRO_CONTACT_USAGER = 'PRO_CONTACT_USAGER';
+    case PRO_ESTIMATION_ENVOYEE = 'PRO_ESTIMATION_ENVOYEE';
+    case PRO_ESTIMATION_ACCEPTEE = 'PRO_ESTIMATION_ACCEPTEE';
+    case PRO_INTERVENTION_FAITE = 'PRO_INTERVENTION_FAITE';
+    case PRO_ESTIMATION_REFUSEE = 'PRO_ESTIMATION_REFUSEE';
 
     public function label(): string
     {
@@ -31,7 +31,7 @@ enum ProcedureProgress: int
         };
     }
 
-    public static function getLabelList(): array
+    private static function getLabelList(): array
     {
         return [
             'Protocole envoyé',
@@ -44,6 +44,38 @@ enum ProcedureProgress: int
             'Estimation acceptée',
             'Intervention faite',
             'Estimation refusée',
+        ];
+    }
+
+    public function percent(): int
+    {
+        return match ($this) {
+            self::AUTO_PROTOCOLE_ENVOYE => self::getPercentList()[0],
+            self::AUTO_FEEDBACK_ENVOYE => self::getPercentList()[1],
+            self::AUTO_CONFIRMATION_USAGER => self::getPercentList()[2],
+            self::PRO_RECEPTION => self::getPercentList()[3],
+            self::PRO_INTERVENTION_ANNULEE => self::getPercentList()[4],
+            self::PRO_CONTACT_USAGER => self::getPercentList()[5],
+            self::PRO_ESTIMATION_ENVOYEE => self::getPercentList()[6],
+            self::PRO_ESTIMATION_ACCEPTEE => self::getPercentList()[7],
+            self::PRO_INTERVENTION_FAITE => self::getPercentList()[8],
+            self::PRO_ESTIMATION_REFUSEE => self::getPercentList()[9],
+        };
+    }
+
+    private static function getPercentList(): array
+    {
+        return [
+            33,
+            66,
+            100,
+            5,
+            5,
+            20,
+            40,
+            60,
+            80,
+            100,
         ];
     }
 }

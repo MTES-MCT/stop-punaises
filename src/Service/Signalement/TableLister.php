@@ -4,6 +4,7 @@ namespace App\Service\Signalement;
 
 use App\Entity\Enum\ProcedureProgress;
 use App\Entity\Enum\Role;
+use App\Entity\Enum\SignalementStatus;
 use App\Manager\SignalementManager;
 use App\Twig\AppExtension;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -151,8 +152,8 @@ class TableLister
 
     private function formatStatut(string $statut): string
     {
-        return '<p class="fr-badge fr-badge--'.StatutFormat::getBadgeNameByLabel($statut)
-                .' fr-badge--no-icon">'.$statut.'</p>';
+        return '<p class="fr-badge fr-badge--'.SignalementStatus::from($statut)->badgeColor()
+                .' fr-badge--no-icon">'.SignalementStatus::from($statut)->label().'</p>';
     }
 
     private function formatNiveauInfestation(string $niveauInfestation): string
@@ -184,7 +185,7 @@ class TableLister
     {
         return '<label>'.ProcedureProgress::from($procedureLabel)->label().'</label>
                 <br>
-                <progress value="'.ProcedureProgress::from($procedureLabel)->value.'" max="100"></progress>';
+                <progress value="'.ProcedureProgress::from($procedureLabel)->percent().'" max="100"></progress>';
     }
 
     private function formatButton(array $row): string

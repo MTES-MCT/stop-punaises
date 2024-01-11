@@ -2,34 +2,21 @@
 
 namespace App\Service\Signalement;
 
+use App\Entity\Enum\SignalementStatus;
 use App\Entity\Signalement;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class StatutFormat
+class StatusProvider
 {
-    private const BADGE_BY_LABEL = [
-        'Nouveau' => 'orange-terre-battue',
-        'Fermé' => 'blue-ecume',
-        'Traité' => 'green-menthe',
-        'Annulé' => 'beige-gris-galet',
-        'Refusé' => 'beige-gris-galet',
-        'En cours' => 'success',
-    ];
-
-    public static function getBadgeNameByLabel(string $label): string
+    public static function get(Security $security, Signalement $signalement): array
     {
-        return self::BADGE_BY_LABEL[$label];
-    }
-
-    public static function getFormat(Security $security, Signalement $signalement): array
-    {
-        $label = 'Nouveau';
+        $signalementStatus = SignalementStatus::NEW;
 
         if ($signalement->getResolvedAt()
             || $signalement->getClosedAt()
             || ($signalement->isAutotraitement() && !$security->isGranted('ROLE_ADMIN'))
         ) {
-            $label = 'Fermé';
+            $signalementStatus = SignalementStatus::CLOSED;
         } elseif (!$signalement->isAutotraitement() && !empty($signalement->getInterventions())) {
             $isAnnule = false;
             $isRefuse = false;
@@ -66,21 +53,21 @@ class StatutFormat
             }
 
             if ($isTraite) {
-                $label = 'Traité';
+                $signalementStatus = SignalementStatus::PROCESSED;
             } elseif ($isAutreEntrepriseChoisie) {
-                $label = 'Fermé';
+                $signalementStatus = SignalementStatus::CLOSED;
             } elseif ($isAnnule) {
-                $label = 'Annulé';
+                $signalementStatus = SignalementStatus::CANCELED;
             } elseif ($isRefuse) {
-                $label = 'Refusé';
+                $signalementStatus = SignalementStatus::REFUSED;
             } elseif ($isInterventionExistante) {
-                $label = 'En cours';
+                $signalementStatus = SignalementStatus::ACTIVE;
             }
         }
 
         return [
-            'label' => $label,
-            'badge' => self::BADGE_BY_LABEL[$label],
+            'label' => $signalementStatus->label(),
+            'badge' => $signalementStatus->badgeColor(),
         ];
     }
 }

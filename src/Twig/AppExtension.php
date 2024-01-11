@@ -6,7 +6,7 @@ use App\Entity\Enum\InfestationLevel;
 use App\Entity\Enum\PlaceType;
 use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
-use App\Service\Signalement\StatutFormat;
+use App\Service\Signalement\StatusProvider;
 use App\Utils\FileHelper;
 use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\AbstractExtension;
@@ -54,7 +54,7 @@ class AppExtension extends AbstractExtension
 
     public function formatStatutSignalement(Signalement $signalement): string
     {
-        $statutFormat = StatutFormat::getFormat($this->security, $signalement);
+        $statutFormat = StatusProvider::get($this->security, $signalement);
 
         return '<p class="fr-badge fr-badge--'.$statutFormat['badge']
                 .' fr-badge--no-icon">'
