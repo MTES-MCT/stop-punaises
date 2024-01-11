@@ -3,7 +3,6 @@
 namespace App\Service\Signalement;
 
 use App\Entity\Enum\Role;
-use App\Entity\Signalement;
 use App\Manager\SignalementManager;
 use App\Twig\AppExtension;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -41,18 +40,18 @@ class TableLister
     {
         $requestColumns = $request->get('columns');
 
-        // TODO : $searchStatut = null;
+        $searchStatut = null;
         $searchTerritoireZip = null;
         $searchType = null;
         $searchEtatInfestation = null;
         $searchMotifCloture = null;
         if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
-            // TODO : $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
             $searchTerritoireZip = $requestColumns[self::COL_SEARCH_TERRITOIRE]['search']['value'];
             $searchType = $requestColumns[self::COL_SEARCH_TYPE]['search']['value'];
             $searchEtatInfestation = $requestColumns[self::COL_SEARCH_ETAT_INFESTATION]['search']['value'];
             $searchMotifCloture = $requestColumns[self::COL_SEARCH_MOTIF_CLOTURE]['search']['value'];
         }
+        $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
         $searchDate = $requestColumns[self::COL_SEARCH_DATE]['search']['value'];
         $searchNiveauInfestation = $requestColumns[self::COL_SEARCH_NIVEAU_INFESTATION]['search']['value'];
         $searchAdresse = $requestColumns[self::COL_SEARCH_ADRESSE]['search']['value'];
@@ -61,11 +60,11 @@ class TableLister
         $orderColumn = $this->getOrderColumn($requestOrder);
         $orderDirection = $requestOrder[0]['dir'];
 
-        $countSignalementsTotal = $this->signalementManager->findDeclaredByOccupants(
-            returnCount: true,
-        );
-        $countSignalementsFiltered = $this->signalementManager->findDeclaredByOccupants(
-            returnCount: true,
+        $signalementsTotal = $this->signalementManager->findDeclaredByOccupants();
+        $countSignalementsTotal = \count($signalementsTotal);
+
+        $signalementsFiltered = $this->signalementManager->findDeclaredByOccupants(
+            statut: $searchStatut,
             zip: $searchTerritoireZip,
             date: $searchDate,
             niveauInfestation: $searchNiveauInfestation,
@@ -74,12 +73,14 @@ class TableLister
             etatInfestation: $searchEtatInfestation,
             motifCloture: $searchMotifCloture,
         );
-        $signalementsFilteredData = $this->signalementManager->findDeclaredByOccupants(
-            returnCount: false,
+        $countSignalementsFiltered = \count($signalementsFiltered);
+
+        $signalementsFilteredPaginated = $this->signalementManager->findDeclaredByOccupants(
             start: $request->get('start'),
             length: $request->get('length'),
             orderColumn: $orderColumn,
             orderDirection: $orderDirection,
+            statut: $searchStatut,
             zip: $searchTerritoireZip,
             date: $searchDate,
             niveauInfestation: $searchNiveauInfestation,
@@ -90,22 +91,20 @@ class TableLister
         );
 
         $signalementsFilteredFormated = [];
-        /* @var Signalement $signalement */
-        foreach ($signalementsFilteredData as $row) {
-            $signalement = $row[0];
-            $procedure = $row['procedure'];
+        foreach ($signalementsFilteredPaginated as $row) {
+            $createdAt = new \DateTime($row['created_at']);
             $signalementFormatted = [
-                $this->formatStatut($signalement),
-                $signalement->getReference(),
-                $signalement->getCreatedAt()->format('d/m/Y'),
-                $this->formatNiveauInfestation($signalement),
-                $this->formatCodePostal($signalement),
+                $this->formatStatut($row['statut']),
+                $row['reference'],
+                $createdAt->format('d/m/Y'),
+                $this->formatNiveauInfestation($row['niveau_infestation']),
+                $this->formatCodePostal($row),
             ];
             if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
-                $signalementFormatted[] = $this->formatTypeSignalement($signalement);
-                $signalementFormatted[] = $this->formatProcedure($procedure);
+                $signalementFormatted[] = $this->formatTypeSignalement($row);
+                $signalementFormatted[] = $this->formatProcedure($row['current_procedure']);
             }
-            $signalementFormatted[] = $this->formatButton($signalement);
+            $signalementFormatted[] = $this->formatButton($row);
 
             $signalementsFilteredFormated[] = $signalementFormatted;
         }
@@ -149,34 +148,31 @@ class TableLister
         }
     }
 
-    private function formatStatut(Signalement $signalement): string
+    private function formatStatut(string $statut): string
     {
-        $statutFormat = new StatutFormat($this->security, $signalement);
-
-        return '<p class="fr-badge fr-badge--'.$statutFormat->getBadgeName()
-                .' fr-badge--no-icon">'
-                .$statutFormat->getLabel().'</p>';
+        return '<p class="fr-badge fr-badge--'.StatutFormat::getBadgeNameByLabel($statut)
+                .' fr-badge--no-icon">'.$statut.'</p>';
     }
 
-    private function formatNiveauInfestation(Signalement $signalement): string
+    private function formatNiveauInfestation(string $niveauInfestation): string
     {
-        return '<span class="niveau-infestation niveau-'.$signalement->getNiveauInfestation().'">'
-                .$this->appExtension->formatLabelInfestation($signalement->getNiveauInfestation()).
+        return '<span class="niveau-infestation niveau-'.$niveauInfestation.'">'
+                .$this->appExtension->formatLabelInfestation($niveauInfestation).
                 '</span>';
     }
 
-    private function formatCodePostal(Signalement $signalement): string
+    private function formatCodePostal(array $row): string
     {
-        return $signalement->getCodePostal().' '.$signalement->getVille();
+        return $row['code_postal'].' '.$row['ville'];
     }
 
-    private function formatTypeSignalement(Signalement $signalement): string
+    private function formatTypeSignalement(array $row): string
     {
-        if ($signalement->isLogementSocial()) {
+        if ($row['logement_social']) {
             return 'Logement social';
         }
 
-        if ($signalement->isAutotraitement()) {
+        if ($row['autotraitement']) {
             return 'Auto-traitement';
         }
 
@@ -190,14 +186,14 @@ class TableLister
                 <progress value="'.ProcedureFormat::getPercentByLabel($procedureLabel).'" max="100"></progress>';
     }
 
-    private function formatButton(Signalement $signalement): string
+    private function formatButton(array $row): string
     {
-        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $signalement->getUuid()]);
+        $link = $this->urlGenerator->generate('app_signalement_view', ['uuid' => $row['uuid']]);
 
         return '<span class="button-view">
                 <a class="fr-btn fr-icon-arrow-right-fill"
                 href="'.$link.'"
-                title="Voir le signalement '.$signalement->getReference().'"
+                title="Voir le signalement '.$row['reference'].'"
                 ></a></span>';
     }
 }

@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
 use App\Entity\Enum\SignalementType;
-use App\Entity\Intervention;
 use App\Entity\Signalement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
@@ -92,17 +91,16 @@ class SignalementRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    private function buildProcedureSelect(): string
+    private function buildSelectProcedure(): string
     {
-        return '
-            CASE
+        return 'CASE
             WHEN (s.autotraitement = true) THEN
                 CASE
-                WHEN (s.resolvedAt IS NOT NULL) THEN
+                WHEN (s.resolved_at IS NOT NULL) THEN
                     \'Confirmation usager\'
-                WHEN (s.closedAt IS NOT NULL) THEN
+                WHEN (s.closed_at IS NOT NULL) THEN
                     \'Confirmation usager\'
-                WHEN (s.reminderAutotraitementAt IS NOT NULL) THEN
+                WHEN (s.reminder_autotraitement_at IS NOT NULL) THEN
                     \'Feedback envoyé\'
                 ELSE
                     \'Protocole envoyé\'
@@ -111,15 +109,15 @@ class SignalementRepository extends ServiceEntityRepository
                 CASE
                 WHEN (i.id IS NOT NULL) THEN
                     CASE
-                    WHEN (s.resolvedAt IS NOT NULL) THEN
+                    WHEN (s.resolved_at IS NOT NULL) THEN
                         \'Confirmation usager\'
-                    WHEN (s.typeIntervention IS NOT NULL) THEN
+                    WHEN (s.type_intervention IS NOT NULL) THEN
                         \'Intervention faite\'
-                    WHEN (i.canceledByEntrepriseAt IS NOT NULL) THEN
+                    WHEN (i.canceled_by_entreprise_at IS NOT NULL) THEN
                         \'Intervention annulée\'
-                    WHEN (i.acceptedByUsager = true) THEN
+                    WHEN (i.accepted_by_usager = true) THEN
                         \'Estimation acceptée\'
-                    WHEN (i.acceptedByUsager = false) THEN
+                    WHEN (i.accepted_by_usager = false) THEN
                         \'Estimation refusée\'
                     ELSE
                         \'Contact usager\'
@@ -127,154 +125,184 @@ class SignalementRepository extends ServiceEntityRepository
                 ELSE
                     \'Réception\'
                 END
-            END AS procedure
-        ';
+            END AS current_procedure';
+    }
+
+    private function buildSelectStatut(Entreprise|null $entreprise): string
+    {
+        if (empty($entreprise)) {
+            return 'CASE
+                WHEN (s.resolved_at IS NOT NULL OR s.closed_at IS NOT NULL) THEN
+                    \'Fermé\'
+                WHEN (s.autotraitement != 1 AND i.id IS NOT NULL) THEN
+                    CASE
+                    WHEN (s.type_intervention IS NOT NULL AND s.type_intervention != \'\') THEN
+                        \'Traité\'
+                    ELSE
+                        \'En cours\'
+                    END
+                ELSE
+                    \'Nouveau\'
+                END AS statut';
+        }
+
+        return 'CASE
+                WHEN (s.resolved_at IS NOT NULL OR s.closed_at IS NOT NULL OR s.autotraitement = 1) THEN
+                    \'Fermé\'
+                WHEN (i.id IS NOT NULL) THEN
+                    CASE
+                    WHEN (i.accepted = true AND i.accepted_by_usager = true AND i.entreprise_id != '.$entreprise->getId().') THEN
+                        \'Fermé\'
+                    WHEN (i.accepted != true AND i.canceled_by_entreprise_at IS NOT NULL AND i.entreprise_id = '.$entreprise->getId().') THEN
+                        \'Annulé\'
+                    WHEN (i.accepted != true AND i.entreprise_id = '.$entreprise->getId().') THEN
+                        \'Refusé\'
+                    WHEN (i.accepted_by_usager = false AND i.entreprise_id = '.$entreprise->getId().') THEN
+                        \'Refusé\'
+                    WHEN (i.accepted != true AND i.accepted_by_usager = true AND s.type_intervention IS NOT NULL AND s.type_intervention != \'\') THEN
+                        \'Traité\'
+                    ELSE
+                        \'En cours\'
+                    END
+                ELSE
+                    \'Nouveau\'
+                END AS statut';
     }
 
     public function findDeclaredByOccupants(
         Entreprise|null $entreprise = null,
-        bool $returnCount,
         ?string $start,
         ?string $length,
         ?string $orderColumn,
         ?string $orderDirection,
-        ?string $zip,
-        ?string $date,
-        ?string $niveauInfestation,
-        ?string $adresse,
-        ?string $type,
-        ?string $etatInfestation,
-        ?string $motifCloture,
+        ?string $statut = '',
+        ?string $zip = '',
+        ?string $date = '',
+        ?string $niveauInfestation = '',
+        ?string $adresse = '',
+        ?string $type = '',
+        ?string $etatInfestation = '',
+        ?string $motifCloture = '',
     ): array|int {
-        $qb = $this->createQueryBuilder('s');
+        $connexion = $this->getEntityManager()->getConnection();
 
-        if ($returnCount) {
-            $qb->select('COUNT(DISTINCT s.id) as count');
-        } else {
-            $qb->select('s');
+        $parameters = [];
 
-            if (empty($entreprise)) {
-                $qb->leftJoin('s.interventions', 'i');
-                $qb->addSelect($this->buildProcedureSelect());
-            }
+        $sql = 'SELECT s.*';
+        if (empty($entreprise)) {
+            $sql .= ', '.$this->buildSelectProcedure();
         }
+        $sql .= ', '.$this->buildSelectStatut($entreprise);
+        $sql .= ' FROM signalement s';
+        $sql .= ' LEFT JOIN intervention i ON i.signalement_id = s.id';
+        $sql .= ' LEFT JOIN territoire t ON s.territoire_id = t.id';
 
-        $qb->leftJoin('s.territoire', 't')
-            ->where('t.active = true')
-            ->andWhere('s.declarant = :declarant')
-                ->setParameter('declarant', Declarant::DECLARANT_OCCUPANT);
+        $sql .= ' WHERE t.active = 1';
+        $sql .= ' AND s.declarant LIKE :declarant';
+        $parameters['declarant'] = Declarant::DECLARANT_OCCUPANT->value;
 
         if (!empty($entreprise)) {
-            $qb->andWhere('s.autotraitement != true')
-                ->andWhere('s.territoire IN (:territoires)')
-                    ->setParameter('territoires', $entreprise->getTerritoires());
+            $sql .= ' AND s.autotraitement != true';
+            $sql .= ' AND s.territoire_id IN (:territoires)';
+            $territoiresZip = [];
+            foreach ($entreprise->getTerritoires() as $territoire) {
+                $territoiresZip[] = $territoire->getZip();
+            }
+            $parameters['territoires'] = implode(',', $territoiresZip);
         }
+
         if (!empty($zip)) {
-            $qb->andWhere('t.zip = :zip')
-                ->setParameter('zip', $zip);
+            $sql .= ' AND t.zip = :zip';
+            $parameters['zip'] = $zip;
         }
         if (!empty($date)) {
-            $qb->andWhere('DATE(s.createdAt) = :date')
-                ->setParameter('date', $date);
+            $sql .= ' AND DATE(s.created_at) = :date';
+            $parameters['date'] = $date;
         }
         if (!empty($niveauInfestation) || '0' === $niveauInfestation) {
-            $qb->andWhere('s.niveauInfestation = :infestation')
-                ->setParameter('infestation', $niveauInfestation);
+            $sql .= ' AND s.niveau_infestation = :niveauInfestation';
+            $parameters['niveauInfestation'] = $niveauInfestation;
         }
         if (!empty($adresse)) {
-            $qb->andWhere('s.codePostal LIKE :adresse OR s.ville LIKE :adresse')
-                ->setParameter('adresse', '%'.$adresse.'%');
+            $sql .= ' AND (s.code_postal LIKE :adresse OR s.ville LIKE :adresse)';
+            $parameters['adresse'] = '%'.$adresse.'%';
         }
         if (!empty($type)) {
             if ('a-traiter' === $type) {
-                $qb->andWhere('s.logementSocial != true OR s.logementSocial IS NULL')
-                    ->andWhere('s.autotraitement != true OR s.autotraitement IS NULL');
+                $sql .= ' AND (s.logement_social != true OR s.logement_social IS NULL)';
+                $sql .= ' AND (s.autotraitement != true OR s.autotraitement IS NULL)';
             } elseif ('auto-traitement' === $type) {
-                $qb->andWhere('s.autotraitement = true');
+                $sql .= ' AND s.autotraitement = true';
             }
         }
         if (!empty($etatInfestation)) {
             if ('infestation-resolu' === $etatInfestation) {
-                $qb->andWhere('s.resolvedAt IS NOT NULL');
+                $sql .= ' AND s.resolved_at IS NOT NULL';
             } elseif ('infestation-nonresolu' === $etatInfestation) {
-                $qb->andWhere('s.resolvedAt IS NULL');
+                $sql .= ' AND s.resolved_at IS NULL';
             }
         }
         if (!empty($motifCloture)) {
-            switch ($motifCloture) {
-                case 'motif-resolu':
-                    $qb->andWhere('s.resolvedAt IS NOT NULL');
-                    break;
-                case 'motif-refuse':
-                    $qb->leftJoin('s.interventions', 'i')
-                        ->andWhere('i.id IS NOT NULL');
+            if ('motif-resolu' === $motifCloture) {
+                $sql .= ' AND s.resolved_at IS NOT NULL';
+            } elseif ('motif-refuse' === $motifCloture) {
+                $sql .= ' AND i.id IS NOT NULL';
 
-                    $subquery = $this->_em->createQueryBuilder()
-                        ->select('IDENTITY(interv.signalement)')
-                        ->from(Intervention::class, 'interv')
-                        ->where('interv.acceptedByUsager IS NULL')
-                        ->orWhere('interv.acceptedByUsager = true')
-                        ->distinct();
-                    $subqueryResult = $subquery->getQuery()->getSingleColumnResult();
-
-                    if (!empty($subqueryResult)) {
-                        $qb->andWhere('s.id NOT IN (:subquery)')
-                            ->setParameter('subquery', $subqueryResult);
-                    }
-                    break;
-                case 'motif-arret':
-                    $qb->andWhere('s.closedAt IS NOT NULL');
-                    break;
-
-                default:
-                    break;
+                $subquery = 'SELECT DISTINCT interv.signalement_id';
+                $subquery .= ' FROM intervention interv';
+                $subquery .= ' WHERE interv.accepted_by_usager IS NULL';
+                $subquery .= ' OR interv.accepted_by_usager = true';
+                $sql .= ' AND s.id NOT IN ('.$subquery.')';
+            } elseif ('motif-arret' === $motifCloture) {
+                $sql .= ' AND s.closed_at IS NOT NULL';
             }
         }
 
-        if (!empty($start)) {
-            $qb->setFirstResult($start);
-        }
-        if (!empty($length)) {
-            $qb->setMaxResults($length);
+        if (!empty($statut)) {
+            $sql .= ' HAVING statut = :statut';
+            $parameters['statut'] = $statut;
         }
 
         if (!empty($orderColumn)) {
             switch ($orderColumn) {
                 case 'id':
-                    $qb->orderBy('s.id', $orderDirection);
+                    $sql .= ' ORDER BY s.id '.$orderDirection;
                     break;
                 case 'date':
-                    $qb->orderBy('s.createdAt', $orderDirection);
+                    $sql .= ' ORDER BY s.created_at '.$orderDirection;
                     break;
                 case 'infestation':
-                    $qb->orderBy('s.niveauInfestation', $orderDirection);
+                    $sql .= ' ORDER BY s.niveau_infestation '.$orderDirection;
                     break;
                 case 'commune':
-                    $qb->orderBy('s.codePostal', $orderDirection);
-                    $qb->orderBy('s.ville', $orderDirection);
+                    $sql .= ' ORDER BY s.code_postal '.$orderDirection;
+                    $sql .= ', s.ville '.$orderDirection;
                     break;
                 case 'type':
-                    $qb->orderBy('s.logementSocial', $orderDirection);
-                    $qb->orderBy('s.autotraitement', $orderDirection);
+                    $sql .= ' ORDER BY s.logement_social '.$orderDirection;
+                    $sql .= ', s.autotraitement '.$orderDirection;
                     break;
                 case 'procedure':
-                    $qb->orderBy('procedure', $orderDirection);
+                    $sql .= ' ORDER BY current_procedure '.$orderDirection;
                     break;
                 case 'statut':
-                    // TODO : order in query
+                    $sql .= ' ORDER BY statut '.$orderDirection;
                     break;
                 default:
                     break;
             }
         }
 
-        if ($returnCount) {
-            return $qb->getQuery()
-                ->getSingleScalarResult();
+        if (!empty($length)) {
+            $sql .= ' LIMIT '.$length;
+        }
+        if (!empty($start)) {
+            $sql .= ' OFFSET '.$start;
         }
 
-        return $qb->getQuery()
-            ->getResult();
+        $statement = $connexion->prepare($sql);
+
+        return $statement->executeQuery($parameters)->fetchAllAssociative();
     }
 
     public function findToNotify(): ?array
