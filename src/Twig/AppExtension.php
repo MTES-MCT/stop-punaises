@@ -54,11 +54,11 @@ class AppExtension extends AbstractExtension
 
     public function formatStatutSignalement(Signalement $signalement): string
     {
-        $statutFormat = new StatutFormat($this->security, $signalement);
+        $statutFormat = StatutFormat::getFormat($this->security, $signalement);
 
-        return '<p class="fr-badge fr-badge--'.$statutFormat->getBadgeName()
+        return '<p class="fr-badge fr-badge--'.$statutFormat['badge']
                 .' fr-badge--no-icon">'
-                .$statutFormat->getLabel().'</p>';
+                .$statutFormat['label'].'</p>';
     }
 
     public function formatTypeSignalement(Signalement $signalement): string
