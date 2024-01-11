@@ -2,6 +2,7 @@
 
 namespace App\Service\Signalement;
 
+use App\Entity\Enum\ProcedureProgress;
 use App\Entity\Enum\Role;
 use App\Manager\SignalementManager;
 use App\Twig\AppExtension;
@@ -102,7 +103,7 @@ class TableLister
             ];
             if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
                 $signalementFormatted[] = $this->formatTypeSignalement($row);
-                $signalementFormatted[] = $this->formatProcedure($row['current_procedure']);
+                $signalementFormatted[] = $this->formatProcedure($row['procedure_progress']);
             }
             $signalementFormatted[] = $this->formatButton($row);
 
@@ -181,9 +182,9 @@ class TableLister
 
     private function formatProcedure(string $procedureLabel): string
     {
-        return '<label>'.$procedureLabel.'</label>
+        return '<label>'.ProcedureProgress::from($procedureLabel)->label().'</label>
                 <br>
-                <progress value="'.ProcedureFormat::getPercentByLabel($procedureLabel).'" max="100"></progress>';
+                <progress value="'.ProcedureProgress::from($procedureLabel)->value.'" max="100"></progress>';
     }
 
     private function formatButton(array $row): string

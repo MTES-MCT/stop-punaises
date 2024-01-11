@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
+use App\Entity\Enum\ProcedureProgress;
 use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -96,36 +97,34 @@ class SignalementRepository extends ServiceEntityRepository
         return 'CASE
             WHEN (s.autotraitement = true) THEN
                 CASE
-                WHEN (s.resolved_at IS NOT NULL) THEN
-                    \'Confirmation usager\'
-                WHEN (s.closed_at IS NOT NULL) THEN
-                    \'Confirmation usager\'
+                WHEN (s.resolved_at IS NOT NULL OR s.closed_at IS NOT NULL) THEN
+                    '.ProcedureProgress::AUTO_CONFIRMATION_USAGER->value.'
                 WHEN (s.reminder_autotraitement_at IS NOT NULL) THEN
-                    \'Feedback envoyé\'
+                    '.ProcedureProgress::AUTO_FEEDBACK_ENVOYE->value.'
                 ELSE
-                    \'Protocole envoyé\'
+                    '.ProcedureProgress::AUTO_PROTOCOLE_ENVOYE->value.'
                 END
             ELSE
                 CASE
                 WHEN (i.id IS NOT NULL) THEN
                     CASE
                     WHEN (s.resolved_at IS NOT NULL) THEN
-                        \'Confirmation usager\'
+                        '.ProcedureProgress::AUTO_CONFIRMATION_USAGER->value.'
                     WHEN (s.type_intervention IS NOT NULL) THEN
-                        \'Intervention faite\'
+                        '.ProcedureProgress::PRO_INTERVENTION_FAITE->value.'
                     WHEN (i.canceled_by_entreprise_at IS NOT NULL) THEN
-                        \'Intervention annulée\'
+                        '.ProcedureProgress::PRO_INTERVENTION_ANNULEE->value.'
                     WHEN (i.accepted_by_usager = true) THEN
-                        \'Estimation acceptée\'
+                        '.ProcedureProgress::PRO_ESTIMATION_ACCEPTEE->value.'
                     WHEN (i.accepted_by_usager = false) THEN
-                        \'Estimation refusée\'
+                        '.ProcedureProgress::PRO_ESTIMATION_REFUSEE->value.'
                     ELSE
-                        \'Contact usager\'
+                        '.ProcedureProgress::PRO_ESTIMATION_ENVOYEE->value.'
                     END
                 ELSE
-                    \'Réception\'
+                    '.ProcedureProgress::PRO_RECEPTION->value.'
                 END
-            END AS current_procedure';
+            END AS procedure_progress';
     }
 
     private function buildSelectStatut(Entreprise|null $entreprise): string
@@ -283,7 +282,7 @@ class SignalementRepository extends ServiceEntityRepository
                     $sql .= ', s.autotraitement '.$orderDirection;
                     break;
                 case 'procedure':
-                    $sql .= ' ORDER BY current_procedure '.$orderDirection;
+                    $sql .= ' ORDER BY procedure_progress '.$orderDirection;
                     break;
                 case 'statut':
                     $sql .= ' ORDER BY statut '.$orderDirection;
