@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Dto\SignalementOccupantDataTableFilters;
 use App\Entity\Enum\Declarant;
 use App\Entity\Enum\Role;
 use App\Entity\Signalement;
@@ -50,14 +51,7 @@ class SignalementManager extends AbstractManager
         ?string $length = null,
         ?string $orderColumn = null,
         ?string $orderDirection = null,
-        ?string $statut = null,
-        ?string $zip = null,
-        ?string $date = null,
-        ?string $niveauInfestation = null,
-        ?string $adresse = null,
-        ?string $type = null,
-        ?string $etatInfestation = null,
-        ?string $motifCloture = null,
+        ?SignalementOccupantDataTableFilters $filters = null,
     ): array|int {
         /** @var User $user */
         $user = $this->security->getUser();
@@ -69,14 +63,7 @@ class SignalementManager extends AbstractManager
             length: $length,
             orderColumn: $orderColumn,
             orderDirection: $orderDirection,
-            statut: $statut,
-            zip: $zip,
-            date: $date,
-            niveauInfestation: $niveauInfestation,
-            adresse: $adresse,
-            type: $type,
-            etatInfestation: $etatInfestation,
-            motifCloture: $motifCloture,
+            filters: $filters
         );
     }
 

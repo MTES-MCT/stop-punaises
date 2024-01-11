@@ -1,9 +1,9 @@
 <label class="fr-label" for="filter-statut">Statut</label>
 <select class="fr-select" id="filter-statut">
     <option value="" selected>Tous</option>
-    <option value="Nouveau">Nouveau</option>
-    <option value="En cours">En cours</option>
-    <option value="Traité">Traité</option>
-    <option value="Fermé">Fermé</option>
-    <option value="Refusé">Refusé</option>
+    <option value="{{ enum('App\\Entity\\Enum\\SignalementStatus').NEW.name }}">{{ enum('App\\Entity\\Enum\\SignalementStatus').NEW.label }}</option>
+    <option value="{{ enum('App\\Entity\\Enum\\SignalementStatus').ACTIVE.name }}">{{ enum('App\\Entity\\Enum\\SignalementStatus').ACTIVE.label }}</option>
+    <option value="{{ enum('App\\Entity\\Enum\\SignalementStatus').PROCESSED.name }}">{{ enum('App\\Entity\\Enum\\SignalementStatus').PROCESSED.label }}</option>
+    <option value="{{ enum('App\\Entity\\Enum\\SignalementStatus').CLOSED.name }}">{{ enum('App\\Entity\\Enum\\SignalementStatus').CLOSED.label }}</option>
+    <option value="{{ enum('App\\Entity\\Enum\\SignalementStatus').REFUSED.name }}">{{ enum('App\\Entity\\Enum\\SignalementStatus').REFUSED.label }}</option>
 </select>

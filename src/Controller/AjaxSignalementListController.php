@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Service\Signalement\TableLister;
+use App\Dto\DataTableRequest;
+use App\Service\Signalement\SignalementOccupantDataTableHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,9 +13,12 @@ class AjaxSignalementListController extends AbstractController
 {
     #[Route('/bo/liste-signalements', name: 'app_ajax_signalement_list')]
     public function signalements(
-        TableLister $tableLister,
+        SignalementOccupantDataTableHandler $signalementOccupantDataTableHandler,
         Request $request,
     ): JsonResponse {
-        return new JsonResponse($tableLister->list($request));
+        $dataTableRequest = DataTableRequest::buildFromRequest($request);
+        $dataTableResponse = $signalementOccupantDataTableHandler->handleRequest($dataTableRequest);
+
+        return new JsonResponse($dataTableResponse->toArray());
     }
 }

@@ -2,16 +2,18 @@
 
 namespace App\Service\Signalement;
 
+use App\Dto\DataTableRequest;
+use App\Dto\DataTableResponse;
+use App\Dto\SignalementOccupantDataTableFilters;
 use App\Entity\Enum\ProcedureProgress;
 use App\Entity\Enum\Role;
 use App\Entity\Enum\SignalementStatus;
 use App\Manager\SignalementManager;
 use App\Twig\AppExtension;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class TableLister
+class SignalementOccupantDataTableHandler
 {
     private const COL_SEARCH_STATUT = 0;
     private const COL_SEARCH_TERRITOIRE = 1;
@@ -38,91 +40,64 @@ class TableLister
     ) {
     }
 
-    public function list(Request $request): array
+    public function handleRequest(DataTableRequest $dataTableRequest): DataTableResponse
     {
-        $requestColumns = $request->get('columns');
-
-        $searchStatut = null;
-        $searchTerritoireZip = null;
-        $searchType = null;
-        $searchEtatInfestation = null;
-        $searchMotifCloture = null;
-        if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
-            $searchTerritoireZip = $requestColumns[self::COL_SEARCH_TERRITOIRE]['search']['value'];
-            $searchType = $requestColumns[self::COL_SEARCH_TYPE]['search']['value'];
-            $searchEtatInfestation = $requestColumns[self::COL_SEARCH_ETAT_INFESTATION]['search']['value'];
-            $searchMotifCloture = $requestColumns[self::COL_SEARCH_MOTIF_CLOTURE]['search']['value'];
-        }
-        $searchStatut = $requestColumns[self::COL_SEARCH_STATUT]['search']['value'];
-        $searchDate = $requestColumns[self::COL_SEARCH_DATE]['search']['value'];
-        $searchNiveauInfestation = $requestColumns[self::COL_SEARCH_NIVEAU_INFESTATION]['search']['value'];
-        $searchAdresse = $requestColumns[self::COL_SEARCH_ADRESSE]['search']['value'];
-
-        $requestOrder = $request->get('order');
-        $orderColumn = $this->getOrderColumn($requestOrder);
-        $orderDirection = $requestOrder[0]['dir'];
+        $signalementOccupantDataTableFilters = $this->buildFilters($dataTableRequest);
 
         $signalementsTotal = $this->signalementManager->findDeclaredByOccupants();
         $countSignalementsTotal = \count($signalementsTotal);
 
         $signalementsFiltered = $this->signalementManager->findDeclaredByOccupants(
-            statut: $searchStatut,
-            zip: $searchTerritoireZip,
-            date: $searchDate,
-            niveauInfestation: $searchNiveauInfestation,
-            adresse: $searchAdresse,
-            type: $searchType,
-            etatInfestation: $searchEtatInfestation,
-            motifCloture: $searchMotifCloture,
+            filters: $signalementOccupantDataTableFilters
         );
         $countSignalementsFiltered = \count($signalementsFiltered);
 
         $signalementsFilteredPaginated = $this->signalementManager->findDeclaredByOccupants(
-            start: $request->get('start'),
-            length: $request->get('length'),
-            orderColumn: $orderColumn,
-            orderDirection: $orderDirection,
-            statut: $searchStatut,
-            zip: $searchTerritoireZip,
-            date: $searchDate,
-            niveauInfestation: $searchNiveauInfestation,
-            adresse: $searchAdresse,
-            type: $searchType,
-            etatInfestation: $searchEtatInfestation,
-            motifCloture: $searchMotifCloture,
+            start: $dataTableRequest->getStart(),
+            length: $dataTableRequest->getLength(),
+            orderColumn: $this->getOrderColumn($dataTableRequest->getOrderColumn()),
+            orderDirection: $dataTableRequest->getOrderDirection(),
+            filters: $signalementOccupantDataTableFilters
         );
 
         $signalementsFilteredFormated = [];
         foreach ($signalementsFilteredPaginated as $row) {
-            $createdAt = new \DateTime($row['created_at']);
-            $signalementFormatted = [
-                $this->formatStatut($row['statut']),
-                $row['reference'],
-                $createdAt->format('d/m/Y'),
-                $this->formatNiveauInfestation($row['niveau_infestation']),
-                $this->formatCodePostal($row),
-            ];
-            if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
-                $signalementFormatted[] = $this->formatTypeSignalement($row);
-                $signalementFormatted[] = $this->formatProcedure($row['procedure_progress']);
-            }
-            $signalementFormatted[] = $this->formatButton($row);
-
-            $signalementsFilteredFormated[] = $signalementFormatted;
+            $signalementsFilteredFormated[] = $this->getSignalementResponseRow($row);
         }
 
-        return [
-            'draw' => $request->get('draw'),
-            'recordsTotal' => $countSignalementsTotal,
-            'recordsFiltered' => $countSignalementsFiltered,
-            'data' => $signalementsFilteredFormated,
-        ];
+        return new DataTableResponse(
+            draw: $dataTableRequest->getDraw(),
+            recordsTotal: $countSignalementsTotal,
+            recordsFiltered: $countSignalementsFiltered,
+            data: $signalementsFilteredFormated,
+        );
     }
 
-    private function getOrderColumn(array $requestOrder): string
+    private function buildFilters(DataTableRequest $dataTableRequest): SignalementOccupantDataTableFilters
     {
-        $orderColRequest = $requestOrder[0]['column'];
-        switch ($orderColRequest) {
+        return new SignalementOccupantDataTableFilters(
+            statut: $dataTableRequest->getSearchByIndex(self::COL_SEARCH_STATUT),
+            zip: $this->security->isGranted(Role::ROLE_ADMIN->value)
+                ? $dataTableRequest->getSearchByIndex(self::COL_SEARCH_TERRITOIRE)
+                : null,
+            date: $dataTableRequest->getSearchByIndex(self::COL_SEARCH_DATE),
+            niveauInfestation: $dataTableRequest->getSearchByIndex(self::COL_SEARCH_NIVEAU_INFESTATION),
+            adresse: $dataTableRequest->getSearchByIndex(self::COL_SEARCH_ADRESSE),
+            type: $this->security->isGranted(Role::ROLE_ADMIN->value)
+                ? $dataTableRequest->getSearchByIndex(self::COL_SEARCH_TYPE)
+                : null,
+            etatInfestation: $this->security->isGranted(Role::ROLE_ADMIN->value)
+                ? $dataTableRequest->getSearchByIndex(self::COL_SEARCH_ETAT_INFESTATION)
+                : null,
+            motifCloture: $this->security->isGranted(Role::ROLE_ADMIN->value)
+                ? $dataTableRequest->getSearchByIndex(self::COL_SEARCH_MOTIF_CLOTURE)
+                : null,
+        );
+    }
+
+    private function getOrderColumn(string $orderColumn): string
+    {
+        switch ($orderColumn) {
             case self::ORDER_COL_STATUT:
                 return 'statut';
                 break;
@@ -148,6 +123,25 @@ class TableLister
                 return '';
                 break;
         }
+    }
+
+    private function getSignalementResponseRow(array $row): array
+    {
+        $createdAt = new \DateTime($row['created_at']);
+        $signalementFormatted = [
+            $this->formatStatut($row['statut']),
+            $row['reference'],
+            $createdAt->format('d/m/Y'),
+            $this->formatNiveauInfestation($row['niveau_infestation']),
+            $this->formatCodePostal($row),
+        ];
+        if ($this->security->isGranted(Role::ROLE_ADMIN->value)) {
+            $signalementFormatted[] = $this->formatTypeSignalement($row);
+            $signalementFormatted[] = $this->formatProcedure($row['procedure_progress']);
+        }
+        $signalementFormatted[] = $this->formatButton($row);
+
+        return $signalementFormatted;
     }
 
     private function formatStatut(string $statut): string

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dto\SignalementOccupantDataTableFilters;
 use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
 use App\Entity\Enum\ProcedureProgress;
@@ -175,14 +176,7 @@ class SignalementRepository extends ServiceEntityRepository
         ?string $length,
         ?string $orderColumn,
         ?string $orderDirection,
-        ?string $statut = '',
-        ?string $zip = '',
-        ?string $date = '',
-        ?string $niveauInfestation = '',
-        ?string $adresse = '',
-        ?string $type = '',
-        ?string $etatInfestation = '',
-        ?string $motifCloture = '',
+        ?SignalementOccupantDataTableFilters $filters = null,
     ): array|int {
         $connexion = $this->getEntityManager()->getConnection();
 
@@ -211,56 +205,58 @@ class SignalementRepository extends ServiceEntityRepository
             $parameters['territoires'] = implode(',', $territoiresZip);
         }
 
-        if (!empty($zip)) {
-            $sql .= ' AND t.zip = :zip';
-            $parameters['zip'] = $zip;
-        }
-        if (!empty($date)) {
-            $sql .= ' AND DATE(s.created_at) = :date';
-            $parameters['date'] = $date;
-        }
-        if (!empty($niveauInfestation) || '0' === $niveauInfestation) {
-            $sql .= ' AND s.niveau_infestation = :niveauInfestation';
-            $parameters['niveauInfestation'] = $niveauInfestation;
-        }
-        if (!empty($adresse)) {
-            $sql .= ' AND (s.code_postal LIKE :adresse OR s.ville LIKE :adresse)';
-            $parameters['adresse'] = '%'.$adresse.'%';
-        }
-        if (!empty($type)) {
-            if ('a-traiter' === $type) {
-                $sql .= ' AND (s.logement_social != true OR s.logement_social IS NULL)';
-                $sql .= ' AND (s.autotraitement != true OR s.autotraitement IS NULL)';
-            } elseif ('auto-traitement' === $type) {
-                $sql .= ' AND s.autotraitement = true';
+        if (!empty($filters)) {
+            if (!empty($filters->getZip())) {
+                $sql .= ' AND t.zip = :zip';
+                $parameters['zip'] = $filters->getZip();
             }
-        }
-        if (!empty($etatInfestation)) {
-            if ('infestation-resolu' === $etatInfestation) {
-                $sql .= ' AND s.resolved_at IS NOT NULL';
-            } elseif ('infestation-nonresolu' === $etatInfestation) {
-                $sql .= ' AND s.resolved_at IS NULL';
+            if (!empty($filters->getDate())) {
+                $sql .= ' AND DATE(s.created_at) = :date';
+                $parameters['date'] = $filters->getDate();
             }
-        }
-        if (!empty($motifCloture)) {
-            if ('motif-resolu' === $motifCloture) {
-                $sql .= ' AND s.resolved_at IS NOT NULL';
-            } elseif ('motif-refuse' === $motifCloture) {
-                $sql .= ' AND i.id IS NOT NULL';
+            if (!empty($filters->getNiveauInfestation()) || '0' === $filters->getNiveauInfestation()) {
+                $sql .= ' AND s.niveau_infestation = :niveauInfestation';
+                $parameters['niveauInfestation'] = $filters->getNiveauInfestation();
+            }
+            if (!empty($filters->getAdresse())) {
+                $sql .= ' AND (s.code_postal LIKE :adresse OR s.ville LIKE :adresse)';
+                $parameters['adresse'] = '%'.$filters->getAdresse().'%';
+            }
+            if (!empty($filters->getType())) {
+                if ('a-traiter' === $filters->getType()) {
+                    $sql .= ' AND (s.logement_social != true OR s.logement_social IS NULL)';
+                    $sql .= ' AND (s.autotraitement != true OR s.autotraitement IS NULL)';
+                } elseif ('auto-traitement' === $filters->getType()) {
+                    $sql .= ' AND s.autotraitement = true';
+                }
+            }
+            if (!empty($filters->getEtatInfestation())) {
+                if ('infestation-resolu' === $filters->getEtatInfestation()) {
+                    $sql .= ' AND s.resolved_at IS NOT NULL';
+                } elseif ('infestation-nonresolu' === $filters->getEtatInfestation()) {
+                    $sql .= ' AND s.resolved_at IS NULL';
+                }
+            }
+            if (!empty($filters->getMotifCloture())) {
+                if ('motif-resolu' === $filters->getMotifCloture()) {
+                    $sql .= ' AND s.resolved_at IS NOT NULL';
+                } elseif ('motif-refuse' === $filters->getMotifCloture()) {
+                    $sql .= ' AND i.id IS NOT NULL';
 
-                $subquery = 'SELECT DISTINCT interv.signalement_id';
-                $subquery .= ' FROM intervention interv';
-                $subquery .= ' WHERE interv.accepted_by_usager IS NULL';
-                $subquery .= ' OR interv.accepted_by_usager = true';
-                $sql .= ' AND s.id NOT IN ('.$subquery.')';
-            } elseif ('motif-arret' === $motifCloture) {
-                $sql .= ' AND s.closed_at IS NOT NULL';
+                    $subquery = 'SELECT DISTINCT interv.signalement_id';
+                    $subquery .= ' FROM intervention interv';
+                    $subquery .= ' WHERE interv.accepted_by_usager IS NULL';
+                    $subquery .= ' OR interv.accepted_by_usager = true';
+                    $sql .= ' AND s.id NOT IN ('.$subquery.')';
+                } elseif ('motif-arret' === $filters->getMotifCloture()) {
+                    $sql .= ' AND s.closed_at IS NOT NULL';
+                }
             }
-        }
 
-        if (!empty($statut)) {
-            $sql .= ' HAVING statut = :statut';
-            $parameters['statut'] = $statut;
+            if (!empty($filters->getStatut())) {
+                $sql .= ' HAVING statut = :statut';
+                $parameters['statut'] = SignalementStatus::from($filters->getStatut())->value;
+            }
         }
 
         if (!empty($orderColumn)) {
