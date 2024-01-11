@@ -37,7 +37,6 @@ function startListeSignalementsApp() {
     idTable += '-ajax';
     options.ajax = '/bo/liste-signalements';
     options.serverSide = true;
-    options.pageLength = 20;
     // refresh count when ajax call is done
     options.fnDrawCallback = function( oSettings ) {
       $("span#count-signalement").text(oSettings.json.recordsFiltered);
