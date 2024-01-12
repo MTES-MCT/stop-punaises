@@ -4,8 +4,6 @@
     <div class="fr-stepper">
         <div class="fr-stepper__steps" data-fr-current-step="8" data-fr-steps="8"></div>
     </div>
-
-    {% include 'front_signalement/_partial_recap.html.twig' %}
     
     <div>
         <h2>Votre recommandation</h2>
@@ -44,6 +42,10 @@
 
         <div class="fr-input-group group-next if-recommandation-zero">
             <button type="button" class="fr-btn fr-btn--secondary btn-next-next">Recevoir le protocole d'auto-traitement</button>
+        </div>
+
+        <div class="fr-input-group group-previous">
+            <span>&lt;</span> <a href="#" class="link-back">Retour</a>
         </div>
     </nav>
 

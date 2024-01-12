@@ -25,6 +25,7 @@ class PunaisesFrontSignalementController {
     'insectes_larves_oeufs',
     'insectes_punaises',
     'info_usager',
+    'resume',
     'recommandation',
     'professionnel_info',
     'autotraitement_info',
@@ -165,8 +166,8 @@ class PunaisesFrontSignalementController {
         return self.initStepInsectesPunaises();
       case 'info_usager':
         return self.initStepInfoUsager();
-      case 'recommandation':
-        return self.initStepRecommandation(); 
+      case 'resume':
+        return self.initStepResume();
       case 'professionnel_info':
         return self.initProfessionnelInfo();
       case 'autotraitement_info':
@@ -656,7 +657,7 @@ class PunaisesFrontSignalementController {
     return canGoNext;
   }
 
-  initStepRecommandation(){
+  initStepResume(){
     const typeLogement = $("input[name='signalement_front[typeLogement]']:checked").val();
     $("#recapTypeLogement").text(typeLogement.charAt(0).toUpperCase() + typeLogement.slice(1));
     $("#recapSuperficie").text($("input[name='signalement_front[superficie]']").val());
