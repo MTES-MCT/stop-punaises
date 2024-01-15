@@ -150,8 +150,12 @@ class SignalementOccupantDataTableHandler
                 .' fr-badge--no-icon">'.SignalementStatus::from($statut)->label().'</p>';
     }
 
-    private function formatNiveauInfestation(string $niveauInfestation): string
+    private function formatNiveauInfestation(?string $niveauInfestation): string
     {
+        if (empty($niveauInfestation)) {
+            $niveauInfestation = 0;
+        }
+
         return '<span class="niveau-infestation niveau-'.$niveauInfestation.'">'
                 .$this->appExtension->formatLabelInfestation($niveauInfestation).
                 '</span>';
