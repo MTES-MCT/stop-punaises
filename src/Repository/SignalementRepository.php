@@ -197,12 +197,16 @@ class SignalementRepository extends ServiceEntityRepository
 
         if (!empty($entreprise)) {
             $sql .= ' AND s.autotraitement != true';
-            $sql .= ' AND s.territoire_id IN (:territoires)';
-            $territoiresZip = [];
+            $territoiresId = '';
             foreach ($entreprise->getTerritoires() as $territoire) {
-                $territoiresZip[] = $territoire->getZip();
+                if (!empty($territoiresId)) {
+                    $territoiresId .= ',';
+                }
+                $territoiresId .= $territoire->getId();
             }
-            $parameters['territoires'] = implode(',', $territoiresZip);
+            if (!empty($territoiresId)) {
+                $sql .= ' AND s.territoire_id IN ('.$territoiresId.')';
+            }
         }
 
         if (!empty($filters)) {
