@@ -182,7 +182,7 @@ class SignalementRepository extends ServiceEntityRepository
 
         $parameters = [];
 
-        $sql = 'SELECT s.*';
+        $sql = 'SELECT DISTINCT s.*';
         if (empty($entreprise)) {
             $sql .= ', '.$this->buildSelectProcedure();
         }

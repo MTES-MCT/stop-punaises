@@ -31,10 +31,10 @@ class StatusProvider
                 foreach ($signalement->getInterventions() as $intervention) {
                     if ($intervention->getEntreprise() == $entreprise) {
                         $isInterventionExistante = true;
-                        if (!$intervention->isAccepted() && $intervention->getCanceledByEntrepriseAt()) {
+                        if (false === $intervention->isAccepted() && $intervention->getCanceledByEntrepriseAt()) {
                             $isAnnule = true;
                             break;
-                        } elseif (!$intervention->isAccepted() || !$intervention->isAcceptedByUsager()) {
+                        } elseif (false === $intervention->isAccepted() || false === $intervention->isAcceptedByUsager()) {
                             $isRefuse = true;
                             break;
                         } elseif ($intervention->isAccepted() && $intervention->isAcceptedByUsager() && !empty($signalement->getTypeIntervention())) {
