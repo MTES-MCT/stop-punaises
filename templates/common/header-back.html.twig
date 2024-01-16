@@ -1,4 +1,4 @@
-<header class="fr-header">
+<header role="banner" class="fr-header">
     <div class="fr-header__body">
         <div class="fr-container">
             <div class="fr-header__body-row">
@@ -6,47 +6,44 @@
                     <div class="fr-header__brand-top">
                         <div class="fr-header__logo">
                             <p class="fr-logo">
-                                Ministère
-                                <br>de la transition
-                                <br>écologique
-                                <br>et de la cohésion
-                                <br>des territoires
+                                République
+                                <br>Française
                             </p>
                         </div>
                         <div class="fr-header__operator">
-                            <a href="{{ path('home') }}" title="Accueil - Stop punaises - Ministère de la transition écologique">
+                            <a href="{{ path('home') }}" title="Accueil - Stop punaises - Ministère de la transition écologique et de la cohésion des territoires">
                                 <p class="fr-header__service-title">
                                     <img src="{{ asset('build/images/logo-stop-punaises.svg') }}" alt="Stop punaises" width="90">
                                 </p>
                             </a>
                         </div>
                         <div class="fr-header__navbar">
-                            <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-499" aria-haspopup="menu" id="button-500" title="Menu">
+                            <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-header-nav" aria-haspopup="menu" id="button-header-nav" title="Menu">
                                 Menu
                             </button>
                         </div>
                     </div>
                 </div>
-                <div id="header-menu" class="fr-header__tools">
+                <div class="fr-header__tools">
                     <div class="fr-header__tools-links">
                         <ul class="fr-btns-group">
-                            <li>
+                            <li {% if app.request.get('_route') == 'app_dashboard_home' %} class="active"{% endif %}>
                                 <a class="fr-btn" href="{{ path('app_dashboard_home') }}">
                                     Tableau de bord
                                 </a>
                             </li>
                             {% if is_granted('ROLE_ADMIN') %}
-                                <li>
-                                    <a class="fr-btn" href="{{ path('app_cartographie') }}">
-                                        Cartographie
-                                    </a>
-                                </li>
+                            <li {% if app.request.get('_route') == 'app_cartographie' %} class="active"{% endif %}>
+                                <a class="fr-btn" href="{{ path('app_cartographie') }}">
+                                    Cartographie
+                                </a>
+                            </li>
                             {% elseif is_granted('ROLE_ENTREPRISE') %}
-                                <li>
-                                    <a class="fr-btn" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}">
-                                        Mon entreprise
-                                    </a>
-                                </li>
+                            <li>
+                                <a class="fr-btn" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}">
+                                    Mon entreprise
+                                </a>
+                            </li>
                             {% endif %}
                             <li>
                                 <a class="fr-btn" href="{{ path('app_logout') }}">
@@ -55,13 +52,20 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="fr-header__search fr-modal" id="modal-575">
+                        <div class="fr-container fr-container-lg--fluid">
+                            <button class="fr-btn--close fr-btn" aria-controls="modal-575" title="Fermer">
+                                Fermer
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="fr-header__menu fr-modal" id="modal-499" aria-labelledby="button-500">
+    <div class="fr-header__menu fr-modal" id="modal-header-nav" aria-labelledby="button-header-nav">
         <div class="fr-container">
-            <button class="fr-btn--close fr-btn" aria-controls="modal-499" title="Fermer">
+            <button class="fr-btn--close fr-btn" aria-controls="modal-header-nav" title="Fermer">
                 Fermer
             </button>
             <div class="fr-header__menu-links">
