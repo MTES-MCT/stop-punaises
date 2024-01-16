@@ -114,11 +114,11 @@ class SignalementRepository extends ServiceEntityRepository
                         \''.ProcedureProgress::AUTO_CONFIRMATION_USAGER->value.'\'
                     WHEN (s.type_intervention IS NOT NULL) THEN
                         \''.ProcedureProgress::PRO_INTERVENTION_FAITE->value.'\'
-                    WHEN (i.canceled_by_entreprise_at IS NOT NULL) THEN
-                        \''.ProcedureProgress::PRO_INTERVENTION_ANNULEE->value.'\'
-                    WHEN (i.accepted_by_usager = true) THEN
+                    WHEN (SELECT COUNT(*) > 0 FROM intervention ip3 WHERE s.id = ip3.signalement_id AND ip3.accepted_by_usager = true) THEN
                         \''.ProcedureProgress::PRO_ESTIMATION_ACCEPTEE->value.'\'
-                    WHEN (i.accepted_by_usager = false) THEN
+                    WHEN (SELECT COUNT(*) > 0 FROM intervention ip2 WHERE s.id = ip2.signalement_id AND ip2.canceled_by_entreprise_at IS NOT NULL) THEN
+                        \''.ProcedureProgress::PRO_INTERVENTION_ANNULEE->value.'\'
+                    WHEN (SELECT COUNT(*) > 0 FROM intervention ip4 WHERE s.id = ip4.signalement_id AND ip4.accepted_by_usager = false) THEN
                         \''.ProcedureProgress::PRO_ESTIMATION_REFUSEE->value.'\'
                     ELSE
                         \''.ProcedureProgress::PRO_ESTIMATION_ENVOYEE->value.'\'
@@ -150,18 +150,27 @@ class SignalementRepository extends ServiceEntityRepository
         return 'CASE
                 WHEN (s.resolved_at IS NOT NULL OR s.closed_at IS NOT NULL OR s.autotraitement = 1) THEN
                     \''.SignalementStatus::CLOSED->value.'\'
-                WHEN (i.id IS NOT NULL) THEN
+                WHEN (
+                    i.id IS NOT NULL AND (
+                        SELECT COUNT(*) > 0 FROM intervention is2 WHERE s.id = is2.signalement_id AND is2.entreprise_id = '.$entreprise->getId().'
+                    )
+                ) THEN
                     CASE
-                    WHEN (i.accepted = true AND i.accepted_by_usager = true AND i.entreprise_id != '.$entreprise->getId().') THEN
-                        \''.SignalementStatus::CLOSED->value.'\'
                     WHEN (i.accepted != true AND i.canceled_by_entreprise_at IS NOT NULL AND i.entreprise_id = '.$entreprise->getId().') THEN
                         \''.SignalementStatus::CANCELED->value.'\'
                     WHEN (i.accepted != true AND i.entreprise_id = '.$entreprise->getId().') THEN
                         \''.SignalementStatus::REFUSED->value.'\'
                     WHEN (i.accepted_by_usager = false AND i.entreprise_id = '.$entreprise->getId().') THEN
                         \''.SignalementStatus::REFUSED->value.'\'
-                    WHEN (i.accepted != true AND i.accepted_by_usager = true AND s.type_intervention IS NOT NULL AND s.type_intervention != \'\') THEN
+                    WHEN (i.accepted = true AND i.accepted_by_usager = true AND s.type_intervention IS NOT NULL AND s.type_intervention != \'\' AND i.entreprise_id = '.$entreprise->getId().') THEN
                         \''.SignalementStatus::PROCESSED->value.'\'
+                    WHEN (i.accepted = true AND i.entreprise_id = '.$entreprise->getId().') THEN
+                        \''.SignalementStatus::ACTIVE->value.'\'
+                    END
+                WHEN i.id IS NOT NULL THEN
+                    CASE
+                    WHEN (i.accepted = true AND i.accepted_by_usager = true AND i.entreprise_id != '.$entreprise->getId().') THEN
+                        \''.SignalementStatus::CLOSED->value.'\'
                     ELSE
                         \''.SignalementStatus::ACTIVE->value.'\'
                     END
@@ -182,7 +191,7 @@ class SignalementRepository extends ServiceEntityRepository
 
         $parameters = [];
 
-        $sql = 'SELECT DISTINCT s.*';
+        $sql = 'SELECT DISTINCT s.id, s.*';
         if (empty($entreprise)) {
             $sql .= ', '.$this->buildSelectProcedure();
         }
@@ -256,9 +265,12 @@ class SignalementRepository extends ServiceEntityRepository
                     $sql .= ' AND s.closed_at IS NOT NULL';
                 }
             }
+        }
 
+        $sql .= ' HAVING statut IS NOT NULL';
+        if (!empty($filters)) {
             if (!empty($filters->getStatut())) {
-                $sql .= ' HAVING statut = :statut';
+                $sql .= ' AND HAVING statut = :statut';
                 $parameters['statut'] = SignalementStatus::from($filters->getStatut())->value;
             }
         }

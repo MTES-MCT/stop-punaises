@@ -21,6 +21,7 @@ class SignalementListController extends AbstractController
     ): Response {
         $territoires = $territoireRepository->findAll();
         $signalements = $signalementManager->findDeclaredByOccupants();
+
         $entreprise = null;
         if (!$this->isGranted('ROLE_ADMIN')) {
             /** @var User $user */
