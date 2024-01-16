@@ -30,7 +30,7 @@ class SignalementFrontType extends AbstractType
             // Step info_logement
             ->add('typeLogement', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'fr-radio',
+                    'class' => 'fr-radio-group',
                 ],
                 'choices' => [
                     'Un appartement' => 'appartement',
@@ -38,13 +38,7 @@ class SignalementFrontType extends AbstractType
                     'Autre' => 'autre',
                 ],
                 'expanded' => true,
-                'label_attr' => [
-                    'class' => 'fr-label',
-                ],
                 'label' => 'Je vis dans...',
-                'row_attr' => [
-                    'class' => 'fr-select-group',
-                ],
                 'required' => true,
             ])
             ->add('superficie', NumberType::class, [
@@ -113,7 +107,7 @@ class SignalementFrontType extends AbstractType
             // Step info_locataire
             ->add('locataire', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'fr-radio',
+                    'class' => 'fr-radio-group',
                 ],
                 'choices' => [
                     'Propriétaire' => false,
@@ -142,7 +136,7 @@ class SignalementFrontType extends AbstractType
             ])
             ->add('logementSocial', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'fr-radio',
+                    'class' => 'fr-radio-group',
                 ],
                 'choices' => [
                     'Oui' => true,
@@ -160,7 +154,7 @@ class SignalementFrontType extends AbstractType
             ])
             ->add('allocataire', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'fr-radio',
+                    'class' => 'fr-radio-group',
                 ],
                 'choices' => [
                     'Oui' => true,
@@ -191,7 +185,7 @@ class SignalementFrontType extends AbstractType
             // Step info_problemes
             ->add('dureeInfestation', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'fr-radio',
+                    'class' => 'fr-radio-group',
                 ],
                 'choices' => [
                     'Moins de 3 mois' => 'LESS-3-MONTHS',
@@ -210,7 +204,7 @@ class SignalementFrontType extends AbstractType
             ])
             ->add('infestationLogementsVoisins', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'fr-radio',
+                    'class' => 'fr-radio-group',
                 ],
                 'choices' => [
                     'Oui' => true,
@@ -231,7 +225,7 @@ class SignalementFrontType extends AbstractType
             // Step traces_punaises_piqures
             ->add('piquresExistantes', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'fr-radio',
+                    'class' => 'fr-radio-group',
                 ],
                 'choices' => [
                     'Oui' => true,
@@ -249,7 +243,7 @@ class SignalementFrontType extends AbstractType
             ])
             ->add('piquresConfirmees', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'fr-radio',
+                    'class' => 'fr-radio-group',
                 ],
                 'choices' => [
                     'Oui' => true,

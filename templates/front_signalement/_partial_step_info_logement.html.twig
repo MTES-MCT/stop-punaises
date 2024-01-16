@@ -26,13 +26,12 @@
         </div>
     </div>
 
-    <label for="rechercheAdresse" class="fr-label required">Mon adresse est...</label>
-    <br>
-    <div class="search-address">
-        <p>
-            <em>Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</em>
-        </p>
-        <div class="fr-form-group">
+    <div class="fr-form-group">
+        <label for="rechercheAdresse" class="fr-label required">Mon adresse est...</label>
+        <div class="search-address">
+            <p>
+                <em>Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</em>
+            </p>
             <div class="fr-input-group">
                 <input id="rechercheAdresse" type="text" class="fr-input">
                 <div id="rechercheAdresseIcon">
@@ -87,7 +86,7 @@
 
         {{ form_widget(form.geoloc) }}
         
-   </div>
+    </div>
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
 {% endblock %}
