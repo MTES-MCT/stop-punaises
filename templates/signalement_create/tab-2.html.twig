@@ -14,7 +14,7 @@
         </div>
 
         {% if form.entreprise is defined %}
-            <div class="fr-form-group">
+            <div class="fr-form-group fr-mt-3v">
                 <div class="fr-select-group">
                     {{ form_label(form.entreprise) }}
                     {{ form_widget(form.entreprise) }}
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="fr-form-group display-if-diagnostic display-if-traitement">
+        <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
             <div class="fr-select-group">
                 {{ form_label(form.agent) }}
                 {{ form_widget(form.agent) }}
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="fr-form-group display-if-diagnostic display-if-traitement">
+        <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
             <div class="fr-select-group">
                 {{ form_label(form.niveauInfestation) }}
                 {{ form_widget(form.niveauInfestation) }}
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div class="fr-form-group display-if-traitement">
+        <div class="fr-form-group display-if-traitement fr-mt-3v">
             <div class="fr-select-group">
                 {{ form_label(form.typeTraitement) }}
                 {{ form_help(form.typeTraitement) }}
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <div class="fr-form-group display-if-traitement display-if-biocide">
+        <div class="fr-form-group display-if-traitement display-if-biocide fr-mt-3v">
             <div class="fr-input-group">
                 {{ form_label(form.nomBiocide) }}
                 {{ form_widget(form.nomBiocide) }}
@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <div class="fr-form-group display-if-diagnostic">
+        <div class="fr-form-group display-if-diagnostic fr-mt-3v">
             <div class="fr-input-group">
                 {{ form_label(form.typeDiagnostic) }}
                 
@@ -109,7 +109,7 @@
             </div>
         </div>
 
-        <div class="fr-form-group display-if-traitement">
+        <div class="fr-form-group display-if-traitement fr-mt-3v">
             <div class="fr-input-group">
                 {{ form_label(form.delaiEntreInterventions) }}
                 {{ form_widget(form.delaiEntreInterventions) }}
@@ -119,7 +119,7 @@
             </div>
         </div>
 
-        <div class="fr-form-group display-if-traitement">
+        <div class="fr-form-group display-if-traitement fr-mt-3v">
             <div class="fr-input-group">
                 {{ form_label(form.faitVisitePostTraitement) }}
                 
@@ -135,7 +135,7 @@
             </div>
         </div>
 
-        <div class="fr-form-group display-if-traitement">
+        <div class="fr-form-group display-if-traitement fr-mt-3v">
             <div class="fr-input-group">
                 {{ form_label(form.dateVisitePostTraitement) }}
                 {{ form_widget(form.dateVisitePostTraitement) }}
@@ -145,7 +145,7 @@
             </div>
         </div>
 
-        <div class="fr-form-group display-if-diagnostic display-if-traitement">
+        <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
             <div class="fr-input-group">
                 {{ form_label(form.prixFactureHT) }}
                 {{ form_widget(form.prixFactureHT) }}
@@ -157,7 +157,7 @@
     </div>
 </div>
 
-<nav class="stepper-previous">
+<nav class="stepper-previous fr-mt-3w">
     <a href="#">&lt; Précédent</a>
     <button class="fr-btn fr-btn--icon-left fr-icon-checkbox-circle-line" disabled>Valider</button>
 </nav>
