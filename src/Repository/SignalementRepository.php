@@ -270,7 +270,7 @@ class SignalementRepository extends ServiceEntityRepository
         $sql .= ' HAVING statut IS NOT NULL';
         if (!empty($filters)) {
             if (!empty($filters->getStatut())) {
-                $sql .= ' AND HAVING statut = :statut';
+                $sql .= ' AND statut = :statut';
                 $parameters['statut'] = SignalementStatus::from($filters->getStatut())->value;
             }
         }
