@@ -255,10 +255,6 @@ span.statut-infestation {
         max-width: 100%;
         height: auto;
     }
-    .btn-next {
-        width: 100%;
-        justify-content: center;
-    }
 }
 
 .index-tout-le-monde {
@@ -814,7 +810,6 @@ span.image-caption {
         }
 
         .btn-next, .btn-next-next {
-            width: 100%;
             justify-content: center;
         }
 
@@ -883,9 +878,6 @@ span.image-caption {
 .suivi-usager,
 .signalement-punaises {
     .fr-btn {
-        width: 100%;
-        justify-content: center;
-
         &::after {
             --icon-size: 0rem;
         }
