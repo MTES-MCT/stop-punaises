@@ -17,18 +17,20 @@ class SignalementListController extends AbstractController
     #[Route('/bo/signalements', name: 'app_signalement_list')]
     public function signalements(
         SignalementManager $signalementManager,
-        TerritoireRepository $territoireRepository
+        TerritoireRepository $territoireRepository,
     ): Response {
         $territoires = $territoireRepository->findAll();
         $signalements = $signalementManager->findDeclaredByOccupants();
+
         $entreprise = null;
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $entreprise = $this->getUser()->getEntreprise();
+            /** @var User $user */
+            $user = $this->getUser();
+            $entreprise = $user->getEntreprise();
         }
 
         return $this->render('signalement_list/signalements.html.twig', [
             'count_signalement' => \count($signalements),
-            'signalements' => $signalements,
             'territoires' => $territoires,
             'niveaux_infestation' => InfestationLevel::getLabelList(),
             'entreprise' => $entreprise,

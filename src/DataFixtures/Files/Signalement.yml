@@ -248,3 +248,605 @@ signalements:
   transport_line_number: "Petit train"
   is_place_averti: 0
   declarant: "DECLARANT_USAGER"
+-
+  uuid: "00000001-0010-0001-0001-000000000001"
+  adresse: "3 Rue des Droits de l'Homme"
+  code_postal: "44550"
+  ville: "Saint-Malo-de-Guersac"
+  type_logement: "maison"
+  nom_occupant: "Legal"
+  prenom_occupant: "Anne-Marie"
+  telephone_occupant: "0240667788"
+  email_occupant: "anne-marie.legal@yopmail.com"
+  niveau_infestation: 2
+  code_insee: "44176"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 87
+  duree_infestation: "MORE-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 1
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"MEUBLES\"], \"dejectionsFaciliteDetections\": \"FACILE\", \"dejectionsNombrePiecesConcernees\": \"2\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"true\", \"oeufsEtLarvesLieuxObservations\": [\"CANAPE\", \"MURS\"], \"oeufsEtLarvesFaciliteDetections\": \"RECHERCHE\", \"oeufsEtLarvesNombrePiecesConcernees\": \"1\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"LIT\", \"CANAPE\"], \"punaisesFaciliteDetections\": \"RECHERCHE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "44"
+  locataire: 0
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a10fcbd1b74"
+  geoloc: "{\"lat\": \"47.354023\", \"lng\": \"-2.175635\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000002"
+  adresse: "Rue Marx Dormoy"
+  code_postal: "38000"
+  ville: "Grenoble"
+  type_logement: "appartement"
+  nom_occupant: "Piolle"
+  prenom_occupant: "Eric"
+  telephone_occupant: "0455667788"
+  email_occupant: "eric@yopmail.com"
+  niveau_infestation: 3
+  code_insee: "38185"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 45
+  duree_infestation: "3-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"false\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"LIT\", \"CANAPE\", \"MEUBLES\", \"MURS\"], \"punaisesFaciliteDetections\": \"FACILE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 1
+  territoire: "38"
+  locataire: 1
+  nom_proprietaire: "38 Habitat"
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a1114b119cb"
+  geoloc: "{\"lat\": \"45.187467\", \"lng\": \"5.709152\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000003"
+  adresse: "168 Rue Raymond Losserand"
+  code_postal: "75014"
+  ville: "Paris"
+  type_logement: "appartement"
+  nom_occupant: "Nguyen"
+  prenom_occupant: "Céline"
+  telephone_occupant: "0388776655"
+  email_occupant: "nguyen@yopmail.com"
+  niveau_infestation: 2
+  code_insee: "75114"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 12
+  duree_infestation: "3-6-MONTHS"
+  piqures_existantes: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"LIT\", \"MEUBLES\"], \"dejectionsFaciliteDetections\": \"FACILE\", \"dejectionsNombrePiecesConcernees\": \"1\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"true\", \"oeufsEtLarvesLieuxObservations\": [\"LIT\"], \"oeufsEtLarvesFaciliteDetections\": \"RECHERCHE\", \"oeufsEtLarvesNombrePiecesConcernees\": \"2\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"CANAPE\"], \"punaisesFaciliteDetections\": \"RECHERCHE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "75"
+  locataire: 1
+  nom_proprietaire: "Nguuyen"
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a11446b4f1f"
+  geoloc: "{\"lat\": \"48.830209\", \"lng\": \"2.310519\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000004"
+  adresse: "Rue Docteurs Calmette et Guerin"
+  code_postal: "53000"
+  ville: "Laval"
+  type_logement: "appartement"
+  nom_occupant: "Pottier"
+  prenom_occupant: "Jérémie"
+  telephone_occupant: "0655774488"
+  email_occupant: "jeremie@yopmail.com"
+  niveau_infestation: 4
+  code_insee: "53130"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 9
+  duree_infestation: "MORE-6-MONTHS"
+  infestation_logements_voisins: 1
+  piqures_existantes: 1
+  piqures_confirmees: 1
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"LIT\", \"CANAPE\", \"MEUBLES\", \"MURS\"], \"dejectionsFaciliteDetections\": \"FACILE\", \"dejectionsNombrePiecesConcernees\": \"2\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"true\", \"oeufsEtLarvesLieuxObservations\": [\"LIT\", \"CANAPE\", \"MEUBLES\", \"MURS\"], \"oeufsEtLarvesFaciliteDetections\": \"FACILE\", \"oeufsEtLarvesNombrePiecesConcernees\": \"2\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"LIT\", \"CANAPE\", \"MEUBLES\", \"MURS\"], \"punaisesFaciliteDetections\": \"FACILE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "53"
+  locataire: 1
+  nom_proprietaire: "CROUS"
+  logement_social: 0
+  allocataire: 1
+  numero_allocataire: "0094763"
+  uuid_public: "65a1149ff3c8a"
+  geoloc: "{\"lat\": \"48.085521\", \"lng\": \"-0.756538\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000005"
+  adresse: "Cours Berriat"
+  code_postal: "38000"
+  ville: "Grenoble"
+  type_logement: "appartement"
+  nom_occupant: "Lanka"
+  prenom_occupant: "Hélène"
+  telephone_occupant: "0240776699"
+  email_occupant: "lanka@yopmail.com"
+  niveau_infestation: 3
+  code_insee: "38185"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 25
+  duree_infestation: "MORE-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"false\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"LIT\", \"CANAPE\", \"MEUBLES\"], \"punaisesFaciliteDetections\": \"FACILE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "38"
+  locataire: 1
+  nom_proprietaire: "Véronique"
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a1156e635c4"
+  geoloc: "{\"lat\": \"45.188354\", \"lng\": \"5.713347\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000006"
+  adresse: "8 Rue de Fionie"
+  code_postal: "44240"
+  ville: "La Chapelle-sur-Erdre"
+  type_logement: "maison"
+  nom_occupant: "Bruette"
+  prenom_occupant: "Christine"
+  telephone_occupant: "0233445566"
+  email_occupant: "kristine@yopmail.com"
+  niveau_infestation: 3
+  code_insee: "44035"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 300
+  duree_infestation: "MORE-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 1
+  dejections_details: "{\"dejectionsTrouvees\": \"false\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"CANAPE\"], \"punaisesFaciliteDetections\": \"FACILE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 1
+  territoire: "44"
+  locataire: 0
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a115ea2149c"
+  geoloc: "{\"lat\": \"47.281635\", \"lng\": \"-1.547442\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000007"
+  adresse: "1 rue Anna de Noailles"
+  code_postal: "72000"
+  ville: "Le Mans"
+  type_logement: "maison"
+  nom_occupant: "Doggett"
+  prenom_occupant: "John"
+  telephone_occupant: "0288776655"
+  email_occupant: "john@fbi.com"
+  niveau_infestation: 1
+  code_insee: "72181"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 160
+  duree_infestation: "LESS-3-MONTHS"
+  piqures_existantes: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"LIT\"], \"dejectionsFaciliteDetections\": \"RECHERCHE\", \"dejectionsNombrePiecesConcernees\": \"1\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"false\"}"
+  photos: "[]"
+  autotraitement: 1
+  territoire: "72"
+  locataire: 0
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a11653b7dda"
+  geoloc: "{\"lat\": \"48.021645\", \"lng\": \"0.216773\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000008"
+  adresse: "4 Rue du 8 mai 1945"
+  code_postal: "85000"
+  ville: "La Roche-sur-Yon"
+  type_logement: "appartement"
+  nom_occupant: "De Viliers"
+  prenom_occupant: "Gérard"
+  telephone_occupant: "0655889900"
+  email_occupant: "gerard@yopmail.com"
+  niveau_infestation: 3
+  code_insee: "85191"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 45
+  duree_infestation: "3-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 1
+  dejections_details: "{\"dejectionsTrouvees\": \"false\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"CANAPE\"], \"punaisesFaciliteDetections\": \"FACILE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "85"
+  locataire: 0
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a116a0e007e"
+  geoloc: "{\"lat\": \"46.67086\", \"lng\": \"-1.424044\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000009"
+  adresse: "Avenue de la Havane"
+  code_postal: "44600"
+  ville: "Saint-Nazaire"
+  type_logement: "maison"
+  nom_occupant: "Chanceux"
+  prenom_occupant: "Fred"
+  telephone_occupant: "0488776655"
+  email_occupant: "fred@yopmail.com"
+  niveau_infestation: 3
+  code_insee: "44184"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 56
+  duree_infestation: "MORE-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"CANAPE\"], \"dejectionsFaciliteDetections\": \"RECHERCHE\", \"dejectionsNombrePiecesConcernees\": \"1\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"MEUBLES\"], \"punaisesFaciliteDetections\": \"FACILE\", \"punaisesNombrePiecesConcernees\": \"1\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "44"
+  locataire: 0
+  logement_social: 0
+  allocataire: 1
+  numero_allocataire: "8733454"
+  uuid_public: "65a117c8e3795"
+  geoloc: "{\"lat\": \"47.270027\", \"lng\": \"-2.213857\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000010"
+  adresse: "2 Rue de l'Hôtel Dieu"
+  code_postal: "35000"
+  ville: "Rennes"
+  type_logement: "autre"
+  nom_occupant: "Bouillon"
+  prenom_occupant: "Manu"
+  telephone_occupant: "0122778899"
+  email_occupant: "manu@yopmail.com"
+  niveau_infestation: 3
+  code_insee: "35238"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 3000
+  duree_infestation: "3-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 1
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"LIT\", \"CANAPE\", \"MEUBLES\", \"MURS\"], \"dejectionsFaciliteDetections\": \"FACILE\", \"dejectionsNombrePiecesConcernees\": \"2\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"true\", \"oeufsEtLarvesLieuxObservations\": [\"LIT\", \"CANAPE\", \"MEUBLES\", \"MURS\"], \"oeufsEtLarvesFaciliteDetections\": \"FACILE\", \"oeufsEtLarvesNombrePiecesConcernees\": \"2\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"LIT\", \"CANAPE\", \"MEUBLES\", \"MURS\"], \"punaisesFaciliteDetections\": \"FACILE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "35"
+  locataire: 0
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a1188c858e1"
+  geoloc: "{\"lat\": \"48.117369\", \"lng\": \"-1.678976\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000011"
+  adresse: "4 Rue de la Roseraie"
+  code_postal: "14000"
+  ville: "Caen"
+  type_logement: "maison"
+  nom_occupant: "Thomass"
+  prenom_occupant: "Vince"
+  telephone_occupant: "0455667788"
+  email_occupant: "vince@yopmail.com"
+  niveau_infestation: 1
+  code_insee: "14118"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 45
+  duree_infestation: "MORE-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"false\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"false\"}"
+  photos: "[]"
+  autotraitement: 1
+  territoire: "14"
+  locataire: 1
+  nom_proprietaire: "fds"
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a118f278891"
+  geoloc: "{\"lat\": \"49.186937\", \"lng\": \"-0.393638\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000012"
+  adresse: "Rue de Moux"
+  code_postal: "11160"
+  ville: "Rieux-Minervois"
+  type_logement: "maison"
+  nom_occupant: "Truc"
+  prenom_occupant: "Machin"
+  telephone_occupant: "0288997766"
+  email_occupant: "truc@yopmail.com"
+  niveau_infestation: 1
+  code_insee: "11315"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 45
+  duree_infestation: "3-6-MONTHS"
+  piqures_existantes: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"MURS\"], \"dejectionsFaciliteDetections\": \"RECHERCHE\", \"dejectionsNombrePiecesConcernees\": \"2\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"false\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "11"
+  locataire: 0
+  logement_social: 0
+  allocataire: 1
+  numero_allocataire: "0984762"
+  uuid_public: "65a119461de15"
+  geoloc: "{\"lat\": \"43.279814\", \"lng\": \"2.587711\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000013"
+  adresse: "5 Rue des Vignes"
+  code_postal: "18800"
+  ville: "Étréchy"
+  type_logement: "maison"
+  nom_occupant: "Lâcheur"
+  prenom_occupant: "Gérard"
+  telephone_occupant: "0488776655"
+  email_occupant: "gerard@yopmail.com"
+  niveau_infestation: 2
+  code_insee: "18090"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 45
+  duree_infestation: "MORE-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 1
+  dejections_details: "{\"dejectionsTrouvees\": \"false\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"CANAPE\", \"MEUBLES\"], \"punaisesFaciliteDetections\": \"RECHERCHE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "18"
+  locataire: 0
+  logement_social: 0
+  allocataire: 1
+  numero_allocataire: "9983051"
+  uuid_public: "65a11b7b1319f"
+  geoloc: "{\"lat\": \"47.163968\", \"lng\": \"2.676935\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000014"
+  adresse: "Rue Guichet de Moi"
+  code_postal: "45000"
+  ville: "Orléans"
+  type_logement: "maison"
+  nom_occupant: "Roi"
+  prenom_occupant: "Charles"
+  telephone_occupant: "0288776655"
+  email_occupant: "charles@yopmail.com"
+  niveau_infestation: 1
+  code_insee: "45234"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 34
+  duree_infestation: "3-6-MONTHS"
+  piqures_existantes: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"LIT\"], \"dejectionsFaciliteDetections\": \"FACILE\", \"dejectionsNombrePiecesConcernees\": \"2\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"false\"}"
+  photos: "[]"
+  autotraitement: 1
+  territoire: "45"
+  locataire: 1
+  nom_proprietaire: "rze"
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a11bd3e18f1"
+  geoloc: "{\"lat\": \"47.898146\", \"lng\": \"1.912528\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000015"
+  adresse: "8 Rue des Moines"
+  code_postal: "77670"
+  ville: "Saint-Mammès"
+  type_logement: "appartement"
+  nom_occupant: "Mamère"
+  prenom_occupant: "Noel"
+  telephone_occupant: "0488776655"
+  email_occupant: "noel@yopmail.com"
+  niveau_infestation: 1
+  code_insee: "77419"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 45
+  duree_infestation: "3-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"MEUBLES\"], \"dejectionsFaciliteDetections\": \"FACILE\", \"dejectionsNombrePiecesConcernees\": \"2\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"false\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "77"
+  locataire: 0
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a11c1510d0b"
+  geoloc: "{\"lat\": \"48.386057\", \"lng\": \"2.819825\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000016"
+  adresse: "3 Place des Lices"
+  code_postal: "56000"
+  ville: "Vannes"
+  type_logement: "appartement"
+  nom_occupant: "Logement"
+  prenom_occupant: "Social"
+  email_occupant: "logement.social@yopmail.com"
+  code_insee: "56260"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 89
+  photos: "[]"
+  autotraitement: 1
+  territoire: "56"
+  locataire: 0
+  logement_social: 1
+  allocataire: 1
+  numero_allocataire: "3765908"
+  uuid_public: "65a11c4ff3654"
+  geoloc: "{\"lat\": \"47.655757\", \"lng\": \"-2.757283\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000017"
+  adresse: "8 Rue de Cully"
+  code_postal: "14000"
+  ville: "Caen"
+  type_logement: "appartement"
+  nom_occupant: "Mati"
+  prenom_occupant: "Rachid"
+  telephone_occupant: "0455887788"
+  email_occupant: "rachid@yopmail.com"
+  niveau_infestation: 2
+  code_insee: "14118"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 45
+  duree_infestation: "MORE-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"CANAPE\"], \"dejectionsFaciliteDetections\": \"RECHERCHE\", \"dejectionsNombrePiecesConcernees\": \"2\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"true\", \"oeufsEtLarvesLieuxObservations\": [\"CANAPE\"], \"oeufsEtLarvesFaciliteDetections\": \"RECHERCHE\", \"oeufsEtLarvesNombrePiecesConcernees\": \"2\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"CANAPE\"], \"punaisesFaciliteDetections\": \"RECHERCHE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "14"
+  locataire: 0
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a11db546d22"
+  geoloc: "{\"lat\": \"49.199601\", \"lng\": \"-0.367128\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000018"
+  adresse: "9 Rue de Lorgues"
+  code_postal: "83000"
+  ville: "Toulon"
+  type_logement: "appartement"
+  nom_occupant: "Blahpard"
+  prenom_occupant: "Kevin"
+  telephone_occupant: "0488997766"
+  email_occupant: "kevin@yopmail.com"
+  niveau_infestation: 1
+  code_insee: "83137"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 45
+  duree_infestation: "MORE-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 1
+  dejections_details: "{\"dejectionsTrouvees\": \"false\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"false\"}"
+  photos: "[]"
+  autotraitement: 0
+  territoire: "83"
+  locataire: 1
+  nom_proprietaire: "rezrez"
+  logement_social: 0
+  allocataire: 1
+  numero_allocataire: "8872005"
+  uuid_public: "65a11dfb36247"
+  geoloc: "{\"lat\": \"43.123037\", \"lng\": \"5.93535\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000019"
+  adresse: "29 Rue de la Liberté"
+  code_postal: "23000"
+  ville: "Guéret"
+  type_logement: "maison"
+  nom_occupant: "Vide"
+  prenom_occupant: "Chantal"
+  telephone_occupant: "0188775544"
+  email_occupant: "chantal@yopmail.com"
+  niveau_infestation: 1
+  code_insee: "23096"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 98
+  duree_infestation: "LESS-3-MONTHS"
+  piqures_existantes: 0
+  dejections_details: "{\"dejectionsTrouvees\": \"false\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"false\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"LIT\"], \"punaisesFaciliteDetections\": \"RECHERCHE\", \"punaisesNombrePiecesConcernees\": \"1\"}"
+  photos: "[]"
+  autotraitement: 1
+  territoire: "23"
+  locataire: 0
+  logement_social: 0
+  allocataire: 1
+  numero_allocataire: "8874003"
+  uuid_public: "65a11e3bee48c"
+  geoloc: "{\"lat\": \"46.161741\", \"lng\": \"1.875495\"}"
+  type: "TYPE_LOGEMENT"
+-
+  uuid: "00000001-0010-0001-0001-000000000020"
+  adresse: "15 Rue de la Paix"
+  code_postal: "39000"
+  ville: "Lons-le-Saunier"
+  type_logement: "maison"
+  nom_occupant: "Marin"
+  prenom_occupant: "Laurent"
+  telephone_occupant: "0688993344"
+  email_occupant: "laurent@yopmail.com"
+  niveau_infestation: 2
+  code_insee: "39300"
+  active: 1
+  declarant: "DECLARANT_OCCUPANT"
+  superficie: 93
+  duree_infestation: "MORE-6-MONTHS"
+  piqures_existantes: 1
+  piqures_confirmees: 1
+  dejections_details: "{\"dejectionsTrouvees\": \"true\", \"dejectionsLieuxObservations\": [\"CANAPE\", \"MEUBLES\"], \"dejectionsFaciliteDetections\": \"RECHERCHE\", \"dejectionsNombrePiecesConcernees\": \"2\"}"
+  oeufs_et_larves_details: "{\"oeufsEtLarvesTrouves\": \"true\", \"oeufsEtLarvesLieuxObservations\": [\"MEUBLES\"], \"oeufsEtLarvesFaciliteDetections\": \"RECHERCHE\", \"oeufsEtLarvesNombrePiecesConcernees\": \"2\"}"
+  punaises_details: "{\"punaisesTrouvees\": \"true\", \"punaisesLieuxObservations\": [\"CANAPE\"], \"punaisesFaciliteDetections\": \"RECHERCHE\", \"punaisesNombrePiecesConcernees\": \"2\"}"
+  photos: "[]"
+  autotraitement: 1
+  territoire: "39"
+  locataire: 0
+  logement_social: 0
+  allocataire: 0
+  uuid_public: "65a11edbe61ae"
+  geoloc: "{\"lat\": \"46.667026\", \"lng\": \"5.544151\"}"
+  type: "TYPE_LOGEMENT"

@@ -10,11 +10,11 @@
         <div class="fr-grid-row fr-grid-row--gutters" role="search">
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="fr-select-group fr-col-12 fr-col-lg-3">
-                    {% include "common/components/filters/filter-territoire.html.twig" %}
+                    {% include "common/components/filters/filter-territoire-zip.html.twig" %}
                 </div>
 
                 <div class="fr-input-group fr-col-12 fr-col-lg-3">
-                    <label class="fr-label" for="search-address">Ville, CP, ...</label>
+                    <label class="fr-label" for="search-address">Ville ou CP</label>
                     <div class="fr-input-wrap fr-icon-search-line">
                         <input type="text" class="fr-input" id="search-address">
                     </div>
@@ -29,8 +29,8 @@
                     <label class="fr-label" for="filter-type">Type</label>
                     <select class="fr-select" id="filter-type">
                         <option value="" selected>Tous</option>
-                        <option value="A traiter">A traiter</option>
-                        <option value="Auto-traitement">Auto-traitement</option>
+                        <option value="a-traiter">A traiter</option>
+                        <option value="auto-traitement">Auto-traitement</option>
                     </select>
                 </div>
 
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="fr-input-group fr-col-12 fr-col-lg-3">
-                    <label class="fr-label" for="search-address">Ville, CP, ...</label>
+                    <label class="fr-label" for="search-address">Ville ou CP</label>
                     <div class="fr-input-wrap fr-icon-search-line">
                         <input type="text" class="fr-input" id="search-address">
                     </div>
@@ -88,70 +88,22 @@
     <div class="fr-container fr-mt-3w">
         <h2><span id="count-signalement">{{ count_signalement }}</span> signalements trouvés</h2>
 
-        {% if signalements is not empty %}
-            <table id="datatable" class="liste-signalements-usagers nowrap">
-                <thead>
-                    <tr>
-                        <th>Statut</th>
-                        <th>ID</th>
-                        <th>Créé le</th>
-                        <th>Infestation</th>
-                        <th>Commune</th>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <th>Type</th>
-                            <th>Procédure</th>
-                        {% endif %}
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for signalement in signalements %}
-                        <tr>
-                            <td>{% include "common/components/signalement-statut.html.twig" %}</td>
-                            <td data-order="{{ signalement.reference|reference_sortable }}">
-                                {{ signalement.reference }}
-                                <span style="display: none;">{{ signalement.territoire.nomComplet }}</span>
-                            </td>
-                            <td data-order="{{ signalement.createdAt.format('Y-m-d') }}">{{ signalement.createdAt.format('d/m/Y') }}</td>
-                            <td>{% include "common/components/niveau-infestation.html.twig" %}</td>
-                            <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <td>{{ signalement|type_signalement }}</td>
-                                <td>
-                                    {% include "common/components/signalement-procedure.html.twig" %}
-                                    <span style="display: none;">{{ signalement.resolvedAt ? 'infestation-resolu' : 'infestation-nonresolu' }}</span>
-                                </td>
-                            {% endif %}
-                            <td class="button-view">
-                                <a href="{{ path('app_signalement_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement {{ signalement.reference }}"></a>
-                                <span style="display: none;">
-                                    {% if signalement.closedAt %}
-                                        motif-arret
-                                    {% elseif signalement.resolvedAt %}
-                                        motif-resolu
-                                    {% else %}
-                                        {% if signalement.interventions and signalement.interventions.count > 0 %}
-                                            {% set estRefuse = true %}
-                                            {% for intervention in signalement.interventions %}
-                                                {% if intervention.acceptedByUsager is same as true or intervention.acceptedByUsager is null %}
-                                                    {% set estRefuse = false %}
-                                                {% endif %}
-                                            {% endfor %}
-                                            {% if estRefuse %}
-                                                motif-refuse
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endif %}
-                                </span>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            
-        {% else %}
-            Aucun.
-        {% endif %}
+        <table id="datatable-ajax" class="liste-signalements-usagers nowrap">
+            <thead>
+                <tr>
+                    <th>Statut</th>
+                    <th>ID</th>
+                    <th>Créé le</th>
+                    <th>Infestation</th>
+                    <th>Commune</th>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <th>Type</th>
+                        <th>Procédure</th>
+                    {% endif %}
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 {% endblock %}
