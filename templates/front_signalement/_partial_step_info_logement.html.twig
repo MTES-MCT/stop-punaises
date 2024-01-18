@@ -27,24 +27,18 @@
     </div>
 
     <div class="fr-form-group">
-        <label for="rechercheAdresse" class="fr-label required">Mon adresse est...</label>
-        <div class="search-address">
-            <p>
-                <em>Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</em>
-            </p>
-            <div class="fr-input-group">
+        <div class="fr-input-group search-address">
+            <label for="rechercheAdresse" class="fr-label required">Mon adresse est...</label>
+            <span class="fr-hint-text help-text">Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</span>
+            <div class="fr-input-wrap fr-icon-map-pin-2-line">
                 <input id="rechercheAdresse" type="text" class="fr-input">
-                <div id="rechercheAdresseIcon">
-                    <span class="fr-icon-map-pin-2-line" aria-hidden="true"></span>
-                    <span class="fr-icon-timer-line" aria-hidden="true"></span>
-                </div>
-                <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
-                    <select size="5">
-                    </select>
-                </div>
                 <p class="fr-error-text fr-hidden">
                     Veuillez renseigner l'adresse de votre logement.
                 </p>
+            </div>
+            <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
+                <select size="5">
+                </select>
             </div>
                 
             <a href="#" class="skip-search-address">Saisir manuellement</a>
