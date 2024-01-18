@@ -9,10 +9,22 @@
             <form id="form-send-signalement-transport" method="POST"
                   action="{{ path('app_front_signalement_transport_save') }}" class="fr-my-5w fr-px-5w fr-container"
                   novalidate>
-                <div class="fr-input-group">
-                    <a href="{{ path('app_front_signalement_type_list') }}"
-                       class="fr-link fr-link--icon-left fr-icon-arrow-left-s-line">Retour au choix de signalement</a>
-                </div>
+                <nav role="navigation" class="fr-breadcrumb" aria-label="vous êtes ici :">
+                    <button class="fr-breadcrumb__button" aria-expanded="false" aria-controls="breadcrumb-1">Voir le fil d’Ariane</button>
+                    <div class="fr-collapse" id="breadcrumb-1">
+                        <ol class="fr-breadcrumb__list">
+                            <li>
+                                <a class="fr-breadcrumb__link" href="{{ path('home') }}">Accueil</a>
+                            </li>
+                            <li>
+                                <a class="fr-breadcrumb__link" href="{{ path('app_front_signalement_type_list') }}">Signaler un problème de punaises de lit</a>
+                            </li>
+                            <li>
+                                <a class="fr-breadcrumb__link" aria-current="page">Dans les transports en commun</a>
+                            </li>
+                        </ol>
+                    </div>
+                </nav>
                 <h1 class="fr-h2">Signaler des punaises de lit dans les transports en commun</h1>
                 <p>Remplissez les champs ci-dessous puis valider votre signalement. Tous les champs sont obligatoires,
                     sauf

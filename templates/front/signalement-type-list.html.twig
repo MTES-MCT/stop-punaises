@@ -5,7 +5,19 @@
 {% block body %}
 
     <section class="fr-container fr-mt-3w fr-mt-md-6w signalement-list-intro">
-        <a href="{{ path('home') }}" class="fr-link fr-link--icon-left fr-icon-arrow-left-s-line">Retour à l'accueil</a>
+        <nav role="navigation" class="fr-breadcrumb" aria-label="vous êtes ici :">
+            <button class="fr-breadcrumb__button" aria-expanded="false" aria-controls="breadcrumb-1">Voir le fil d’Ariane</button>
+            <div class="fr-collapse" id="breadcrumb-1">
+                <ol class="fr-breadcrumb__list">
+                    <li>
+                        <a class="fr-breadcrumb__link" href="{{ path('home') }}">Accueil</a>
+                    </li>
+                    <li>
+                        <a class="fr-breadcrumb__link" aria-current="page">Signaler un problème de punaises de lit</a>
+                    </li>
+                </ol>
+            </div>
+        </nav>
 
         <h1 class="fr-mt-5w">Signaler un problème de <span>punaises de lit</span> : dans quel lieu ?</h1>
     </section>
