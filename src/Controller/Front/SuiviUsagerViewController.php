@@ -18,7 +18,7 @@ use App\Repository\EntrepriseRepository;
 use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Service\Mailer\MailerProvider;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -279,9 +279,13 @@ class SuiviUsagerViewController extends AbstractController
         '/signalements/{signalement_uuid}/messages-thread/{thread_uuid}',
         name: 'app_suivi_usager_view_messages_thread'
     )]
-    #[ParamConverter('signalement', options: ['mapping' => ['signalement_uuid' => 'uuid']])]
-    #[ParamConverter('messageThread', options: ['mapping' => ['thread_uuid' => 'uuid']])]
-    public function displayThreadMessages(Request $request, Signalement $signalement, MessageThread $messageThread): Response
+    public function displayThreadMessages(
+        Request $request, 
+        #[MapEntity(mapping: ['signalement_uuid' => 'uuid'])]
+        Signalement $signalement,
+        #[MapEntity(mapping: ['thread_uuid' => 'uuid'])]
+        MessageThread $messageThread
+        ): Response
     {
         return $this->render('front_suivi_usager/messages_thread.html.twig', [
             'signalement' => $signalement,
