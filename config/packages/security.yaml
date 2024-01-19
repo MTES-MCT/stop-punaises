@@ -45,6 +45,15 @@ security:
          - { path: ^/bo, roles: ROLE_ENTREPRISE }
         # - { path: ^/profile, roles: ROLE_USER }
 
+when@prod:
+    security:
+        firewalls:
+            main:
+                remember_me:
+                    secure: true
+                    httponly: true
+
+
 when@test:
     security:
         password_hashers:
