@@ -19,6 +19,8 @@ parameters:
     admin_email: '%env(resolve:CONTACT_EMAIL)%'
     inconnu_email: '%env(resolve:INCONNU_EMAIL)%'
     feature_three_forms: '%env(bool:FEATURE_THREE_FORMS_ENABLE)%'
+    matomo_enable: '%env(bool:MATOMO_ENABLE)%'
+    matomo_site_id: '%env(resolve:MATOMO_SITE_ID)%'
 
 services:
     # default configuration for services in *this* file

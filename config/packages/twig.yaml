@@ -2,6 +2,14 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         feature_three_forms: '%feature_three_forms%'
+        platform:
+            url: '%base_url%'
+
+when@dev:
+    twig:
+        globals:
+            matomo:
+                enable: '%matomo_enable%'
 
 when@test:
     twig:
@@ -13,4 +21,5 @@ when@prod:
             matomo:
                 url: https://histologe.matomo.cloud/
                 cdn: //cdn.matomo.cloud/histologe.matomo.cloud/matomo.js
-                site_id: 16
+                site_id: '%matomo_site_id%'
+                enable: '%matomo_enable%'

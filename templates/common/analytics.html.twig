@@ -2,6 +2,9 @@
     <!-- Matomo -->
     <script>
         var _paq = window._paq = window._paq || [];
+        {% if platform.url starts with 'https' %}
+            _paq.push(['setSecureCookie', true]);
+        {% endif %}
         /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
