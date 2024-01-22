@@ -309,7 +309,7 @@ class SignalementErpType extends AbstractType
         ]);
     }
 
-    public function getBlockPrefix() : string
+    public function getBlockPrefix(): string
     {
         return 'signalement_front';
     }

@@ -280,13 +280,12 @@ class SuiviUsagerViewController extends AbstractController
         name: 'app_suivi_usager_view_messages_thread'
     )]
     public function displayThreadMessages(
-        Request $request, 
+        Request $request,
         #[MapEntity(mapping: ['signalement_uuid' => 'uuid'])]
         Signalement $signalement,
         #[MapEntity(mapping: ['thread_uuid' => 'uuid'])]
         MessageThread $messageThread
-        ): Response
-    {
+        ): Response {
         return $this->render('front_suivi_usager/messages_thread.html.twig', [
             'signalement' => $signalement,
             'entreprise_name' => $messageThread->getEntreprise()->getNom(),
