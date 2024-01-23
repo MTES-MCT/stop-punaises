@@ -98,6 +98,7 @@ jobs:
           php bin/console --env=test doctrine:migrations:migrate --no-interaction
           php bin/console --env=test doctrine:fixtures:load --no-interaction
         env:
+          APP_SECRET: ${{ secrets.APP_SECRET }}
           DATABASE_URL: mysql://root:stopunaises@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/stopunaises_db
           NOTIFICATIONS_EMAIL: notifications@stop-punaises.beta.gouv.fr
           CONTACT_EMAIL: contact@stop-punaises.beta.gouv.fr
@@ -110,6 +111,7 @@ jobs:
           composer require --dev dama/doctrine-test-bundle:7.3
           ./vendor/bin/phpunit --stop-on-failure --testdox -d memory_limit=-1
         env:
+          APP_SECRET: ${{ secrets.APP_SECRET }}
           DATABASE_URL: mysql://root:stopunaises@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/stopunaises_db
           NOTIFICATIONS_EMAIL: notifications@stop-punaises.beta.gouv.fr
           CONTACT_EMAIL: contact@stop-punaises.beta.gouv.fr
