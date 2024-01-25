@@ -9,6 +9,9 @@ when@dev:
     twig:
         globals:
             matomo:
+                url: null
+                cdn: null
+                site_id: '%matomo_site_id%'
                 enable: '%matomo_enable%'
 
 when@test:

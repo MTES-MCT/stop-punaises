@@ -1,4 +1,4 @@
-{% if matomo is defined %}
+{% if matomo is defined and matomo.enable == 1 %}
     <!-- Matomo -->
     <script>
         var _paq = window._paq = window._paq || [];
