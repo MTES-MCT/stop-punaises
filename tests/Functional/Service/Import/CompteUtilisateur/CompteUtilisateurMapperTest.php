@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functionnal\Service\Import\CompteUtilisateur;
+namespace App\Tests\Functional\Service\Import\CompteUtilisateur;
 
 use App\Service\Import\CompteUtilisateur\CompteUtilisateurMapper;
 use Faker\Factory;

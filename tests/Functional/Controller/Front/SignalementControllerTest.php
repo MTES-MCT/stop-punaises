@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functionnal\Controller\Front;
+namespace App\Tests\Functional\Controller\Front;
 
 use App\Tests\SessionHelper;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
