@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functionnal\Service\Factory;
+namespace App\Tests\Functional\Service\Factory;
 
 use App\Factory\EntrepriseFactory;
 use App\Repository\TerritoireRepository;
