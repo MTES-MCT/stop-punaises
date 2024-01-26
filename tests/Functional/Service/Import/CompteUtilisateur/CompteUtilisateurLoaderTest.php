@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functionnal\Service\Import\CompteUtilisateur;
+namespace App\Tests\Functional\Service\Import\CompteUtilisateur;
 
 use App\Entity\Entreprise;
 use App\Factory\EntrepriseFactory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functionnal\Controller\Front;
+namespace App\Tests\Functional\Controller\Front;
 
 use App\Entity\Signalement;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
