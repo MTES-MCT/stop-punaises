@@ -2,7 +2,14 @@
 
 {% block content %}
     <div class="fr-stepper">
+        <h2 class="fr-stepper__title">
+            Informations du logement
+            <span class="fr-stepper__state">Étape 1 sur 8</span>
+        </h2>
         <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="8"></div>
+        <p class="fr-stepper__details">
+            <span class="fr-text--bold">Étape suivante :</span> Durée de l'infestation
+        </p>
     </div>
 
     <div class="fr-form-group">
@@ -26,26 +33,19 @@
         </div>
     </div>
 
-    <label for="rechercheAdresse" class="fr-label required">Mon adresse est...</label>
-    <br>
-    <div class="search-address">
-        <p>
-            <em>Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</em>
-        </p>
-        <div class="fr-form-group">
-            <div class="fr-input-group">
+    <div class="fr-form-group">
+        <div class="fr-input-group search-address">
+            <label for="rechercheAdresse" class="fr-label required">Mon adresse est...</label>
+            <span class="fr-hint-text help-text">Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</span>
+            <div class="fr-input-wrap fr-icon-map-pin-2-line">
                 <input id="rechercheAdresse" type="text" class="fr-input">
-                <div id="rechercheAdresseIcon">
-                    <span class="fr-icon-map-pin-2-line" aria-hidden="true"></span>
-                    <span class="fr-icon-timer-line" aria-hidden="true"></span>
-                </div>
-                <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
-                    <select size="5">
-                    </select>
-                </div>
                 <p class="fr-error-text fr-hidden">
                     Veuillez renseigner l'adresse de votre logement.
                 </p>
+            </div>
+            <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
+                <select size="5">
+                </select>
             </div>
                 
             <a href="#" class="skip-search-address">Saisir manuellement</a>
@@ -87,7 +87,7 @@
 
         {{ form_widget(form.geoloc) }}
         
-   </div>
+    </div>
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
 {% endblock %}

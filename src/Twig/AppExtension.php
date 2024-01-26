@@ -6,7 +6,9 @@ use App\Entity\Enum\InfestationLevel;
 use App\Entity\Enum\PlaceType;
 use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
+use App\Service\Signalement\StatusProvider;
 use App\Utils\FileHelper;
+use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -14,10 +16,16 @@ class AppExtension extends AbstractExtension
 {
     public const PATTERN_REPLACE_PHONE_FR = '/^\+?33|\|?0033|\|+33 (0)|\D/';
 
+    public function __construct(
+        private Security $security,
+    ) {
+    }
+
     public function getFilters(): array
     {
         return [
             new TwigFilter('format_phone', [$this, 'formatPhone']),
+            new TwigFilter('statut_signalement', [$this, 'formatStatutSignalement']),
             new TwigFilter('type_signalement', [$this, 'formatTypeSignalement']),
             new TwigFilter('label_infestation', [$this, 'formatLabelInfestation']),
             new TwigFilter('construction_avant_1948', [$this, 'formatConstructionAvant1948']),
@@ -42,6 +50,15 @@ class AppExtension extends AbstractExtension
         }
 
         return trim(chunk_split($value, 2, ' '));
+    }
+
+    public function formatStatutSignalement(Signalement $signalement): string
+    {
+        $statutFormat = StatusProvider::get($this->security, $signalement);
+
+        return '<p class="fr-badge fr-badge--'.$statutFormat['badge']
+                .' fr-badge--no-icon">'
+                .$statutFormat['label'].'</p>';
     }
 
     public function formatTypeSignalement(Signalement $signalement): string

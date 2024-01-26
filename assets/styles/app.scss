@@ -79,7 +79,7 @@ span.statut-infestation {
 .dataTables_wrapper {
     table {
         width: 100%;
-        td.button-view {
+        .button-view {
             .fr-btn.fr-icon-arrow-right-fill, .fr-btn.fr-icon-pencil-line {
                 display: inline-block;
                 border-radius: 20px;
@@ -152,9 +152,6 @@ span.statut-infestation {
 
 .search-address,
 .search-commune {
-    #rechercheAdresse {
-        padding: .5rem 1.5rem;
-    }
     #rechercheAdresseIcon {
         position: relative;
         top: -32px;
@@ -247,19 +244,13 @@ span.statut-infestation {
 .index-header {
     h1 {
         line-height: 1.5rem !important;
-        color: var(--blue-france-sun-113-625);
     }
     p.bons-reflexes {
         line-height: 1.5rem !important;
-        color: #E2241C;
     }
     img {
         max-width: 100%;
         height: auto;
-    }
-    .btn-next {
-        width: 100%;
-        justify-content: center;
     }
 }
 
@@ -270,25 +261,11 @@ span.statut-infestation {
         font-size: 32px;
         font-weight: 800;
         text-align: center;
-        color: var(--grey-50-1000);
     }
 }
 
 .index-cest-quoi {
     background-color: var(--blue-france-975-75);
-
-    > h2 {
-        color: var(--grey-50-1000);
-    }
-}
-
-.signalement-list-intro {
-    h1 {
-        color: var(--blue-france-sun-113-625);
-        span {
-            color: #E2241C;
-        }
-    }
 }
 
 .signalement-list-items {
@@ -409,7 +386,6 @@ span.image-caption {
         line-height: 48px;
         font-weight: 800;
         text-align: center;
-        color: var(--blue-france-sun-113-625);
     }
     iframe {
         max-width: 100%;
@@ -426,13 +402,6 @@ span.image-caption {
             max-width: 100%;
             height: auto;
         }
-    }
-
-    .fr-alert--warning {
-        background: #B340001A 0% 0% no-repeat padding-box;
-    }
-    .fr-alert--info {
-        background: #0063CB1A 0% 0% no-repeat padding-box;
     }
 }
 
@@ -593,7 +562,6 @@ span.image-caption {
 #contact-container {
     h1 {
         text-align: center;
-        color: var(--blue-france-sun-113-625);
     }
 
     form {
@@ -609,10 +577,6 @@ span.image-caption {
 @media (max-width: 767px) {
     .information-header {
         text-align: center;
-
-        h1 {
-            color: #161616;
-        }
     }
     .information-comment-reconnaitre-punaise {
         h2 {
@@ -843,7 +807,6 @@ span.image-caption {
         }
 
         .btn-next, .btn-next-next {
-            width: 100%;
             justify-content: center;
         }
 
@@ -861,22 +824,22 @@ span.image-caption {
             font-weight: bold;
         }
 
-        .fr-radio {
-            input {
-                margin-right: 10px;
-            }
-            label::after {
-                content: "\a";
-                white-space: pre;
-            }
-        }
-
         .fr-input-group {
             span.input-precision {
                 display: block;
                 float: right;
                 margin-right: 5px;
                 margin-top: -30px;
+            }
+        }
+
+        .fr-form-group {
+            margin-top: 1.5rem;
+        }
+
+        .fr-checkbox-group, .fr-radio-group {
+            label {
+                margin-bottom: 4px;
             }
         }
         
@@ -912,9 +875,6 @@ span.image-caption {
 .suivi-usager,
 .signalement-punaises {
     .fr-btn {
-        width: 100%;
-        justify-content: center;
-
         &::after {
             --icon-size: 0rem;
         }
@@ -923,7 +883,6 @@ span.image-caption {
 
 .signalement-punaises {
     .fr-radio-group {
-        border: 1px solid var(--border-disabled-grey);
         max-width: 500px;
         padding: 0.2rem 1rem;
         width: 100%;
@@ -949,7 +908,6 @@ span.image-caption {
     }
 
     #adresse_afficher_les_champs {
-        margin-top: -2rem;
         margin-bottom: 1rem;
         button {
             width: fit-content;
@@ -987,12 +945,6 @@ span.image-caption {
 .fr-btn.btn-link:not(:disabled):active {
     background-color: white;
     color: var(--blue-france-sun-113-625-active);
-}
-
-.plan-du-site-header {
-    h1 {
-        color: var(--blue-france-sun-113-625);
-    }
 }
 
 // improve readability in Windows High Contrast Mode

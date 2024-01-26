@@ -30,7 +30,7 @@
                         <h1>Signalement #{{signalement.reference}}</h1>
                     </div>
                     <div class="fr-col-12 fr-col-lg-3">
-                        {% include "common/components/signalement-statut.html.twig" %}
+                        {{ signalement|statut_signalement|raw }}
                     </div>
                 </div>
             </div>

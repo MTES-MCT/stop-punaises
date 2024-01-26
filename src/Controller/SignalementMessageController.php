@@ -8,7 +8,7 @@ use App\Entity\Signalement;
 use App\Factory\MessageFactory;
 use App\Manager\MessageManager;
 use App\Manager\MessageThreadManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,11 +23,11 @@ class SignalementMessageController extends AbstractController
 {
     #[Route('bo/signalements/{signalement_uuid}/entreprises/{entreprise_uuid}/send-messsage',
         name: 'app_private_thread_message_send')]
-    #[ParamConverter('signalement', options: ['mapping' => ['signalement_uuid' => 'uuid']])]
-    #[ParamConverter('entreprise', options: ['mapping' => ['entreprise_uuid' => 'uuid']])]
     public function sendMessageToUsager(
         Request $request,
+        #[MapEntity(mapping: ['signalement_uuid' => 'uuid'])]
         Signalement $signalement,
+        #[MapEntity(mapping: ['entreprise_uuid' => 'uuid'])]
         Entreprise $entreprise,
         MessageThreadManager $messageThreadManager,
         MessageFactory $messageFactory,

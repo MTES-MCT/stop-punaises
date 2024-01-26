@@ -5,7 +5,19 @@
 {% block body %}
 
     <section class="fr-container fr-mt-3w fr-mt-md-6w signalement-list-intro">
-        <a href="{{ path('home') }}" class="fr-link fr-link--icon-left fr-icon-arrow-left-s-line">Retour à l'accueil</a>
+        <nav role="navigation" class="fr-breadcrumb" aria-label="vous êtes ici :">
+            <button class="fr-breadcrumb__button" aria-expanded="false" aria-controls="breadcrumb-1">Voir le fil d’Ariane</button>
+            <div class="fr-collapse" id="breadcrumb-1">
+                <ol class="fr-breadcrumb__list">
+                    <li>
+                        <a class="fr-breadcrumb__link" href="{{ path('home') }}">Accueil</a>
+                    </li>
+                    <li>
+                        <a class="fr-breadcrumb__link" aria-current="page">Signaler un problème de punaises de lit</a>
+                    </li>
+                </ol>
+            </div>
+        </nav>
 
         <h1 class="fr-mt-5w">Signaler un problème de <span>punaises de lit</span> : dans quel lieu ?</h1>
     </section>
@@ -13,15 +25,22 @@
     <section class="fr-container fr-my-3w fr-my-md-6w signalement-list-items">
         <div class=" fr-grid-row fr-grid-row--gutters fr-grid-row--center">
             <div class="fr-col-12 fr-col-md-4 fr-mt-5w fr-mt-md-3v">
-                <div class="fr-tile fr-tile--sm fr-tile--horizontal fr-enlarge-link" id="tile-logement">
+                <div class="fr-tile fr-tile--sm fr-enlarge-link" id="tile-logement">
                     <div class="fr-tile__body">
                         <div class="fr-tile__content">
-                            <h3 class="fr-tile__title fr-h6">
-                                <span class="fr-icon-home-4-line" aria-hidden="true"></span>
+                            <h3 class="fr-tile__title">
                                 <a href="{{ path('app_front_signalement_logement') }}">Dans mon logement</a>
                             </h3>
-                            <p class="fr-tile__detail">Stop Punaises vous accompagne pour trouver une solution</p>
-                            <p class="align-right"><span class="fr-icon-arrow-right-line" aria-hidden="true"></span></p>
+                            <p class="fr-tile__desc">Stop Punaises vous accompagne pour trouver une solution</p>
+                        </div>
+                    </div>
+                    <div class="fr-tile__header">
+                        <div class="fr-tile__pictogram">
+                            <svg aria-hidden="true" class="fr-artwork" viewBox="0 0 80 80" width="80px" height="80px">
+                                <use class="fr-artwork-decorative" href="/build/dsfr/artwork/pictograms/buildings/house.svg#artwork-decorative"></use>
+                                <use class="fr-artwork-minor" href="/build/dsfr/artwork/pictograms/buildings/house.svg#artwork-minor"></use>
+                                <use class="fr-artwork-major" href="/build/dsfr/artwork/pictograms/buildings/house.svg#artwork-major"></use>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -29,30 +48,44 @@
 
             {% if feature_three_forms %}
             <div class="fr-col-12 fr-col-md-4 fr-mt-5w fr-mt-md-3v">
-                <div class="fr-tile fr-tile--sm fr-tile--horizontal fr-enlarge-link" id="tile-transport">
+                <div class="fr-tile fr-tile--sm fr-enlarge-link" id="tile-transport">
                     <div class="fr-tile__body">
                         <div class="fr-tile__content">
-                            <h3 class="fr-tile__title fr-h6">
-                                <span class="fr-icon-bus-line" aria-hidden="true"></span>
+                            <h3 class="fr-tile__title">
                                 <a href="{{ path('app_front_signalement_transport') }}">Dans les transports</a>
                             </h3>
-                            <p class="fr-tile__detail">Métro, tramways, train... Signaler un problème dans les transports</p>
-                            <p class="align-right"><span class="fr-icon-arrow-right-line" aria-hidden="true"></span></p>
+                            <p class="fr-tile__desc">Métro, tramways, train... Signaler un problème dans les transports</p>
+                        </div>
+                    </div>
+                    <div class="fr-tile__header">
+                        <div class="fr-tile__pictogram">
+                            <svg aria-hidden="true" class="fr-artwork" viewBox="0 0 80 80" width="80px" height="80px">
+                                <use class="fr-artwork-decorative" href="/build/dsfr/artwork/pictograms/map/luggage.svg#artwork-decorative"></use>
+                                <use class="fr-artwork-minor" href="/build/dsfr/artwork/pictograms/map/luggage.svg#artwork-minor"></use>
+                                <use class="fr-artwork-major" href="/build/dsfr/artwork/pictograms/map/luggage.svg#artwork-major"></use>
+                            </svg>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="fr-col-12 fr-col-md-4 fr-mt-5w fr-mt-md-3v">
-                <div class="fr-tile fr-tile--sm fr-tile--horizontal fr-enlarge-link" id="tile-public">
+                <div class="fr-tile fr-tile--sm fr-enlarge-link" id="tile-public">
                     <div class="fr-tile__body">
                         <div class="fr-tile__content">
-                            <h3 class="fr-tile__title fr-h6">
-                                <span class="fr-icon-hotel-line" aria-hidden="true"></span>
+                            <h3 class="fr-tile__title">
                                 <a href="{{ path('app_front_signalement_erp') }}">Dans un lieu public</a>
                             </h3>
-                            <p class="fr-tile__detail">Signaler un problème dans un hôtel, restaurant, école, administration...</p>
-                            <p class="align-right"><span class="fr-icon-arrow-right-line" aria-hidden="true"></span></p>
+                            <p class="fr-tile__desc">Signaler un problème dans un hôtel, restaurant, école, administration...</p>
+                        </div>
+                    </div>
+                    <div class="fr-tile__header">
+                        <div class="fr-tile__pictogram">
+                            <svg aria-hidden="true" class="fr-artwork" viewBox="0 0 80 80" width="80px" height="80px">
+                                <use class="fr-artwork-decorative" href="/build/dsfr/artwork/pictograms/buildings/city-hall.svg#artwork-decorative"></use>
+                                <use class="fr-artwork-minor" href="/build/dsfr/artwork/pictograms/buildings/city-hall.svg#artwork-minor"></use>
+                                <use class="fr-artwork-major" href="/build/dsfr/artwork/pictograms/buildings/city-hall.svg#artwork-major"></use>
+                            </svg>
                         </div>
                     </div>
                 </div>

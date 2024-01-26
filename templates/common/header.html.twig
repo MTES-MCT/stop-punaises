@@ -1,4 +1,4 @@
-<header class="fr-header">
+<header role="banner" class="fr-header">
     <div class="fr-header__body">
         <div class="fr-container">
             <div class="fr-header__body-row">
@@ -6,11 +6,8 @@
                     <div class="fr-header__brand-top">
                         <div class="fr-header__logo">
                             <p class="fr-logo">
-                                Ministère
-                                <br>de la transition
-                                <br>écologique
-                                <br>et de la cohésion
-                                <br>des territoires
+                                République
+                                <br>Française
                             </p>
                         </div>
                         <div class="fr-header__operator">
@@ -21,13 +18,13 @@
                             </a>
                         </div>
                         <div class="fr-header__navbar">
-                            <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-499" aria-haspopup="menu" id="button-500" title="Menu">
+                            <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-header-nav" aria-haspopup="menu" id="button-header-nav" title="Menu">
                                 Menu
                             </button>
                         </div>
                     </div>
                 </div>
-                <div id="header-menu" class="fr-header__tools">
+                <div class="fr-header__tools">
                     <div class="fr-header__tools-links">
                         <ul class="fr-btns-group">
                             <li {% if app.request.get('_route') == 'home' %} class="active"{% endif %}>
@@ -57,13 +54,20 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="fr-header__search fr-modal" id="modal-575">
+                        <div class="fr-container fr-container-lg--fluid">
+                            <button class="fr-btn--close fr-btn" aria-controls="modal-575" title="Fermer">
+                                Fermer
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="fr-header__menu fr-modal" id="modal-499" aria-labelledby="button-500">
+    <div class="fr-header__menu fr-modal" id="modal-header-nav" aria-labelledby="button-header-nav">
         <div class="fr-container">
-            <button class="fr-btn--close fr-btn" aria-controls="modal-499" title="Fermer">
+            <button class="fr-btn--close fr-btn" aria-controls="modal-header-nav" title="Fermer">
                 Fermer
             </button>
             <div class="fr-header__menu-links">

@@ -9,6 +9,23 @@
       data-code-postal="{{ code_postal }}"
       data-territoires-actives="{{ territoires_actives }}">
 
+    <nav role="navigation" class="fr-breadcrumb" aria-label="vous êtes ici :">
+        <button class="fr-breadcrumb__button" aria-expanded="false" aria-controls="breadcrumb-1">Voir le fil d’Ariane</button>
+        <div class="fr-collapse" id="breadcrumb-1">
+            <ol class="fr-breadcrumb__list">
+                <li>
+                    <a class="fr-breadcrumb__link" href="{{ path('home') }}">Accueil</a>
+                </li>
+                <li>
+                    <a class="fr-breadcrumb__link" href="{{ path('app_front_signalement_type_list') }}">Signaler un problème de punaises de lit</a>
+                </li>
+                <li>
+                    <a class="fr-breadcrumb__link" aria-current="page">Dans mon logement</a>
+                </li>
+            </ol>
+        </div>
+    </nav>
+
     {% include 'front_signalement/_partial_step_home.html.twig' %}
 
     {% include 'front_signalement/_partial_step_info_intro.html.twig' with {'step': 'info_intro'} %}
@@ -25,6 +42,7 @@
     {% include 'front_signalement/_partial_step_insectes_punaises.html.twig' with {'step': 'insectes_punaises'} %}
 
     {% include 'front_signalement/_partial_step_info_usager.html.twig' with {'step': 'info_usager'} %}
+    {% include 'front_signalement/_partial_step_resume.html.twig' with {'step': 'resume'} %}
     {% include 'front_signalement/_partial_step_recommandation.html.twig' with {'step': 'recommandation'} %}
 
     {% include 'front_signalement/_partial_step_professionnel_info.html.twig' with {'step': 'professionnel_info'} %}

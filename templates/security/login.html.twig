@@ -6,7 +6,9 @@
 <main class="fr-container fr-py-5w">
     <div class="fr-grid-row fr-grid-row--center">
         <div class="fr-col-10 fr-col-md-8 fr-col-lg-6">
-            <h1>Se connecter</h1>
+            <h1>Connexion à Stop Punaises</h1>
+
+            <h2>Se connecter avec son compte</h2>
 
             <form class="needs-validation fr-mb-5w" name="login-form" method="POST" novalidate="">
                 {% if error %}
@@ -19,20 +21,36 @@
                 {% endif %}
 
                 <div class="fr-input-group">
-                    <label class="fr-label" for="login-email">Adresse email</label>
+                    <label class="fr-label" for="login-email">Identifiant
+                        <span class="fr-hint-text">Format attendu : nom@domaine.fr</span>
+                    </label>
                     <input class="fr-input" type="email" id="login-email" name="email" value="{{ last_username }}" required>
                 </div>
 
-                <div class="fr-input-group">
+                <div class="fr-password">
                     <label class="fr-label" for="login-password">Mot de passe</label>
-                    <input class="fr-input" type="password" id="login-password" name="password" required>
+                    <div class="fr-input-wrap">
+                        <input class="fr-input fr-password__input" type="password" id="login-password" name="password" aria-required="true" required>
+                    </div>
+                    <div class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm">
+                        <input aria-label="Afficher le mot de passe" id="login-password-show" type="checkbox" aria-describedby="login-password-show-messages">
+                        <label class="fr-password__checkbox fr-label" for="login-password-show">
+                            Afficher
+                        </label>
+                        <div class="fr-messages-group" id="login-password-show-messages" aria-live="assertive">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fr-input-group">
+                    <a href="{{ path('request_password') }}">Mot de passe oublié ?</a>
                 </div>
                 
                 <div class="fr-checkbox-group">
                     <p>
                         <input name="_remember_me" id="_remember_me" type="checkbox" >
                         <label class="fr-label" for="_remember_me">
-                            Garder ma session ouverte pendant 1 mois.
+                            Se souvenir de moi pendant 1 mois.
                         </label>
                     </p>
                 </div>
@@ -43,8 +61,6 @@
                     <button class="fr-btn fr-btn--icon-left fr-icon-check-line">Se connecter</button>
                 </div>
             </form>
-
-            {% include "security/_partial_link_forgotten_password.html.twig" %}
             
             {% include "security/_partial_link_account_activation.html.twig" %}
         </div>

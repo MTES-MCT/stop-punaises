@@ -2,7 +2,14 @@
 
 {% block content %}
     <div class="fr-stepper">
+        <h2 class="fr-stepper__title">
+            Les déjections
+            <span class="fr-stepper__state">Étape 4 sur 8</span>
+        </h2>
         <div class="fr-stepper__steps" data-fr-current-step="4" data-fr-steps="8"></div>
+        <p class="fr-stepper__details">
+            <span class="fr-text--bold">Étape suivante :</span> Les insectes et larves
+        </p>
     </div>
 
     <dialog aria-labelledby="fr-modal-title-modal-dejections" id="fr-modal-dejections" class="fr-modal">
@@ -51,7 +58,7 @@
                 <br>
                 <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-dejections">Plus d'informations</a>
             </label>
-            <div id="signalement_front_dejectionsTrouvees" class="fr-radio fr-mt-3v">
+            <div id="signalement_front_dejectionsTrouvees" class="fr-radio-group fr-mt-3v">
                 <input type="radio" id="signalement_front_dejectionsTrouvees_0" name="signalement_front[dejectionsTrouvees]" required="required" value="true">
                 <label for="signalement_front_dejectionsTrouvees_0" class="required">Oui</label>
                 <input type="radio" id="signalement_front_dejectionsTrouvees_1" name="signalement_front[dejectionsTrouvees]" required="required" value="false">
@@ -66,7 +73,7 @@
     <div id="form-group-dejectionsNombrePiecesConcernees" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Dans combien de pièces ?</label>
-            <div id="signalement_front_dejectionsNombrePiecesConcernees" class="fr-radio">
+            <div id="signalement_front_dejectionsNombrePiecesConcernees" class="fr-radio-group">
                 <input type="radio" id="signalement_front_dejectionsNombrePiecesConcernees_0" name="signalement_front[dejectionsNombrePiecesConcernees]" required="required" value="1">
                 <label for="signalement_front_dejectionsNombrePiecesConcernees_0" class="required">1 pièce</label>
                 <input type="radio" id="signalement_front_dejectionsNombrePiecesConcernees_1" name="signalement_front[dejectionsNombrePiecesConcernees]" required="required" value="2">
@@ -81,7 +88,7 @@
     <div id="form-group-dejectionsFaciliteDetections" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Je trouve les déjections...</label>
-            <div id="signalement_front_dejectionsFaciliteDetections" class="fr-radio">
+            <div id="signalement_front_dejectionsFaciliteDetections" class="fr-radio-group">
                 <input type="radio" id="signalement_front_dejectionsFaciliteDetections_0" name="signalement_front[dejectionsFaciliteDetections]" required="required" value="FACILE">
                 <label for="signalement_front_dejectionsFaciliteDetections_0" class="required">Facilement</label>
                 <input type="radio" id="signalement_front_dejectionsFaciliteDetections_1" name="signalement_front[dejectionsFaciliteDetections]" required="required" value="RECHERCHE">
@@ -97,7 +104,7 @@
         <div class="fr-select-group">
             <label class="fr-label required">Je les vois sur...</label>
             <em>Plusieurs réponses possibles</em>
-            <div id="signalement_front_dejectionsLieuxObservations" class="fr-radio">
+            <div id="signalement_front_dejectionsLieuxObservations" class="fr-checkbox-group">
                 <input type="checkbox" id="signalement_front_dejectionsLieuxObservations_0" name="signalement_front[dejectionsLieuxObservations][]" value="LIT">
                 <label for="signalement_front_dejectionsLieuxObservations_0">Le lit</label>
                 <input type="checkbox" id="signalement_front_dejectionsLieuxObservations_1" name="signalement_front[dejectionsLieuxObservations][]" value="CANAPE">

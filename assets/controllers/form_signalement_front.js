@@ -25,6 +25,7 @@ class PunaisesFrontSignalementController {
     'insectes_larves_oeufs',
     'insectes_punaises',
     'info_usager',
+    'resume',
     'recommandation',
     'professionnel_info',
     'autotraitement_info',
@@ -57,6 +58,12 @@ class PunaisesFrontSignalementController {
   init() {
     self = this;
     self.fetchTerritoireOpened();
+    $('input').on('keyup', function(e){
+      if (e.which == 13) {
+        e.preventDefault();
+        $('#step-'+self.stepStr + ' .btn-next').trigger( "click" );
+      }
+    });
     $('.btn-next').on('click', function(){
       if (!self.isTerritoryOpen && self.stepStr === 'info_usager') {
         if (self.checkStepInfoUsagerOpen()) {
@@ -87,6 +94,11 @@ class PunaisesFrontSignalementController {
     });
     $('.link-back-back').on('click', function(){
       self.refreshStep(-2);
+    });
+    $('.link-edit').on('click', function(e){
+      e.preventDefault();
+      let offset = self.OPEN_STEP_LIST.indexOf($(this).attr('data-step')) - self.OPEN_STEP_LIST.indexOf(self.stepStr);
+      self.refreshStep(offset);
     });
   }
 
@@ -154,6 +166,8 @@ class PunaisesFrontSignalementController {
         return self.initStepInsectesPunaises();
       case 'info_usager':
         return self.initStepInfoUsager();
+      case 'resume':
+        return self.initStepResume();
       case 'professionnel_info':
         return self.initProfessionnelInfo();
       case 'autotraitement_info':
@@ -641,6 +655,111 @@ class PunaisesFrontSignalementController {
     }
     
     return canGoNext;
+  }
+
+  initStepResume(){
+    const typeLogement = $("input[name='signalement_front[typeLogement]']:checked").val();
+    $("#recapTypeLogement").text(typeLogement.charAt(0).toUpperCase() + typeLogement.slice(1));
+    $("#recapSuperficie").text($("input[name='signalement_front[superficie]']").val());
+    $("#recapAdresse").text($("input[name='signalement_front[adresse]']").val());
+    $("#recapCodePostal").text($("input[name='signalement_front[codePostal]']").val());
+    $("#recapVille").text($("input[name='signalement_front[ville]']").val());
+    const locataire = $("input[name='signalement_front[locataire]']:checked").val();
+    $("#recapLocataire").empty();
+    $("#recapNomProprietaire").empty();
+    $("#recapNomProprietaireContainer").hide();
+    if(locataire == 1){
+      $("#recapLocataire").text("Locataire");
+      $("#recapNomProprietaireContainer").show();
+      $("#recapNomProprietaire").text($("input[name='signalement_front[nomProprietaire]']").val());
+    }else{
+      $("#recapLocataire").text("Propriétaire");
+    }
+    const logementSocial = $("input[name='signalement_front[logementSocial]']:checked").val();
+    $("#recapLogementSocial").text("Non");
+    if(logementSocial == 1){
+      $("#recapLogementSocial").text("Oui");
+    }
+    const allocataire = $("input[name='signalement_front[allocataire]']:checked").val();
+    $("#recapAllocataire").text("Non");
+    $("#recapNumeroAllocataire").empty();
+    $("#recapNumeroAllocataireContainer").hide();
+    if(allocataire == 1){
+      $("#recapAllocataire").text("Oui");
+      $("#recapNumeroAllocataireContainer").show();
+      $("#recapNumeroAllocataire").text($("input[name='signalement_front[numeroAllocataire]']").val());
+    }
+    const dureeInfestation = $("input[name='signalement_front[dureeInfestation]']:checked").next("label").text();
+    $("#recapDureeInfestation").text(dureeInfestation);
+    const infestationLogementsVoisins = $("input[name='signalement_front[infestationLogementsVoisins]']:checked").next("label").text();
+    $("#recapInfestationLogementsVoisins").text(infestationLogementsVoisins);
+    const piquresExistantes = $("input[name='signalement_front[piquresExistantes]']:checked").val();
+    $("#recapPiquresExistantes").text("Non");
+    $("#recapPiquresConfirmeesContainer").hide();
+    if(piquresExistantes == 1){
+      $("#recapPiquresExistantes").text("Oui");
+      $("#recapPiquresConfirmeesContainer").show();
+      const piquresConfirmees = $("input[name='signalement_front[piquresConfirmees]']:checked").val();
+      $("#recapPiquresConfirmees").text("Non");
+      if(piquresConfirmees == 1){
+        $("#recapPiquresConfirmees").text("Oui");
+      }
+    }
+    const dejectionsTrouvees = $("input[name='signalement_front[dejectionsTrouvees]']:checked").val();
+    $("#recapDejectionsTrouvees").text("Non");
+    $(".isDejectionsTrouvees").hide();
+    if(dejectionsTrouvees == "true"){
+      $("#recapDejectionsTrouvees").text("Oui");
+      $(".isDejectionsTrouvees").show();
+      const dejectionsNombrePiecesConcernees = $("input[name='signalement_front[dejectionsNombrePiecesConcernees]']:checked").next("label").text();
+      $("#recapDejectionsNombrePiecesConcernees").text(dejectionsNombrePiecesConcernees);
+      const dejectionsFaciliteDetections = $("input[name='signalement_front[dejectionsFaciliteDetections]']:checked").next("label").text();
+      $("#recapDejectionsFaciliteDetections").text(dejectionsFaciliteDetections);
+      $("#recapDejectionsLieuxObservations").empty()
+      $("input[name='signalement_front[dejectionsLieuxObservations][]']:checked").each(function() {
+        $("#recapDejectionsLieuxObservations").append($(this).next("label").text() + ", ");
+      });
+      const sliced = $("#recapDejectionsLieuxObservations").text().slice(0,-2)
+      $("#recapDejectionsLieuxObservations").text(sliced);
+    }
+    const oeufsEtLarvesTrouves = $("input[name='signalement_front[oeufsEtLarvesTrouves]']:checked").val();
+    $("#recapOeufsEtLarvesTrouves").text("Non");
+    $(".isOeufsEtLarvesTrouves").hide();
+    if(oeufsEtLarvesTrouves == "true"){
+      $("#recapOeufsEtLarvesTrouves").text("Oui");
+      $(".isOeufsEtLarvesTrouves").show();
+      const oeufsEtLarvesNombrePiecesConcernees = $("input[name='signalement_front[oeufsEtLarvesNombrePiecesConcernees]']:checked").next("label").text();
+      $("#recapOeufsEtLarvesNombrePiecesConcernees").text(oeufsEtLarvesNombrePiecesConcernees);
+      const oeufsEtLarvesFaciliteDetections = $("input[name='signalement_front[oeufsEtLarvesFaciliteDetections]']:checked").next("label").text();
+      $("#recapOeufsEtLarvesFaciliteDetections").text(oeufsEtLarvesFaciliteDetections);
+      $("#recapOeufsEtLarvesLieuxObservations").empty()
+      $("input[name='signalement_front[oeufsEtLarvesLieuxObservations][]']:checked").each(function() {
+        $("#recapOeufsEtLarvesLieuxObservations").append($(this).next("label").text() + ", ");
+      });
+      const sliced = $("#recapOeufsEtLarvesLieuxObservations").text().slice(0,-2)
+      $("#recapOeufsEtLarvesLieuxObservations").text(sliced);
+    }
+    const punaisesTrouvees = $("input[name='signalement_front[punaisesTrouvees]']:checked").val();
+    $("#recapPunaisesTrouvees").text("Non");
+    $(".isPunaisesTrouvees").hide();
+    if(punaisesTrouvees == "true"){
+      $("#recapPunaisesTrouvees").text("Oui");
+      $(".isPunaisesTrouvees").show();
+      const punaisesNombrePiecesConcernees = $("input[name='signalement_front[punaisesNombrePiecesConcernees]']:checked").next("label").text();
+      $("#recapPunaisesNombrePiecesConcernees").text(punaisesNombrePiecesConcernees);
+      const punaisesFaciliteDetections = $("input[name='signalement_front[punaisesFaciliteDetections]']:checked").next("label").text();
+      $("#recapPunaisesFaciliteDetections").text(punaisesFaciliteDetections);
+      $("#recapPunaisesLieuxObservations").empty()
+      $("input[name='signalement_front[punaisesLieuxObservations][]']:checked").each(function() {
+        $("#recapPunaisesLieuxObservations").append($(this).next("label").text() + ", ");
+      });
+      const sliced = $("#recapPunaisesLieuxObservations").text().slice(0,-2)
+      $("#recapPunaisesLieuxObservations").text(sliced);
+    }
+    $("#recapNomOccupant").text($("input[name='signalement_front[nomOccupant]']").val());
+    $("#recapPrenomOccupant").text($("input[name='signalement_front[prenomOccupant]']").val());
+    $("#recapTelephoneOccupant").text($("input[name='signalement_front[telephoneOccupant]']").val());
+    $("#recapEmailOccupant").text($("input[name='signalement_front[emailOccupant]']").val());
   }
 
   initProfessionnelInfo() {

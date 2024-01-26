@@ -2,7 +2,14 @@
 
 {% block content %}
     <div class="fr-stepper">
+        <h2 class="fr-stepper__title">
+            Les punaises
+            <span class="fr-stepper__state">Étape 6 sur 8</span>
+        </h2>
         <div class="fr-stepper__steps" data-fr-current-step="6" data-fr-steps="8"></div>
+        <p class="fr-stepper__details">
+            <span class="fr-text--bold">Étape suivante :</span> Vos coordonnées
+        </p>
     </div>
 
     <dialog aria-labelledby="fr-modal-title-modal-punaises" id="fr-modal-punaises" class="fr-modal">
@@ -50,7 +57,7 @@
                 <br>
                 <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-punaises">Plus d'informations</a>
             </label>
-            <div id="signalement_front_punaisesTrouvees" class="fr-radio fr-mt-3v">
+            <div id="signalement_front_punaisesTrouvees" class="fr-radio-group fr-mt-3v">
                 <input type="radio" id="signalement_front_punaisesTrouvees_0" name="signalement_front[punaisesTrouvees]" required="required" value="true">
                 <label for="signalement_front_punaisesTrouvees_0" class="required">Oui</label>
                 <input type="radio" id="signalement_front_punaisesTrouvees_1" name="signalement_front[punaisesTrouvees]" required="required" value="false">
@@ -65,7 +72,7 @@
     <div id="form-group-punaisesNombrePiecesConcernees" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Dans combien de pièces ?</label>
-            <div id="signalement_front_punaisesNombrePiecesConcernees" class="fr-radio">
+            <div id="signalement_front_punaisesNombrePiecesConcernees" class="fr-radio-group">
                 <input type="radio" id="signalement_front_punaisesNombrePiecesConcernees_0" name="signalement_front[punaisesNombrePiecesConcernees]" required="required" value="1">
                 <label for="signalement_front_punaisesNombrePiecesConcernees_0" class="required">1 pièce</label>
                 <input type="radio" id="signalement_front_punaisesNombrePiecesConcernees_1" name="signalement_front[punaisesNombrePiecesConcernees]" required="required" value="2">
@@ -80,7 +87,7 @@
     <div id="form-group-punaisesFaciliteDetections" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Je trouve des punaises de lit...</label>
-            <div id="signalement_front_punaisesFaciliteDetections" class="fr-radio">
+            <div id="signalement_front_punaisesFaciliteDetections" class="fr-radio-group">
                 <input type="radio" id="signalement_front_punaisesFaciliteDetections_0" name="signalement_front[punaisesFaciliteDetections]" required="required" value="FACILE">
                 <label for="signalement_front_punaisesFaciliteDetections_0" class="required">Facilement</label>
                 <input type="radio" id="signalement_front_punaisesFaciliteDetections_1" name="signalement_front[punaisesFaciliteDetections]" required="required" value="RECHERCHE">
@@ -95,7 +102,7 @@
     <div id="form-group-punaisesLieuxObservations" class="fr-form-group">
         <div class="fr-select-group">
             <label class="fr-label required">Je les vois sur...</label>
-            <div id="signalement_front_punaisesLieuxObservations" class="fr-radio">
+            <div id="signalement_front_punaisesLieuxObservations" class="fr-checkbox-group">
                 <input type="checkbox" id="signalement_front_punaisesLieuxObservations_0" name="signalement_front[punaisesLieuxObservations][]" value="LIT">
                 <label for="signalement_front_punaisesLieuxObservations_0">Le lit</label>
                 <input type="checkbox" id="signalement_front_punaisesLieuxObservations_1" name="signalement_front[punaisesLieuxObservations][]" value="CANAPE">
