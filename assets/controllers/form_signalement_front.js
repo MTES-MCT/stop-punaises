@@ -235,7 +235,7 @@ class PunaisesFrontSignalementController {
   }  
 
   checkChoicesInput(idInput, count) {
-    $('div#signalement_front_' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
+    $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').addClass('fr-hidden');
 
     let canGoNext = false;
     for (let i = 0; i < count; i++) {
@@ -245,7 +245,7 @@ class PunaisesFrontSignalementController {
     }
 
     if (!canGoNext) {
-      $('div#signalement_front_' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').removeClass('fr-hidden');
     }
     
     return canGoNext;
