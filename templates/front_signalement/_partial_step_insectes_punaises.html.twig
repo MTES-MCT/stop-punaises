@@ -50,72 +50,126 @@
         </div>
     </dialog>
 
-    <div class="fr-form-group">
-        <div class="fr-select-group">
-            <label class="fr-label required">
+    <fieldset class="fr-fieldset" id="signalement_front_punaisesTrouvees" aria-labelledby="signalement_front_punaisesTrouvees_legend">
+        <legend class="fr-fieldset__legend--regular fr-fieldset__legend" id="signalement_front_punaisesTrouvees_legend">
+            <label class="fr-label">
                 Il y a des punaises dans mon logement
                 <br>
                 <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-punaises">Plus d'informations</a>
             </label>
-            <div id="signalement_front_punaisesTrouvees" class="fr-radio-group fr-mt-3v">
+        </legend>
+        <div class="fr-fieldset__element">
+            <div class="fr-radio-group">
                 <input type="radio" id="signalement_front_punaisesTrouvees_0" name="signalement_front[punaisesTrouvees]" required="required" value="true">
                 <label for="signalement_front_punaisesTrouvees_0" class="required">Oui</label>
+            </div>
+        </div>
+        <div class="fr-fieldset__element">
+            <div class="fr-radio-group">
                 <input type="radio" id="signalement_front_punaisesTrouvees_1" name="signalement_front[punaisesTrouvees]" required="required" value="false">
                 <label for="signalement_front_punaisesTrouvees_1" class="required">Non</label>
             </div>
-            <p class="fr-error-text fr-hidden">
-                Veuillez renseigner si vous avez trouvé des punaises de lit.
-            </p>
         </div>
-    </div>
+        <p class="fr-error-text fr-hidden">
+            Veuillez renseigner si vous avez trouvé des punaises de lit.
+        </p>
+    </fieldset>
 
-    <div id="form-group-punaisesNombrePiecesConcernees" class="fr-form-group">
-        <div class="fr-select-group">
-            <label class="fr-label required">Dans combien de pièces ?</label>
-            <div id="signalement_front_punaisesNombrePiecesConcernees" class="fr-radio-group">
-                <input type="radio" id="signalement_front_punaisesNombrePiecesConcernees_0" name="signalement_front[punaisesNombrePiecesConcernees]" required="required" value="1">
-                <label for="signalement_front_punaisesNombrePiecesConcernees_0" class="required">1 pièce</label>
-                <input type="radio" id="signalement_front_punaisesNombrePiecesConcernees_1" name="signalement_front[punaisesNombrePiecesConcernees]" required="required" value="2">
-                <label for="signalement_front_punaisesNombrePiecesConcernees_1" class="required">2 pièces ou +</label>
+    <div id="form-group-punaisesNombrePiecesConcernees">
+        <fieldset class="fr-fieldset" id="signalement_front_punaisesNombrePiecesConcernees" aria-labelledby="signalement_front_punaisesNombrePiecesConcernees_legend">
+            <legend class="fr-fieldset__legend--regular fr-fieldset__legend" id="signalement_front_punaisesNombrePiecesConcernees_legend">
+                <label class="fr-label">
+                    Dans combien de pièces ?
+                </label>
+            </legend>
+            <div class="fr-fieldset__element">
+                <div class="fr-radio-group">
+                    <input type="radio" id="signalement_front_punaisesNombrePiecesConcernees_0" name="signalement_front[punaisesNombrePiecesConcernees]" required="required" value="1">
+                    <label for="signalement_front_punaisesNombrePiecesConcernees_0" class="required">1 pièce</label>
+                </div>
+            </div>
+            <div class="fr-fieldset__element">
+                <div class="fr-radio-group">
+                    <input type="radio" id="signalement_front_punaisesNombrePiecesConcernees_1" name="signalement_front[punaisesNombrePiecesConcernees]" required="required" value="2">
+                    <label for="signalement_front_punaisesNombrePiecesConcernees_1" class="required">2 pièces ou +</label>
+                </div>
             </div>
             <p class="fr-error-text fr-hidden">
                 Veuillez renseigner le nombre de pièces concernées.
             </p>
-        </div>
+        </fieldset>
     </div>
 
-    <div id="form-group-punaisesFaciliteDetections" class="fr-form-group">
-        <div class="fr-select-group">
-            <label class="fr-label required">Je trouve des punaises de lit...</label>
-            <div id="signalement_front_punaisesFaciliteDetections" class="fr-radio-group">
-                <input type="radio" id="signalement_front_punaisesFaciliteDetections_0" name="signalement_front[punaisesFaciliteDetections]" required="required" value="FACILE">
-                <label for="signalement_front_punaisesFaciliteDetections_0" class="required">Facilement</label>
-                <input type="radio" id="signalement_front_punaisesFaciliteDetections_1" name="signalement_front[punaisesFaciliteDetections]" required="required" value="RECHERCHE">
-                <label for="signalement_front_punaisesFaciliteDetections_1" class="required">En cherchant bien</label>
+    <div id="form-group-punaisesFaciliteDetections">
+        <fieldset class="fr-fieldset" id="signalement_front_punaisesFaciliteDetections" aria-labelledby="signalement_front_punaisesFaciliteDetections_legend">
+            <legend class="fr-fieldset__legend--regular fr-fieldset__legend" id="signalement_front_punaisesFaciliteDetections_legend">
+                <label class="fr-label">
+                    Je trouve des punaises de lit...
+                </label>
+            </legend>
+            <div class="fr-fieldset__element">
+                <div class="fr-radio-group">
+                    <input type="radio" id="signalement_front_punaisesFaciliteDetections_0" name="signalement_front[punaisesFaciliteDetections]" required="required" value="FACILE">
+                    <label for="signalement_front_punaisesFaciliteDetections_0" class="required">Facilement</label>
+                </div>
+            </div>
+            <div class="fr-fieldset__element">
+                <div class="fr-radio-group">
+                    <input type="radio" id="signalement_front_punaisesFaciliteDetections_1" name="signalement_front[punaisesFaciliteDetections]" required="required" value="RECHERCHE">
+                    <label for="signalement_front_punaisesFaciliteDetections_1" class="required">En cherchant bien</label>
+                </div>
             </div>
             <p class="fr-error-text fr-hidden">
                 Veuillez renseigner comment vous trouvez les punaises de lit.
             </p>
-        </div>
+        </fieldset>
     </div>
 
     <div id="form-group-punaisesLieuxObservations" class="fr-form-group">
-        <div class="fr-select-group">
-            <label class="fr-label required">Je les vois sur...</label>
-            <div id="signalement_front_punaisesLieuxObservations" class="fr-checkbox-group">
-                <input type="checkbox" id="signalement_front_punaisesLieuxObservations_0" name="signalement_front[punaisesLieuxObservations][]" value="LIT">
-                <label for="signalement_front_punaisesLieuxObservations_0">Le lit</label>
-                <input type="checkbox" id="signalement_front_punaisesLieuxObservations_1" name="signalement_front[punaisesLieuxObservations][]" value="CANAPE">
-                <label for="signalement_front_punaisesLieuxObservations_1">Le canapé</label>
-                <input type="checkbox" id="signalement_front_punaisesLieuxObservations_2" name="signalement_front[punaisesLieuxObservations][]" value="MEUBLES">
-                <label for="signalement_front_punaisesLieuxObservations_2">Des meubles</label>
-                <input type="checkbox" id="signalement_front_punaisesLieuxObservations_3" name="signalement_front[punaisesLieuxObservations][]" value="MURS">
-                <label for="signalement_front_punaisesLieuxObservations_3">Les murs</label>
+        <fieldset class="fr-fieldset" id="signalement_front_punaisesLieuxObservations_checkboxes" aria-labelledby="signalement_front_punaisesLieuxObservations_legend">
+            <legend class="fr-fieldset__legend" id="signalement_front_punaisesLieuxObservations_legend">
+                Je les vois sur...
+                <br>
+                <em class="fr-fieldset__legend--regular">Plusieurs réponses possibles</em>
+            </legend>
+            <div id="signalement_front_punaisesLieuxObservations">
+                <div class="fr-fieldset__element">
+                    <div class="fr-checkbox-group">
+                        <input name="signalement_front[punaisesLieuxObservations][]" id="signalement_front_punaisesLieuxObservations_0" type="checkbox" value="LIT">
+                        <label for="signalement_front_punaisesLieuxObservations_0">
+                            Le lit
+                        </label>
+                    </div>
+                </div>
+                <div class="fr-fieldset__element">
+                    <div class="fr-checkbox-group">
+                        <input name="signalement_front[punaisesLieuxObservations][]" id="signalement_front_punaisesLieuxObservations_1" type="checkbox" value="CANAPE">
+                        <label for="signalement_front_punaisesLieuxObservations_1">
+                            Le canapé
+                        </label>
+                    </div>
+                </div>
+                <div class="fr-fieldset__element">
+                    <div class="fr-checkbox-group">
+                        <input name="signalement_front[punaisesLieuxObservations][]" id="signalement_front_punaisesLieuxObservations_2" type="checkbox" value="MEUBLES">
+                        <label for="signalement_front_punaisesLieuxObservations_2">
+                            Des meubles
+                        </label>
+                    </div>
+                </div>
+                <div class="fr-fieldset__element">
+                    <div class="fr-checkbox-group">
+                        <input name="signalement_front[punaisesLieuxObservations][]" id="signalement_front_punaisesLieuxObservations_3" type="checkbox" value="MURS">
+                        <label for="signalement_front_punaisesLieuxObservations_3">
+                            Les murs
+                        </label>
+                    </div>
+                </div>
             </div>
-            <p class="fr-error-text fr-hidden">
+            <p class="fr-error-text fr-messages-group fr-hidden">
                 Veuillez renseigner les endroits où vous les voyez.
             </p>
-        </div>
+        </fieldset>
     </div>
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}

@@ -12,15 +12,12 @@
         </p>
     </div>
 
-    <div class="fr-form-group">
-        <div class="fr-select-group">
-            {{ form_label(form.typeLogement) }}
-            {{ form_widget(form.typeLogement) }}
-            <p class="fr-error-text fr-hidden">
-                Veuillez renseigner le type de logement.
-            </p>
-        </div>
-    </div>
+    {% include 'common/components/form/list-radio-buttons.html.twig' with {
+        'name': 'typeLogement',
+        'displayLabel': true,
+        'formObject': form.typeLogement,
+        'errorLabel': 'Veuillez renseigner le type de logement.'
+    } %}
 
     <div class="fr-form-group">
         <div class="fr-input-group">
