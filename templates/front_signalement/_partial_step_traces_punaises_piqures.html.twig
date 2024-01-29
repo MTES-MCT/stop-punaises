@@ -60,22 +60,23 @@
                 <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-piqures">Plus d'informations</a>
             </label>
             <div class="fr-mt-3v">
-                {{ form_widget(form.piquresExistantes) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner si vous avez des piqûres de punaises de lit.
-                </p>
+                {% include 'common/components/form/list-radio-buttons.html.twig' with {
+                    'name': 'piquresExistantes',
+                    'displayLabel': false,
+                    'formObject': form.piquresExistantes,
+                    'errorLabel': 'Veuillez renseigner si vous avez des piqûres de punaises de lit.'
+                } %}
             </div>
         </div>
     </div>
 
     <div id="form-group-piquresConfirmees" class="fr-form-group">
-        <div class="fr-select-group">
-            {{ form_label(form.piquresConfirmees) }}
-            {{ form_widget(form.piquresConfirmees) }}
-            <p class="fr-error-text fr-hidden">
-                Veuillez renseigner si quelqu'un a confirmé que vous avez des piqûres de punaises de lit.
-            </p>
-        </div>
+        {% include 'common/components/form/list-radio-buttons.html.twig' with {
+            'name': 'piquresConfirmees',
+            'displayLabel': true,
+            'formObject': form.piquresConfirmees,
+            'errorLabel': 'Veuillez renseigner si quelqu\'un a confirmé que vous avez des piqûres de punaises de lit.'
+        } %}
     </div>
 
     <div id="form-group-photos" class="fr-form-group">

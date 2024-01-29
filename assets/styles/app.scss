@@ -836,14 +836,8 @@ span.image-caption {
         .fr-form-group {
             margin-top: 1.5rem;
         }
-
-        .fr-checkbox-group, .fr-radio-group {
-            label {
-                margin-bottom: 4px;
-            }
-        }
         
-        label {
+        label, .fr-fieldset__legend {
             span.underline {
                 text-decoration: underline;
             }

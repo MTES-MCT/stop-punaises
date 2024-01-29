@@ -12,22 +12,12 @@
         </p>
     </div>
 
-    <fieldset class="fr-fieldset" id="signalement_front_typeLogement" aria-labelledby="signalement_front_typeLogement_legend">
-        <legend class="fr-fieldset__legend--regular fr-fieldset__legend" id="signalement_front_typeLogement_legend">
-            {{ form_label(form.typeLogement) }}
-        </legend>
-        {% for key, choice in form.typeLogement.children %}
-            <div class="fr-fieldset__element">
-                <div class="fr-radio-group">
-                    {{ form_widget(choice) }}
-                    {{ form_label(choice) }}
-                </div>
-            </div>
-        {% endfor %}
-        <p class="fr-error-text fr-hidden">
-            Veuillez renseigner le type de logement.
-        </p>
-    </fieldset>
+    {% include 'common/components/form/list-radio-buttons.html.twig' with {
+        'name': 'typeLogement',
+        'displayLabel': true,
+        'formObject': form.typeLogement,
+        'errorLabel': 'Veuillez renseigner le type de logement.'
+    } %}
 
     <div class="fr-form-group">
         <div class="fr-input-group">

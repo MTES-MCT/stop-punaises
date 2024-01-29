@@ -12,25 +12,19 @@
         </p>
     </div>
 
-    <div class="fr-form-group">
-        <div class="fr-select-group">
-            {{ form_label(form.dureeInfestation) }}
-            {{ form_widget(form.dureeInfestation) }}
-            <p class="fr-error-text fr-hidden">
-                Veuillez renseigner la durée d'infestation.
-            </p>
-        </div>
-    </div>
+    {% include 'common/components/form/list-radio-buttons.html.twig' with {
+        'name': 'dureeInfestation',
+        'displayLabel': true,
+        'formObject': form.dureeInfestation,
+        'errorLabel': 'Veuillez renseigner la durée d\'infestation.'
+    } %}
 
-    <div class="fr-form-group">
-        <div class="fr-select-group">
-            {{ form_label(form.infestationLogementsVoisins) }}
-            {{ form_widget(form.infestationLogementsVoisins) }}
-            <p class="fr-error-text fr-hidden">
-                Veuillez renseigner si il y a une infestation dans les logements voisins.
-            </p>
-        </div>
-    </div>
+    {% include 'common/components/form/list-radio-buttons.html.twig' with {
+        'name': 'infestationLogementsVoisins',
+        'displayLabel': true,
+        'formObject': form.infestationLogementsVoisins,
+        'errorLabel': 'Veuillez renseigner si il y a une infestation dans les logements voisins.'
+    } %}
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
 {% endblock %}
