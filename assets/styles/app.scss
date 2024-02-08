@@ -124,9 +124,7 @@ span.statut-infestation {
                 margin-bottom: 6px;
 
                 &.active {
-                    a {
-                        color: var(--red-marianne-main-472);
-                    }
+                    border-left: 2px solid var(--text-action-high-blue-france);
                 }
     
                 a.fr-btn {
@@ -137,6 +135,17 @@ span.statut-infestation {
                     &.fr-icon-lock-line {
                         min-height: 1rem !important;
                     }
+                }
+            }
+        }
+    }
+}
+.fr-header {
+    .fr-header__tools-links {
+        ul.fr-btns-group {
+            li {
+                a[aria-current=page] {
+                    border-bottom: 1px solid var(--text-action-high-blue-france);
                 }
             }
         }

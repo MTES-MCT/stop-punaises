@@ -27,18 +27,24 @@
                 <div class="fr-header__tools">
                     <div class="fr-header__tools-links">
                         <ul class="fr-btns-group">
-                            <li {% if app.request.get('_route') == 'home' %} class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('home') }}">
+                            <li {% if app.request.get('_route') == 'home' %}class="active"{% endif %}>
+                                <a class="fr-btn" href="{{ path('home') }}"
+                                    {% if app.request.get('_route') == 'home' %}aria-current="page"{% endif %}
+                                    >
                                     Accueil
                                 </a>
                             </li>
-                            <li {% if app.request.get('_route') == 'app_front_information' %} class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('app_front_information') }}">
+                            <li {% if app.request.get('_route') == 'app_front_information' %}class="active"{% endif %}>
+                                <a class="fr-btn" href="{{ path('app_front_information') }}"
+                                    {% if app.request.get('_route') == 'app_front_information' %}aria-current="page"{% endif %}
+                                    >
                                     Informations
                                 </a>
                             </li>
-                            <li {% if app.request.get('_route') == 'app_front_contact' %} class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('app_front_contact') }}">
+                            <li {% if app.request.get('_route') == 'app_front_contact' %}class="active"{% endif %}>
+                                <a class="fr-btn" href="{{ path('app_front_contact') }}"
+                                    {% if app.request.get('_route') == 'app_front_contact' %}aria-current="page"{% endif %}
+                                    >
                                     Contact
                                 </a>
                             </li>
@@ -47,19 +53,14 @@
                                 {% if app.user %}
                                     <a class="fr-btn fr-icon-user-line" href="{{ path('app_dashboard_home') }}">Tableau de bord</a>
                                 {% else %}
-                                    <a class="fr-btn fr-icon-lock-line" href="{{ path('app_login') }}">
+                                    <a class="fr-btn fr-icon-lock-line" href="{{ path('app_login') }}"
+                                        {% if app.request.get('_route') == 'app_login' %}aria-current="page"{% endif %}
+                                        >
                                         Espace pro
                                     </a>
                                 {% endif %}
                             </li>
                         </ul>
-                    </div>
-                    <div class="fr-header__search fr-modal" id="modal-575">
-                        <div class="fr-container fr-container-lg--fluid">
-                            <button class="fr-btn--close fr-btn" aria-controls="modal-575" title="Fermer">
-                                Fermer
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
