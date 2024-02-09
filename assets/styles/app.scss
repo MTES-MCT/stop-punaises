@@ -600,6 +600,11 @@ span.image-caption {
             display: none;
         }
     }
+
+    .word-wrap {
+        word-wrap: break-word;
+        hyphens: auto;
+    }
 }
 @media (min-width: 768px) {
     .information-comment-reconnaitre-infestation, .information-comment-eviter {
