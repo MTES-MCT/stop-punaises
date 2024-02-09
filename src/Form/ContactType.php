@@ -23,6 +23,7 @@ class ContactType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'placeholder' => 'Claude Petit',
+                    'autocomplete' => 'name',
                 ],
                 'label' => 'Votre nom',
                 'constraints' => [
@@ -36,6 +37,7 @@ class ContactType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'placeholder' => 'claude.petit@courriel.fr',
+                    'autocomplete' => 'email',
                 ],
                 'label' => 'Votre adresse courriel',
                 'constraints' => [
