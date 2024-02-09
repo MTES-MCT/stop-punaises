@@ -7,15 +7,19 @@
     <section class="information-header fr-container fr-my-3w fr-my-md-5w">
         <h1>Tout savoir sur les punaises de lit</h1>
         <div class="fr-grid-row fr-grid-row--gutters fr-px-1w">
-            <div class="fr-col-12 fr-col-md-6 video-container">
-                <video controls>
-                    <source src="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" type="video/mp4">
-                    <p>
-                        Votre navigateur ne prend pas en charge les vidéos HTML5.
-                        Voici <a href="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" target="_blank">un lien pour télécharger la vidéo</a>.
-                    </p>
-                </video>
-                <em>Crédit vidéo : Citizen</em>
+            <div class="fr-col-12 fr-col-lg-6 video-container">
+                <figure role="group" class="fr-content-media">
+                    <video controls>
+                        <source src="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" type="video/mp4">
+                        <p>
+                            Votre navigateur ne prend pas en charge les vidéos HTML5.
+                            Voici <a href="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" target="_blank">un lien pour télécharger la vidéo</a>.
+                        </p>
+                    </video>
+                    <figcaption class="fr-content-media__caption">
+                        Crédit vidéo : Citizen
+                    </figcaption>
+                </figure>
             </div>
             <div class="fr-col-12 fr-col-md-6">
                 <p>Les punaises de lit sont des insectes parasites qui vivent à l'abri de la lumière, dans les espaces sombres.</p>

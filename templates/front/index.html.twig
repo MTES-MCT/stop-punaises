@@ -38,15 +38,19 @@
                         <a class="fr-link" href="{{ path('app_front_information') }}">Tout savoir sur les punaises de lit</a>
                     </p>
                 </div>
-                <div class="fr-col-12 fr-col-lg-6 video-container fr-mt-3w">
-                    <video controls>
-                        <source src="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" type="video/mp4">
-                        <p>
-                            Votre navigateur ne prend pas en charge les vidéos HTML5.
-                            Voici <a href="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" target="_blank">un lien pour télécharger la vidéo</a>.
-                        </p>
-                    </video>
-                    <em>Crédit vidéo : Citizen</em>
+                <div class="fr-col-12 fr-col-lg-6 video-container">
+                    <figure role="group" class="fr-content-media">
+                        <video controls>
+                            <source src="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" type="video/mp4">
+                            <p>
+                                Votre navigateur ne prend pas en charge les vidéos HTML5.
+                                Voici <a href="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" target="_blank">un lien pour télécharger la vidéo</a>.
+                            </p>
+                        </video>
+                        <figcaption class="fr-content-media__caption">
+                            Crédit vidéo : Citizen
+                        </figcaption>
+                    </figure>
                 </div>
             </div>
         </div>
