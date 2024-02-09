@@ -91,7 +91,7 @@ function handleFileUpload() {
                 let imgSrc = URL.createObjectURL(event.target.files[i]);
                 let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
                 strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
-                strAppend += '<br><br><button type="button" data-filename="' + filename  +'" class="fr-link fr-icon-close-circle-line fr-link--icon-left link--error file-uploaded"> Supprimer </button>';
+                strAppend += '<br><button type="button" data-filename="' + filename  +'" class="fr-link fr-icon-close-circle-line fr-link--icon-left link--error file-uploaded"> Supprimer </button>';
                 strAppend += '</div>';
                 $('.fr-front-signalement-photos').append(strAppend);
                 filesUploaded.push(event.target.files[i]);
