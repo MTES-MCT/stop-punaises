@@ -247,16 +247,57 @@
                 <div class="fr-col-12 fr-col-lg-4">
                     <figure class="fr-content-media" role="group" aria-label="Où se cachent les punaises de lit ?">
                         <div class="fr-content-media__img">
-                            <a href="{{ asset('build/images/flyer-ou-se-cachent-elles.jpg') }}" target="_blank" rel="noopener" title="Voir l'image : Où se cachent les punaises de lit ?">
-                                <img src="{{ asset('build/images/flyer-ou-se-cachent-elles-resize.jpg') }}"  width="500" height="954"
-                                    alt="Où se cachent les punaises de lit ? Dans la chambre, dans les matelas et sommiers. Derrière les cadres, les raccords de papier peint, sous les meubles, dans les plinthes, sous les prises électriques. Dans les fissures et les fentes du parquet. Dans les canapés. Sous les tapis."
-                                    >
-                            </a>
+                            <img src="{{ asset('build/images/flyer-ou-se-cachent-elles-resize.jpg') }}" width="500" height="954"
+                                alt="Où se cachent les punaises de lit ? Dans la chambre, dans les matelas et sommiers. Derrière les cadres, les raccords de papier peint, sous les meubles, dans les plinthes, sous les prises électriques. Dans les fissures et les fentes du parquet. Dans les canapés. Sous les tapis."
+                                >
                         </div>
                         <figcaption class="fr-content-media__caption">Crédit : Citizen</figcaption>
-                        <br>
-                        <span class="click-to-expand">Cliquez sur l'image pour l'agrandir</span>
+                        <button class="fr-btn"  data-fr-opened="false" aria-controls="fr-modal-flyer-cache">
+                            Agrandir l'image
+                        </button>
                     </figure>
+                    <dialog aria-labelledby="fr-modal-title-modal-flyer-cache" role="dialog" id="fr-modal-flyer-cache" class="fr-modal">
+                        <div class="fr-container fr-container--fluid fr-container-md">
+                            <div class="fr-grid-row fr-grid-row--center">
+                                <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                                    <div class="fr-modal__body">
+                                        <div class="fr-modal__header">
+                                            <button class="fr-btn--close fr-btn" title="Fermer la fenêtre modale" aria-controls="fr-modal-flyer-cache">Fermer</button>
+                                        </div>
+                                        <div class="fr-modal__content">
+                                            <h1 id="fr-modal-title-modal-flyer-cache" class="fr-modal__title">Punaises de lit : où se cachent-elles ?</h1>
+                                            <figure class="fr-content-media" role="group" aria-label="Où se cachent les punaises de lit ?">
+                                                <div class="fr-content-media__img">
+                                                    <img src="{{ asset('build/images/flyer-ou-se-cachent-elles.jpg') }}"
+                                                        alt="Où se cachent les punaises de lit ? Dans la chambre, dans les matelas et sommiers. Derrière les cadres, les raccords de papier peint, sous les meubles, dans les plinthes, sous les prises électriques. Dans les fissures et les fentes du parquet. Dans les canapés. Sous les tapis."
+                                                        >
+                                                </div>
+                                                <figcaption class="fr-content-media__caption align-left">
+                                                    Punaises de lit : où se cachent-elles ?
+                                                    <br>
+                                                    Les punaises de lit sont visibles à l'oeil nu et sont généralement brunes.
+                                                    <br>
+                                                    L'adulte a les dimensions d'un pépin de pomme. L'oeuf, de couleur blanche, mesure environ 1mm. Elles ne sautent pas et ne volent pas.
+                                                    <br>
+                                                    La chambre, leur espace préféré.
+                                                    <br>
+                                                    On les trouve en grande majorité :
+                                                    <br>
+                                                    <ul>
+                                                        <li>dans les matelas et sommiers qu'il ne faut pas hésiter à retourner pour une inspection complète</li>
+                                                        <li>derrière les cadres, les raccords de papier peint, sous les meubles, dans les plinthes, sous les prises électriques...</li>
+                                                        <li>dans les fissures et les fentes du parquet</li>
+                                                        <li>dans les canapés</li>
+                                                        <li>sous les tapis</li>
+                                                    </ul>
+                                                </figcaption>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
                 </div>
             </div>
         </div>
@@ -499,16 +540,53 @@
                 <div class="fr-col-12 fr-col-lg-4">
                     <figure class="fr-content-media" role="group" aria-label="Comment éviter les punaises de lit ?">
                         <div class="fr-content-media__img">
-                            <a href="{{ asset('build/images/flyer-comment-les-eviter.jpg') }}" target="_blank" rel="noopener" title="Voir l'image : Comment éviter les punaises de lit ?">
-                                <img src="{{ asset('build/images/flyer-comment-les-eviter.jpg') }}" width="500" height="954"
-                                    alt="Comment éviter les punaises de lit ? En voyage, ne posez pas votre bagage sur le lit, encore moins sous le lit. Contrôlez vos effets personnels à votre retour. Evitez d'encombrer les espaces. Attention aux achats d'occasion, lavez-les à 60°C. Nettoyez les meubles récupérés."
-                                    >
-                            </a>
+                            <img src="{{ asset('build/images/flyer-comment-les-eviter.jpg') }}" width="500" height="954"
+                                alt="Comment éviter les punaises de lit ? En voyage, ne posez pas votre bagage sur le lit, encore moins sous le lit. Contrôlez vos effets personnels à votre retour. Evitez d'encombrer les espaces. Attention aux achats d'occasion, lavez-les à 60°C. Nettoyez les meubles récupérés."
+                                >
                         </div>
                         <figcaption class="fr-content-media__caption">Crédit : Citizen</figcaption>
-                        <br>
-                        <span class="click-to-expand">Cliquez sur l'image pour l'agrandir</span>
+                        <button class="fr-btn"  data-fr-opened="false" aria-controls="fr-modal-flyer-eviter">
+                            Agrandir l'image
+                        </button>
                     </figure>
+                    <dialog aria-labelledby="fr-modal-title-modal-flyer-eviter" role="dialog" id="fr-modal-flyer-eviter" class="fr-modal">
+                        <div class="fr-container fr-container--fluid fr-container-md">
+                            <div class="fr-grid-row fr-grid-row--center">
+                                <div class="fr-col-12 fr-col-md-8 fr-col-lg-6">
+                                    <div class="fr-modal__body">
+                                        <div class="fr-modal__header">
+                                            <button class="fr-btn--close fr-btn" title="Fermer la fenêtre modale" aria-controls="fr-modal-flyer-eviter">Fermer</button>
+                                        </div>
+                                        <div class="fr-modal__content">
+                                            <h1 id="fr-modal-title-modal-flyer-eviter" class="fr-modal__title">Punaises de lit : comment les éviter ?</h1>
+                                            <figure class="fr-content-media" role="group" aria-label="Comment éviter les punaises de lit ?">
+                                                <div class="fr-content-media__img">
+                                                    <img src="{{ asset('build/images/flyer-comment-les-eviter.jpg') }}"
+                                                        alt="Comment éviter les punaises de lit ? En voyage, ne posez pas votre bagage sur le lit, encore moins sous le lit. Contrôlez vos effets personnels à votre retour. Evitez d'encombrer les espaces. Attention aux achats d'occasion, lavez-les à 60°C. Nettoyez les meubles récupérés."
+                                                        >
+                                                </div>
+                                                <figcaption class="fr-content-media__caption align-left">
+                                                    Punaises de lit : comment les éviter ?
+                                                    <br>
+                                                    Des gestes de prévention simples permettent de limiter leur venue ou installation.
+                                                    <br>
+                                                    En voyageant, soyez vigilants :
+                                                    <br>
+                                                    <ul>
+                                                        <li>Ne posez pas votre bagage sur le lit et encore moins sous le lit</li>
+                                                        <li>Contrôlez vos effets personnels à votre retour</li>
+                                                        <li>Evitez d'encombrer les espaces</li>
+                                                        <li>Attention aux achats d'occasion. Lavez bien les vêtements à 60°C.</li>
+                                                        <li>Nettoyez les meubles récupérés</li>
+                                                    </ul>
+                                                </figcaption>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </dialog>
                 </div>
             </div>
         </div>
@@ -524,9 +602,9 @@
             Pour toute question appelez le&nbsp;:
         </p>
         <p>
-            <a href="tel:+33806706806" title="Appeler le service Info logement indigne"><span class="fr-icon-phone-fill">0806 706 806</span></a>
+            <a href="tel:+33806706806" title="Appeler le 0806 706 806 (prix d’un appel local)"><span class="fr-icon-phone-fill">0806 706 806</span></a>
             <br>
-            <span class="local-phone-price">Prix d'un appel local</span>
+            <span class="local-phone-price" aria-hidden="true">Prix d'un appel local</span>
         </p>
     </section>
 
