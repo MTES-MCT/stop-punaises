@@ -113,6 +113,12 @@ span.statut-infestation {
 }
 
 .fr-header {
+    .fr-header__operator {
+        a {
+            outline-width: 1px;
+            outline-offset: 3px;
+        }
+    }
     .fr-header__menu-links {
         &::after {
             display: none;
