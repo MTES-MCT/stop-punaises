@@ -28,19 +28,25 @@
                     <div class="fr-header__tools-links">
                         <ul class="fr-btns-group">
                             <li {% if app.request.get('_route') == 'app_dashboard_home' %} class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('app_dashboard_home') }}">
+                                <a class="fr-btn" href="{{ path('app_dashboard_home') }}"
+                                    {% if app.request.get('_route') == 'app_dashboard_home' %}aria-current="page"{% endif %}
+                                    >
                                     Tableau de bord
                                 </a>
                             </li>
                             {% if is_granted('ROLE_ADMIN') %}
                             <li {% if app.request.get('_route') == 'app_cartographie' %} class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('app_cartographie') }}">
+                                <a class="fr-btn" href="{{ path('app_cartographie') }}"
+                                    {% if app.request.get('_route') == 'app_cartographie' %}aria-current="page"{% endif %}
+                                    >
                                     Cartographie
                                 </a>
                             </li>
                             {% elseif is_granted('ROLE_ENTREPRISE') %}
                             <li>
-                                <a class="fr-btn" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}">
+                                <a class="fr-btn" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}"
+                                    {% if app.request.get('_route') == 'app_entreprise_view' %}aria-current="page"{% endif %}
+                                    >
                                     Mon entreprise
                                 </a>
                             </li>
