@@ -30,9 +30,9 @@
         {% include "common/skiplink.html.twig" %}
         {% include "common/header.html.twig" %}
 
-        <div id="contenu">
+        <main role="main" id="contenu" tabindex="-1">
         {% block body %}{% endblock %}
-        </div>
+        </main>
 
         {% include "common/footer.html.twig" %}
     </body>

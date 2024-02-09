@@ -48,9 +48,9 @@
             {% endfor %}
         {% endfor %}
         
-        <div id="contenu">
+        <main role="main" id="contenu" tabindex="-1">
         {% block body %}{% endblock %}
-        </div>
+        </main>
         
         {% block javascripts %}
             {% if 'app_cartographie' in app.request.get('_route') %}
