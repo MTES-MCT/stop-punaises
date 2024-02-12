@@ -499,25 +499,24 @@ span.image-caption {
                     font-weight: bold;
                     vertical-align: middle;
                     border-radius: 15px;
-                    background-color: #00A95F;
+                    color: var(--grey-1000-50);
+                    background-color: var(--success-425-625);
 
                     &.number-1 {
-                        background-color: #E4794A;
+                        background-color: var(--orange-terre-battue-main-645);
+                        color: var(--grey-200-850);
                     }
 
                     &.number-2 {
-                        background-color: #B34000;
-                        color: #FFF;
+                        background-color: var(--warning-425-625);
                     }
 
                     &.number-3 {
-                        background-color: #CE0500;
-                        color: #FFF;
+                        background-color: var(--error-425-625);
                     }
 
                     &.number-4 {
-                        background-color: #161616;
-                        color: #FFF;
+                        background-color: var(--grey-50-1000);
                     }
                 }
             }
