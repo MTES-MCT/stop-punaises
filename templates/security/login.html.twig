@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion à l'espace pro{% endblock %}
+{% block title %}Connexion à l'espace pro{% if error %} | Erreur d'identification{% endif %}{% endblock %}
 
 {% block body %}
 <div class="fr-container fr-py-5w">
