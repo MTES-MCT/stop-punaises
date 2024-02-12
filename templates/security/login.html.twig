@@ -24,13 +24,13 @@
                     <label class="fr-label" for="login-email">Identifiant
                         <span class="fr-hint-text">Format attendu : nom@domaine.fr</span>
                     </label>
-                    <input class="fr-input" type="email" id="login-email" name="email" value="{{ last_username }}" required>
+                    <input class="fr-input" type="email" id="login-email" name="email" value="{{ last_username }}" autocomplete="email" required>
                 </div>
 
                 <div class="fr-password">
                     <label class="fr-label" for="login-password">Mot de passe</label>
                     <div class="fr-input-wrap">
-                        <input class="fr-input fr-password__input" type="password" id="login-password" name="password" aria-required="true" required>
+                        <input class="fr-input fr-password__input" type="password" id="login-password" name="password" aria-required="true" autocomplete="curent-password" required>
                     </div>
                     <div class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm">
                         <input aria-label="Afficher le mot de passe" id="login-password-show" type="checkbox" aria-describedby="login-password-show-messages">
