@@ -47,7 +47,7 @@
         <div class="fr-container">
             <div class="fr-grid-row">
                 <div class="fr-col-12 fr-col-lg-9">
-                    <h2><span class="fr-icon-team-line" aria-hidden="true"></span>Employés</h2>
+                    <h2 id="liste-employes-title"><span class="fr-icon-team-line" aria-hidden="true"></span>Employés</h2>
                 </div>
                 <div class="fr-col-12 fr-col-lg-3">
                     <div class="add-button-container">
@@ -57,7 +57,7 @@
             </div>
 
             {% if entreprise.employes is not empty %}
-                <table id="datatable" class="nowrap">
+                <table id="datatable" class="nowrap" aria-labelledby="liste-employes-title">
                     <thead>
                         <tr>
                             <th>ID</th>

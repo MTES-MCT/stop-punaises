@@ -54,10 +54,10 @@
     </div>
 
     <div class="fr-container fr-mt-3w">
-        <h2><span id="count-signalement">{{ count_signalement }}</span> signalements trouvés</h2>
+        <h2 id="liste-signalements-title"><span id="count-signalement">{{ count_signalement }}</span> signalements trouvés</h2>
 
         {% if signalements is not empty %}
-            <table id="datatable" class="liste-signalements-historique nowrap">
+            <table id="datatable" class="liste-signalements-historique nowrap" aria-labelledby="liste-signalements-title">
                 <thead>
                     <tr>
                         <th>ID</th>
