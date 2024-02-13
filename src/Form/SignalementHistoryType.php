@@ -38,6 +38,7 @@ class SignalementHistoryType extends AbstractType
             ->add('adresse', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'autocomplete' => 'address-line1',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -51,6 +52,7 @@ class SignalementHistoryType extends AbstractType
                     'pattern' => '[0-9]{5}',
                     'maxlength' => '5',
                     'minlength' => '5',
+                    'autocomplete' => 'postal-code',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -140,6 +142,7 @@ class SignalementHistoryType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'autocomplete' => 'family-name',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -151,6 +154,7 @@ class SignalementHistoryType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'autocomplete' => 'given-name',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -162,6 +166,7 @@ class SignalementHistoryType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '15',
+                    'autocomplete' => 'tel-national',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -173,6 +178,7 @@ class SignalementHistoryType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'autocomplete' => 'email',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -254,7 +260,7 @@ class SignalementHistoryType extends AbstractType
                 'placeholder' => 'Type de traitement',
                 'required' => false,
             ])
-            ->add('nomBiocide', TelType::class, [
+            ->add('nomBiocide', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',

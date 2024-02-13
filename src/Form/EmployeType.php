@@ -19,6 +19,8 @@ class EmployeType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '50',
+                    'placeholder' => 'Petit',
+                    'autocomplete' => 'family-name',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -30,6 +32,8 @@ class EmployeType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '50',
+                    'placeholder' => 'Claude',
+                    'autocomplete' => 'given-name',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -53,6 +57,8 @@ class EmployeType extends AbstractType
                     'class' => 'fr-input',
                     'pattern' => '^(?:0|\(?\+33\)?\s?|0033\s?)[1-9](?:[\.\-\s]?\d\d){4}$',
                     'maxlength' => '20',
+                    'placeholder' => '0706050403',
+                    'autocomplete' => 'tel-national',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -64,6 +70,8 @@ class EmployeType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'placeholder' => 'claude.petit@courriel.fr',
+                    'autocomplete' => 'email',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
