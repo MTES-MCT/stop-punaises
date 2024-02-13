@@ -3,7 +3,7 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
-    <main id="contact-container" class="fr-container--fluid">
+    <div id="contact-container" class="fr-container--fluid fr-py-5w fr-py-md-10w">
     
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -13,7 +13,7 @@
             {% endfor %}
         {% endfor %}
 
-        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-py-5w fr-py-md-10w">
+        <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
             <h1 class="fr-col-11 fr-col-md-8">Contact</h1>
 
             <div class="information-contact fr-col-11 fr-col-md-8">
@@ -93,5 +93,5 @@
                 </button>
             </div>
         </div>
-    </main>
+    </div>
 {% endblock %}
