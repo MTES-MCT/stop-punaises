@@ -10,48 +10,28 @@
                                 <br>Française
                             </p>
                         </div>
-                        <div class="fr-header__operator">
-                            <a href="{{ path('home') }}" title="Accueil - Stop punaises - République Française">
-                                <p class="fr-header__service-title">
-                                    <img src="{{ asset('build/images/logo-stop-punaises.svg') }}" alt="Stop punaises" width="90">
-                                </p>
-                            </a>
-                        </div>
                         <div class="fr-header__navbar">
                             <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-header-nav" aria-haspopup="menu" id="button-header-nav" title="Menu">
                                 Menu
                             </button>
                         </div>
                     </div>
+                    <div class="fr-header__service">
+                        <a href="{{ path('home') }}" title="Accueil - Stop punaises - République Française">
+                            <p class="fr-header__service-title">
+                                <img src="{{ asset('build/images/logo-stop-punaises.svg') }}" alt="Stop punaises" width="90">
+                            </p>
+                        </a>
+                    </div>
                 </div>
                 <div class="fr-header__tools">
                     <div class="fr-header__tools-links">
                         <ul class="fr-btns-group">
-                            <li {% if app.request.get('_route') == 'home' %}class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('home') }}"
-                                    {% if app.request.get('_route') == 'home' %}aria-current="page"{% endif %}
-                                    >
-                                    Accueil
-                                </a>
-                            </li>
-                            <li {% if app.request.get('_route') == 'app_front_information' %}class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('app_front_information') }}"
-                                    {% if app.request.get('_route') == 'app_front_information' %}aria-current="page"{% endif %}
-                                    >
-                                    Informations
-                                </a>
-                            </li>
-                            <li {% if app.request.get('_route') == 'app_front_contact' %}class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('app_front_contact') }}"
-                                    {% if app.request.get('_route') == 'app_front_contact' %}aria-current="page"{% endif %}
-                                    >
-                                    Contact
-                                </a>
-                            </li>
-                            <li {% if app.request.get('_route') == 'app_login' %} class="active"{% endif %}>
-
+                            <li>
                                 {% if app.user %}
-                                    <a class="fr-btn fr-icon-user-line" href="{{ path('app_dashboard_home') }}">Tableau de bord</a>
+                                    <a class="fr-btn" href="{{ path('app_logout') }}">
+                                        Déconnexion <span class="fr-icon-logout-box-r-line" aria-hidden="true"></span>
+                                    </a>
                                 {% else %}
                                     <a class="fr-btn fr-icon-lock-line" href="{{ path('app_login') }}"
                                         {% if app.request.get('_route') == 'app_login' %}aria-current="page"{% endif %}
@@ -73,6 +53,32 @@
             </button>
             <div class="fr-header__menu-links">
             </div>
+            <nav class="fr-nav" id="navigation-header-nav" role="navigation" aria-label="Menu principal">
+                <ul class="fr-nav__list">
+                    <li class="fr-nav__item">
+                        <a class="fr-nav__link" href="{{ path('home') }}" target="_self"
+                            {% if app.request.get('_route') == 'home' %}aria-current="page"{% endif %}
+                            >Accueil</a>
+                    </li>
+                    <li class="fr-nav__item">
+                        <a class="fr-nav__link" href="{{ path('app_front_information') }}" target="_self"
+                            {% if app.request.get('_route') == 'app_front_information' %}aria-current="page"{% endif %}
+                            >Informations</a>
+                    </li>
+                    <li class="fr-nav__item">
+                        <a class="fr-nav__link" href="{{ path('app_front_contact') }}" target="_self"
+                            {% if app.request.get('_route') == 'app_front_contact' %}aria-current="page"{% endif %}
+                            >Contact</a>
+                    </li>
+                    {% if app.user %}
+                    <li class="fr-nav__item">
+                        <a class="fr-nav__link" href="{{ path('app_dashboard_home') }}" target="_self"
+                            {% if app.request.get('_route') == 'app_dashboard_home' %}aria-current="page"{% endif %}
+                            >Tableau de bord</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </div>
 </header>

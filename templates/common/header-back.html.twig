@@ -10,47 +10,23 @@
                                 <br>Française
                             </p>
                         </div>
-                        <div class="fr-header__operator">
-                            <a href="{{ path('home') }}" title="Accueil - Stop punaises - République Française">
-                                <p class="fr-header__service-title">
-                                    <img src="{{ asset('build/images/logo-stop-punaises.svg') }}" alt="Stop punaises" width="90">
-                                </p>
-                            </a>
-                        </div>
                         <div class="fr-header__navbar">
                             <button class="fr-btn--menu fr-btn" data-fr-opened="false" aria-controls="modal-header-nav" aria-haspopup="menu" id="button-header-nav" title="Menu">
                                 Menu
                             </button>
                         </div>
                     </div>
+                    <div class="fr-header__service">
+                        <a href="{{ path('home') }}" title="Accueil - Stop punaises - République Française">
+                            <p class="fr-header__service-title">
+                                <img src="{{ asset('build/images/logo-stop-punaises.svg') }}" alt="Stop punaises" width="90">
+                            </p>
+                        </a>
+                    </div>
                 </div>
                 <div class="fr-header__tools">
                     <div class="fr-header__tools-links">
                         <ul class="fr-btns-group">
-                            <li {% if app.request.get('_route') == 'app_dashboard_home' %} class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('app_dashboard_home') }}"
-                                    {% if app.request.get('_route') == 'app_dashboard_home' %}aria-current="page"{% endif %}
-                                    >
-                                    Tableau de bord
-                                </a>
-                            </li>
-                            {% if is_granted('ROLE_ADMIN') %}
-                            <li {% if app.request.get('_route') == 'app_cartographie' %} class="active"{% endif %}>
-                                <a class="fr-btn" href="{{ path('app_cartographie') }}"
-                                    {% if app.request.get('_route') == 'app_cartographie' %}aria-current="page"{% endif %}
-                                    >
-                                    Cartographie
-                                </a>
-                            </li>
-                            {% elseif is_granted('ROLE_ENTREPRISE') %}
-                            <li>
-                                <a class="fr-btn" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}"
-                                    {% if app.request.get('_route') == 'app_entreprise_view' %}aria-current="page"{% endif %}
-                                    >
-                                    Mon entreprise
-                                </a>
-                            </li>
-                            {% endif %}
                             <li>
                                 <a class="fr-btn" href="{{ path('app_logout') }}">
                                     Déconnexion <span class="fr-icon-logout-box-r-line" aria-hidden="true"></span>
@@ -76,6 +52,49 @@
             </button>
             <div class="fr-header__menu-links">
             </div>
+            <nav class="fr-nav" id="navigation-header-nav" role="navigation" aria-label="Menu principal">
+                <ul class="fr-nav__list">
+                    <li class="fr-nav__item">
+                        <a class="fr-nav__link" href="{{ path('app_dashboard_home') }}" target="_self"
+                            {% if app.request.get('_route') == 'app_dashboard_home' %}aria-current="page"{% endif %}
+                            >Tableau de bord</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="fr-nav__item">
+                            <a class="fr-nav__link" href="{{ path('app_cartographie') }}" target="_self"
+                                {% if app.request.get('_route') == 'app_cartographie' %}aria-current="page"{% endif %}
+                                >
+                                Cartographie
+                            </a>
+                        </li>
+                    {% elseif is_granted('ROLE_ENTREPRISE') %}
+                        <li class="fr-nav__item">
+                            <a class="fr-nav__link" href="{{ path('app_entreprise_view',{uuid:app.user.entreprise.uuid}) }}" target="_self"
+                                {% if app.request.get('_route') == 'app_entreprise_view' %}aria-current="page"{% endif %}
+                                >
+                                Mon entreprise
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li class="fr-nav__item">
+                        <a class="fr-nav__link" href="{{ path('app_signalement_list') }}" target="_self" {% if app.request.get('_route') == 'app_signalement_list' or app.request.get('_route') == 'app_signalement_view' %}aria-current="page"{% endif %}>Signalements</a>
+                    </li>
+                    <li class="fr-nav__item">
+                        <a class="fr-nav__link" href="{{ path('app_historique_list') }}" target="_self" {% if app.request.get('_route') == 'app_historique_list' or app.request.get('_route') == 'app_signalement_historique_view' %}aria-current="page"{% endif %}>Historique</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="fr-nav__item">
+                            <a class="fr-nav__link" href="{{ path('app_horsperimetre_list') }}" target="_self" {% if app.request.get('_route') == 'app_horsperimetre_list' %}aria-current="page"{% endif %}>Hors périmètre</a>
+                        </li>
+                        <li class="fr-nav__item">
+                            <a class="fr-nav__link" href="{{ path('app_erptransports_list') }}" target="_self" {% if app.request.get('_route') == 'app_erptransports_list' %}aria-current="page"{% endif %}>ERP & Transports</a>
+                        </li>
+                        <li class="fr-nav__item">
+                            <a class="fr-nav__link" href="{{ path('app_entreprise_list') }}" target="_self" {% if app.request.get('_route') == 'app_entreprise_list' or app.request.get('_route') == 'app_entreprise_view' %}aria-current="page"{% endif %}>Les entreprises</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </div>
 </header>

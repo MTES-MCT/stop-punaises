@@ -131,10 +131,6 @@ span.statut-infestation {
             li {
                 border-bottom: 1px solid var(--border-default-grey);
                 margin-bottom: 6px;
-
-                &.active {
-                    border-left: 2px solid var(--text-action-high-blue-france);
-                }
     
                 a.fr-btn {
                     justify-content: flex-start;
