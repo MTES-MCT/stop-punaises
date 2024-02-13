@@ -44,7 +44,7 @@ function refreshTableWithSearch() {
   listTable.draw();
   let countEntreprise = listTable.rows( {search:'applied'} ).count();
   $("span#count-entreprise").text(generateTableTitleFromDatatable('entreprise'));
-  document.title = generatePageTitleFromDatatable('Les données historiques', 'entreprise');
+  document.title = generatePageTitleFromDatatable('Les entreprises partenaires', 'entreprise');
 }
 
 function generatePageTitleFromDatatable(prefix, element) {
