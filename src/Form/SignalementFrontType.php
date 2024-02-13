@@ -131,7 +131,7 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-input',
                     'maxlength' => '100',
                     'placeholder' => 'Nom du bailleur',
-                    'autocomplete' => 'nom',
+                    'autocomplete' => 'organization',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',

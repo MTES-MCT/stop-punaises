@@ -76,7 +76,7 @@ class EntrepriseType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
-                    'placeholder' => 'claude.petit@courriel.fr',
+                    'placeholder' => 'contact@sarl-stop-punaises.fr',
                     'autocomplete' => 'email',
                 ],
                 'label_attr' => [
