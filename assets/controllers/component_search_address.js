@@ -88,7 +88,7 @@ function initSearchAddress() {
     }
   });
 
-  $('a.skip-search-address').on('click', function(){
+  $('button.skip-search-address').on('click', function(){
     if ($('.address-fields').length > 0) {
       $('.address-fields').removeClass('fr-hidden');
       $('.search-address').slideUp(200);
