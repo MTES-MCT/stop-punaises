@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion à l'espace pro{% endblock %}
+{% block title %}Connexion à l'espace pro{% if error %} | Erreur d'identification{% endif %}{% endblock %}
 
 {% block body %}
 <div class="fr-container fr-py-5w">
@@ -11,26 +11,22 @@
             <h2>Se connecter avec son compte</h2>
 
             <form class="needs-validation fr-mb-5w" name="login-form" method="POST" novalidate="">
-                {% if error %}
-                <div class="fr-form-group">
-                    <div class="fr-alert fr-alert--error">
-                        <h3 class="fr-alert__title">Erreur d'identification</h3>
-                        <p>Ces identifiants ne correspondent à aucun compte existant. Veuillez réessayer.</p>
-                    </div>
-                </div>
-                {% endif %}
-
-                <div class="fr-input-group">
+                <div class="fr-input-group {% if error %}fr-input-group--error"{% endif %}>
                     <label class="fr-label" for="login-email">Identifiant
                         <span class="fr-hint-text">Format attendu : nom@domaine.fr</span>
                     </label>
-                    <input class="fr-input" type="email" id="login-email" name="email" value="{{ last_username }}" required>
+                    <input class="fr-input" type="email" id="login-email" name="email" value="{{ last_username }}" autocomplete="email" required>
+                    {% if error %}
+                    <p id="text-input-error-desc-error" class="fr-error-text">
+                        Ces identifiants ne correspondent à aucun compte existant.
+                    </p>
+                    {% endif %}
                 </div>
 
-                <div class="fr-password">
+                <div class="fr-password {% if error %}fr-input-group--error"{% endif %}">
                     <label class="fr-label" for="login-password">Mot de passe</label>
                     <div class="fr-input-wrap">
-                        <input class="fr-input fr-password__input" type="password" id="login-password" name="password" aria-required="true" required>
+                        <input class="fr-input fr-password__input" type="password" id="login-password" name="password" aria-required="true" autocomplete="curent-password" required>
                     </div>
                     <div class="fr-password__checkbox fr-checkbox-group fr-checkbox-group--sm">
                         <input aria-label="Afficher le mot de passe" id="login-password-show" type="checkbox" aria-describedby="login-password-show-messages">
