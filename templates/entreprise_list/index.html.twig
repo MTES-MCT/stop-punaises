@@ -1,6 +1,6 @@
 {% extends 'base-back.html.twig' %}
 
-{% block title %}Les entreprises partenaires{% endblock %}
+{% block title %}Les entreprises partenaires - {{ count_entreprises }} entreprises trouvées{% endblock %}
 
 {% block body %}
 {% include "entreprise_list/modal-create-entreprise.html.twig" %}
@@ -19,7 +19,7 @@
         </div>
 
         <div class="fr-mt-3w">
-            <h2><span id="count-entreprise">{{ count_entreprises }}</span> entreprises trouvées</h2>
+            <h2><span id="count-entreprise">0 entreprise trouvée</h2>
 
             {% if entreprises is not empty %}
                 <table id="datatable" class="nowrap">
