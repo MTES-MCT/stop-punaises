@@ -18,11 +18,12 @@ class ContactType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'row_attr' => [
-                    'class' => 'fr-input-group fr-col-12 fr-col-md-6',
+                    'class' => 'fr-input-group fr-col-12',
                 ],
                 'attr' => [
                     'class' => 'fr-input',
                     'placeholder' => 'Claude Petit',
+                    'autocomplete' => 'name',
                 ],
                 'label' => 'Votre nom',
                 'constraints' => [
@@ -31,13 +32,15 @@ class ContactType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'row_attr' => [
-                    'class' => 'fr-input-group fr-col-12 fr-col-md-6',
+                    'class' => 'fr-input-group fr-col-12',
                 ],
                 'attr' => [
                     'class' => 'fr-input',
                     'placeholder' => 'claude.petit@courriel.fr',
+                    'autocomplete' => 'email',
                 ],
-                'label' => 'Votre adresse courriel',
+                'label' => 'Votre adresse courriel <span class="fr-hint-text">Format attendu : nom@domaine.fr</span>',
+                'label_html' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Merci de renseigner votre email.'),
                     new Assert\Email(mode: Email::VALIDATION_MODE_STRICT, message: 'Votre adresse e-mail doit être au bon format.'),
@@ -52,7 +55,8 @@ class ContactType extends AbstractType
                     'rows' => 10,
                     'minlength' => 10,
                 ],
-                'label' => 'Votre message',
+                'label' => 'Votre message <span class="fr-hint-text">Format attendu : doit comporter au moins 10 caractères.</span>',
+                'label_html' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Merci de renseigner votre message.'),
                     new Assert\Length(min: 10, minMessage: 'Votre message doit comporter au moins 10 caractères.'),

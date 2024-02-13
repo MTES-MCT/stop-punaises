@@ -49,9 +49,41 @@
             <div class="fr-col-11 fr-col-md-8 fr-py-5w">
                 {{ form_start(form) }}
                 <div class="fr-grid-row fr-grid-row--gutters">
-                    {{ form_row(form.nom) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.message) }}
+                    <div class="fr-col-12">
+                        {{ form_label(form.nom) }}
+                        {{ form_widget(form.nom) }}
+                        {% if form.nom.vars.errors|length > 0 %}
+                            {% for error in form.nom.vars.errors %}
+                                <p id="text-input-error-desc-error" class="fr-error-text">
+                                    {{ error.message }}
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <div class="fr-col-12">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                        {% if form.email.vars.errors|length > 0 %}
+                            {% for error in form.email.vars.errors %}
+                                <p id="text-input-error-desc-error" class="fr-error-text">
+                                    {{ error.message }}
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <div class="fr-col-12">
+                        {{ form_label(form.message) }}
+                        {{ form_widget(form.message) }}
+                        {% if form.message.vars.errors|length > 0 %}
+                            {% for error in form.message.vars.errors %}
+                                <p id="text-input-error-desc-error" class="fr-error-text">
+                                    {{ error.message }}
+                                </p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
                 {{ form_end(form) }}
             </div>
