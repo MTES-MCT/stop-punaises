@@ -20,23 +20,34 @@
 {% endif %}
 
 {% set stepLabel = '' %}
+{% set nextStepLabel = '' %}
 {% if signalement.autotraitement %}
     {% set stepLabel = stepIndex > 2 ? 'Traitement terminé' : 'Protocole envoyé' %}
+    {% set nextStepLabel = stepIndex > 1 ? 'Traitement terminé' : 'Protocole envoyé' %}
 {% else %}
     {% if stepIndex == 1 %}
         {% set stepLabel = 'Signalement déposé' %}
+        {% set nextStepLabel = 'Echanges entreprises' %}
     {% elseif stepIndex == 2 %}
         {% set stepLabel = 'Echanges entreprises' %}
+        {% set nextStepLabel = 'Traitement en cours' %}
     {% elseif stepIndex == 3 %}
         {% set stepLabel = 'Traitement en cours' %}
+        {% set nextStepLabel = 'Traitement terminé' %}
     {% else %}
         {% set stepLabel = 'Traitement terminé' %}
     {% endif %}
 {% endif %}
 
 <div class="fr-stepper">
-    <div class="fr-stepper__steps" data-fr-current-step="{{ stepIndex }}" data-fr-steps="{{ stepMax }}"></div>
     <h3 class="fr-stepper__title">
         {{ stepLabel }}
+        <span class="fr-stepper__state">Étape {{ stepIndex }} sur {{ stepMax }}</span>
     </h3>
+    <div class="fr-stepper__steps" data-fr-current-step="{{ stepIndex }}" data-fr-steps="{{ stepMax }}"></div>
+    {% if stepIndex < stepMax %}
+        <p class="fr-stepper__details">
+            <span class="fr-text--bold">Étape suivante :</span> {{ nextStepLabel}}
+        </p>        
+    {% endif %}
 </div>
