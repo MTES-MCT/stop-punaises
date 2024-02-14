@@ -29,7 +29,7 @@
                 {% if event.domain is same as(constant('App\\Entity\\Event::DOMAIN_PROTOCOLE') ) %}
                     <div class="event-item-action fr-mt-3v">
                         <a class="fr-link fr-link--download" download href="{{ event.actionLink }}">
-                            {{ event.actionLabel }}<span class="fr-link__detail">PDF</span>
+                            {{ event.actionLabel }}<span class="fr-link__detail">PDF - {{size_pdf|format_bytes}}</span>
                         </a>
                     </div>
                 {% else  %}
