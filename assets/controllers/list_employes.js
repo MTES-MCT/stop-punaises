@@ -25,10 +25,21 @@ function startListeEmployesApp() {
       zeroRecords: "Aucun employé trouvé",
       paginate: {
         first: "|&lt;",
-        previous: "&lt;",
-        next: "&gt;",
+        previous: "&lt; Page précédente",
+        next: "Page suivante &gt;",
         last: "&gt;|"
       }
+    },
+    initComplete: function(settings, json) {
+      $('#datatable_paginate').attr('role', 'navigation');
+      $('#datatable_paginate').attr('aria-label', 'Pagination');
+      $('#datatable_previous').attr('title', 'Page précédente');
+      $('#datatable_next').attr('title', 'Page suivante');
+      $('.paginate_button').each(function(index, element) {
+        if ($(element).text().indexOf('Page') == -1) {
+          $(element).attr('title', 'Page ' + index)
+        }
+      })
     }
   });
 

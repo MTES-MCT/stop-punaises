@@ -27,10 +27,21 @@ function startListeSignalementsApp() {
       zeroRecords: "Aucun signalement trouvé",
       paginate: {
         first: "|&lt;",
-        previous: "&lt;",
-        next: "&gt;",
+        previous: "&lt; Page précédente",
+        next: "Page suivante &gt;",
         last: "&gt;|"
       }
+    },
+    initComplete: function(settings, json) {
+      $('#datatable-ajax_paginate').attr('role', 'navigation');
+      $('#datatable-ajax_paginate').attr('aria-label', 'Pagination');
+      $('#datatable-ajax_previous').attr('title', 'Page précédente');
+      $('#datatable-ajax_next').attr('title', 'Page suivante');
+      $('.paginate_button').each(function(index, element) {
+        if ($(element).text().indexOf('Page') == -1) {
+          $(element).attr('title', 'Page ' + index)
+        }
+      })
     }
   }
   let idTable = 'table#datatable'
