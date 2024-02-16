@@ -32,7 +32,7 @@ function startListeSignalementsApp() {
         last: "&gt;|"
       }
     },
-    initComplete: function(settings, json) {
+    drawCallback: function( oSettings ) {
       $('#datatable-ajax_paginate').attr('role', 'navigation');
       $('#datatable-ajax_paginate').attr('aria-label', 'Pagination');
       $('#datatable-ajax_previous').attr('title', 'Page précédente');
@@ -42,6 +42,11 @@ function startListeSignalementsApp() {
           $(element).attr('title', 'Page ' + index)
         }
       })
+
+      // refresh count when ajax call is done
+      if (oSettings.json !== undefined) {
+        $("span#count-signalement").text(oSettings.json.recordsFiltered);
+      }
     }
   }
   let idTable = 'table#datatable'

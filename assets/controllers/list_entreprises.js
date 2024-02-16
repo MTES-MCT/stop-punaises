@@ -31,7 +31,7 @@ function startListeEntreprisesApp() {
         last: "&gt;|"
       }
     },
-    initComplete: function(settings, json) {
+    drawCallback: function(settings, json) {
       $('#datatable_paginate').attr('role', 'navigation');
       $('#datatable_paginate').attr('aria-label', 'Pagination');
       $('#datatable_previous').attr('title', 'Page précédente');
