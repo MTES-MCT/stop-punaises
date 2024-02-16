@@ -6,7 +6,7 @@
 <div class="creer-signalement">
     <div class="fr-p-5w">
         <div class="fr-container">
-            <h1>Détails de l'intervention</h1>
+            <h1>Création manuelle d’un signalement et d’une intervention</h1>
             <p>
                 Renseignez les détails du signalement et de votre intervention en complétant le formulaire ci-dessous.
                 Une fois toutes les étapes passées, vous pourrez le valider.
@@ -18,12 +18,15 @@
         {{ form_row(form._token) }}
 
         <div class="fr-stepper">
-            <h1 class="fr-stepper__title fr-h2">
+            <h2 class="fr-stepper__title fr-h2">
                 <span class="fr-stepper__state">Étape <span>1</span> sur 2</span>
-                <span data-step="1">Logement</span>
+                <span data-step="1">Le logement et son occupant</span>
                 <span class="fr-stepper__hidden" data-step="2">Intervention</span>
-            </h1>
+            </h2>
             <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="2"></div>
+            <p class="fr-stepper__details">
+                <span class="fr-text--bold">Étape suivante :</span> Intervention
+            </p>
         </div>
 
         <div id="form-creer-signalement-step-1">
