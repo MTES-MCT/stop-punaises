@@ -70,16 +70,16 @@
                 <div class="fr-col-6 fr-col-md-3">
                     <div style="background: url('{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}')no-repeat center center/cover">
                         <a class="fr-btn fr-icon-eye-line" href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}"
-                           title="{{ 'Photo ' ~ (index + 1) ~ ' envoyée par l\'usager' }}"
-                           aria-label="{{ 'Photo ' ~ (index + 1) ~ 'envoyée par l\'usager'  }}"
+                           title="Voir la photo {{ index + 1 }} {{ photo.file }} - nouvelle fenêtre"
+                           aria-label="Voir la photo {{ index + 1 }} {{ photo.file }} - nouvelle fenêtre"
                            target="_blank"
-                           rel="noopener"></a>
+                           rel="noopener">Voir la photo {{ index + 1 }} {{ photo.file }}</a>
                         {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_ENTREPRISE')
                             and signalement.entreprise is not null
                             and signalement.entreprise.id == app.user.entreprise.id) %}
                             <form action="{{ path('app_delete_photo', {'uuid': signalement.uuid, 'filename': photo.file }) }}" method="POST">
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_delete_file_'~signalement.id) }}">
-                                <button class="fr-btn fr-icon-delete-line" title="Supprimer la photo"></button>
+                                <button class="fr-btn fr-icon-delete-line" title="Supprimer la photo {{ index + 1 }} {{ photo.file }}">Supprimer la photo {{ index + 1 }} {{ photo.file }}</button>
                             </form>
                         {% endif %}
                     </div>
