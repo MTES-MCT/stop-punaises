@@ -662,6 +662,11 @@ span.image-caption {
         text-align: right;
     }
 
+    .stepper-previous .fr-icon-checkbox-circle-line {
+        float: right;
+        margin-left: 1rem;
+    }
+
     .display-if-diagnostic, .display-if-traitement, .display-if-biocide {
         display: none;
     }
