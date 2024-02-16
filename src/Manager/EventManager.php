@@ -7,7 +7,6 @@ use App\Entity\MessageThread;
 use App\Entity\Signalement;
 use App\Factory\EventFactory;
 use App\Repository\EventRepository;
-use App\Utils\FileHelper;
 use Doctrine\Persistence\ManagerRegistry;
 
 class EventManager extends AbstractManager
@@ -68,9 +67,7 @@ class EventManager extends AbstractManager
         ?string $recipient,
         ?int $userId,
         ?string $pdfUrl,
-        ?int $pdfSize,
     ): Event {
-        $pdfSizeFormatted = $pdfSize ? ' ('.FileHelper::fileSizeFormatter($pdfSize, 2).')' : '';
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_PROTOCOLE,
             title: 'Protocole envoyé',
@@ -78,7 +75,7 @@ class EventManager extends AbstractManager
             userId: $userId,
             recipient: $recipient,
             actionLink: $pdfUrl ? $pdfUrl : null,
-            actionLabel: $pdfUrl ? 'Télécharger le protocole'.$pdfSizeFormatted : null,
+            actionLabel: $pdfUrl ? 'Télécharger le protocole' : null,
             entityName: Signalement::class,
             entityUuid: $signalement->getUuid()
         );

@@ -4,7 +4,7 @@
 
 {% for event in events %}
     <div class="event-item fr-mb-3w fr-pb-3w">
-        <div class="even-item-date">{{ event.date.format('d/m/Y') }}</div>
+        <div class="even-item-date fr-text--light">{{ event.date.format('d/m/Y') }}</div>
         {% if event.label is defined and event.label is not null %}
             <div><p class="fr-badge fr-badge--warning fr-badge--no-icon">{{ event.label }}</p></div>
         {% endif %}
@@ -26,9 +26,17 @@
                     <a href="#" class="{{ event.actionLink }}">{{ event.actionLabel }}</a>
                 </div>
             {% else  %}
-                <div class="event-item-action fr-mt-3v">
-                    <a href="{{ event.actionLink }}" {% if event.domain is not defined %} target="_blank" {% endif %}>{{ event.actionLabel }}</a>
-                </div>
+                {% if event.domain is same as(constant('App\\Entity\\Event::DOMAIN_PROTOCOLE') ) %}
+                    <div class="event-item-action fr-mt-3v">
+                        <a class="fr-link fr-link--download" download href="{{ event.actionLink }}">
+                            {{ event.actionLabel }}<span class="fr-link__detail">PDF - {{size_pdf|format_bytes}}</span>
+                        </a>
+                    </div>
+                {% else  %}
+                    <div class="event-item-action fr-mt-3v">
+                        <a href="{{ event.actionLink }}" {% if event.domain is not defined %} target="_blank" {% endif %}>{{ event.actionLabel }}</a>
+                    </div>
+                {% endif %}
             {% endif %}
         {% endif %}
     </div>
