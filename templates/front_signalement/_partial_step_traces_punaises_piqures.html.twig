@@ -54,15 +54,10 @@
 
     <div class="fr-form-group">
         <div class="fr-select-group">
-            <label class="fr-label required">
-                J'ai des <span class="underline">piqûres</span> de punaises de lit
-                <br>
-                <a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-piqures">Plus d'informations</a>
-            </label>
             <div class="fr-mt-3v">
                 {% include 'common/components/form/list-radio-buttons.html.twig' with {
                     'name': 'piquresExistantes',
-                    'displayLabel': false,
+                    'displayLabel': true,
                     'formObject': form.piquresExistantes,
                     'errorLabel': 'Veuillez renseigner si vous avez des piqûres de punaises de lit.'
                 } %}
