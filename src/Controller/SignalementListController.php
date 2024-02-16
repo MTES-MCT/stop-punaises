@@ -30,7 +30,6 @@ class SignalementListController extends AbstractController
         }
 
         return $this->render('signalement_list/signalements.html.twig', [
-            'count_signalement' => \count($signalements),
             'territoires' => $territoires,
             'niveaux_infestation' => InfestationLevel::getLabelList(),
             'entreprise' => $entreprise,
@@ -52,7 +51,6 @@ class SignalementListController extends AbstractController
 
         return $this->render('signalement_list/historique.html.twig', [
             'display_signalement_create_success' => '1' == $request->get('create_success_message'),
-            'count_signalement' => \count($signalements),
             'signalements' => $signalements,
             'entreprises' => $entreprises,
             'niveaux_infestation' => InfestationLevel::getLabelList(),
@@ -68,7 +66,6 @@ class SignalementListController extends AbstractController
         $signalements = $signalementRepository->findFromInactiveTerritories();
 
         return $this->render('signalement_list/hors-perimetre.html.twig', [
-            'count_signalement' => \count($signalements),
             'signalements' => $signalements,
             'territoires' => $territoires,
         ]);
@@ -83,7 +80,6 @@ class SignalementListController extends AbstractController
         $signalements = $signalementRepository->findErpTransportsSignalements();
 
         return $this->render('signalement_list/erp-transports.html.twig', [
-            'count_signalement' => \count($signalements),
             'signalements' => $signalements,
             'territoires' => $territoires,
         ]);
