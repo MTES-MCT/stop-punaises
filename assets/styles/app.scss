@@ -658,11 +658,13 @@ span.image-caption {
         margin-right: 10px;
     }
 
-    .stepper-next {
+    .stepper-next, .stepper-previous {
         text-align: right;
     }
-    .stepper-previous .fr-btn {
+
+    .stepper-previous .fr-icon-checkbox-circle-line {
         float: right;
+        margin-left: 1rem;
     }
 
     .display-if-diagnostic, .display-if-traitement, .display-if-biocide {

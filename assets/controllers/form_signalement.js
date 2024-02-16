@@ -7,7 +7,7 @@ $(function() {
 
 function startCreerSignalementApp() {
   // Navigation
-  $('nav.stepper-next a').on('click', function() {
+  $('nav.stepper-next button').on('click', function() {
     if (checkSignalementFirstStep()) {
       $('.fr-stepper__state span').text('2');
       $('.fr-stepper__title span[data-step=1]').addClass('fr-stepper__hidden');
@@ -18,7 +18,7 @@ function startCreerSignalementApp() {
     }
   });
 
-  $('nav.stepper-previous a').on('click', function() {
+  $('nav.stepper-previous button.go-previous').on('click', function() {
     $('.fr-stepper__state span').text('1');
     $('.fr-stepper__title span[data-step=1]').removeClass('fr-stepper__hidden');
     $('.fr-stepper__title span[data-step=2]').addClass('fr-stepper__hidden');
