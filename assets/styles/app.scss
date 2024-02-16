@@ -870,6 +870,12 @@ span.image-caption {
         }
     }
 
+    #step-info_logement {
+        label.fr-toggle__label::before {
+            margin-right: 1rem;
+        }
+    }
+
     #step-recommandation {
         span.niveau-infestation {
             padding: 10px 17px;
