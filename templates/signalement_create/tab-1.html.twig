@@ -4,7 +4,7 @@
     <div class="fr-col-12 fr-col-md-6">
         <div class="fr-form-group">
             <div class="fr-input-group search-address">
-                <label for="rechercheAdresse" class="column-label">Rechercher l'adresse</label>
+                <label for="rechercheAdresse" class="column-label fr-label">Rechercher l'adresse</label>
                 <span class="fr-hint-text help-text">
                     Saisissez le début de votre adresse puis sélectionnez-la dans la liste. 
                     <br>
@@ -54,11 +54,10 @@
 
         {{ form_widget(form.geoloc) }}
 
-        <div class="fr-mt-3w">
-            <span class="column-label fr-mt-3v">Informations complémentaires</span>
-        </div>
+      <fieldset class="fr-fieldset fr-mt-3w" role="group">
+        <legend class="fr-fieldset__legend column-label">Informations complémentaires</legend>
 
-        <div class="fr-form-group fr-mt-3v">
+        <div class="fr-fieldset__element fr-mt-3v">
             <div class="fr-select-group">
                 {{ form_label(form.typeLogement) }}
                 {{ form_widget(form.typeLogement) }}
@@ -68,7 +67,7 @@
             </div>
         </div>
 
-        <div id="form-group-localisation-immeuble" class="fr-form-group fr-form-group-hidden fr-mt-3v">
+        <div id="form-group-localisation-immeuble" class="fr-fieldset__element fr-form-group-hidden fr-mt-3v">
             <div class="fr-select-group">
                 {{ form_label(form.localisationDansImmeuble) }}
                 {{ form_widget(form.localisationDansImmeuble) }}
@@ -78,58 +77,59 @@
             </div>
         </div>
 
-        <div class="fr-form-group fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.construitAvant1948) }}
-                
-                {% for key, choice in form.construitAvant1948.children %}
-                    <div class="fr-radio-group">
-                        {{ form_widget(choice) }}
-                        {{ form_label(choice) }}
+        <div class="fr-fieldset__element fr-mt-3v">
+                <fieldset class="fr-fieldset" role="group">
+                    <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.construitAvant1948.vars.label}}</legend>
+                    <div class="fr-fieldset__element">
+                    {% for key, choice in form.construitAvant1948.children %}
+                        <div class="fr-radio-group">
+                            {{ form_widget(choice) }}
+                            {{ form_label(choice) }}
+                        </div>
+                    {% endfor %}
+                    <p class="fr-error-text fr-hidden">
+                        Veuillez indiquer l'année de construction
+                    </p>
                     </div>
-                {% endfor %}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez indiquer l'année de construction
-                </p>
-            </div>
+                </fieldset>
         </div>
-
+      </fieldset>
     </div>
 
     <div class="fr-col-12 fr-col-md-6">
-        <span class="column-label">L'occupant</span>
-        <br>
+        <fieldset class="fr-fieldset" role="group">
+            <legend class="fr-fieldset__legend column-label">L'occupant</legend>
 
-        <div class="fr-form-group fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.nomOccupant) }}
-                {{ form_widget(form.nomOccupant) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le nom de l'occupant.
-                </p>
+            <div class="fr-fieldset__element fr-mt-n2v">
+                <div class="fr-input-group">
+                    {{ form_label(form.nomOccupant) }}
+                    {{ form_widget(form.nomOccupant) }}
+                    <p class="fr-error-text fr-hidden">
+                        Veuillez renseigner le nom de l'occupant.
+                    </p>
+                </div>
             </div>
-        </div>
 
-        <div class="fr-form-group fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.prenomOccupant) }}
-                {{ form_widget(form.prenomOccupant) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le prénom de l'occupant.
-                </p>
+            <div class="fr-fieldset__element fr-mt-3v">
+                <div class="fr-input-group">
+                    {{ form_label(form.prenomOccupant) }}
+                    {{ form_widget(form.prenomOccupant) }}
+                    <p class="fr-error-text fr-hidden">
+                        Veuillez renseigner le prénom de l'occupant.
+                    </p>
+                </div>
             </div>
-        </div>
 
-        <div class="fr-form-group fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.telephoneOccupant) }}
-                {{ form_widget(form.telephoneOccupant) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le numéro de téléphone de l'occupant.
-                </p>
+            <div class="fr-fieldset__element fr-mt-3v">
+                <div class="fr-input-group">
+                    {{ form_label(form.telephoneOccupant) }}
+                    {{ form_widget(form.telephoneOccupant) }}
+                    <p class="fr-error-text fr-hidden">
+                        Veuillez renseigner le numéro de téléphone de l'occupant.
+                    </p>
+                </div>
             </div>
-        </div>
-
+        </fieldset>
         <div class="fr-form-group fr-mt-3v">
             <div class="fr-input-group">
                 {{ form_label(form.emailOccupant) }}

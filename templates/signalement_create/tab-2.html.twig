@@ -81,20 +81,20 @@
         </div>
 
         <div class="fr-form-group display-if-diagnostic fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.typeDiagnostic) }}
-                
-                {% for key, choice in form.typeDiagnostic.children %}
-                    <div class="fr-radio-group">
-                        {{ form_widget(choice) }}
-                        {{ form_label(choice) }}
-                    </div>
-                {% endfor %}
-
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le type de diagnostic
-                </p>
-            </div>
+             <fieldset class="fr-fieldset" role="group">
+                <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.typeDiagnostic.vars.label}}</legend>
+                <div class="fr-fieldset__element">
+                    {% for key, choice in form.typeDiagnostic.children %}
+                        <div class="fr-radio-group">
+                            {{ form_widget(choice) }}
+                            {{ form_label(choice) }}
+                        </div>
+                    {% endfor %}
+                    <p class="fr-error-text fr-hidden">
+                        Veuillez renseigner le type de diagnostic
+                    </p>
+                </div>
+            </fieldset>
         </div>
     </div>
 
@@ -120,19 +120,20 @@
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.faitVisitePostTraitement) }}
-                
-                {% for key, choice in form.faitVisitePostTraitement.children %}
-                    <div class="fr-radio-group">
-                        {{ form_widget(choice) }}
-                        {{ form_label(choice) }}
-                    </div>
-                {% endfor %}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner la visite post-traitement
-                </p>
-            </div>
+             <fieldset class="fr-fieldset" role="group">
+                <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.faitVisitePostTraitement.vars.label}}</legend>
+                    <div class="fr-fieldset__element">
+                    {% for key, choice in form.faitVisitePostTraitement.children %}
+                        <div class="fr-radio-group">
+                            {{ form_widget(choice) }}
+                            {{ form_label(choice) }}
+                        </div>
+                    {% endfor %}
+                    <p class="fr-error-text fr-hidden">
+                        Veuillez renseigner la visite post-traitement
+                    </p>
+                </div>
+             </fieldset>
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
