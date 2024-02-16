@@ -71,6 +71,10 @@ span.statut-infestation {
     text-align: right;
 }
 
+.word-wrap {
+    word-wrap: break-word;
+}
+
 .add-button-container {
     float: right;
 }
@@ -611,11 +615,6 @@ span.image-caption {
         .no-accordions-group {
             display: none;
         }
-    }
-
-    .word-wrap {
-        word-wrap: break-word;
-        hyphens: auto;
     }
 }
 @media (min-width: 768px) {
