@@ -56,6 +56,22 @@
                 </div>
             </div>
 
+            <div class="fr-grid-row fr-grid-row--right fr-mb-5v">
+                <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                    <label class="fr-label" for="select-sort-table-by">
+                        Trier la liste par
+                    </label>
+                    <select class="fr-select" id="select-sort-table-by" name="select">
+                        <option value="" selected disabled hidden>Sélectionner une option</option>
+                        <option value="0">ID</option>
+                        <option value="1">Nom</option>
+                        <option value="2">Certification Biocide</option>
+                        <option value="3">Email</option>
+                        <option value="4">Téléphone</option>
+                    </select>
+                </div>
+            </div>
+
             {% if entreprise.employes is not empty %}
                 <table id="datatable" class="nowrap" aria-labelledby="liste-employes-title">
                     <thead>

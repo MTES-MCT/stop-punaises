@@ -41,6 +41,11 @@ function startListeEntreprisesApp() {
     $("span#count-entreprise").text(generateTableTitleFromDatatable('entreprise'));
     document.title = generatePageTitleFromDatatable('Les entreprises partenaires', 'entreprise');
   })
+  
+  $('#select-sort-table-by').on('change', function() {
+    listTable.order([Number($('#select-sort-table-by').val()), 'asc'])
+      .draw();
+  })
 }
 
 function refreshTableWithSearch() {
