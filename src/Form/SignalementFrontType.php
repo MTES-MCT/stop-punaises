@@ -239,7 +239,8 @@ class SignalementFrontType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => 'J\'ai des piqures de punaises de lit',
+                'label' => 'J\'ai des <span class="underline">piqûres</span> de punaises de lit<br><a href="#" class="info" data-fr-opened="false" aria-controls="fr-modal-piqures">Plus d\'informations</a>',
+                'label_html' => true,
                 'row_attr' => [
                     'class' => 'fr-select-group',
                 ],
