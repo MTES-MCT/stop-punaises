@@ -25,6 +25,8 @@ class EntrepriseType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '255',
+                    'placeholder' => 'SARL Stop Punaises',
+                    'autocomplete' => 'organization',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -36,6 +38,8 @@ class EntrepriseType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '50',
+                    'placeholder' => '12345678901234',
+                    'autocomplete' => 'off',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -48,6 +52,8 @@ class EntrepriseType extends AbstractType
                     'class' => 'fr-input',
                     'pattern' => '^(?:0|\(?\+33\)?\s?|0033\s?)[1-9](?:[\.\-\s]?\d\d){4}$',
                     'maxlength' => '20',
+                    'placeholder' => '0605040302',
+                    'autocomplete' => 'tel-national',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -70,6 +76,8 @@ class EntrepriseType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'placeholder' => 'contact@sarl-stop-punaises.fr',
+                    'autocomplete' => 'email',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',

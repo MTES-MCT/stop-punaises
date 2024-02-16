@@ -56,6 +56,7 @@ class SignalementFrontType extends AbstractType
             ->add('adresse', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
+                    'autocomplete' => 'address-line1',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -69,6 +70,7 @@ class SignalementFrontType extends AbstractType
                     'pattern' => '[0-9]{5}',
                     'maxlength' => '5',
                     'minlength' => '5',
+                    'autocomplete' => 'postal-code',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -90,6 +92,7 @@ class SignalementFrontType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'autocomplete' => 'address-level2',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -128,6 +131,7 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-input',
                     'maxlength' => '100',
                     'placeholder' => 'Nom du bailleur',
+                    'autocomplete' => 'organization',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -271,6 +275,7 @@ class SignalementFrontType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'autocomplete' => 'family-name',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -282,6 +287,7 @@ class SignalementFrontType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'autocomplete' => 'given-name',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -293,6 +299,7 @@ class SignalementFrontType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '15',
+                    'autocomplete' => 'tel-national',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
@@ -304,6 +311,7 @@ class SignalementFrontType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
+                    'autocomplete' => 'email',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
