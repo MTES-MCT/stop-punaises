@@ -88,10 +88,15 @@ function initSearchAddress() {
     }
   });
 
-  $('button.skip-search-address').on('click', function(){
+  $('#toggle-skip-search-address').on('click', function(){
     if ($('.address-fields').length > 0) {
-      $('.address-fields').removeClass('fr-hidden');
-      $('.search-address').slideUp(200);
+      if ($('#toggle-skip-search-address').is(':checked')) {
+        $('.address-fields').removeClass('fr-hidden');
+        $('.search-address').slideUp(200);
+      } else {
+        $('.address-fields').addClass('fr-hidden');
+        $('.search-address').slideDown(200);
+      }
     }
   });
 
