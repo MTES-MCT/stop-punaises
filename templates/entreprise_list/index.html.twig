@@ -46,7 +46,11 @@
                                         {{ territoire.zip }}{{ not loop.last ? ',' }}
                                     {% endfor %}
                                 </td>
-                                <td class="button-view"><a href="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir l'entreprise {{ entreprise.nom }}"></a></td>
+                                <td class="button-view">
+                                    <a href="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir l'entreprise {{ entreprise.nom }}">
+                                        Voir l'entreprise {{ entreprise.nom }}
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

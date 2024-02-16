@@ -77,7 +77,9 @@
                                 <td>{{ employe.email }}</td>
                                 <td>{{ employe.telephone|format_phone }}</td>
                                 <td class="button-view">
-                                    <button class="fr-btn fr-icon-pencil-line" data-fr-opened="false" aria-controls="fr-modal-edit-employe-{{employe.uuid}}"></button>
+                                    <button class="fr-btn fr-icon-pencil-line" data-fr-opened="false" aria-controls="fr-modal-edit-employe-{{employe.uuid}}" title="Editer l'employé {{ employe }}">
+                                        Editer l'employé {{ employe }}
+                                    </button>
                                 </td>
                             </tr>
                         {% endfor %}

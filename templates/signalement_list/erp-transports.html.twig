@@ -62,7 +62,9 @@
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
                             <td>{{ signalement.territoire.zip }}</td>
                             <td class="button-view">
-                                <button class="fr-btn fr-icon-arrow-right-fill" data-fr-opened="false" aria-controls="fr-modal-signalement-erp-transports-{{signalement.uuid}}"></button>
+                                <button class="fr-btn fr-icon-arrow-right-fill" data-fr-opened="false" aria-controls="fr-modal-signalement-erp-transports-{{signalement.uuid}}" title="Voir le signalement {{ signalement.reference }}">
+                                    Voir le signalement {{ signalement.reference }}
+                                </button>
                             </td>
                         </tr>
                     {% endfor %}

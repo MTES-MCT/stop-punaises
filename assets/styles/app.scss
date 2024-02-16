@@ -88,6 +88,8 @@ span.statut-infestation {
         width: 100%;
         .button-view {
             .fr-btn.fr-icon-arrow-right-fill, .fr-btn.fr-icon-pencil-line {
+                font-size: 0px;
+                line-height: 0px;
                 display: inline-block;
                 border-radius: 20px;
                 min-height: 1.5rem;
@@ -95,6 +97,11 @@ span.statut-infestation {
                 &::before {
                     margin-right: 0px;
                 }
+            }
+
+            a {
+                font-size: 0px;
+                line-height: 0px;
             }
         }
     }
