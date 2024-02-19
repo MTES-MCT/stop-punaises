@@ -22,6 +22,7 @@
     <div class="fr-form-group">
         <div class="fr-input-group">
             {{ form_label(form.superficie) }}
+            {{ form_help(form.superficie) }}
             {{ form_widget(form.superficie) }}
             <span class="input-precision">m²</span>
             <p id="{{ form.superficie.vars.id }}-error" class="fr-error-text fr-hidden">
@@ -66,6 +67,7 @@
         <div class="fr-form-group">
             <div class="fr-input-group">
                 {{ form_label(form.codePostal) }}
+                {{ form_help(form.codePostal) }}
                 {{ form_widget(form.codePostal) }}
                 <p id="{{ form.codePostal.vars.id }}-error" class="fr-error-text fr-hidden">
                     Veuillez renseigner le code postal.

@@ -84,6 +84,7 @@
     <div class="fr-form-group if-territory-open">
         <div class="fr-select-group">
             {{ form_label(form.telephoneOccupant) }}
+            {{ form_help(form.telephoneOccupant) }}
             {{ form_widget(form.telephoneOccupant) }}
             <p id="{{ form.telephoneOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
                 Veuillez renseigner votre numéro de téléphone.
@@ -94,6 +95,7 @@
     <div class="fr-form-group">
         <div class="fr-select-group">
             {{ form_label(form.emailOccupant) }}
+            {{ form_help(form.emailOccupant) }}
             {{ form_widget(form.emailOccupant) }}
             <p id="{{ form.emailOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
                 Veuillez renseigner votre adresse e-mail.
