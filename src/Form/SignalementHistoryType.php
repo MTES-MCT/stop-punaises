@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -338,7 +339,7 @@ class SignalementHistoryType extends AbstractType
                 'label' => 'Date de la visite post-traitement',
                 'required' => false,
             ])
-            ->add('prixFactureHT', TextType::class, [
+            ->add('prixFactureHT', NumberType::class, [
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
