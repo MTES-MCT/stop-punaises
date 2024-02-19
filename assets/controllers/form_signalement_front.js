@@ -446,12 +446,24 @@ class PunaisesFrontSignalementController {
 
     $('#file-upload').on('change', function(event) {
       $('.fr-front-signalement-photos').empty();
-      for (let i = 0; i < event.target.files.length; i++) {
-        let imgSrc = URL.createObjectURL(event.target.files[i]);
-        let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
-        strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
-        strAppend += '</div>';
-        $('.fr-front-signalement-photos').append(strAppend);   
+      let errorDiv = $('.fr-upload-group .fr-error-text');
+      for (let file of event.target.files) {
+          if (file.size > 10 * 1024 * 1024) {
+              errorDiv.text('Merci d\'ajouter une photo de moins de 10 Mo.')
+              errorDiv.removeClass('fr-hidden');
+              break;
+          } else if(file.type !== 'image/jpeg' && file.type !== 'image/png') {
+              errorDiv.text('Merci de choisir un fichier au format jpg ou png.')
+              errorDiv.removeClass('fr-hidden');
+              break;
+          } else {
+              let imgSrc = URL.createObjectURL(file);
+              let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
+              strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
+              strAppend += '</div>';
+              $('.fr-front-signalement-photos').append(strAppend);
+              errorDiv.addClass('fr-hidden');
+          }
       }
     });
   }

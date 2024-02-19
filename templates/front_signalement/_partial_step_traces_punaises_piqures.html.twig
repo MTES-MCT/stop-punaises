@@ -79,9 +79,12 @@
         <br>
         <div class="fr-upload-group">
             <label class="fr-label" for="file-upload">Ajouter des photos
-                <span class="fr-hint-text">Vous pouvez ajouter plusieurs photos à la fois.</span>
+                <span class="fr-hint-text">Taille maximale : 10 Mo. Formats supportés : jpg, png. Plusieurs fichiers possibles.</span>
             </label>
-            <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
+            <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple accept=".jpg, .jpeg, .png">
+            <p class="fr-error-text fr-hidden">
+                Merci d'ajouter une photo de moins de 10 Mo.
+            </p>
         </div>
         <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
         </div>
