@@ -114,10 +114,12 @@ class PunaisesFrontSignalementController {
       const postalCodePattern = /^\d{5}$/;
       if (!postalCodePattern.test($('input#' + idInput).val())) {
         $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+        $('input#' + idInput).attr('aria-describedby', idInput + '-error');
         return false;
       }
     } else {
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
@@ -206,6 +208,7 @@ class PunaisesFrontSignalementController {
     $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
     if ($('input#' + idInput).val() == '') {
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     return true;
@@ -217,17 +220,20 @@ class PunaisesFrontSignalementController {
 
     if ($('input#' + idInput).val() == '') {
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     let intVal = parseInt($('input#' + idInput).val() );
     if (isNaN(intVal)) {
       $('input#' + idInput).siblings('.fr-error-text').text('La superficie n\'est pas au bon format.');
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     if (intVal > 30000) {
       $('input#' + idInput).siblings('.fr-error-text').text('La superficie doit être inférieure à 30000 m².');
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     $('input#' + idInput).val(intVal);
@@ -246,6 +252,7 @@ class PunaisesFrontSignalementController {
 
     if (!canGoNext) {
       $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').removeClass('fr-hidden');
+      $('#signalement_front_' + idInput).attr('aria-describedby', idInput + '-error');
     }
     
     return canGoNext;
@@ -350,6 +357,7 @@ class PunaisesFrontSignalementController {
     // Cas particulier du champ de recherche : erreur à afficher si les champs d'adresse sont invisibles
     if ($('.address-fields').hasClass('fr-hidden')) {
       $('.search-address .fr-error-text').removeClass('fr-hidden');
+      $('input#rechercheAdresse').attr('aria-describedby', 'rechercheAdresse-error');
     } else {
       $('.search-address .fr-error-text').addClass('fr-hidden');
     }
@@ -447,14 +455,17 @@ class PunaisesFrontSignalementController {
     $('#file-upload').on('change', function(event) {
       $('.fr-front-signalement-photos').empty();
       let errorDiv = $('.fr-upload-group .fr-error-text');
+      let inputDiv = $('.fr-upload-group .fr-upload');
       for (let file of event.target.files) {
           if (file.size > 10 * 1024 * 1024) {
               errorDiv.text('Merci d\'ajouter une photo de moins de 10 Mo.')
               errorDiv.removeClass('fr-hidden');
+              inputDiv.attr('aria-describedby', 'file-upload-error');
               break;
           } else if(file.type !== 'image/jpeg' && file.type !== 'image/png') {
               errorDiv.text('Merci de choisir un fichier au format jpg ou png.')
               errorDiv.removeClass('fr-hidden');
+              inputDiv.attr('aria-describedby', 'file-upload-error');
               break;
           } else {
               let imgSrc = URL.createObjectURL(file);
@@ -657,12 +668,14 @@ class PunaisesFrontSignalementController {
     if (self.isTerritoryOpen && !self.isLogementSocial) {
       if (!self.checkSingleInput('signalement_front_telephoneOccupant') || $('#signalement_front_telephoneOccupant').val().length < 10 ) {
         $('input#signalement_front_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+        $('input#signalement_front_telephoneOccupant').attr('aria-describedby', 'signalement_front_telephoneOccupant-error');
         canGoNext = false;
       }
     }
     let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!self.checkSingleInput('signalement_front_emailOccupant') || !$('#signalement_front_emailOccupant').val().match(emailRegex)) {
       $('input#signalement_front_emailOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#signalement_front_emailOccupant').attr('aria-describedby', 'signalement_front_emailOccupant-error');
       canGoNext = false;
     }
     

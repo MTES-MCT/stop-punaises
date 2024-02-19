@@ -68,6 +68,7 @@ function sendSignalement() {
 
                             if (element.indexOf('adresse') > 0) {
                                 $('#rechercheAdresse').next().removeClass('fr-hidden');
+                                $('#rechercheAdresse').attr('aria-describedby', 'rechercheAdresse-error');
                             }
                         }
                         index++;
@@ -86,15 +87,18 @@ function handleFileUpload() {
         $('.fr-upload-group').next().addClass('fr-hidden')
 
         for (let file of event.target.files) {
+            let inputDiv = $('.fr-upload-group .fr-upload');
             if (file.size > 10 * 1024 * 1024) {
                 let errorDiv = $('.fr-upload-group').next();
                 errorDiv.text('Merci d\'ajouter une photo de moins de 10 Mo.')
                 errorDiv.removeClass('fr-hidden');
+                inputDiv.attr('aria-describedby', 'file-upload-error');
                 break;
             } else if(file.type !== 'image/jpeg' && file.type !== 'image/png') {
                 let errorDiv = $('.fr-upload-group').next();
                 errorDiv.text('Merci de choisir un fichier au format jpg ou png.')
                 errorDiv.removeClass('fr-hidden');
+                inputDiv.attr('aria-describedby', 'file-upload-error');
                 break;
             } else {
                 let filename = file.name;

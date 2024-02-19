@@ -17,7 +17,7 @@
                                 <div class="fr-input-group">
                                     {{ form_label(formEditEntreprise.nom) }}
                                     {{ form_widget(formEditEntreprise.nom) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formEditEntreprise.nom.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le nom.
                                     </p>
                                 </div>
@@ -27,7 +27,7 @@
                                 <div class="fr-input-group">
                                     {{ form_label(formEditEntreprise.numeroSiret) }}
                                     {{ form_widget(formEditEntreprise.numeroSiret) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formEditEntreprise.numeroSiret.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le SIRET.
                                     </p>
                                 </div>
@@ -37,7 +37,7 @@
                                 <div class="fr-input-group">
                                     {{ form_label(formEditEntreprise.telephone) }}
                                     {{ form_widget(formEditEntreprise.telephone) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formEditEntreprise.telephone.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le numéro de téléphone.
                                     </p>
                                 </div>
@@ -47,7 +47,7 @@
                                 <div class="fr-input-group">
                                     {{ form_label(formEditEntreprise.numeroLabel) }}
                                     {{ form_widget(formEditEntreprise.numeroLabel) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formEditEntreprise.numeroLabel.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le numéro de label.
                                     </p>
                                 </div>
@@ -57,7 +57,7 @@
                                 <div class="fr-input-group">
                                     {{ form_label(formEditEntreprise.email) }}
                                     {{ form_widget(formEditEntreprise.email) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formEditEntreprise.email.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner l'email.
                                     </p>
                                     <div class="fr-alert fr-alert--warning fr-mt-1v">
@@ -75,7 +75,7 @@
                                     {{ form_label(formEditEntreprise.territoires) }}
                                     {{ form_help(formEditEntreprise.territoires) }}
                                     {{ form_widget(formEditEntreprise.territoires) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formEditEntreprise.territoires.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner au moins un territoire.
                                     </p>
                                 </div>

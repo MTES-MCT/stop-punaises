@@ -12,7 +12,7 @@
             </div>
         </div>
     {% endfor %}
-    <p class="fr-error-text fr-hidden">
+    <p id="{{ formObject.vars.id }}-error" class="fr-error-text fr-hidden">
         {{ errorLabel }}
     </p>
 </fieldset>

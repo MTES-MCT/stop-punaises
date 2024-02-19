@@ -14,64 +14,137 @@
                             {{ form_row(form._token) }}
 
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(form.nom) }}
-                                    {{ form_widget(form.nom) }}
-                                    <p class="fr-error-text fr-hidden">
-                                        Veuillez renseigner le nom.
-                                    </p>
-                                </div>
+                                {% if form_errors(form.nom) %}
+                                    <div class="fr-input-group fr-input-group--error">
+                                        {{ form_label(form.nom) }}
+                                        {{ form_widget(form.nom, { 'attr': {
+                                            'aria-describedby': form.nom.vars.id ~ '-error'
+                                        } }) }}
+                                        <p id="{{ form.nom.vars.id }}-error" class="fr-error-text">
+                                            {{ form_errors(form.nom) }}
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="fr-input-group">
+                                        {{ form_label(form.nom) }}
+                                        {{ form_widget(form.nom) }}
+                                        <p id="{{ form.nom.vars.id }}-error" class="fr-error-text fr-hidden">
+                                            Veuillez renseigner le nom.
+                                        </p>
+                                    </div>
+                                {% endif %}
                             </div>
 
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(form.numeroSiret) }}
-                                    {{ form_widget(form.numeroSiret) }}
-                                    <p class="fr-error-text fr-hidden">
-                                        Veuillez renseigner le SIRET.
-                                    </p>
-                                </div>
+                                {% if form_errors(form.numeroSiret) %}
+                                    <div class="fr-input-group fr-input-group--error">
+                                        {{ form_label(form.numeroSiret) }}
+                                        {{ form_widget(form.numeroSiret, { 'attr': {
+                                            'aria-describedby': form.numeroSiret.vars.id ~ '-error'
+                                        } }) }}
+                                        <p id="{{ form.numeroSiret.vars.id }}-error" class="fr-error-text">
+                                            {{ form_errors(form.numeroSiret) }}
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="fr-input-group">
+                                        {{ form_label(form.numeroSiret) }}
+                                        {{ form_widget(form.numeroSiret) }}
+                                        <p id="{{ form.numeroSiret.vars.id }}-error" class="fr-error-text fr-hidden">
+                                            Veuillez renseigner le SIRET.
+                                        </p>
+                                    </div>
+                                {% endif %}
                             </div>
                             
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(form.telephone) }}
-                                    {{ form_widget(form.telephone) }}
-                                    <p class="fr-error-text fr-hidden">
-                                        Veuillez renseigner le numéro de téléphone.
-                                    </p>
-                                </div>
+                                {% if form_errors(form.telephone) %}
+                                    <div class="fr-input-group fr-input-group--error">
+                                        {{ form_label(form.telephone) }}
+                                        {{ form_widget(form.telephone, { 'attr': {
+                                            'aria-describedby': form.telephone.vars.id ~ '-error'
+                                        } }) }}
+                                        <p id="{{ form.telephone.vars.id }}-error" class="fr-error-text">
+                                            {{ form_errors(form.telephone) }}
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="fr-input-group">
+                                        {{ form_label(form.telephone) }}
+                                        {{ form_widget(form.telephone) }}
+                                        <p id="{{ form.telephone.vars.id }}-error" class="fr-error-text fr-hidden">
+                                            Veuillez renseigner le numéro de téléphone.
+                                        </p>
+                                    </div>
+                                {% endif %}
                             </div>
                             
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(form.numeroLabel) }}
-                                    {{ form_widget(form.numeroLabel) }}
-                                    <p class="fr-error-text fr-hidden">
-                                        Veuillez renseigner le numéro de label.
-                                    </p>
-                                </div>
+                                {% if form_errors(form.numeroLabel) %}
+                                    <div class="fr-input-group fr-input-group--error">
+                                        {{ form_label(form.numeroLabel) }}
+                                        {{ form_widget(form.numeroLabel, { 'attr': {
+                                            'aria-describedby': form.numeroLabel.vars.id ~ '-error'
+                                        } }) }}
+                                        <p id="{{ form.numeroLabel.vars.id }}-error" class="fr-error-text">
+                                            {{ form_errors(form.numeroLabel) }}
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="fr-input-group">
+                                        {{ form_label(form.numeroLabel) }}
+                                        {{ form_widget(form.numeroLabel) }}
+                                        <p id="{{ form.numeroLabel.vars.id }}-error" class="fr-error-text fr-hidden">
+                                            Veuillez renseigner le numéro de label.
+                                        </p>
+                                    </div>
+                                {% endif %}
                             </div>
                             
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(form.email) }}
-                                    {{ form_widget(form.email) }}
-                                    <p class="fr-error-text fr-hidden">
-                                        Veuillez renseigner l'email.
-                                    </p>
-                                </div>
+                                {% if form_errors(form.email) %}
+                                    <div class="fr-input-group fr-input-group--error">
+                                        {{ form_label(form.email) }}
+                                        {{ form_widget(form.email, { 'attr': {
+                                            'aria-describedby': form.email.vars.id ~ '-error'
+                                        } }) }}
+                                        <p id="{{ form.email.vars.id }}-error" class="fr-error-text">
+                                            {{ form_errors(form.email) }}
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="fr-input-group">
+                                        {{ form_label(form.email) }}
+                                        {{ form_widget(form.email) }}
+                                        <p id="{{ form.email.vars.id }}-error" class="fr-error-text fr-hidden">
+                                            Veuillez renseigner l'email.
+                                        </p>
+                                    </div>
+                                {% endif %}
                             </div>
 
                             <div class="fr-form-group">
-                                <div class="fr-select-group">
-                                    {{ form_label(form.territoires) }}
-                                    {{ form_help(form.territoires) }}
-                                    {{ form_widget(form.territoires) }}
-                                    <p class="fr-error-text fr-hidden">
+                                {% if form_errors(form.territoires) %}
+                                    <div class="fr-select-group fr-select-group--error">
+                                        {{ form_label(form.territoires) }}
+                                        {{ form_help(form.territoires) }}
+                                        {{ form_widget(form.territoires, { 'attr': {
+                                            'aria-describedby': form.territoires.vars.id ~ '-error'
+                                        } }) }}
+                                        <p id="{{ form.territoires.vars.id }}-error" class="fr-error-text">
+                                            {{ form_errors(form.territoires) }}
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="fr-select-group">
+                                        {{ form_label(form.territoires) }}
+                                        {{ form_help(form.territoires) }}
+                                        {{ form_widget(form.territoires) }}
+                                        <p id="{{ form.territoires.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner au moins un territoire.
-                                    </p>
-                                </div>
+                                        </p>
+                                    </div>
+                                {% endif %}
                             </div>
 
                             <button class="fr-btn fr-btn--icon-left fr-icon-checkbox-circle-line">Valider</button>

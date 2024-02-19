@@ -24,7 +24,7 @@
             {{ form_label(form.superficie) }}
             {{ form_widget(form.superficie) }}
             <span class="input-precision">m²</span>
-            <p class="fr-error-text fr-hidden">
+            <p id="{{ form.superficie.vars.id }}-error" class="fr-error-text fr-hidden">
                 Veuillez renseigner la superficie de votre logement.
             </p>
         </div>
@@ -36,7 +36,7 @@
             <span class="fr-hint-text help-text">Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</span>
             <div class="fr-input-wrap fr-icon-map-pin-2-line">
                 <input id="rechercheAdresse" type="text" class="fr-input" autocomplete="street">
-                <p class="fr-error-text fr-hidden">
+                <p id="rechercheAdresse-error" class="fr-error-text fr-hidden">
                     Veuillez renseigner l'adresse de votre logement.
                 </p>
             </div>
@@ -57,7 +57,7 @@
             <div class="fr-input-group">
                 {{ form_label(form.adresse) }}
                 {{ form_widget(form.adresse) }}
-                <p class="fr-error-text fr-hidden">
+                <p id="{{ form.adresse.vars.id }}-error" class="fr-error-text fr-hidden">
                     Veuillez renseigner l'adresse.
                 </p>
             </div>
@@ -67,7 +67,7 @@
             <div class="fr-input-group">
                 {{ form_label(form.codePostal) }}
                 {{ form_widget(form.codePostal) }}
-                <p class="fr-error-text fr-hidden">
+                <p id="{{ form.codePostal.vars.id }}-error" class="fr-error-text fr-hidden">
                     Veuillez renseigner le code postal.
                 </p>
             </div>
@@ -79,7 +79,7 @@
             <div class="fr-input-group">
                 {{ form_label(form.ville) }}
                 {{ form_widget(form.ville) }}
-                <p class="fr-error-text fr-hidden">
+                <p id="{{ form.ville.vars.id }}-error" class="fr-error-text fr-hidden">
                     Veuillez renseigner la ville.
                 </p>
             </div>

@@ -65,7 +65,7 @@
         <div class="fr-select-group">
             {{ form_label(form.nomOccupant) }}
             {{ form_widget(form.nomOccupant) }}
-            <p class="fr-error-text fr-hidden">
+            <p id="{{ form.nomOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
                 Veuillez renseigner votre nom.
             </p>
         </div>
@@ -75,7 +75,7 @@
         <div class="fr-select-group">
             {{ form_label(form.prenomOccupant) }}
             {{ form_widget(form.prenomOccupant) }}
-            <p class="fr-error-text fr-hidden">
+            <p id="{{ form.prenomOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
                 Veuillez renseigner votre prénom.
             </p>
         </div>
@@ -85,7 +85,7 @@
         <div class="fr-select-group">
             {{ form_label(form.telephoneOccupant) }}
             {{ form_widget(form.telephoneOccupant) }}
-            <p class="fr-error-text fr-hidden">
+            <p id="{{ form.telephoneOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
                 Veuillez renseigner votre numéro de téléphone.
             </p>
         </div>
@@ -95,7 +95,7 @@
         <div class="fr-select-group">
             {{ form_label(form.emailOccupant) }}
             {{ form_widget(form.emailOccupant) }}
-            <p class="fr-error-text fr-hidden">
+            <p id="{{ form.emailOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
                 Veuillez renseigner votre adresse e-mail.
             </p>
         </div>

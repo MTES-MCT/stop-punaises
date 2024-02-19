@@ -96,11 +96,15 @@ function startCreerSignalementApp() {
 }
 
 function checkSignalementSingleInput(idInput) {
-  $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
-  if ($('input#' + idInput).val() == '') {
-    $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
-    return false;
-  }
+  const input = $('input#' + idInput);
+  const errorText = input.siblings('.fr-error-text');
+  if (input.val() === '') {
+      errorText.removeClass('fr-hidden');
+      input.attr('aria-describedby', idInput + '-error');
+      return false;
+  } 
+  errorText.addClass('fr-hidden');
+  input.removeAttr('aria-describedby');
   return true;
 }
 
@@ -108,6 +112,7 @@ function checkSignalementSingleSelect(idSelect) {
   $('select#' + idSelect).siblings('.fr-error-text').addClass('fr-hidden');
   if ($('select#' + idSelect).val() == '') {
     $('select#' + idSelect).siblings('.fr-error-text').removeClass('fr-hidden');
+    $('select#' + idSelect).attr('aria-describedby', idSelect + '-error');
     return false;
   }
   return true;
@@ -125,6 +130,7 @@ function checkSignalementFirstStep() {
 
   if ($('input#signalement_history_telephoneOccupant').val() != '' && $('input#signalement_history_telephoneOccupant').val().length < 10) {
     $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+    $('input#signalement_history_telephoneOccupant').attr('aria-describedby', 'signalement_history_telephoneOccupant-error');
     buffer = false;
   } else {
     $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').addClass('fr-hidden');
@@ -132,6 +138,7 @@ function checkSignalementFirstStep() {
   let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   if ($('input#signalement_history_emailOccupant').val() != '' && !$('#signalement_history_emailOccupant').val().match(emailRegex)) {
     $('input#signalement_history_emailOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+    $('input#signalement_history_emailOccupant').attr('aria-describedby', 'signalement_history_emailOccupant-error');
     buffer = false;
   } else {
     $('input#signalement_history_emailOccupant').siblings('.fr-error-text').addClass('fr-hidden');

@@ -36,7 +36,7 @@
                     <div class="fr-input-group">
                         {{ form_label(form.punaisesViewedAt) }}
                         {{ form_widget(form.punaisesViewedAt) }}
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.punaisesViewedAt.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez renseigner la date
                         </p>
                     </div>
@@ -47,7 +47,7 @@
                         <div class="fr-input-wrap fr-icon-timer-line">
                             {{ form_widget(form.punaisesViewedTimeAt) }}
                         </div>
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.punaisesViewedTimeAt.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez renseigner l'heure.
                         </p>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="fr-select-group">
                         {{ form_label(form.nomProprietaire) }}
                         {{ form_widget(form.nomProprietaire) }}
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.nomProprietaire.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez renseigner le nom de l'établissement.
                         </p>
                     </div>
@@ -68,7 +68,7 @@
                         <span class="fr-hint-text help-text">Tapez l'adresse puis selectionnez-la dans la liste</span>
                         <div class="fr-input-wrap fr-icon-map-pin-2-line">
                             <input id="rechercheAdresse" type="text" class="fr-input">
-                            <p class="fr-error-text fr-hidden">
+                            <p id="rechercheAdresse-error" class="fr-error-text fr-hidden">
                                 Veuillez renseigner l'adresse.
                             </p>
                         </div>
@@ -87,7 +87,7 @@
                     <div class="fr-form-group">
                         {{ form_label(form.adresse) }}
                         {{ form_widget(form.adresse) }}
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.adresse.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez renseigner l'adresse.
                         </p>
                     </div>
@@ -95,7 +95,7 @@
                         <div class="fr-input-group">
                             {{ form_label(form.codePostal) }}
                             {{ form_widget(form.codePostal) }}
-                            <p class="fr-error-text fr-hidden">
+                            <p id="{{ form.codePostal.vars.id }}-error" class="fr-error-text fr-hidden">
                                 Veuillez renseigner le code postal.
                             </p>
                         </div>
@@ -104,7 +104,7 @@
                         <div class="fr-input-group">
                             {{ form_label(form.ville) }}
                             {{ form_widget(form.ville) }}
-                            <p class="fr-error-text fr-hidden">
+                            <p id="{{ form.ville.vars.id }}-error" class="fr-error-text fr-hidden">
                                 Veuillez renseigner la ville.
                             </p>
                         </div>
@@ -125,7 +125,7 @@
                                 {{ form_label(choice) }}
                             </div>
                         {% endfor %}
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.placeType.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez indiquer le type d'établissement.
                         </p>
                     </div>
@@ -140,7 +140,7 @@
                                 {{ form_label(choice) }}
                             </div>
                         {% endfor %}
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.isPlaceAvertie.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez indiquer si vous avez prévenu l'établissement.
                         </p>
                     </div>
@@ -166,7 +166,7 @@
                                accept=".jpg, .jpeg, .png"
                         >
                     </div>
-                    <p class="fr-error-text fr-hidden">
+                    <p id="file-upload-error" class="fr-error-text fr-hidden">
                         Merci d'ajouter une photo de moins de 10 Mo.
                     </p>
                     <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
@@ -177,7 +177,7 @@
                     {{ form_label(form.autresInformations) }}
                     {{ form_help(form.autresInformations) }}
                     {{ form_widget(form.autresInformations) }}
-                    <p class="fr-error-text fr-hidden">
+                    <p id="{{ form.autresInformations.vars.id }}-error" class="fr-error-text fr-hidden">
                         Merci de proposer une rapide description (minimum 10 caractères).
                     </p>
                 </div>
@@ -189,7 +189,7 @@
                     <div class="fr-select-group">
                         {{ form_label(form.nomDeclarant) }}
                         {{ form_widget(form.nomDeclarant) }}
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.nomDeclarant.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez renseigner votre nom.
                         </p>
                     </div>
@@ -198,7 +198,7 @@
                     <div class="fr-select-group">
                         {{ form_label(form.prenomDeclarant) }}
                         {{ form_widget(form.prenomDeclarant) }}
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.prenomDeclarant.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez renseigner votre prénom.
                         </p>
                     </div>
@@ -207,7 +207,7 @@
                     <div class="fr-select-group">
                         {{ form_label(form.emailDeclarant) }}
                         {{ form_widget(form.emailDeclarant) }}
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.emailDeclarant.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez renseigner votre adresse e-mail.
                         </p>
                     </div>

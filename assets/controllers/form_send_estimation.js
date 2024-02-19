@@ -12,12 +12,14 @@ function checkFormSendEstimation() {
         if ($('input[name=montant]').val() == '') {
             hasStopped = true;
           $('input[name=montant]').siblings('.fr-error-text').removeClass('fr-hidden');
+          $('input[name=montant]').attr('aria-describedby', 'montant-error');
         }
 
         $('textarea[name=commentaire]').siblings('.fr-error-text').addClass('fr-hidden');
         if ($('textarea[name=commentaire]').val() == '') {
             hasStopped = true;
           $('textarea[name=commentaire]').siblings('.fr-error-text').removeClass('fr-hidden');
+          $('textarea[name=commentaire]').attr('aria-describedby', 'commentaire-error');
         }
 
         if (hasStopped) {

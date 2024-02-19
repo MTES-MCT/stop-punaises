@@ -23,7 +23,7 @@
         <div class="fr-input-group">
             {{ form_label(form.nomProprietaire) }}
             {{ form_widget(form.nomProprietaire) }}
-            <p class="fr-error-text fr-hidden">
+            <p id="{{ form.nomProprietaire.vars.id }}-error" class="fr-error-text fr-hidden">
                 Veuillez renseigner le nom du bailleur / propriétaire.
             </p>
         </div>
@@ -47,7 +47,7 @@
         <div class="fr-input-group">
             {{ form_label(form.numeroAllocataire) }}
             {{ form_widget(form.numeroAllocataire) }}
-            <p class="fr-error-text fr-hidden">
+            <p id="{{ form.numeroAllocataire.vars.id }}-error" class="fr-error-text fr-hidden">
                 Veuillez renseigner votre numéro d'allocataire.
             </p>
         </div>

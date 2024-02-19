@@ -17,7 +17,7 @@
                                 <div class="fr-input-group">
                                     {{ form_label(formCreateEmploye.nom) }}
                                     {{ form_widget(formCreateEmploye.nom) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formCreateEmploye.nom.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le nom.
                                     </p>
                                 </div>
@@ -27,7 +27,7 @@
                                 <div class="fr-input-group">
                                     {{ form_label(formCreateEmploye.prenom) }}
                                     {{ form_widget(formCreateEmploye.prenom) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formCreateEmploye.prenom.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le prénom.
                                     </p>
                                 </div>
@@ -37,7 +37,7 @@
                                 <div class="fr-input-group">
                                     {{ form_label(formCreateEmploye.numeroCertification) }}
                                     {{ form_widget(formCreateEmploye.numeroCertification) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formCreateEmploye.numeroCertification.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le numéro de certification.
                                     </p>
                                 </div>

@@ -19,7 +19,7 @@
                                 <div class="fr-input-group">
                                     <label class="fr-label required" for="employe_nom_{{employeUuid}}">Nom</label>
                                     {{ form_widget(formEditEmploye.nom, { 'id': 'employe_nom_'~employeUuid }) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formEditEmploye.nom.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le nom.
                                     </p>
                                 </div>
@@ -29,7 +29,7 @@
                                 <div class="fr-input-group">
                                     <label class="fr-label required" for="employe_prenom_{{employeUuid}}">Prénom</label>
                                     {{ form_widget(formEditEmploye.prenom, { 'id': 'employe_prenom_'~employeUuid }) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formEditEmploye.prenom.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le prénom.
                                     </p>
                                 </div>
@@ -39,7 +39,7 @@
                                 <div class="fr-input-group">
                                     <label class="fr-label required" for="employe_numeroCertification_{{employeUuid}}">Certification Biocide</label>
                                     {{ form_widget(formEditEmploye.numeroCertification, { 'id': 'employe_numeroCertification_'~employeUuid }) }}
-                                    <p class="fr-error-text fr-hidden">
+                                    <p id="{{ formEditEmploye.numeroCertification.vars.id }}-error" class="fr-error-text fr-hidden">
                                         Veuillez renseigner le numéro de certification.
                                     </p>
                                 </div>
