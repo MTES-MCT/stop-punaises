@@ -122,19 +122,37 @@ function checkSignalementFirstStep() {
   let buffer = true;
 
   buffer = checkSignalementSingleInput('signalement_history_adresse');
-  buffer = checkSignalementSingleInput('signalement_history_codePostal') && buffer;
+  let cpRegex = /[0-9]{5}/;
+  if ($('#signalement_history_codePostal').val() === '') {
+    $('input#signalement_history_codePostal').siblings('.fr-error-text').text('Veuillez renseigner le code postal.');
+    $('input#signalement_history_codePostal').siblings('.fr-error-text').removeClass('fr-hidden');
+    $('input#signalement_history_codePostal').attr('aria-describedby', 'signalement_history_codePostal-error');
+    buffer = false;
+  } else if (!$('#signalement_history_codePostal').val().match(cpRegex)) {
+    $('input#signalement_history_codePostal').siblings('.fr-error-text').text('Le format du code postal est incorrect.');
+    $('input#signalement_history_codePostal').siblings('.fr-error-text').removeClass('fr-hidden');
+    $('input#signalement_history_codePostal').attr('aria-describedby', 'signalement_history_codePostal-error');
+    buffer = false;
+  } else {
+    $('input#signalement_history_codePostal').siblings('.fr-error-text').text('Veuillez renseigner le code postal.');
+    $('input#signalement_history_codePostal').siblings('.fr-error-text').addClass('fr-hidden');
+  }
   buffer = checkSignalementSingleInput('signalement_history_ville') && buffer;
   buffer = checkSignalementSingleSelect('signalement_history_typeLogement') && buffer;
   buffer = checkSignalementSingleInput('signalement_history_nomOccupant') && buffer;
   buffer = checkSignalementSingleInput('signalement_history_prenomOccupant') && buffer;
 
-  if ($('input#signalement_history_telephoneOccupant').val() != '' && $('input#signalement_history_telephoneOccupant').val().length < 10) {
+  let telRegex = /[0-9]{10}/;
+  if ($('input#signalement_history_telephoneOccupant').val() != '' &&  !$('#signalement_history_telephoneOccupant').val().match(telRegex)) {
+    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').text('Le format du numéro de téléphone est incorrect.');
     $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
     $('input#signalement_history_telephoneOccupant').attr('aria-describedby', 'signalement_history_telephoneOccupant-error');
     buffer = false;
   } else {
+    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').text('Veuillez renseigner le numéro de téléphone de l\'occupant.');
     $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').addClass('fr-hidden');
   }
+
   let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   if ($('input#signalement_history_emailOccupant').val() != '' && !$('#signalement_history_emailOccupant').val().match(emailRegex)) {
     $('input#signalement_history_emailOccupant').siblings('.fr-error-text').removeClass('fr-hidden');

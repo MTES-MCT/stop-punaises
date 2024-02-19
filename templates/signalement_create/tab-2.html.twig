@@ -306,6 +306,7 @@
             {% if form_errors(form.prixFactureHT) %}
                 <div class="fr-input-group fr-input-group--error">
                     {{ form_label(form.prixFactureHT) }}
+                    {{ form_help(form.prixFactureHT) }}
                     {{ form_widget(form.prixFactureHT, { 'attr': {
                         'aria-describedby': form.prixFactureHT.vars.id ~ '-error'
                     } }) }}
@@ -316,6 +317,7 @@
             {% else %}
                 <div class="fr-input-group">
                     {{ form_label(form.prixFactureHT) }}
+                    {{ form_help(form.prixFactureHT) }}
                     {{ form_widget(form.prixFactureHT) }}
                     <p id="{{ form.prixFactureHT.vars.id }}-error" class="fr-error-text fr-hidden">
                     Veuillez renseigner le prix facturé

@@ -46,6 +46,9 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'label' => 'Adresse',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner l\'adresse.'),
+                ],
             ])
             ->add('codePostal', TextType::class, [
                 'attr' => [
@@ -59,6 +62,10 @@ class SignalementHistoryType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Code postal',
+                'help' => 'Format attendu : 5 chiffres',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner le code postal'),
@@ -81,6 +88,9 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'label' => 'Ville',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner la ville.'),
+                ],
             ])
             ->add('geoloc', HiddenType::class, [
                 'attr' => [
@@ -106,6 +116,9 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'placeholder' => 'Type de logement',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner le type de logement.'),
+                ],
             ])
             ->add('localisationDansImmeuble', ChoiceType::class, [
                 'attr' => [
@@ -150,6 +163,9 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'label' => 'Nom',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner le nom de l\'occupant.'),
+                ],
             ])
             ->add('prenomOccupant', TextType::class, [
                 'attr' => [
@@ -162,6 +178,9 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'label' => 'Prénom',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner le prénom de l\'occupant.'),
+                ],
             ])
             ->add('telephoneOccupant', TelType::class, [
                 'attr' => [
@@ -173,7 +192,14 @@ class SignalementHistoryType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Téléphone (facultatif)',
+                'help' => 'Format attendu : 10 chiffres',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => false,
+                'constraints' => [
+                    new Assert\Regex('/[0-9]{10}/', 'Veuillez renseigner un numéro de téléphone valide'),
+                ],
             ])
             ->add('emailOccupant', EmailType::class, [
                 'attr' => [
@@ -185,7 +211,14 @@ class SignalementHistoryType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Email (facultatif)',
+                'help' => 'Format attendu : nom@domaine.fr',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => false,
+                'constraints' => [
+                    new Assert\Email(message: 'Veuillez renseigner un email valide.'),
+                ],
             ])
 
             // Onglet 2
@@ -203,6 +236,9 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'placeholder' => "Type d'intervention",
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner le prénom de l\'occupant.'),
+                ],
             ])
             ->add('dateIntervention', DateType::class, [
                 'widget' => 'single_text',
@@ -217,6 +253,9 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'label' => "Date de l'intervention",
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner le prénom de l\'occupant.'),
+                ],
             ])
             ->add('niveauInfestation', EnumType::class, [
                 'attr' => [
@@ -233,6 +272,9 @@ class SignalementHistoryType extends AbstractType
                 'label' => "Niveau d'infestation",
                 'placeholder' => "Niveau d'infestation",
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner le prénom de l\'occupant.'),
+                ],
             ])
             ->add('typeTraitement', ChoiceType::class, [
                 'attr' => [
@@ -298,6 +340,11 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'label' => 'Nombre de pièces traitées',
                 'required' => false,
+                'constraints' => [
+                    new Assert\Positive(
+                        message: 'Le nombre de pièces doit être un nombre supérieur à 0.'
+                    ),
+                ],
             ])
             ->add('delaiEntreInterventions', IntegerType::class, [
                 'attr' => [
@@ -308,6 +355,11 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'label' => 'Délai entre les interventions (en jours)',
                 'required' => false,
+                'constraints' => [
+                    new Assert\Positive(
+                        message: 'Le délai doit être un nombre supérieur à 0.'
+                    ),
+                ],
             ])
             ->add('faitVisitePostTraitement', ChoiceType::class, [
                 'choice_attr' => [
@@ -348,7 +400,18 @@ class SignalementHistoryType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Prix facturé (en €)',
+                'help' => 'Le prix facturé doit être un nombre supérieur à 0.',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => true,
+                'invalid_message' => 'Le prix facturé a un format incorrect.',
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner le prix facturé HT.'),
+                    new Assert\Positive(
+                        message: 'Le prix facturé doit être un nombre supérieur à 0.'
+                    ),
+                ],
             ])
         ;
         $builder->get('geoloc')->addModelTransformer(new CallbackTransformer(

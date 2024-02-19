@@ -46,6 +46,7 @@
             {% if form_errors(form.codePostal) %}
                 <div class="fr-input-group fr-input-group--error">
                     {{ form_label(form.codePostal) }}
+                    {{ form_help(form.codePostal) }}
                     {{ form_widget(form.codePostal, { 'attr': {
                         'aria-describedby': form.codePostal.vars.id ~ '-error'
                     } }) }}
@@ -56,6 +57,7 @@
             {% else %}
                 <div class="fr-input-group">
                     {{ form_label(form.codePostal) }}
+                    {{ form_help(form.codePostal) }}
                     {{ form_widget(form.codePostal) }}
                     <p id="{{ form.codePostal.vars.id }}-error" class="fr-error-text fr-hidden">
                     Veuillez renseigner le code postal.
@@ -249,6 +251,7 @@
             {% if form_errors(form.emailOccupant) %}
                 <div class="fr-input-group fr-input-group--error">
                     {{ form_label(form.emailOccupant) }}
+                    {{ form_help(form.emailOccupant) }}
                     {{ form_widget(form.emailOccupant, { 'attr': {
                         'aria-describedby': form.emailOccupant.vars.id ~ '-error'
                     } }) }}
@@ -259,6 +262,7 @@
             {% else %}
                 <div class="fr-input-group">
                     {{ form_label(form.emailOccupant) }}
+                    {{ form_help(form.emailOccupant) }}
                     {{ form_widget(form.emailOccupant) }}
                     <p id="{{ form.emailOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
                     Veuillez renseigner l'adresse e-mail de l'occupant.
