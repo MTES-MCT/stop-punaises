@@ -41,7 +41,7 @@
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="fr-mb-3w">
-                    <div class="fr-alert fr-alert--{{ label }}">
+                    <div class="fr-alert fr-alert--{{ label }}" role="status">
                         {{ message }}
                     </div>
                 </div>
