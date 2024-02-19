@@ -37,10 +37,14 @@ function startListeSignalementsApp() {
       $('#datatable-ajax_paginate').attr('aria-label', 'Pagination');
       $('#datatable-ajax_previous').attr('title', 'Page précédente');
       $('#datatable-ajax_next').attr('title', 'Page suivante');
-      $('.paginate_button').each(function(index, element) {
+      $('a.paginate_button').each(function(index, element) {
+        $(element).attr('href', '#')
         if ($(element).text().indexOf('Page') == -1) {
           $(element).attr('title', 'Page ' + index)
         }
+      })
+      $("a.paginate_button").on("click", function(e){
+        e.preventDefault();
       })
 
       // refresh count when ajax call is done
