@@ -6,6 +6,7 @@ import 'datatables.net-responsive-dt';
 $(function() {
   if ($('div.liste-entreprises').length > 0) {
     startListeEntreprisesApp();
+    refreshTableWithSearch();
   }
 });
 
@@ -35,12 +36,36 @@ function startListeEntreprisesApp() {
   $('#search-free').on('keyup', function() {
     refreshTableWithSearch();
   });
+
+  listTable.on('draw', function() {
+    $("span#count-entreprise").text(generateTableTitleFromDatatable('entreprise'));
+    document.title = generatePageTitleFromDatatable('Les entreprises partenaires', 'entreprise');
+  })
 }
 
 function refreshTableWithSearch() {
   let searchText = $('#search-free').val();
   listTable.columns(1).search(searchText);
   listTable.draw();
-  let countEntreprise = listTable.rows( {search:'applied'} ).count();
-  $("span#count-entreprise").text(countEntreprise);
+}
+
+function generatePageTitleFromDatatable(prefix, element) {
+  let countElements = listTable.page.info().recordsDisplay;
+  let plural = '';
+  if(countElements > 1) {
+    plural = 's';
+  }
+  let currentPage = (listTable.page.info().page) + 1;
+  let totalPage = listTable.page.info().pages;
+  return prefix +  ' - ' + countElements + ' ' + element + plural +'  trouvée' + plural + ' - page ' + currentPage + ' sur ' + totalPage + ' - Stop punaises';
+}
+
+function generateTableTitleFromDatatable(element) {
+  let countElements = listTable.page.info().recordsDisplay;
+  let plural = '';
+  if(countElements > 1) {
+    plural = 's';
+  }
+  
+  return countElements + ' ' + element + plural +'  trouvée' + plural;
 }

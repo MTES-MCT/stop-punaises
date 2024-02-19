@@ -7,6 +7,7 @@ $(function() {
   if ($('div.liste-signalements').length > 0) {
     startListeSignalementsApp();
   }
+  refreshTableWithSearch();
 });
 
 let listTable = null;
@@ -39,7 +40,8 @@ function startListeSignalementsApp() {
     options.serverSide = true;
     // refresh count when ajax call is done
     options.fnDrawCallback = function( oSettings ) {
-      $("span#count-signalement").text(oSettings.json.recordsFiltered);
+      $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+      document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement');
     }
   }
   listTable = $(idTable).DataTable(options);
@@ -144,8 +146,8 @@ function refreshTableHorsPerimetre() {
     listTable.columns(3).search(territoire);
   }
   listTable.draw();
-  let countSignalement = listTable.rows( {search:'applied'} ).count();
-  $("span#count-signalement").text(countSignalement);
+  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  document.title = generatePageTitleFromDatatable('Les signalements hors périmètre', 'signalement');
 }
 
 function refreshTableErpTransports() {
@@ -171,8 +173,8 @@ function refreshTableErpTransports() {
     listTable.columns(5).search(territoire);
   }
   listTable.draw();
-  let countSignalement = listTable.rows( {search:'applied'} ).count();
-  $("span#count-signalement").text(countSignalement);
+  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  document.title = generatePageTitleFromDatatable('Les signalements ERP et transports', 'signalement');
 }
 
 function refreshTableUsagers() {
@@ -211,6 +213,8 @@ function refreshTableUsagers() {
   }
 
   listTable.draw();
+  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement');
 }
 
 function refreshTableHistorique() {
@@ -233,6 +237,28 @@ function refreshTableHistorique() {
   let typeSignalement = $('#filter-type').val();
   listTable.columns(indexColumnType).search(typeSignalement);
   listTable.draw();
-  let countSignalement = listTable.rows( {search:'applied'} ).count();
-  $("span#count-signalement").text(countSignalement);
+  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  document.title = generatePageTitleFromDatatable('Les données historiques', 'signalement');
+}
+
+function generatePageTitleFromDatatable(prefix, element) {
+  let countElements = listTable.page.info().recordsDisplay;
+  let plural = '';
+  if(countElements > 1) {
+    plural = 's';
+  }
+  let currentPage = (listTable.page.info().page) + 1;
+  let totalPage = listTable.page.info().pages;
+  
+  return prefix +  ' - ' + countElements + ' ' + element + plural +'  trouvé' + plural + ' - page ' + currentPage + ' sur ' + totalPage + ' - Stop punaises';
+}
+
+function generateTableTitleFromDatatable(element) {
+  let countElements = listTable.page.info().recordsDisplay;
+  let plural = '';
+  if(countElements > 1) {
+    plural = 's';
+  }
+  
+  return countElements + ' ' + element + plural +'  trouvé' + plural;
 }

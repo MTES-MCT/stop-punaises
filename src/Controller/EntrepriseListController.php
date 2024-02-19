@@ -43,7 +43,6 @@ class EntrepriseListController extends AbstractController
         return $this->render('entreprise_list/index.html.twig', [
             'form' => $form->createView(),
             'entreprises' => $entreprises,
-            'count_entreprises' => \count($entreprises),
         ]);
     }
 }
