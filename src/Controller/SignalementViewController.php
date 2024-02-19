@@ -223,7 +223,7 @@ class SignalementViewController extends AbstractController
                     $userEntreprise
                 );
                 $intervention->setCommentaireEstimation($request->get('commentaire'));
-                $intervention->setMontantEstimation($montant);
+                $intervention->setMontantEstimation(ceil($montant));
                 $intervention->setEstimationSentAt(new DateTimeImmutable());
                 $interventionManager->save($intervention);
                 $this->addFlash('success', 'L\'estimation a bien été transmise.');
