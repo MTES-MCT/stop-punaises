@@ -54,7 +54,30 @@
     </div>
 
     <div class="fr-container fr-mt-3w">
-        <h2 id="liste-signalements-title" role="status"><span id="count-signalement">0 signalement trouvé</h2>
+        <h2 id="liste-signalements-title" role="status"><span id="count-signalement">0</span> signalements trouvés</h2>
+
+        <div class="fr-grid-row fr-grid-row--right fr-mb-5v">
+            <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                <label class="fr-label" for="select-sort-table-by">
+                    Trier la liste par
+                </label>
+                <select class="fr-select" id="select-sort-table-by" name="select">
+                    <option value="" selected disabled hidden>Sélectionner une option</option>
+                    <option value="0">ID</option>
+                    <option value="1">Date de création</option>
+                    <option value="2">Intervention</option>
+                    <option value="3">Date</option>
+                    <option value="4">Infestation</option>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <option value="5">Entreprise</option>
+                        <option value="6">Commune</option>
+                    {% else %}
+                        <option value="5">Commune</option>
+                    {% endif %}
+                </select>
+            </div>
+        </div>
+
         {% if signalements is not empty %}
             <table id="datatable" class="liste-signalements-historique nowrap" aria-labelledby="liste-signalements-title">
                 <thead>
@@ -85,7 +108,11 @@
                                 <td>{{ signalement.entreprise ? signalement.entreprise.nom : '/' }}</td>
                             {% endif %}
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                            <td class="button-view"><a href="{{ path('app_signalement_historique_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement {{ signalement.reference }}"></a></td>
+                            <td class="button-view">
+                                <a href="{{ path('app_signalement_historique_view',{uuid:signalement.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir le signalement {{ signalement.reference }}">
+                                    Voir le signalement {{ signalement.reference }}
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

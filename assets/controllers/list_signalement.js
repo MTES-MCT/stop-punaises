@@ -46,6 +46,11 @@ function startListeSignalementsApp() {
   }
   listTable = $(idTable).DataTable(options);
   initComponentsEvents();
+
+  $('#select-sort-table-by').on('change', function() {
+    listTable.order([Number($('#select-sort-table-by').val()), 'asc'])
+      .draw();
+  })
 }
 
 function initComponentsEvents() {

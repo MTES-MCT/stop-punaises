@@ -34,7 +34,25 @@
     </div>
 
     <div class="fr-container fr-mt-3w">
-        <h2 id="liste-signalements-title" role="status"><span id="count-signalement">0 signalement trouvé</h2>
+        <h2 id="liste-signalements-title" role="status"><span id="count-signalement">0</span> signalements trouvés</h2>
+    
+        <div class="fr-grid-row fr-grid-row--right fr-mb-5v">
+            <div class="fr-select-group fr-col-12 fr-col-lg-3">
+                <label class="fr-label" for="select-sort-table-by">
+                    Trier la liste par
+                </label>
+                <select class="fr-select" id="select-sort-table-by" name="select">
+                    <option value="" selected disabled hidden>Sélectionner une option</option>
+                    <option value="0">ID</option>
+                    <option value="1">Date de création</option>
+                    <option value="2">Type</option>
+                    <option value="3">Nom</option>
+                    <option value="4">Code postal</option>
+                    <option value="5">Territoire</option>
+                </select>
+            </div>
+        </div>
+
         {% if signalements is not empty %}
             <table id="datatable" class="liste-signalements-erp-transports nowrap" aria-labelledby="liste-signalements-title">
                 <thead>
@@ -62,7 +80,9 @@
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
                             <td>{{ signalement.territoire.zip }}</td>
                             <td class="button-view">
-                                <button class="fr-btn fr-icon-arrow-right-fill" data-fr-opened="false" aria-controls="fr-modal-signalement-erp-transports-{{signalement.uuid}}"></button>
+                                <button class="fr-btn fr-icon-arrow-right-fill" data-fr-opened="false" aria-controls="fr-modal-signalement-erp-transports-{{signalement.uuid}}" title="Voir le signalement {{ signalement.reference }}">
+                                    Voir le signalement {{ signalement.reference }}
+                                </button>
                             </td>
                         </tr>
                     {% endfor %}

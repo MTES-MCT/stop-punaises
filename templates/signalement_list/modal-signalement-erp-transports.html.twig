@@ -39,7 +39,7 @@
                             {% endif %}
                             {% if signalement.photos %}
                                 {% for index,photo in signalement.photos %}
-                                    <a href="{{ path('show_uploaded_file',{filename:photo.file}) }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo" target="_blank" rel="noopener">
+                                    <a href="{{ path('show_uploaded_file',{filename:photo.file}) }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}" title="Voir la photo {{photo.file}} - nouvelle fenêtre" target="_blank" rel="noopener">
                                         Voir la photo
                                     </a>
                                     <br>

@@ -194,6 +194,6 @@ class SignalementOccupantDataTableHandler
                 <a class="fr-btn fr-icon-arrow-right-fill"
                 href="'.$link.'"
                 title="Voir le signalement '.$row['reference'].'"
-                ></a></span>';
+                >Voir le signalement '.$row['reference'].'</a></span>';
     }
 }
