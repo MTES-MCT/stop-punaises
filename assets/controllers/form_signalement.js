@@ -123,19 +123,17 @@ function checkSignalementFirstStep() {
 
   buffer = checkSignalementSingleInput('signalement_history_adresse');
   let cpRegex = /[0-9]{5}/;
-  if ($('#signalement_history_codePostal').val() === '') {
-    $('input#signalement_history_codePostal').siblings('.fr-error-text').text('Veuillez renseigner le code postal.');
-    $('input#signalement_history_codePostal').siblings('.fr-error-text').removeClass('fr-hidden');
-    $('input#signalement_history_codePostal').attr('aria-describedby', 'signalement_history_codePostal-error');
+  const divCodePostal = $('#signalement_history_codePostal')
+  if (divCodePostal.val() === '') {
+    divCodePostal.siblings('.fr-error-text').text('Veuillez renseigner le code postal.').removeClass('fr-hidden');
+    divCodePostal.attr('aria-describedby', 'signalement_history_codePostal-error');
     buffer = false;
   } else if (!$('#signalement_history_codePostal').val().match(cpRegex)) {
-    $('input#signalement_history_codePostal').siblings('.fr-error-text').text('Le format du code postal est incorrect.');
-    $('input#signalement_history_codePostal').siblings('.fr-error-text').removeClass('fr-hidden');
-    $('input#signalement_history_codePostal').attr('aria-describedby', 'signalement_history_codePostal-error');
+    divCodePostal.siblings('.fr-error-text').text('Le format du code postal est incorrect.').removeClass('fr-hidden');
+    divCodePostal.attr('aria-describedby', 'signalement_history_codePostal-error');
     buffer = false;
   } else {
-    $('input#signalement_history_codePostal').siblings('.fr-error-text').text('Veuillez renseigner le code postal.');
-    $('input#signalement_history_codePostal').siblings('.fr-error-text').addClass('fr-hidden');
+    divCodePostal.siblings('.fr-error-text').text('Veuillez renseigner le code postal.').addClass('fr-hidden');
   }
   buffer = checkSignalementSingleInput('signalement_history_ville') && buffer;
   buffer = checkSignalementSingleSelect('signalement_history_typeLogement') && buffer;
@@ -144,13 +142,11 @@ function checkSignalementFirstStep() {
 
   let telRegex = /[0-9]{10}/;
   if ($('input#signalement_history_telephoneOccupant').val() != '' &&  !$('#signalement_history_telephoneOccupant').val().match(telRegex)) {
-    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').text('Le format du numéro de téléphone est incorrect.');
-    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').text('Le format du numéro de téléphone est incorrect.').removeClass('fr-hidden');
     $('input#signalement_history_telephoneOccupant').attr('aria-describedby', 'signalement_history_telephoneOccupant-error');
     buffer = false;
   } else {
-    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').text('Veuillez renseigner le numéro de téléphone de l\'occupant.');
-    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').addClass('fr-hidden');
+    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').text('Veuillez renseigner le numéro de téléphone de l\'occupant.').addClass('fr-hidden');
   }
 
   let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;

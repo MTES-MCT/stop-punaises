@@ -26,6 +26,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Email;
 
 class SignalementHistoryType extends AbstractType
 {
@@ -217,7 +218,10 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'required' => false,
                 'constraints' => [
-                    new Assert\Email(message: 'Veuillez renseigner un email valide.'),
+                    new Assert\Email(
+                        mode: Email::VALIDATION_MODE_STRICT,
+                        message: 'Veuillez renseigner un email valide.'
+                    ),
                 ],
             ])
 
@@ -237,7 +241,7 @@ class SignalementHistoryType extends AbstractType
                 'placeholder' => "Type d'intervention",
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le prénom de l\'occupant.'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner le type d\'intervention.'),
                 ],
             ])
             ->add('dateIntervention', DateType::class, [
@@ -254,7 +258,7 @@ class SignalementHistoryType extends AbstractType
                 'label' => "Date de l'intervention",
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le prénom de l\'occupant.'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner la date d\'intervention.'),
                 ],
             ])
             ->add('niveauInfestation', EnumType::class, [
@@ -273,7 +277,7 @@ class SignalementHistoryType extends AbstractType
                 'placeholder' => "Niveau d'infestation",
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le prénom de l\'occupant.'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner le niveau d\'infestation.'),
                 ],
             ])
             ->add('typeTraitement', ChoiceType::class, [

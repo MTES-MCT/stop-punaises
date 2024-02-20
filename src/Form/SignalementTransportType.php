@@ -25,6 +25,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Email;
 
 class SignalementTransportType extends AbstractType
 {
@@ -232,7 +233,10 @@ class SignalementTransportType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner votre email.'),
-                    new Assert\Email(message: 'Veuillez renseigner un email valide.'),
+                    new Assert\Email(
+                        mode: Email::VALIDATION_MODE_STRICT,
+                        message: 'Veuillez renseigner un email valide.'
+                    ),
                 ],
             ]);
 

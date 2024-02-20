@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Email;
 
 class SignalementFrontType extends AbstractType
 {
@@ -343,7 +344,10 @@ class SignalementFrontType extends AbstractType
                 ],
                 'required' => false,
                 'constraints' => [
-                    new Assert\Email(message: 'Veuillez renseigner un email valide.'),
+                    new Assert\Email(
+                        mode: Email::VALIDATION_MODE_STRICT,
+                        message: 'Veuillez renseigner un email valide.'
+                    ),
                 ],
             ])
             ->add('autotraitement', HiddenType::class, [
