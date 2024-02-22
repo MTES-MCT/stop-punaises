@@ -1,11 +1,10 @@
-<h2>Intervention</h2>
-
-<p>Sélectionnez le type d'intervention puis remplissez les champs proposés.</p>
-
 <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
         <div class="fr-form-group">
             <div class="fr-select-group">
+            <label class="fr-label" for="select-hint">Type d'intervention
+                <span class="fr-hint-text">Sélectionnez le type d'intervention puis remplissez les champs proposés.</span>
+            </label>
                 {{ form_widget(form.typeIntervention) }}
                 <p class="fr-error-text fr-hidden">
                     Veuillez renseigner le type d'intervention

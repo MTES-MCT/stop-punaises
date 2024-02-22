@@ -31,8 +31,13 @@ class SuiviUsagerViewControllerTest extends WebTestCase
         $client->loginUser($user);
         $client->request('GET', $route);
         $this->assertResponseIsSuccessful($signalement->getId());
-        $this->assertSelectorTextContains('.suivi-usager h2',
-            'Votre signalement #'.$signalement->getReference()
+        $this->assertSelectorTextContains(
+            '.suivi-usager h1',
+            'Suivi de votre signalement #'.$signalement->getReference()
+        );
+        $this->assertSelectorTextContains(
+            '.suivi-usager h2',
+            'A propos de votre signalement'
         );
     }
 
