@@ -26,10 +26,25 @@ function startListeEntreprisesApp() {
       zeroRecords: "Aucune entreprise trouvée",
       paginate: {
         first: "|&lt;",
-        previous: "&lt;",
-        next: "&gt;",
+        previous: "&lt; Page précédente",
+        next: "Page suivante &gt;",
         last: "&gt;|"
       }
+    },
+    drawCallback: function(settings, json) {
+      $('#datatable_paginate').attr('role', 'navigation');
+      $('#datatable_paginate').attr('aria-label', 'Pagination');
+      $('#datatable_previous').attr('title', 'Page précédente');
+      $('#datatable_next').attr('title', 'Page suivante');
+      $('a.paginate_button').each(function(index, element) {
+        $(element).attr('href', '#')
+        if ($(element).text().indexOf('Page') == -1) {
+          $(element).attr('title', 'Page ' + index)
+        }
+      })
+      $("a.paginate_button").on("click", function(e){
+        e.preventDefault();
+      })
     }
   });
 
