@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class EntrepriseType extends AbstractType
 {
@@ -33,6 +34,9 @@ class EntrepriseType extends AbstractType
                 ],
                 'label' => 'Nom / raison sociale',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner le nom ou la raison sociale.'),
+                ],
             ])
             ->add('numeroSiret', TextType::class, [
                 'attr' => [
