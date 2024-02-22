@@ -9,52 +9,29 @@
                     <div class="fr-modal__content">
                         <h1 id="fr-modal-title-modal-create-employe" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Ajouter un employé</h1>
                         <p>Remplissez le formulaire ci-dessous pour ajouter un employé.</p>
+                        {% import "common/components/macro-forms.html.twig" as forms %}
 
                         <form action="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" method="POST" class="fr-my-5w">
                             {{ form_row(formCreateEmploye._token) }}
 
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(formCreateEmploye.nom) }}
-                                    {{ form_widget(formCreateEmploye.nom) }}
-                                    <p id="{{ formCreateEmploye.nom.vars.id }}-error" class="fr-error-text fr-hidden">
-                                        Veuillez renseigner le nom.
-                                    </p>
-                                </div>
+                                {{ forms.input(formCreateEmploye.nom, 'Veuillez renseigner le nom.') }}
                             </div>
 
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(formCreateEmploye.prenom) }}
-                                    {{ form_widget(formCreateEmploye.prenom) }}
-                                    <p id="{{ formCreateEmploye.prenom.vars.id }}-error" class="fr-error-text fr-hidden">
-                                        Veuillez renseigner le prénom.
-                                    </p>
-                                </div>
+                                {{ forms.input(formCreateEmploye.prenom, 'Veuillez renseigner le prénom.') }}
                             </div>
                             
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(formCreateEmploye.numeroCertification) }}
-                                    {{ form_widget(formCreateEmploye.numeroCertification) }}
-                                    <p id="{{ formCreateEmploye.numeroCertification.vars.id }}-error" class="fr-error-text fr-hidden">
-                                        Veuillez renseigner le numéro de certification.
-                                    </p>
-                                </div>
+                                {{ forms.input(formCreateEmploye.numeroCertification, 'Veuillez renseigner le numéro de certification.') }}
                             </div>
                             
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(formCreateEmploye.telephone) }}
-                                    {{ form_widget(formCreateEmploye.telephone) }}
-                                </div>
+                                {{ forms.input(formCreateEmploye.telephone, 'Veuillez renseigner le numéro de téléphone.') }}
                             </div>
                             
                             <div class="fr-form-group">
-                                <div class="fr-input-group">
-                                    {{ form_label(formCreateEmploye.email) }}
-                                    {{ form_widget(formCreateEmploye.email) }}
-                                </div>
+                                {{ forms.input(formCreateEmploye.email, 'Veuillez renseigner l\'email.') }}
                             </div>
 
                             <button class="fr-btn fr-btn--icon-left fr-icon-checkbox-circle-line">Valider</button>

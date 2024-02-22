@@ -76,3 +76,48 @@
         </div>
     {% endif %}
 {% endmacro %}
+
+
+{% macro radio_choice(form_view, error_text, help = false, displayLabel = true) %}
+    {% if form_errors(form_view) %}
+        <fieldset class="fr-fieldset" role="group" id="{{ form_view.vars.id }}" aria-labelledby="{{ form_view.vars.id }}_legend">
+            <legend class="fr-fieldset__legend fr-fieldset__legend--regular" id="{{ form_view.vars.id }}_legend">
+                {% if displayLabel %}
+                    {{ form_label(form_view) }}
+                {% endif %}
+            </legend>
+            {% for key, choice in form_view.children %}
+                <div class="fr-fieldset__element">
+                    <div class="fr-radio-group">
+                        {{ form_widget(choice, { 'attr': {
+                            'aria-describedby': form_view.vars.id ~ '-error'
+                        } }) }}
+                        {{ form_label(choice) }}
+                    </div>
+                </div>
+            {% endfor %}
+                <p id="{{ form_view.vars.id }}-error" class="fr-error-text">
+                    {{ form_errors(form_view) }}
+                </p>
+        </fieldset>
+    {% else %}
+        <fieldset class="fr-fieldset" role="group" id="{{ form_view.vars.id }}" aria-labelledby="{{ form_view.vars.id }}_legend">
+            <legend class="fr-fieldset__legend fr-fieldset__legend--regular"  id="{{ form_view.vars.id }}_legend">
+                {% if displayLabel %}
+                    {{ form_label(form_view) }}
+                {% endif %}
+            </legend>
+            {% for key, choice in form_view.children %}
+                <div class="fr-fieldset__element">
+                    <div class="fr-radio-group">
+                        {{ form_widget(choice) }}
+                        {{ form_label(choice) }}
+                    </div>
+                </div>
+            {% endfor %}
+                <p id="{{ form_view.vars.id }}-error" class="fr-error-text fr-hidden">
+                    {{ error_text}}
+                </p>
+        </fieldset>
+    {% endif %}
+{% endmacro %}

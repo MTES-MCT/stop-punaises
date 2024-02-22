@@ -143,7 +143,7 @@ class SignalementHistoryType extends AbstractType
                 'choices' => [
                     'Oui' => 1,
                     'Non' => 0,
-                    'Ne sais pas' => '',
+                    'Ne sait pas' => '',
                 ],
                 'expanded' => true,
                 'label_attr' => [

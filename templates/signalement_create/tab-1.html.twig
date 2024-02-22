@@ -1,4 +1,5 @@
-<h3>Adresse et infos du logement</h3>
+<h2>Adresse et infos du logement</h2>
+{% import "common/components/macro-forms.html.twig" as forms %}
 
 <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
@@ -21,73 +22,17 @@
         </div>
 
         <div class="fr-form-group fr-mt-3v">
-            {% if form_errors(form.adresse) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.adresse) }}
-                    {{ form_widget(form.adresse, { 'attr': {
-                        'aria-describedby': form.adresse.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.adresse.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.adresse) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.adresse) }}
-                    {{ form_widget(form.adresse) }}
-                    <p id="{{ form.adresse.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner l'adresse.
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.adresse, 'Veuillez renseigner l\'adresse.') }}
         </div>
 
         <div class="fr-form-group fr-mt-3v">
-            {% if form_errors(form.codePostal) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.codePostal) }}
-                    {{ form_help(form.codePostal) }}
-                    {{ form_widget(form.codePostal, { 'attr': {
-                        'aria-describedby': form.codePostal.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.codePostal.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.codePostal) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.codePostal) }}
-                    {{ form_help(form.codePostal) }}
-                    {{ form_widget(form.codePostal) }}
-                    <p id="{{ form.codePostal.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le code postal.
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.codePostal, 'Veuillez renseigner le code postal.', true) }}
         </div>
 
         {{ form_widget(form.codeInsee) }}
 
         <div class="fr-form-group fr-mt-3v">
-            {% if form_errors(form.ville) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.ville) }}
-                    {{ form_widget(form.ville, { 'attr': {
-                        'aria-describedby': form.ville.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.ville.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.ville) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.ville) }}
-                    {{ form_widget(form.ville) }}
-                    <p id="{{ form.ville.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner la ville.
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.ville, 'Veuillez renseigner la ville.') }}
         </div>
 
         {{ form_widget(form.geoloc) }}
@@ -96,83 +41,15 @@
         <legend class="fr-fieldset__legend column-label">Informations complémentaires</legend>
 
         <div class="fr-fieldset__element fr-mt-3v">
-            {% if form_errors(form.typeLogement) %}
-                <div class="fr-select-group fr-select-group--error">
-                    {{ form_label(form.typeLogement) }}
-                    {{ form_widget(form.typeLogement, { 'attr': {
-                        'aria-describedby': form.typeLogement.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.typeLogement.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.typeLogement) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-select-group">
-                    {{ form_label(form.typeLogement) }}
-                    {{ form_widget(form.typeLogement) }}
-                    <p id="{{ form.typeLogement.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le type de logement.
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.select(form.typeLogement, 'Veuillez renseigner le type de logement.') }}
         </div>
 
         <div id="form-group-localisation-immeuble" class="fr-fieldset__element fr-form-group-hidden fr-mt-3v">
-            {% if form_errors(form.localisationDansImmeuble) %}
-                <div class="fr-select-group fr-select-group--error">
-                    {{ form_label(form.localisationDansImmeuble) }}
-                    {{ form_widget(form.localisationDansImmeuble, { 'attr': {
-                        'aria-describedby': form.localisationDansImmeuble.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.localisationDansImmeuble.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.localisationDansImmeuble) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-select-group">
-                    {{ form_label(form.localisationDansImmeuble) }}
-                    {{ form_widget(form.localisationDansImmeuble) }}
-                    <p id="{{ form.localisationDansImmeuble.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner la localisation dans l'immeuble.
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.select(form.localisationDansImmeuble, 'Veuillez renseigner la localisation dans l\'immeuble.') }}
         </div>
 
         <div class="fr-fieldset__element fr-mt-3v">
-            {% if form_errors(form.construitAvant1948) %}
-                <fieldset class="fr-fieldset fr-input-group--error" role="group">
-                    <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.construitAvant1948.vars.label}}</legend>
-                    <div class="fr-fieldset__element">
-                    {% for key, choice in form.construitAvant1948.children %}
-                        <div class="fr-radio-group">
-                            {{ form_widget(choice, { 'attr': {
-                                'aria-describedby': form.construitAvant1948.vars.id ~ '-error'
-                            } }) }}
-                            {{ form_label(choice) }}
-                        </div>
-                    {% endfor %}
-                        <p id="{{ form.construitAvant1948.vars.id }}-error" class="fr-error-text">
-                            {{ form_errors(form.construitAvant1948) }}
-                        </p>
-                    </div>
-                </fieldset>
-            {% else %}
-                <fieldset class="fr-fieldset" role="group">
-                    <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.construitAvant1948.vars.label}}</legend>
-                    <div class="fr-fieldset__element">
-                    {% for key, choice in form.construitAvant1948.children %}
-                        <div class="fr-radio-group">
-                            {{ form_widget(choice) }}
-                            {{ form_label(choice) }}
-                        </div>
-                    {% endfor %}
-                        <p id="{{ form.construitAvant1948.vars.id }}-error" class="fr-error-text fr-hidden">
-                        Veuillez indiquer l'année de construction
-                        </p>
-                    </div>
-                </fieldset>
-            {% endif %}
+            {{ forms.radio_choice(form.construitAvant1948, 'Veuillez indiquer l\'année de construction.') }}
         </div>
       </fieldset>
     </div>
@@ -182,93 +59,19 @@
             <legend class="fr-fieldset__legend column-label">L'occupant</legend>
 
             <div class="fr-fieldset__element fr-mt-n2v">
-                {% if form_errors(form.nomOccupant) %}
-                    <div class="fr-input-group fr-input-group--error">
-                        {{ form_label(form.nomOccupant) }}
-                        {{ form_widget(form.nomOccupant, { 'attr': {
-                            'aria-describedby': form.nomOccupant.vars.id ~ '-error'
-                        } }) }}
-                        <p id="{{ form.nomOccupant.vars.id }}-error" class="fr-error-text">
-                            {{ form_errors(form.nomOccupant) }}
-                        </p>
-                    </div>
-                {% else %}
-                    <div class="fr-input-group">
-                        {{ form_label(form.nomOccupant) }}
-                        {{ form_widget(form.nomOccupant) }}
-                        <p id="{{ form.nomOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
-                        Veuillez renseigner le nom de l'occupant.
-                        </p>
-                    </div>
-                {% endif %}
+                {{ forms.input(form.nomOccupant, 'Veuillez renseigner le nom de l\'occupant.') }}
             </div>
 
             <div class="fr-fieldset__element fr-mt-3v">
-                {% if form_errors(form.prenomOccupant) %}
-                    <div class="fr-input-group fr-input-group--error">
-                        {{ form_label(form.prenomOccupant) }}
-                        {{ form_widget(form.prenomOccupant, { 'attr': {
-                            'aria-describedby': form.prenomOccupant.vars.id ~ '-error'
-                        } }) }}
-                        <p id="{{ form.prenomOccupant.vars.id }}-error" class="fr-error-text">
-                            {{ form_errors(form.prenomOccupant) }}
-                        </p>
-                    </div>
-                {% else %}
-                    <div class="fr-input-group">
-                        {{ form_label(form.prenomOccupant) }}
-                        {{ form_widget(form.prenomOccupant) }}
-                        <p id="{{ form.prenomOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
-                        Veuillez renseigner le prénom de l'occupant.
-                        </p>
-                    </div>
-                {% endif %}
+                {{ forms.input(form.prenomOccupant, 'Veuillez renseigner le prénom de l\'occupant.') }}
             </div>
 
             <div class="fr-fieldset__element fr-mt-3v">
-                {% if form_errors(form.telephoneOccupant) %}
-                    <div class="fr-input-group fr-input-group--error">
-                        {{ form_label(form.telephoneOccupant) }}
-                        {{ form_widget(form.telephoneOccupant, { 'attr': {
-                            'aria-describedby': form.telephoneOccupant.vars.id ~ '-error'
-                        } }) }}
-                        <p id="{{ form.telephoneOccupant.vars.id }}-error" class="fr-error-text">
-                            {{ form_errors(form.telephoneOccupant) }}
-                        </p>
-                    </div>
-                {% else %}
-                    <div class="fr-input-group">
-                        {{ form_label(form.telephoneOccupant) }}
-                        {{ form_widget(form.telephoneOccupant) }}
-                        <p id="{{ form.telephoneOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
-                        Veuillez renseigner le numéro de téléphone de l'occupant.
-                        </p>
-                    </div>
-                {% endif %}
+                {{ forms.input(form.telephoneOccupant, 'Veuillez renseigner le numéro de téléphone de l\'occupant.') }}
             </div>
         </fieldset>
         <div class="fr-form-group fr-mt-3v">
-            {% if form_errors(form.emailOccupant) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.emailOccupant) }}
-                    {{ form_help(form.emailOccupant) }}
-                    {{ form_widget(form.emailOccupant, { 'attr': {
-                        'aria-describedby': form.emailOccupant.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.emailOccupant.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.emailOccupant) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.emailOccupant) }}
-                    {{ form_help(form.emailOccupant) }}
-                    {{ form_widget(form.emailOccupant) }}
-                    <p id="{{ form.emailOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner l'adresse e-mail de l'occupant.
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.emailOccupant, 'Veuillez renseigner l\'adresse e-mail de l\'occupant.', true) }}
         </div>
     </div>
 </div>

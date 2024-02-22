@@ -3,6 +3,7 @@
 {% block title %}Déposer un signalement pour un lieu public{% endblock %}
 
 {% block body %}
+{% import "common/components/macro-forms.html.twig" as forms %}
 
     <div class="signalement-punaises fr-grid-row fr-grid-row--center">
         <div class="fr-col-12 fr-col-md-8 fr-col-md-6">
@@ -33,13 +34,7 @@
                 <h2 class="fr-h3">Date et heure</h2>
                 <p>Renseignez la date et l'heure à laquelle vous avez vu des punaises de lit.</p>
                 <div class="fr-form-group display-if-diagnostic display-if-traitement">
-                    <div class="fr-input-group">
-                        {{ form_label(form.punaisesViewedAt) }}
-                        {{ form_widget(form.punaisesViewedAt) }}
-                        <p id="{{ form.punaisesViewedAt.vars.id }}-error" class="fr-error-text fr-hidden">
-                            Veuillez renseigner la date
-                        </p>
-                    </div>
+                    {{ forms.input(form.punaisesViewedAt, 'Veuillez renseigner la date.') }}
                 </div>
                 <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
                     <div class="fr-input-group">
@@ -54,13 +49,7 @@
                 </div>
                 <h2 class="fr-h3 fr-mt-3w">L'établissement</h2>
                 <div class="fr-form-group">
-                    <div class="fr-select-group">
-                        {{ form_label(form.nomProprietaire) }}
-                        {{ form_widget(form.nomProprietaire) }}
-                        <p id="{{ form.nomProprietaire.vars.id }}-error" class="fr-error-text fr-hidden">
-                            Veuillez renseigner le nom de l'établissement.
-                        </p>
-                    </div>
+                    {{ forms.input(form.nomProprietaire, 'Veuillez renseigner le nom de l\'établissement.') }}
                 </div>
                 <div class="fr-form-group fr-mt-3v">
                     <div class="fr-input-group search-address">
@@ -85,29 +74,13 @@
                 </div>
                 <div id="adresse_detail" class="fr-hidden">
                     <div class="fr-form-group">
-                        {{ form_label(form.adresse) }}
-                        {{ form_widget(form.adresse) }}
-                        <p id="{{ form.adresse.vars.id }}-error" class="fr-error-text fr-hidden">
-                            Veuillez renseigner l'adresse.
-                        </p>
+                        {{ forms.input(form.adresse, 'Veuillez renseigner l\'adresse.') }}
                     </div>
                     <div class="fr-form-group">
-                        <div class="fr-input-group">
-                            {{ form_label(form.codePostal) }}
-                            {{ form_widget(form.codePostal) }}
-                            <p id="{{ form.codePostal.vars.id }}-error" class="fr-error-text fr-hidden">
-                                Veuillez renseigner le code postal.
-                            </p>
-                        </div>
+                        {{ forms.input(form.codePostal, 'Veuillez renseigner le code postal.') }}
                     </div>
                     <div class="fr-form-group">
-                        <div class="fr-input-group">
-                            {{ form_label(form.ville) }}
-                            {{ form_widget(form.ville) }}
-                            <p id="{{ form.ville.vars.id }}-error" class="fr-error-text fr-hidden">
-                                Veuillez renseigner la ville.
-                            </p>
-                        </div>
+                        {{ forms.input(form.ville, 'Veuillez renseigner la ville.') }}
                     </div>
 
                     {{ form_widget(form.geoloc) }}
@@ -116,34 +89,10 @@
 
 
                 <div class="fr-form-group">
-                    <div class="fr-input-group">
-                        {{ form_label(form.placeType) }}
-
-                        {% for key, choice in form.placeType.children %}
-                            <div class="fr-radio-group">
-                                {{ form_widget(choice) }}
-                                {{ form_label(choice) }}
-                            </div>
-                        {% endfor %}
-                        <p id="{{ form.placeType.vars.id }}-error" class="fr-error-text fr-hidden">
-                            Veuillez indiquer le type d'établissement.
-                        </p>
-                    </div>
+                    {{ forms.radio_choice(form.placeType, 'Veuillez indiquer le type d\'établissement.') }}
                 </div>
                 <div class="fr-form-group">
-                    <div class="fr-input-group">
-                        {{ form_label(form.isPlaceAvertie) }}
-
-                        {% for key, choice in form.isPlaceAvertie.children %}
-                            <div class="fr-radio-group">
-                                {{ form_widget(choice) }}
-                                {{ form_label(choice) }}
-                            </div>
-                        {% endfor %}
-                        <p id="{{ form.isPlaceAvertie.vars.id }}-error" class="fr-error-text fr-hidden">
-                            Veuillez indiquer si vous avez prévenu l'établissement.
-                        </p>
-                    </div>
+                    {{ forms.radio_choice(form.isPlaceAvertie, 'Veuillez indiquer si vous avez prévenu l\'établissement.') }}
                 </div>
 
                 <h2 class="fr-h3">Informations complémentaires</h2>
@@ -173,44 +122,19 @@
                     </div>
                 </div>
 
-                <div class="fr-input-group">
-                    {{ form_label(form.autresInformations) }}
-                    {{ form_help(form.autresInformations) }}
-                    {{ form_widget(form.autresInformations) }}
-                    <p id="{{ form.autresInformations.vars.id }}-error" class="fr-error-text fr-hidden">
-                        Merci de proposer une rapide description (minimum 10 caractères).
-                    </p>
-                </div>
+                {{ forms.input(form.autresInformations, 'Merci de proposer une description (minimum 10 caractères).', true) }}
 
                 <h2 class="fr-h3">Vos coordonnées</h2>
                 <p>Renseignez vos coordonnées pour recevoir nos conseils pour éviter de ramener des punaises chez vous
                     par email.</p>
                 <div class="fr-form-group">
-                    <div class="fr-select-group">
-                        {{ form_label(form.nomDeclarant) }}
-                        {{ form_widget(form.nomDeclarant) }}
-                        <p id="{{ form.nomDeclarant.vars.id }}-error" class="fr-error-text fr-hidden">
-                            Veuillez renseigner votre nom.
-                        </p>
-                    </div>
+                    {{ forms.input(form.nomDeclarant, 'Veuillez renseigner votre nom.') }}
                 </div>
                 <div class="fr-form-group fr-mt-3v">
-                    <div class="fr-select-group">
-                        {{ form_label(form.prenomDeclarant) }}
-                        {{ form_widget(form.prenomDeclarant) }}
-                        <p id="{{ form.prenomDeclarant.vars.id }}-error" class="fr-error-text fr-hidden">
-                            Veuillez renseigner votre prénom.
-                        </p>
-                    </div>
+                   {{ forms.input(form.prenomDeclarant, 'Veuillez renseigner votre prénom.') }}
                 </div>
                 <div class="fr-form-group fr-mt-3v">
-                    <div class="fr-select-group">
-                        {{ form_label(form.emailDeclarant) }}
-                        {{ form_widget(form.emailDeclarant) }}
-                        <p id="{{ form.emailDeclarant.vars.id }}-error" class="fr-error-text fr-hidden">
-                            Veuillez renseigner votre adresse e-mail.
-                        </p>
-                    </div>
+                    {{ forms.input(form.emailDeclarant, 'Veuillez renseigner votre adresse e-mail.') }}
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('save_signalement_erp') }}">
                 <div class="fr-input-group fr-mt-3v">

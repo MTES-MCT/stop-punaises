@@ -1,6 +1,7 @@
 {% extends 'front_signalement/base_step.html.twig' %}
 
 {% block content %}
+    {% import "common/components/macro-forms.html.twig" as forms %}
     <div class="if-territory-open">
         <div class="fr-stepper">
             <h1 class="fr-stepper__title fr-h2">
@@ -62,45 +63,19 @@
     </div>
 
     <div class="fr-form-group">
-        <div class="fr-select-group">
-            {{ form_label(form.nomOccupant) }}
-            {{ form_widget(form.nomOccupant) }}
-            <p id="{{ form.nomOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
-                Veuillez renseigner votre nom.
-            </p>
-        </div>
+        {{ forms.input(form.nomOccupant, 'Veuillez renseigner votre nom.') }}
     </div>
 
     <div class="fr-form-group">
-        <div class="fr-select-group">
-            {{ form_label(form.prenomOccupant) }}
-            {{ form_widget(form.prenomOccupant) }}
-            <p id="{{ form.prenomOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
-                Veuillez renseigner votre prénom.
-            </p>
-        </div>
+        {{ forms.input(form.prenomOccupant, 'Veuillez renseigner votre prénom.') }}
     </div>
 
     <div class="fr-form-group if-territory-open">
-        <div class="fr-select-group">
-            {{ form_label(form.telephoneOccupant) }}
-            {{ form_help(form.telephoneOccupant) }}
-            {{ form_widget(form.telephoneOccupant) }}
-            <p id="{{ form.telephoneOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
-                Veuillez renseigner votre numéro de téléphone.
-            </p>
-        </div>
+        {{ forms.input(form.telephoneOccupant, 'Veuillez renseigner votre numéro de téléphone.', true) }}
     </div>
 
     <div class="fr-form-group">
-        <div class="fr-select-group">
-            {{ form_label(form.emailOccupant) }}
-            {{ form_help(form.emailOccupant) }}
-            {{ form_widget(form.emailOccupant) }}
-            <p id="{{ form.emailOccupant.vars.id }}-error" class="fr-error-text fr-hidden">
-                Veuillez renseigner votre adresse e-mail.
-            </p>
-        </div>
+        {{ forms.input(form.emailOccupant, 'Veuillez renseigner votre adresse e-mail.', true) }}
     </div>
 
     {{ form_widget(form.autotraitement) }}

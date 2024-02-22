@@ -1,48 +1,17 @@
+<h2>Intervention</h2>
+{% import "common/components/macro-forms.html.twig" as forms %}
+
+<p>Sélectionnez le type d'intervention puis remplissez les champs proposés.</p>
+
 <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
         <div class="fr-form-group">
-            {% if form_errors(form.typeIntervention) %}
-                <div class="fr-select-group fr-select-group--error">
-                    {{ form_label(form.typeIntervention) }}
-                    {{ form_widget(form.typeIntervention, { 'attr': {
-                        'aria-describedby': form.typeIntervention.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.typeIntervention.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.typeIntervention) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-select-group">
-                    {{ form_label(form.typeIntervention) }}
-                    {{ form_widget(form.typeIntervention) }}
-                    <p id="{{ form.typeIntervention.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le type d'intervention
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.select(form.typeIntervention, 'Veuillez renseigner le type d\'intervention.') }}
         </div>
 
         {% if form.entreprise is defined %}
             <div class="fr-form-group fr-mt-3v">
-                {% if form_errors(form.entreprise) %}
-                    <div class="fr-select-group fr-select-group--error">
-                        {{ form_label(form.entreprise) }}
-                        {{ form_widget(form.entreprise, { 'attr': {
-                            'aria-describedby': form.entreprise.vars.id ~ '-error'
-                        } }) }}
-                        <p id="{{ form.entreprise.vars.id }}-error" class="fr-error-text">
-                            {{ form_errors(form.entreprise) }}
-                        </p>
-                    </div>
-                {% else %}
-                    <div class="fr-select-group">
-                        {{ form_label(form.entreprise) }}
-                        {{ form_widget(form.entreprise) }}
-                        <p id="{{ form.entreprise.vars.id }}-error" class="fr-error-text fr-hidden">
-                            Veuillez renseigner l'entreprise
-                        </p>
-                    </div>
-                {% endif %}
+                {{ forms.select(form.entreprise, 'Veuillez renseigner l\'entreprise.') }}
             </div>
         {% endif %}
     </div>
@@ -51,279 +20,49 @@
 <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
         <div class="fr-form-group display-if-diagnostic display-if-traitement">
-            {% if form_errors(form.dateIntervention) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.dateIntervention) }}
-                    {{ form_widget(form.dateIntervention, { 'attr': {
-                        'aria-describedby': form.dateIntervention.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.dateIntervention.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.dateIntervention) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.dateIntervention) }}
-                    {{ form_widget(form.dateIntervention) }}
-                    <p id="{{ form.dateIntervention.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner la date d'intervention
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.dateIntervention, 'Veuillez renseigner la date d\'intervention.') }}
         </div>
 
         <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
-            {% if form_errors(form.agent) %}
-                <div class="fr-select-group fr-select-group--error">
-                    {{ form_label(form.agent) }}
-                    {{ form_widget(form.agent, { 'attr': {
-                        'aria-describedby': form.agent.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.agent.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.agent) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-select-group">
-                    {{ form_label(form.agent) }}
-                    {{ form_widget(form.agent) }}
-                    <p id="{{ form.agent.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner l'agent
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.select(form.agent, 'Veuillez renseigner l\'agent.') }}
         </div>
 
         <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
-            {% if form_errors(form.niveauInfestation) %}
-                <div class="fr-select-group fr-select-group--error">
-                    {{ form_label(form.niveauInfestation) }}
-                    {{ form_widget(form.niveauInfestation, { 'attr': {
-                        'aria-describedby': form.niveauInfestation.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.niveauInfestation.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.niveauInfestation) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-select-group">
-                    {{ form_label(form.niveauInfestation) }}
-                    {{ form_widget(form.niveauInfestation) }}
-                    <p id="{{ form.niveauInfestation.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le niveau d'infestation
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.select(form.niveauInfestation, 'Veuillez renseigner le niveau d\'infestation.') }}
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
-            {% if form_errors(form.typeTraitement) %}
-                <div class="fr-select-group fr-select-group--error">
-                    {{ form_label(form.typeTraitement) }}
-                    {{ form_help(form.typeTraitement) }}
-                    {{ form_widget(form.typeTraitement, { 'attr': {
-                        'aria-describedby': form.typeTraitement.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.typeTraitement.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.typeTraitement) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-select-group">
-                    {{ form_label(form.typeTraitement) }}
-                    {{ form_help(form.typeTraitement) }}
-                    {{ form_widget(form.typeTraitement) }}
-                    <p id="{{ form.typeTraitement.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le type de traitement
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.select(form.typeTraitement, 'Veuillez renseigner le type de traitement.', true) }}
         </div>
 
         <div class="fr-form-group display-if-traitement display-if-biocide fr-mt-3v">
-            {% if form_errors(form.nomBiocide) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.nomBiocide) }}
-                    {{ form_widget(form.nomBiocide, { 'attr': {
-                        'aria-describedby': form.nomBiocide.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.nomBiocide.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.nomBiocide) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.nomBiocide) }}
-                    {{ form_widget(form.nomBiocide) }}
-                    <p id="{{ form.nomBiocide.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le nom du Biocide
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.nomBiocide, 'Veuillez renseigner le nom du Biocide.') }}
         </div>
 
         <div class="fr-form-group display-if-diagnostic fr-mt-3v">
-            {% if form_errors(form.typeDiagnostic) %}
-                <fieldset class="fr-fieldset fr-input-group--error" role="group">
-                    <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.typeDiagnostic.vars.label}}</legend>
-                    <div class="fr-fieldset__element">
-                        {% for key, choice in form.typeDiagnostic.children %}
-                            <div class="fr-radio-group">
-                                {{ form_widget(choice, { 'attr': {
-                                    'aria-describedby': form.typeDiagnostic.vars.id ~ '-error'
-                                } }) }}
-                                {{ form_label(choice) }}
-                            </div>
-                        {% endfor %}
-                        <p id="{{ form.typeDiagnostic.vars.id }}-error" class="fr-error-text">
-                            {{ form_errors(form.typeDiagnostic) }}
-                        </p>
-                    </div>
-                </fieldset>
-            {% else %}
-                <fieldset class="fr-fieldset" role="group">
-                    <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.typeDiagnostic.vars.label}}</legend>
-                    <div class="fr-fieldset__element">
-                        {% for key, choice in form.typeDiagnostic.children %}
-                            <div class="fr-radio-group">
-                                {{ form_widget(choice) }}
-                                {{ form_label(choice) }}
-                            </div>
-                        {% endfor %}
-                        <p id="{{ form.typeDiagnostic.vars.id }}-error" class="fr-error-text fr-hidden">
-                        Veuillez renseigner le type de diagnostic
-                        </p>
-                    </div>
-                </fieldset>
-            {% endif %}
+            {{ forms.radio_choice(form.typeDiagnostic, 'Veuillez renseigner le type de diagnostic.') }}
         </div>
     </div>
 
     <div class="fr-col-12 fr-col-md-6">
         <div class="fr-form-group display-if-traitement">
-            {% if form_errors(form.nombrePiecesTraitees) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.nombrePiecesTraitees) }}
-                    {{ form_widget(form.nombrePiecesTraitees, { 'attr': {
-                        'aria-describedby': form.nombrePiecesTraitees.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.nombrePiecesTraitees.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.nombrePiecesTraitees) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.nombrePiecesTraitees) }}
-                    {{ form_widget(form.nombrePiecesTraitees) }}
-                    <p id="{{ form.nombrePiecesTraitees.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le nombre de pièces traitées
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.nombrePiecesTraitees, 'Veuillez renseigner le nombre de pièces traitées.') }}
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
-            {% if form_errors(form.delaiEntreInterventions) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.delaiEntreInterventions) }}
-                    {{ form_widget(form.delaiEntreInterventions, { 'attr': {
-                        'aria-describedby': form.delaiEntreInterventions.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.delaiEntreInterventions.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.delaiEntreInterventions) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.delaiEntreInterventions) }}
-                    {{ form_widget(form.delaiEntreInterventions) }}
-                    <p id="{{ form.delaiEntreInterventions.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le délai entre les interventions
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.delaiEntreInterventions, 'Veuillez renseigner le délai entre les interventions.') }}
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
-            {% if form_errors(form.faitVisitePostTraitement) %}
-                <fieldset class="fr-fieldset fr-input-group--error" role="group">
-                    <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.faitVisitePostTraitement.vars.label}}</legend>
-                        <div class="fr-fieldset__element">
-                        {% for key, choice in form.faitVisitePostTraitement.children %}
-                            <div class="fr-radio-group">
-                                {{ form_widget(choice, { 'attr': {
-                                    'aria-describedby': form.faitVisitePostTraitement.vars.id ~ '-error'
-                                } }) }}
-                                {{ form_label(choice) }}
-                            </div>
-                        {% endfor %}
-                        <p id="{{ form.faitVisitePostTraitement.vars.id }}-error" class="fr-error-text">
-                            {{ form_errors(form.faitVisitePostTraitement) }}
-                        </p>
-                    </div>
-                </fieldset>
-            {% else %}
-                <fieldset class="fr-fieldset" role="group">
-                    <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.faitVisitePostTraitement.vars.label}}</legend>
-                        <div class="fr-fieldset__element">
-                        {% for key, choice in form.faitVisitePostTraitement.children %}
-                            <div class="fr-radio-group">
-                                {{ form_widget(choice) }}
-                                {{ form_label(choice) }}
-                            </div>
-                        {% endfor %}
-                        <p id="{{ form.faitVisitePostTraitement.vars.id }}-error" class="fr-error-text fr-hidden">
-                        Veuillez renseigner la visite post-traitement
-                        </p>
-                    </div>
-                </fieldset>
-            {% endif %}
+            {{ forms.radio_choice(form.faitVisitePostTraitement, 'Veuillez renseigner la visite post-traitement.') }}
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
-            {% if form_errors(form.dateVisitePostTraitement) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.dateVisitePostTraitement) }}
-                    {{ form_widget(form.dateVisitePostTraitement, { 'attr': {
-                        'aria-describedby': form.dateVisitePostTraitement.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.dateVisitePostTraitement.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.dateVisitePostTraitement) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.dateVisitePostTraitement) }}
-                    {{ form_widget(form.dateVisitePostTraitement) }}
-                    <p id="{{ form.dateVisitePostTraitement.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner la date de la visite post-traitement
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.dateVisitePostTraitement, 'Veuillez renseigner la date de la visite post-traitement.') }}
         </div>
 
         <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
-            {% if form_errors(form.prixFactureHT) %}
-                <div class="fr-input-group fr-input-group--error">
-                    {{ form_label(form.prixFactureHT) }}
-                    {{ form_help(form.prixFactureHT) }}
-                    {{ form_widget(form.prixFactureHT, { 'attr': {
-                        'aria-describedby': form.prixFactureHT.vars.id ~ '-error'
-                    } }) }}
-                    <p id="{{ form.prixFactureHT.vars.id }}-error" class="fr-error-text">
-                        {{ form_errors(form.prixFactureHT) }}
-                    </p>
-                </div>
-            {% else %}
-                <div class="fr-input-group">
-                    {{ form_label(form.prixFactureHT) }}
-                    {{ form_help(form.prixFactureHT) }}
-                    {{ form_widget(form.prixFactureHT) }}
-                    <p id="{{ form.prixFactureHT.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le prix facturé
-                    </p>
-                </div>
-            {% endif %}
+            {{ forms.input(form.prixFactureHT, 'Veuillez renseigner le prix facturé.') }}
         </div>
     </div>
 </div>

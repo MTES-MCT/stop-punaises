@@ -1,6 +1,7 @@
 {% extends 'front_signalement/base_step.html.twig' %}
 
 {% block content %}
+    {% import "common/components/macro-forms.html.twig" as forms %}
     <div class="fr-stepper">
         <h1 class="fr-stepper__title fr-h2">
             Informations du logement
@@ -12,12 +13,7 @@
         </p>
     </div>
 
-    {% include 'common/components/form/list-radio-buttons.html.twig' with {
-        'name': 'typeLogement',
-        'displayLabel': true,
-        'formObject': form.typeLogement,
-        'errorLabel': 'Veuillez renseigner le type de logement.'
-    } %}
+    {{ forms.radio_choice(form.typeLogement, 'Veuillez renseigner le type de logement.') }}
 
     <div class="fr-form-group">
         <div class="fr-input-group">
@@ -55,36 +51,17 @@
 
     <div class="fr-hidden address-fields">
         <div class="fr-form-group">
-            <div class="fr-input-group">
-                {{ form_label(form.adresse) }}
-                {{ form_widget(form.adresse) }}
-                <p id="{{ form.adresse.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner l'adresse.
-                </p>
-            </div>
+            {{ forms.input(form.adresse, 'Veuillez renseigner l\'adresse.') }}
         </div>
 
         <div class="fr-form-group">
-            <div class="fr-input-group">
-                {{ form_label(form.codePostal) }}
-                {{ form_help(form.codePostal) }}
-                {{ form_widget(form.codePostal) }}
-                <p id="{{ form.codePostal.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner le code postal.
-                </p>
-            </div>
+            {{ forms.input(form.codePostal, 'Veuillez renseigner le code postal.', true) }}
         </div>
 
         {{ form_widget(form.codeInsee) }}
 
         <div class="fr-form-group">
-            <div class="fr-input-group">
-                {{ form_label(form.ville) }}
-                {{ form_widget(form.ville) }}
-                <p id="{{ form.ville.vars.id }}-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner la ville.
-                </p>
-            </div>
+            {{ forms.input(form.ville, 'Veuillez renseigner la ville.') }}
         </div>
 
         {{ form_widget(form.geoloc) }}

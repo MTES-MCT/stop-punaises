@@ -70,6 +70,15 @@ function sendSignalement() {
                                 $('#rechercheAdresse').next().removeClass('fr-hidden');
                                 $('#rechercheAdresse').attr('aria-describedby', 'rechercheAdresse-error');
                             }
+
+                            if (element.indexOf('isPlaceAvertie') > 0) {
+                                $('#signalement_transport_isPlaceAvertie-error').removeClass('fr-hidden');
+                                $('#signalement_front_isPlaceAvertie-error').removeClass('fr-hidden');
+                            }
+
+                            if (element.indexOf('placeType') > 0) {
+                                $('#signalement_front_placeType-error').removeClass('fr-hidden');
+                            }
                         }
                         index++;
                     }
