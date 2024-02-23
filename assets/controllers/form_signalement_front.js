@@ -458,24 +458,22 @@ class PunaisesFrontSignalementController {
       let inputDiv = $('.fr-upload-group .fr-upload');
       for (let file of event.target.files) {
         let errorText = '';
-          if (file.size > 10 * 1024 * 1024) {
-            errorText += 'Merci d\'ajouter une photo de moins de 10 Mo. ';
-              break;
-          } else if(file.type !== 'image/jpeg' && file.type !== 'image/png') {
-            errorText += 'Merci de choisir un fichier au format jpg ou png. ';
-              break;
-          } 
-          if (errorText != ''){
-            errorDiv.text(errorText).removeClass('fr-hidden');
-            inputDiv.attr('aria-describedby', 'file-upload-error');
-          } else {
-              let imgSrc = URL.createObjectURL(file);
-              let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
-              strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
-              strAppend += '</div>';
-              $('.fr-front-signalement-photos').append(strAppend);
-              errorDiv.addClass('fr-hidden');
-          }
+        if (file.size > 10 * 1024 * 1024) {
+          errorText += 'Merci d\'ajouter une photo de moins de 10 Mo. ';
+        } else if(file.type !== 'image/jpeg' && file.type !== 'image/png') {
+          errorText += 'Merci de choisir un fichier au format jpg ou png. ';
+        } 
+        if (errorText != ''){
+          errorDiv.text(errorText).removeClass('fr-hidden');
+          inputDiv.attr('aria-describedby', 'file-upload-error');
+        } else {
+            let imgSrc = URL.createObjectURL(file);
+            let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
+            strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
+            strAppend += '</div>';
+            $('.fr-front-signalement-photos').append(strAppend);
+            errorDiv.addClass('fr-hidden');
+        }
       }
     });
 
