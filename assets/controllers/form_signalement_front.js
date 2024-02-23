@@ -451,20 +451,23 @@ class PunaisesFrontSignalementController {
     $('#step-'+self.stepStr+' input[name="signalement_front[piquresExistantes]"]').on('click', function() {
       self.updateStepTracesPunaisesPiqures();
     });
-
-    $('#file-upload').on('change', function(event) {
+    const fileUpload = $('#file-upload');
+    fileUpload.on('change', function(event) {
       $('.fr-front-signalement-photos').empty();
       let errorDiv = $('.fr-upload-group .fr-error-text');
       let inputDiv = $('.fr-upload-group .fr-upload');
       for (let file of event.target.files) {
+        let errorText = '';
           if (file.size > 10 * 1024 * 1024) {
-              errorDiv.text('Merci d\'ajouter une photo de moins de 10 Mo.').removeClass('fr-hidden');
-              inputDiv.attr('aria-describedby', 'file-upload-error');
+            errorText += 'Merci d\'ajouter une photo de moins de 10 Mo. ';
               break;
           } else if(file.type !== 'image/jpeg' && file.type !== 'image/png') {
-              errorDiv.text('Merci de choisir un fichier au format jpg ou png.').removeClass('fr-hidden');
-              inputDiv.attr('aria-describedby', 'file-upload-error');
+            errorText += 'Merci de choisir un fichier au format jpg ou png. ';
               break;
+          } 
+          if (errorText != ''){
+            errorDiv.text(errorText).removeClass('fr-hidden');
+            inputDiv.attr('aria-describedby', 'file-upload-error');
           } else {
               let imgSrc = URL.createObjectURL(file);
               let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
@@ -475,6 +478,16 @@ class PunaisesFrontSignalementController {
           }
       }
     });
+
+
+    fileUpload.on('dragover', function(event) {
+      event.preventDefault(); 
+    });
+
+    fileUpload.on('drop', function(event) {
+      event.preventDefault();
+    });
+
   }
 
   updateStepTracesPunaisesPiqures() {
@@ -494,6 +507,9 @@ class PunaisesFrontSignalementController {
       canGoNext = false;
     }
     if ($('#signalement_front_piquresExistantes_0').prop('checked') && !self.checkChoicesInput('piquresConfirmees', 2)) {
+      canGoNext = false;
+    }
+    if (!$('#file-upload-error').hasClass('fr-hidden')) {
       canGoNext = false;
     }
 
