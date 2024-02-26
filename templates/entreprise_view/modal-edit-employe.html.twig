@@ -15,7 +15,7 @@
 
                             <input type="hidden" name="editEmploye" value="{{employeUuid}}">
 
-                            <div class="fr-form-group">
+                            <div class="fr-form-group fr-mt-3v">
                                 <div class="fr-input-group">
                                     <label class="fr-label required" for="employe_nom_{{employeUuid}}">Nom</label>
                                     {{ form_widget(formEditEmploye.nom, { 'id': 'employe_nom_'~employeUuid }) }}
@@ -25,7 +25,7 @@
                                 </div>
                             </div>
 
-                            <div class="fr-form-group">
+                            <div class="fr-form-group fr-mt-3v">
                                 <div class="fr-input-group">
                                     <label class="fr-label required" for="employe_prenom_{{employeUuid}}">Prénom</label>
                                     {{ form_widget(formEditEmploye.prenom, { 'id': 'employe_prenom_'~employeUuid }) }}
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                             
-                            <div class="fr-form-group">
+                            <div class="fr-form-group fr-mt-3v">
                                 <div class="fr-input-group">
                                     <label class="fr-label required" for="employe_numeroCertification_{{employeUuid}}">Certification Biocide</label>
                                     {{ form_widget(formEditEmploye.numeroCertification, { 'id': 'employe_numeroCertification_'~employeUuid }) }}
@@ -45,14 +45,14 @@
                                 </div>
                             </div>
                             
-                            <div class="fr-form-group">
+                            <div class="fr-form-group fr-mt-3v">
                                 <div class="fr-input-group">
                                     <label class="fr-label" for="employe_telephone_{{employeUuid}}">Téléphone (facultatif)</label>
                                     {{ form_widget(formEditEmploye.telephone, { 'id': 'employe_telephone_'~employeUuid }) }}
                                 </div>
                             </div>
                             
-                            <div class="fr-form-group">
+                            <div class="fr-form-group fr-mt-3v">
                                 <div class="fr-input-group">
                                     <label class="fr-label" for="employe_email_{{employeUuid}}">Email (facultatif)</label>
                                     {{ form_widget(formEditEmploye.email, { 'id': 'employe_email_'~employeUuid }) }}

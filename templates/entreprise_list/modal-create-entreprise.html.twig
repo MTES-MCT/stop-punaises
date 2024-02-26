@@ -14,27 +14,27 @@
                         <form action="{{ path('app_entreprise_list') }}" method="POST" class="fr-my-5w">
                             {{ form_row(form._token) }}
 
-                            <div class="fr-form-group">
+                            <div class="fr-form-group fr-mt-3v">
                                 {{ forms.input(form.nom, 'Veuillez renseigner le nom.') }}
                             </div>
 
-                            <div class="fr-form-group">
+                            <div class="fr-form-group fr-mt-3v">
                                 {{ forms.input(form.numeroSiret, 'Veuillez renseigner le SIRET.') }}
                             </div>
                             
-                            <div class="fr-form-group">
-                                {{ forms.input(form.telephone, 'Veuillez renseigner le numéro de téléphone.') }}
+                            <div class="fr-form-group fr-mt-3v">
+                                {{ forms.input(form.telephone, 'Veuillez renseigner le numéro de téléphone.', true) }}
                             </div>
                             
-                            <div class="fr-form-group">
+                            <div class="fr-form-group fr-mt-3v">
                                 {{ forms.input(form.numeroLabel, 'Veuillez renseigner le numéro de label.') }}
                             </div>
                             
-                            <div class="fr-form-group">
-                                {{ forms.input(form.email, 'Veuillez renseigner l\'email.') }}
+                            <div class="fr-form-group fr-mt-3v">
+                                {{ forms.input(form.email, 'Veuillez renseigner l\'email.', true) }}
                             </div>
 
-                            <div class="fr-form-group">
+                            <div class="fr-form-group fr-mt-3v">
                                 {{ forms.select(form.territoires, 'Veuillez renseigner au moins un territoire.', true) }}
                             </div>
 

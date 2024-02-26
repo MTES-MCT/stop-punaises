@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Email;
 
 class EntrepriseType extends AbstractType
 {
@@ -63,7 +64,15 @@ class EntrepriseType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Téléphone',
+                'help' => 'Format attendu : 10 chiffres',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => true,
+                'constraints' => [
+                    new Assert\Regex('/[0-9]{10}/', 'Veuillez renseigner un numéro de téléphone valide'),
+                    new Assert\NotBlank(message: 'Veuillez renseigner un numéro de téléphone.'),
+                ],
             ])
             ->add('numeroLabel', TextType::class, [
                 'attr' => [
@@ -87,7 +96,18 @@ class EntrepriseType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Email',
+                'help' => 'Format attendu : nom@domaine.fr',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => true,
+                'constraints' => [
+                    new Assert\Email(
+                        mode: Email::VALIDATION_MODE_STRICT,
+                        message: 'Veuillez renseigner un email valide.'
+                    ),
+                    new Assert\NotBlank(message: 'Veuillez renseigner une adresse e-mail.'),
+                ],
                 'data' => $email,
             ])
             ->add('territoires', EntityType::class, [
