@@ -12,6 +12,7 @@ use App\Repository\TerritoireRepository;
 use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\ZipCodeProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,6 +51,7 @@ class SignalementCreateController extends AbstractController
 
             return $this->redirect($this->generateUrl('app_historique_list'));
         }
+        $this->displayErrors($form);
 
         return $this->render('signalement_create/index.html.twig', [
             'form' => $form->createView(),
@@ -75,5 +77,13 @@ class SignalementCreateController extends AbstractController
         }
 
         return $this->json(['success' => true, 'data' => $jsonData]);
+    }
+
+    private function displayErrors(FormInterface $form): void
+    {
+        /** @var FormError $error */
+        foreach ($form->getErrors(true) as $error) {
+            $this->addFlash('error', $error->getMessage());
+        }
     }
 }
