@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Email;
 
 class SignalementFrontType extends AbstractType
 {
@@ -45,13 +46,21 @@ class SignalementFrontType extends AbstractType
                 'attr' => [
                     'class' => 'fr-input',
                     'placeholder' => '36',
-                    'maxlength' => '10',
+                    'maxlength' => '5',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
+                'help' => 'Format attendu : nombre (maximum 30000 m²)',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'label' => 'La superficie de mon logement est de...',
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Veuillez renseigner une superficie'),
+                    new Assert\Regex('/[0-9]{5}/', 'Veuillez renseigner une superficie valide'),
+                ],
             ])
             ->add('adresse', TextType::class, [
                 'attr' => [
@@ -76,6 +85,10 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Code postal',
+                'help' => 'Format attendu : 5 chiffres',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner le code postal'),
@@ -306,7 +319,14 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Téléphone',
+                'help' => 'Format attendu : 10 chiffres',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => false,
+                'constraints' => [
+                    new Assert\Regex('/[0-9]{10}/', 'Veuillez renseigner un numéro de téléphone valide'),
+                ],
             ])
             ->add('emailOccupant', EmailType::class, [
                 'attr' => [
@@ -318,7 +338,17 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Email',
+                'help' => 'Format attendu : nom@domaine.fr',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => false,
+                'constraints' => [
+                    new Assert\Email(
+                        mode: Email::VALIDATION_MODE_STRICT,
+                        message: 'Veuillez renseigner un email valide.'
+                    ),
+                ],
             ])
             ->add('autotraitement', HiddenType::class, [
                 'attr' => [

@@ -114,10 +114,12 @@ class PunaisesFrontSignalementController {
       const postalCodePattern = /^\d{5}$/;
       if (!postalCodePattern.test($('input#' + idInput).val())) {
         $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+        $('input#' + idInput).attr('aria-describedby', idInput + '-error');
         return false;
       }
     } else {
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
@@ -206,6 +208,7 @@ class PunaisesFrontSignalementController {
     $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
     if ($('input#' + idInput).val() == '') {
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     return true;
@@ -217,17 +220,20 @@ class PunaisesFrontSignalementController {
 
     if ($('input#' + idInput).val() == '') {
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     let intVal = parseInt($('input#' + idInput).val() );
     if (isNaN(intVal)) {
       $('input#' + idInput).siblings('.fr-error-text').text('La superficie n\'est pas au bon format.');
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     if (intVal > 30000) {
       $('input#' + idInput).siblings('.fr-error-text').text('La superficie doit être inférieure à 30000 m².');
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#' + idInput).attr('aria-describedby', idInput + '-error');
       return false;
     }
     $('input#' + idInput).val(intVal);
@@ -246,6 +252,7 @@ class PunaisesFrontSignalementController {
 
     if (!canGoNext) {
       $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').removeClass('fr-hidden');
+      $('#signalement_front_' + idInput).attr('aria-describedby', idInput + '-error');
     }
     
     return canGoNext;
@@ -350,6 +357,7 @@ class PunaisesFrontSignalementController {
     // Cas particulier du champ de recherche : erreur à afficher si les champs d'adresse sont invisibles
     if ($('.address-fields').hasClass('fr-hidden')) {
       $('.search-address .fr-error-text').removeClass('fr-hidden');
+      $('input#rechercheAdresse').attr('aria-describedby', 'rechercheAdresse-error');
     } else {
       $('.search-address .fr-error-text').addClass('fr-hidden');
     }
@@ -443,17 +451,41 @@ class PunaisesFrontSignalementController {
     $('#step-'+self.stepStr+' input[name="signalement_front[piquresExistantes]"]').on('click', function() {
       self.updateStepTracesPunaisesPiqures();
     });
-
-    $('#file-upload').on('change', function(event) {
+    const fileUpload = $('#file-upload');
+    fileUpload.on('change', function(event) {
       $('.fr-front-signalement-photos').empty();
-      for (let i = 0; i < event.target.files.length; i++) {
-        let imgSrc = URL.createObjectURL(event.target.files[i]);
-        let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
-        strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
-        strAppend += '</div>';
-        $('.fr-front-signalement-photos').append(strAppend);   
+      let errorDiv = $('.fr-upload-group .fr-error-text');
+      let inputDiv = $('.fr-upload-group .fr-upload');
+      for (let file of event.target.files) {
+        let errorText = '';
+        if (file.size > 10 * 1024 * 1024) {
+          errorText += 'Merci d\'ajouter une photo de moins de 10 Mo. ';
+        } else if(file.type !== 'image/jpeg' && file.type !== 'image/png') {
+          errorText += 'Merci de choisir un fichier au format jpg ou png. ';
+        } 
+        if (errorText != ''){
+          errorDiv.text(errorText).removeClass('fr-hidden');
+          inputDiv.attr('aria-describedby', 'file-upload-error');
+        } else {
+            let imgSrc = URL.createObjectURL(file);
+            let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
+            strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
+            strAppend += '</div>';
+            $('.fr-front-signalement-photos').append(strAppend);
+            errorDiv.addClass('fr-hidden');
+        }
       }
     });
+
+
+    fileUpload.on('dragover', function(event) {
+      event.preventDefault(); 
+    });
+
+    fileUpload.on('drop', function(event) {
+      event.preventDefault();
+    });
+
   }
 
   updateStepTracesPunaisesPiqures() {
@@ -473,6 +505,9 @@ class PunaisesFrontSignalementController {
       canGoNext = false;
     }
     if ($('#signalement_front_piquresExistantes_0').prop('checked') && !self.checkChoicesInput('piquresConfirmees', 2)) {
+      canGoNext = false;
+    }
+    if (!$('#file-upload-error').hasClass('fr-hidden')) {
       canGoNext = false;
     }
 
@@ -645,12 +680,14 @@ class PunaisesFrontSignalementController {
     if (self.isTerritoryOpen && !self.isLogementSocial) {
       if (!self.checkSingleInput('signalement_front_telephoneOccupant') || $('#signalement_front_telephoneOccupant').val().length < 10 ) {
         $('input#signalement_front_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+        $('input#signalement_front_telephoneOccupant').attr('aria-describedby', 'signalement_front_telephoneOccupant-error');
         canGoNext = false;
       }
     }
     let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!self.checkSingleInput('signalement_front_emailOccupant') || !$('#signalement_front_emailOccupant').val().match(emailRegex)) {
       $('input#signalement_front_emailOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
+      $('input#signalement_front_emailOccupant').attr('aria-describedby', 'signalement_front_emailOccupant-error');
       canGoNext = false;
     }
     

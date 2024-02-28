@@ -96,11 +96,35 @@ function startCreerSignalementApp() {
 }
 
 function checkSignalementSingleInput(idInput) {
-  $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
-  if ($('input#' + idInput).val() == '') {
-    $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
+  const input = $('input#' + idInput);
+  const errorText = input.siblings('.fr-error-text');
+  if (input.val() === '') {
+      errorText.removeClass('fr-hidden');
+      input.attr('aria-describedby', idInput + '-error');
+      return false;
+  } 
+  errorText.addClass('fr-hidden');
+  input.removeAttr('aria-describedby');
+  return true;
+}
+
+function checkSignalementSingleInputWithPattern(idInput, pattern, emptyErrorText, mismatchErrorText, isRequired = true) {
+  const divInput = $('input#' + idInput);
+  const errorText = divInput.siblings('.fr-error-text');
+  if (isRequired && divInput.val() === '') {
+    errorText.text(emptyErrorText).removeClass('fr-hidden');
+    divInput.attr('aria-describedby', idInput + '-error');
+    return false;
+  } else if ( 
+    (isRequired && !divInput.val().match(pattern)) || 
+    (!isRequired && divInput.val() !== '' && !divInput.val().match(pattern)) 
+    ) {
+    errorText.text(mismatchErrorText).removeClass('fr-hidden');
+    divInput.attr('aria-describedby', idInput + '-error');
     return false;
   }
+  errorText.text(emptyErrorText).addClass('fr-hidden');
+  divInput.removeAttr('aria-describedby');
   return true;
 }
 
@@ -108,6 +132,7 @@ function checkSignalementSingleSelect(idSelect) {
   $('select#' + idSelect).siblings('.fr-error-text').addClass('fr-hidden');
   if ($('select#' + idSelect).val() == '') {
     $('select#' + idSelect).siblings('.fr-error-text').removeClass('fr-hidden');
+    $('select#' + idSelect).attr('aria-describedby', idSelect + '-error');
     return false;
   }
   return true;
@@ -117,25 +142,30 @@ function checkSignalementFirstStep() {
   let buffer = true;
 
   buffer = checkSignalementSingleInput('signalement_history_adresse');
-  buffer = checkSignalementSingleInput('signalement_history_codePostal') && buffer;
+  buffer = checkSignalementSingleInputWithPattern(
+    'signalement_history_codePostal', 
+    /^[0-9]{5}$/, 
+    'Veuillez renseigner le code postal.', 
+    'Le format du code postal est incorrect.'
+  ) && buffer;
   buffer = checkSignalementSingleInput('signalement_history_ville') && buffer;
   buffer = checkSignalementSingleSelect('signalement_history_typeLogement') && buffer;
   buffer = checkSignalementSingleInput('signalement_history_nomOccupant') && buffer;
   buffer = checkSignalementSingleInput('signalement_history_prenomOccupant') && buffer;
-
-  if ($('input#signalement_history_telephoneOccupant').val() != '' && $('input#signalement_history_telephoneOccupant').val().length < 10) {
-    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
-    buffer = false;
-  } else {
-    $('input#signalement_history_telephoneOccupant').siblings('.fr-error-text').addClass('fr-hidden');
-  }
-  let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  if ($('input#signalement_history_emailOccupant').val() != '' && !$('#signalement_history_emailOccupant').val().match(emailRegex)) {
-    $('input#signalement_history_emailOccupant').siblings('.fr-error-text').removeClass('fr-hidden');
-    buffer = false;
-  } else {
-    $('input#signalement_history_emailOccupant').siblings('.fr-error-text').addClass('fr-hidden');
-  }
+  buffer = checkSignalementSingleInputWithPattern(
+    'signalement_history_telephoneOccupant', 
+    /^[0-9]{10}$/, 
+    '', 
+    'Le format du numéro de téléphone est incorrect.',
+    false
+  ) && buffer;  
+  buffer = checkSignalementSingleInputWithPattern(
+    'signalement_history_emailOccupant', 
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, 
+    '', 
+    'Le format de l\'adresse email est incorrect.',
+    false
+  ) && buffer;
 
   if (buffer && $('input#signalement_history_codeInsee').val() == '') {
     $('input#signalement_history_codeInsee').val(0);

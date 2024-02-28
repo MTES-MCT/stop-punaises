@@ -51,7 +51,6 @@ class SignalementCreateController extends AbstractController
 
             return $this->redirect($this->generateUrl('app_historique_list'));
         }
-
         $this->displayErrors($form);
 
         return $this->render('signalement_create/index.html.twig', [

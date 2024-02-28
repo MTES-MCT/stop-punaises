@@ -1,0 +1,123 @@
+
+{% macro input(form_view, error_text, help = false) %}
+    {% if form_errors(form_view) %}
+        <div class="fr-input-group fr-input-group--error">
+            {{ form_label(form_view) }}
+            {% if help %}
+                {{ form_help(form_view) }}                
+            {% endif %}
+            {{ form_widget(form_view, { 'attr': {
+                'aria-describedby': form_view.vars.id ~ '-error',
+                'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
+                'onvalid': "this.setCustomValidity('')",
+                'onchange': "this.setCustomValidity('')",
+                'title': error_text,
+                'data-error': error_text
+            } }) }}
+            <div id="{{ form_view.vars.id }}-error" class="fr-error-text fr-mt-1v">
+                {{ form_errors(form_view) }}
+            </div>
+        </div>
+    {% else %}
+        <div class="fr-input-group">
+            {{ form_label(form_view) }}
+            {% if help %}
+                {{ form_help(form_view) }}                
+            {% endif %}
+            {{ form_widget(form_view, { 'attr': {
+                'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
+                'onvalid': "this.setCustomValidity('')",
+                'onchange': "this.setCustomValidity('')",
+                'title': error_text,
+                'data-error': error_text
+            } }) }}
+            <p id="{{ form_view.vars.id }}-error" class="fr-error-text fr-hidden">
+                {{ error_text}}
+            </p>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro select(form_view, error_text, help = false) %}
+    {% if form_errors(form_view) %}
+        <div class="fr-select-group fr-select-group--error">
+            {{ form_label(form_view) }}
+            {% if help %}
+                {{ form_help(form_view) }}                
+            {% endif %}
+            {{ form_widget(form_view, { 'attr': {
+                'aria-describedby': form_view.vars.id ~ '-error',
+                'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
+                'onvalid': "this.setCustomValidity('')",
+                'onchange': "this.setCustomValidity('')",
+                'title': error_text,
+                'data-error': error_text
+            } }) }}
+            <div id="{{ form_view.vars.id }}-error" class="fr-error-text fr-mt-1v">
+                {{ form_errors(form_view) }}
+            </div>
+        </div>
+    {% else %}
+        <div class="fr-select-group">
+            {{ form_label(form_view) }}
+            {% if help %}
+                {{ form_help(form_view) }}                
+            {% endif %}
+            {{ form_widget(form_view, { 'attr': {
+                'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
+                'onvalid': "this.setCustomValidity('')",
+                'onchange': "this.setCustomValidity('')",
+                'title': error_text,
+                'data-error': error_text
+            } }) }}
+            <p id="{{ form_view.vars.id }}-error" class="fr-error-text fr-hidden">
+                {{ error_text}}
+            </p>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+
+{% macro radio_choice(form_view, error_text, help = false, displayLabel = true) %}
+    {% if form_errors(form_view) %}
+        <fieldset class="fr-fieldset fr-fieldset--error" role="group" id="{{ form_view.vars.id }}" aria-labelledby="{{ form_view.vars.id }}_legend">
+            <legend class="fr-fieldset__legend fr-fieldset__legend--regular" id="{{ form_view.vars.id }}_legend">
+                {% if displayLabel %}
+                    {{ form_label(form_view) }}
+                {% endif %}
+            </legend>
+            {% for key, choice in form_view.children %}
+                <div class="fr-fieldset__element">
+                    <div class="fr-radio-group">
+                        {{ form_widget(choice, { 'attr': {
+                            'aria-describedby': form_view.vars.id ~ '-error'
+                        } }) }}
+                        {{ form_label(choice) }}
+                    </div>
+                </div>
+            {% endfor %}
+                <div id="{{ form_view.vars.id }}-error" class="fr-messages-group fr-error-text fr-mt-1v">
+                    {{ form_errors(form_view) }}
+                </div>
+        </fieldset>
+    {% else %}
+        <fieldset class="fr-fieldset" role="group" id="{{ form_view.vars.id }}" aria-labelledby="{{ form_view.vars.id }}_legend">
+            <legend class="fr-fieldset__legend fr-fieldset__legend--regular"  id="{{ form_view.vars.id }}_legend">
+                {% if displayLabel %}
+                    {{ form_label(form_view) }}
+                {% endif %}
+            </legend>
+            {% for key, choice in form_view.children %}
+                <div class="fr-fieldset__element">
+                    <div class="fr-radio-group">
+                        {{ form_widget(choice) }}
+                        {{ form_label(choice) }}
+                    </div>
+                </div>
+            {% endfor %}
+                <p id="{{ form_view.vars.id }}-error" class="fr-error-text fr-hidden">
+                    {{ error_text}}
+                </p>
+        </fieldset>
+    {% endif %}
+{% endmacro %}

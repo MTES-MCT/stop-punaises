@@ -1,6 +1,7 @@
 {% extends 'front_signalement/base_step.html.twig' %}
 
 {% block content %}
+    {% import "common/components/macro-forms.html.twig" as forms %}
     <div class="fr-stepper">
         <h1 class="fr-stepper__title fr-h2">
             Durée de l'infestation
@@ -12,19 +13,9 @@
         </p>
     </div>
 
-    {% include 'common/components/form/list-radio-buttons.html.twig' with {
-        'name': 'dureeInfestation',
-        'displayLabel': true,
-        'formObject': form.dureeInfestation,
-        'errorLabel': 'Veuillez renseigner la durée d\'infestation.'
-    } %}
+    {{ forms.radio_choice(form.dureeInfestation, 'Veuillez renseigner la durée d\'infestation.') }}
 
-    {% include 'common/components/form/list-radio-buttons.html.twig' with {
-        'name': 'infestationLogementsVoisins',
-        'displayLabel': true,
-        'formObject': form.infestationLogementsVoisins,
-        'errorLabel': 'Veuillez renseigner si il y a une infestation dans les logements voisins.'
-    } %}
+    {{ forms.radio_choice(form.infestationLogementsVoisins, 'Veuillez renseigner si il y a une infestation dans les logements voisins.') }}
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
 {% endblock %}

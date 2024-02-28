@@ -1,4 +1,5 @@
-<h3>Adresse et infos du logement</h3>
+<h2>Adresse et infos du logement</h2>
+{% import "common/components/macro-forms.html.twig" as forms %}
 
 <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
@@ -21,35 +22,17 @@
         </div>
 
         <div class="fr-form-group fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.adresse) }}
-                {{ form_widget(form.adresse) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner l'adresse.
-                </p>
-            </div>
+            {{ forms.input(form.adresse, 'Veuillez renseigner l\'adresse.') }}
         </div>
 
         <div class="fr-form-group fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.codePostal) }}
-                {{ form_widget(form.codePostal) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le code postal.
-                </p>
-            </div>
+            {{ forms.input(form.codePostal, 'Veuillez renseigner le code postal.', true) }}
         </div>
 
         {{ form_widget(form.codeInsee) }}
 
         <div class="fr-form-group fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.ville) }}
-                {{ form_widget(form.ville) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner la ville.
-                </p>
-            </div>
+            {{ forms.input(form.ville, 'Veuillez renseigner la ville.') }}
         </div>
 
         {{ form_widget(form.geoloc) }}
@@ -58,40 +41,15 @@
         <legend class="fr-fieldset__legend column-label">Informations complémentaires</legend>
 
         <div class="fr-fieldset__element fr-mt-3v">
-            <div class="fr-select-group">
-                {{ form_label(form.typeLogement) }}
-                {{ form_widget(form.typeLogement) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le type de logement.
-                </p>
-            </div>
+            {{ forms.select(form.typeLogement, 'Veuillez renseigner le type de logement.') }}
         </div>
 
         <div id="form-group-localisation-immeuble" class="fr-fieldset__element fr-form-group-hidden fr-mt-3v">
-            <div class="fr-select-group">
-                {{ form_label(form.localisationDansImmeuble) }}
-                {{ form_widget(form.localisationDansImmeuble) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner la localisation dans l'immeuble.
-                </p>
-            </div>
+            {{ forms.select(form.localisationDansImmeuble, 'Veuillez renseigner la localisation dans l\'immeuble.') }}
         </div>
 
         <div class="fr-fieldset__element fr-mt-3v">
-                <fieldset class="fr-fieldset" role="group">
-                    <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.construitAvant1948.vars.label}}</legend>
-                    <div class="fr-fieldset__element">
-                    {% for key, choice in form.construitAvant1948.children %}
-                        <div class="fr-radio-group">
-                            {{ form_widget(choice) }}
-                            {{ form_label(choice) }}
-                        </div>
-                    {% endfor %}
-                    <p class="fr-error-text fr-hidden">
-                        Veuillez indiquer l'année de construction
-                    </p>
-                    </div>
-                </fieldset>
+            {{ forms.radio_choice(form.construitAvant1948, 'Veuillez indiquer l\'année de construction.') }}
         </div>
       </fieldset>
     </div>
@@ -101,47 +59,23 @@
             <legend class="fr-fieldset__legend column-label">L'occupant</legend>
 
             <div class="fr-fieldset__element fr-mt-n2v">
-                <div class="fr-input-group">
-                    {{ form_label(form.nomOccupant) }}
-                    {{ form_widget(form.nomOccupant) }}
-                    <p class="fr-error-text fr-hidden">
-                        Veuillez renseigner le nom de l'occupant.
-                    </p>
-                </div>
+                {{ forms.input(form.nomOccupant, 'Veuillez renseigner le nom de l\'occupant.') }}
             </div>
 
             <div class="fr-fieldset__element fr-mt-3v">
-                <div class="fr-input-group">
-                    {{ form_label(form.prenomOccupant) }}
-                    {{ form_widget(form.prenomOccupant) }}
-                    <p class="fr-error-text fr-hidden">
-                        Veuillez renseigner le prénom de l'occupant.
-                    </p>
-                </div>
+                {{ forms.input(form.prenomOccupant, 'Veuillez renseigner le prénom de l\'occupant.') }}
             </div>
 
             <div class="fr-fieldset__element fr-mt-3v">
-                <div class="fr-input-group">
-                    {{ form_label(form.telephoneOccupant) }}
-                    {{ form_widget(form.telephoneOccupant) }}
-                    <p class="fr-error-text fr-hidden">
-                        Veuillez renseigner le numéro de téléphone de l'occupant.
-                    </p>
-                </div>
+                {{ forms.input(form.telephoneOccupant, 'Veuillez renseigner le numéro de téléphone de l\'occupant.', true) }}
             </div>
         </fieldset>
         <div class="fr-form-group fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.emailOccupant) }}
-                {{ form_widget(form.emailOccupant) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner l'adresse e-mail de l'occupant.
-                </p>
-            </div>
+            {{ forms.input(form.emailOccupant, 'Veuillez renseigner l\'adresse e-mail de l\'occupant.', true) }}
         </div>
     </div>
 </div>
 
 <nav class="stepper-next">
-    <button type="button" class="fr-btn fr-btn--icon-right fr-icon-arrow-right-s-line">Saisir les détails de l'informations</button>
+    <button type="button" class="fr-btn fr-btn--icon-right fr-icon-arrow-right-s-line">Saisir les détails de l'intervention</button>
 </nav>

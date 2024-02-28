@@ -8,17 +8,20 @@
             </p>
 
             <div class="fr-input-group">
-                <label class="fr-label" for="code-postal">Code postal</label>
+                <label class="fr-label" for="code-postal">Code postal
+                    <span class="fr-hint-text help-text">Format attendu : 5 chiffres</span>
+                </label>
                 <input class="fr-input"
                        id="code-postal"
                        name="code-postal"
+                       aria-describedby="code-postal-error" 
                        placeholder="Exemple : 69002"
                        required
                        type="text"
                        maxlength=5
                        minlength=5
                        autocomplete="postal-code">
-                <p class="fr-error-text fr-hidden">
+                <p id="code-postal-error" class="fr-error-text fr-hidden">
                     Veuillez renseigner votre code postal.
                 </p>
             </div>

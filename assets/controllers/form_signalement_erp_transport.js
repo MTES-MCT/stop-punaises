@@ -68,6 +68,16 @@ function sendSignalement() {
 
                             if (element.indexOf('adresse') > 0) {
                                 $('#rechercheAdresse').next().removeClass('fr-hidden');
+                                $('#rechercheAdresse').attr('aria-describedby', 'rechercheAdresse-error');
+                            }
+
+                            if (element.indexOf('isPlaceAvertie') > 0) {
+                                $('#signalement_transport_isPlaceAvertie-error').removeClass('fr-hidden');
+                                $('#signalement_front_isPlaceAvertie-error').removeClass('fr-hidden');
+                            }
+
+                            if (element.indexOf('placeType') > 0) {
+                                $('#signalement_front_placeType-error').removeClass('fr-hidden');
                             }
                         }
                         index++;
@@ -83,21 +93,29 @@ function sendSignalement() {
 
 function handleFileUpload() {
     $('#file-upload').on('change', function(event) {
-        $('.fr-upload-group').next().addClass('fr-hidden');
+        $('.fr-upload-group').next().addClass('fr-hidden')
 
-        for (let i = 0; i < event.target.files.length; i++) {
-            if (event.target.files[i].size < 10 * 1024 * 1024) {
-                let filename = event.target.files[i].name;
-                let imgSrc = URL.createObjectURL(event.target.files[i]);
+        for (let file of event.target.files) {
+            let inputDiv = $('.fr-upload-group .fr-upload');
+            if (file.size > 10 * 1024 * 1024) {
+                let errorDiv = $('.fr-upload-group').next();
+                errorDiv.text('Merci d\'ajouter une photo de moins de 10 Mo.').removeClass('fr-hidden');
+                inputDiv.attr('aria-describedby', 'file-upload-error');
+                break;
+            } else if(file.type !== 'image/jpeg' && file.type !== 'image/png') {
+                let errorDiv = $('.fr-upload-group').next();
+                errorDiv.text('Merci de choisir un fichier au format jpg ou png.').removeClass('fr-hidden');
+                inputDiv.attr('aria-describedby', 'file-upload-error');
+                break;
+            } else {
+                let filename = file.name;
+                let imgSrc = URL.createObjectURL(file);
                 let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
                 strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
                 strAppend += '<br><button type="button" data-filename="' + filename  +'" class="fr-link fr-icon-close-circle-line fr-link--icon-left link--error file-uploaded"> Supprimer </button>';
                 strAppend += '</div>';
                 $('.fr-front-signalement-photos').append(strAppend);
-                filesUploaded.push(event.target.files[i]);
-            } else {
-                $('.fr-upload-group').next().removeClass('fr-hidden');
-                break;
+                filesUploaded.push(file);
             }
         }
     });

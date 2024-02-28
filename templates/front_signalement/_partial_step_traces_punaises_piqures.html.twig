@@ -1,6 +1,7 @@
 {% extends 'front_signalement/base_step.html.twig' %}
 
 {% block content %}
+    {% import "common/components/macro-forms.html.twig" as forms %}
     <div class="fr-stepper">
         <h1 class="fr-stepper__title fr-h2">
             Les traces de punaises
@@ -55,23 +56,13 @@
     <div class="fr-form-group">
         <div class="fr-select-group">
             <div class="fr-mt-3v">
-                {% include 'common/components/form/list-radio-buttons.html.twig' with {
-                    'name': 'piquresExistantes',
-                    'displayLabel': true,
-                    'formObject': form.piquresExistantes,
-                    'errorLabel': 'Veuillez renseigner si vous avez des piqûres de punaises de lit.'
-                } %}
+                {{ forms.radio_choice(form.piquresExistantes, 'Veuillez renseigner si vous avez des piqûres de punaises de lit.') }}
             </div>
         </div>
     </div>
 
     <div id="form-group-piquresConfirmees" class="fr-form-group">
-        {% include 'common/components/form/list-radio-buttons.html.twig' with {
-            'name': 'piquresConfirmees',
-            'displayLabel': true,
-            'formObject': form.piquresConfirmees,
-            'errorLabel': 'Veuillez renseigner si quelqu\'un a confirmé que vous avez des piqûres de punaises de lit.'
-        } %}
+        {{ forms.radio_choice(form.piquresConfirmees, 'Veuillez renseigner si quelqu\'un a confirmé que vous avez des piqûres de punaises de lit.') }}
     </div>
 
     <div id="form-group-photos" class="fr-form-group">
@@ -79,9 +70,12 @@
         <br>
         <div class="fr-upload-group">
             <label class="fr-label" for="file-upload">Ajouter des photos
-                <span class="fr-hint-text">Vous pouvez ajouter plusieurs photos à la fois.</span>
+                <span class="fr-hint-text">Taille maximale : 10 Mo. Formats supportés : jpg, png. Plusieurs fichiers possibles.</span>
             </label>
-            <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple>
+            <input class="fr-upload" type="file" id="file-upload" name="file-upload[]" multiple accept=".jpg, .jpeg, .png">
+            <p id="file-upload-error" class="fr-error-text fr-hidden">
+                Merci d'ajouter une photo de moins de 10 Mo.
+            </p>
         </div>
         <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
         </div>

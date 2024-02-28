@@ -3,6 +3,7 @@
 {% block title %}Déposer un signalement pour un lieu public{% endblock %}
 
 {% block body %}
+{% import "common/components/macro-forms.html.twig" as forms %}
 
     <div class="signalement-punaises fr-grid-row fr-grid-row--center">
         <div class="fr-col-12 fr-col-md-8 fr-col-md-6">
@@ -33,13 +34,7 @@
                 <h2 class="fr-h3">Date et heure</h2>
                 <p>Renseignez la date et l'heure à laquelle vous avez vu des punaises de lit.</p>
                 <div class="fr-form-group display-if-diagnostic display-if-traitement">
-                    <div class="fr-input-group">
-                        {{ form_label(form.punaisesViewedAt) }}
-                        {{ form_widget(form.punaisesViewedAt) }}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner la date
-                        </p>
-                    </div>
+                    {{ forms.input(form.punaisesViewedAt, 'Veuillez renseigner la date.') }}
                 </div>
                 <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
                     <div class="fr-input-group">
@@ -47,20 +42,14 @@
                         <div class="fr-input-wrap fr-icon-timer-line">
                             {{ form_widget(form.punaisesViewedTimeAt) }}
                         </div>
-                        <p class="fr-error-text fr-hidden">
+                        <p id="{{ form.punaisesViewedTimeAt.vars.id }}-error" class="fr-error-text fr-hidden">
                             Veuillez renseigner l'heure.
                         </p>
                     </div>
                 </div>
                 <h2 class="fr-h3 fr-mt-3w">L'établissement</h2>
                 <div class="fr-form-group">
-                    <div class="fr-select-group">
-                        {{ form_label(form.nomProprietaire) }}
-                        {{ form_widget(form.nomProprietaire) }}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner le nom de l'établissement.
-                        </p>
-                    </div>
+                    {{ forms.input(form.nomProprietaire, 'Veuillez renseigner le nom de l\'établissement.') }}
                 </div>
                 <div class="fr-form-group fr-mt-3v">
                     <div class="fr-input-group search-address">
@@ -68,7 +57,7 @@
                         <span class="fr-hint-text help-text">Tapez l'adresse puis selectionnez-la dans la liste</span>
                         <div class="fr-input-wrap fr-icon-map-pin-2-line">
                             <input id="rechercheAdresse" type="text" class="fr-input">
-                            <p class="fr-error-text fr-hidden">
+                            <p id="rechercheAdresse-error" class="fr-error-text fr-hidden">
                                 Veuillez renseigner l'adresse.
                             </p>
                         </div>
@@ -85,29 +74,13 @@
                 </div>
                 <div id="adresse_detail" class="fr-hidden">
                     <div class="fr-form-group">
-                        {{ form_label(form.adresse) }}
-                        {{ form_widget(form.adresse) }}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner l'adresse.
-                        </p>
+                        {{ forms.input(form.adresse, 'Veuillez renseigner l\'adresse.') }}
                     </div>
                     <div class="fr-form-group">
-                        <div class="fr-input-group">
-                            {{ form_label(form.codePostal) }}
-                            {{ form_widget(form.codePostal) }}
-                            <p class="fr-error-text fr-hidden">
-                                Veuillez renseigner le code postal.
-                            </p>
-                        </div>
+                        {{ forms.input(form.codePostal, 'Veuillez renseigner le code postal.') }}
                     </div>
                     <div class="fr-form-group">
-                        <div class="fr-input-group">
-                            {{ form_label(form.ville) }}
-                            {{ form_widget(form.ville) }}
-                            <p class="fr-error-text fr-hidden">
-                                Veuillez renseigner la ville.
-                            </p>
-                        </div>
+                        {{ forms.input(form.ville, 'Veuillez renseigner la ville.') }}
                     </div>
 
                     {{ form_widget(form.geoloc) }}
@@ -116,34 +89,10 @@
 
 
                 <div class="fr-form-group">
-                    <div class="fr-input-group">
-                        {{ form_label(form.placeType) }}
-
-                        {% for key, choice in form.placeType.children %}
-                            <div class="fr-radio-group">
-                                {{ form_widget(choice) }}
-                                {{ form_label(choice) }}
-                            </div>
-                        {% endfor %}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez indiquer le type d'établissement.
-                        </p>
-                    </div>
+                    {{ forms.radio_choice(form.placeType, 'Veuillez indiquer le type d\'établissement.') }}
                 </div>
                 <div class="fr-form-group">
-                    <div class="fr-input-group">
-                        {{ form_label(form.isPlaceAvertie) }}
-
-                        {% for key, choice in form.isPlaceAvertie.children %}
-                            <div class="fr-radio-group">
-                                {{ form_widget(choice) }}
-                                {{ form_label(choice) }}
-                            </div>
-                        {% endfor %}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez indiquer si vous avez prévenu l'établissement.
-                        </p>
-                    </div>
+                    {{ forms.radio_choice(form.isPlaceAvertie, 'Veuillez indiquer si vous avez prévenu l\'établissement.') }}
                 </div>
 
                 <h2 class="fr-h3">Informations complémentaires</h2>
@@ -151,10 +100,13 @@
 
                 <div id="form-group-photos" class="fr-form-group">
                     <div class="fr-upload-group">
-                        <label class="fr-label">Photos (facultatif)</label>
+                        <label class="fr-label">Photos (facultatif)
+                            <span class="fr-hint-text">Taille maximale : 10 Mo. Formats supportés : jpg, png. Plusieurs fichiers possibles.</span>   
+                        </label>
                         <p>Vous avez pris des photos des punaises ? Ajoutez-les en cliquant sur le bouton
                             ci-dessous.</p>
-                        <label class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-add-line" for="file-upload">Ajouter des photos</label>
+                        <label class="fr-btn fr-btn--secondary fr-btn--icon-left fr-icon-add-line" for="file-upload">Ajouter des photos                      
+                        </label>
                         <input class="fr-upload custom-file-input"
                                type="file"
                                id="file-upload"
@@ -163,51 +115,26 @@
                                accept=".jpg, .jpeg, .png"
                         >
                     </div>
-                    <p class="fr-error-text fr-hidden">
-                        Merci d'ajouter une photo de moins de 10Mo.
+                    <p id="file-upload-error" class="fr-error-text fr-hidden">
+                        Merci d'ajouter une photo de moins de 10 Mo.
                     </p>
                     <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-mt-3v fr-front-signalement-photos">
                     </div>
                 </div>
 
-                <div class="fr-input-group">
-                    {{ form_label(form.autresInformations) }}
-                    {{ form_help(form.autresInformations) }}
-                    {{ form_widget(form.autresInformations) }}
-                    <p class="fr-error-text fr-hidden">
-                        Merci de proposer une rapide description (minimum 10 caractères).
-                    </p>
-                </div>
+                {{ forms.input(form.autresInformations, 'Merci de proposer une description (minimum 10 caractères).', true) }}
 
                 <h2 class="fr-h3">Vos coordonnées</h2>
                 <p>Renseignez vos coordonnées pour recevoir nos conseils pour éviter de ramener des punaises chez vous
                     par email.</p>
                 <div class="fr-form-group">
-                    <div class="fr-select-group">
-                        {{ form_label(form.nomDeclarant) }}
-                        {{ form_widget(form.nomDeclarant) }}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner votre nom.
-                        </p>
-                    </div>
+                    {{ forms.input(form.nomDeclarant, 'Veuillez renseigner votre nom.') }}
                 </div>
                 <div class="fr-form-group fr-mt-3v">
-                    <div class="fr-select-group">
-                        {{ form_label(form.prenomDeclarant) }}
-                        {{ form_widget(form.prenomDeclarant) }}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner votre prénom.
-                        </p>
-                    </div>
+                   {{ forms.input(form.prenomDeclarant, 'Veuillez renseigner votre prénom.') }}
                 </div>
                 <div class="fr-form-group fr-mt-3v">
-                    <div class="fr-select-group">
-                        {{ form_label(form.emailDeclarant) }}
-                        {{ form_widget(form.emailDeclarant) }}
-                        <p class="fr-error-text fr-hidden">
-                            Veuillez renseigner votre adresse e-mail.
-                        </p>
-                    </div>
+                    {{ forms.input(form.emailDeclarant, 'Veuillez renseigner votre adresse e-mail.') }}
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('save_signalement_erp') }}">
                 <div class="fr-input-group fr-mt-3v">

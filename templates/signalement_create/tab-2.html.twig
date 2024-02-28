@@ -1,26 +1,17 @@
+<h2>Intervention</h2>
+{% import "common/components/macro-forms.html.twig" as forms %}
+
+<p>Sélectionnez le type d'intervention puis remplissez les champs proposés.</p>
+
 <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
         <div class="fr-form-group">
-            <div class="fr-select-group">
-            <label class="fr-label" for="select-hint">Type d'intervention
-                <span class="fr-hint-text">Sélectionnez le type d'intervention puis remplissez les champs proposés.</span>
-            </label>
-                {{ form_widget(form.typeIntervention) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le type d'intervention
-                </p>
-            </div>
+            {{ forms.select(form.typeIntervention, 'Veuillez renseigner le type d\'intervention.') }}
         </div>
 
         {% if form.entreprise is defined %}
             <div class="fr-form-group fr-mt-3v">
-                <div class="fr-select-group">
-                    {{ form_label(form.entreprise) }}
-                    {{ form_widget(form.entreprise) }}
-                    <p class="fr-error-text fr-hidden">
-                        Veuillez renseigner l'entreprise
-                    </p>
-                </div>
+                {{ forms.select(form.entreprise, 'Veuillez renseigner l\'entreprise.') }}
             </div>
         {% endif %}
     </div>
@@ -29,130 +20,49 @@
 <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
         <div class="fr-form-group display-if-diagnostic display-if-traitement">
-            <div class="fr-input-group">
-                {{ form_label(form.dateIntervention) }}
-                {{ form_widget(form.dateIntervention) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner la date d'intervention
-                </p>
-            </div>
+            {{ forms.input(form.dateIntervention, 'Veuillez renseigner la date d\'intervention.') }}
         </div>
 
         <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
-            <div class="fr-select-group">
-                {{ form_label(form.agent) }}
-                {{ form_widget(form.agent) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner l'agent
-                </p>
-            </div>
+            {{ forms.select(form.agent, 'Veuillez renseigner l\'agent.') }}
         </div>
 
         <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
-            <div class="fr-select-group">
-                {{ form_label(form.niveauInfestation) }}
-                {{ form_widget(form.niveauInfestation) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le niveau d'infestation
-                </p>
-            </div>
+            {{ forms.select(form.niveauInfestation, 'Veuillez renseigner le niveau d\'infestation.') }}
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
-            <div class="fr-select-group">
-                {{ form_label(form.typeTraitement) }}
-                {{ form_help(form.typeTraitement) }}
-                {{ form_widget(form.typeTraitement) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le type de traitement
-                </p>
-            </div>
+            {{ forms.select(form.typeTraitement, 'Veuillez renseigner le type de traitement.', true) }}
         </div>
 
         <div class="fr-form-group display-if-traitement display-if-biocide fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.nomBiocide) }}
-                {{ form_widget(form.nomBiocide) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le nom du Biocide
-                </p>
-            </div>
+            {{ forms.input(form.nomBiocide, 'Veuillez renseigner le nom du Biocide.') }}
         </div>
 
         <div class="fr-form-group display-if-diagnostic fr-mt-3v">
-             <fieldset class="fr-fieldset" role="group">
-                <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.typeDiagnostic.vars.label}}</legend>
-                <div class="fr-fieldset__element">
-                    {% for key, choice in form.typeDiagnostic.children %}
-                        <div class="fr-radio-group">
-                            {{ form_widget(choice) }}
-                            {{ form_label(choice) }}
-                        </div>
-                    {% endfor %}
-                    <p class="fr-error-text fr-hidden">
-                        Veuillez renseigner le type de diagnostic
-                    </p>
-                </div>
-            </fieldset>
+            {{ forms.radio_choice(form.typeDiagnostic, 'Veuillez renseigner le type de diagnostic.') }}
         </div>
     </div>
 
     <div class="fr-col-12 fr-col-md-6">
         <div class="fr-form-group display-if-traitement">
-            <div class="fr-input-group">
-                {{ form_label(form.nombrePiecesTraitees) }}
-                {{ form_widget(form.nombrePiecesTraitees) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le nombre de pièces traitées
-                </p>
-            </div>
+            {{ forms.input(form.nombrePiecesTraitees, 'Veuillez renseigner le nombre de pièces traitées.') }}
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.delaiEntreInterventions) }}
-                {{ form_widget(form.delaiEntreInterventions) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le délai entre les interventions
-                </p>
-            </div>
+            {{ forms.input(form.delaiEntreInterventions, 'Veuillez renseigner le délai entre les interventions.') }}
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
-             <fieldset class="fr-fieldset" role="group">
-                <legend class="fr-fieldset__legend fr-fieldset__legend--regular">{{form.faitVisitePostTraitement.vars.label}}</legend>
-                    <div class="fr-fieldset__element">
-                    {% for key, choice in form.faitVisitePostTraitement.children %}
-                        <div class="fr-radio-group">
-                            {{ form_widget(choice) }}
-                            {{ form_label(choice) }}
-                        </div>
-                    {% endfor %}
-                    <p class="fr-error-text fr-hidden">
-                        Veuillez renseigner la visite post-traitement
-                    </p>
-                </div>
-             </fieldset>
+            {{ forms.radio_choice(form.faitVisitePostTraitement, 'Veuillez renseigner la visite post-traitement.') }}
         </div>
 
         <div class="fr-form-group display-if-traitement fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.dateVisitePostTraitement) }}
-                {{ form_widget(form.dateVisitePostTraitement) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner la date de la visite post-traitement
-                </p>
-            </div>
+            {{ forms.input(form.dateVisitePostTraitement, 'Veuillez renseigner la date de la visite post-traitement.') }}
         </div>
 
         <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
-            <div class="fr-input-group">
-                {{ form_label(form.prixFactureHT) }}
-                {{ form_widget(form.prixFactureHT) }}
-                <p class="fr-error-text fr-hidden">
-                    Veuillez renseigner le prix facturé
-                </p>
-            </div>
+            {{ forms.input(form.prixFactureHT, 'Veuillez renseigner le prix facturé.') }}
         </div>
     </div>
 </div>

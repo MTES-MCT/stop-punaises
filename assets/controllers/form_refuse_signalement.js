@@ -10,6 +10,7 @@ function checkFormRefuseSignalement() {
         $('textarea[name=commentaire]').siblings('.fr-error-text').addClass('fr-hidden');
         if ($('textarea[name=commentaire]').val() == '') {
           $('textarea[name=commentaire]').siblings('.fr-error-text').removeClass('fr-hidden');
+          $('textarea[name=commentaire]').attr('aria-describedby', 'commentaire-error');
           e.preventDefault();
         }
     });

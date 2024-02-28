@@ -1,6 +1,7 @@
 {% extends 'front_signalement/base_step.html.twig' %}
 
 {% block content %}
+    {% import "common/components/macro-forms.html.twig" as forms %}
     <div class="fr-stepper">
         <h1 class="fr-stepper__title fr-h2">
             Informations du logement
@@ -12,45 +13,18 @@
         </p>
     </div>
 
-    {% include 'common/components/form/list-radio-buttons.html.twig' with {
-        'name': 'locataire',
-        'displayLabel': true,
-        'formObject': form.locataire,
-        'errorLabel': 'Veuillez renseigner si vous êtes propriétaire ou locataire.'
-    } %}
+    {{ forms.radio_choice(form.locataire, 'Veuillez renseigner si vous êtes propriétaire ou locataire.') }}
 
     <div id="form-group-nomProprietaire" class="fr-form-group">
-        <div class="fr-input-group">
-            {{ form_label(form.nomProprietaire) }}
-            {{ form_widget(form.nomProprietaire) }}
-            <p class="fr-error-text fr-hidden">
-                Veuillez renseigner le nom du bailleur / propriétaire.
-            </p>
-        </div>
+        {{ forms.input(form.nomProprietaire, 'Veuillez renseigner le nom du bailleur / propriétaire..') }}
     </div>
 
-    {% include 'common/components/form/list-radio-buttons.html.twig' with {
-        'name': 'logementSocial',
-        'displayLabel': true,
-        'formObject': form.logementSocial,
-        'errorLabel': 'Veuillez renseigner si vous vivez dans un logement social.'
-    } %}
+    {{ forms.radio_choice(form.logementSocial, 'Veuillez renseigner si vous vivez dans un logement social.') }}
 
-    {% include 'common/components/form/list-radio-buttons.html.twig' with {
-        'name': 'allocataire',
-        'displayLabel': true,
-        'formObject': form.allocataire,
-        'errorLabel': 'Veuillez renseigner si vous touchez une allocation logement.'
-    } %}
+    {{ forms.radio_choice(form.allocataire, 'Veuillez renseigner si vous touchez une allocation logement.') }}
 
     <div id="form-group-numeroAllocataire" class="fr-form-group">
-        <div class="fr-input-group">
-            {{ form_label(form.numeroAllocataire) }}
-            {{ form_widget(form.numeroAllocataire) }}
-            <p class="fr-error-text fr-hidden">
-                Veuillez renseigner votre numéro d'allocataire.
-            </p>
-        </div>
+        {{ forms.input(form.numeroAllocataire, 'Veuillez renseigner  votre numéro d\'allocataire.') }}
     </div>
 
     {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Suivant', 'previous': 'Précédent' } %}
