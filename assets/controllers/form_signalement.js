@@ -9,20 +9,12 @@ function startCreerSignalementApp() {
   // Navigation
   $('nav.stepper-next button').on('click', function() {
     if (checkSignalementFirstStep()) {
-      $('.fr-stepper__state span').text('2');
-      $('.fr-stepper__title span[data-step=1]').addClass('fr-stepper__hidden');
-      $('.fr-stepper__title span[data-step=2]').removeClass('fr-stepper__hidden');
-      $('.fr-stepper__steps').attr('data-fr-current-step', '2');
       $('#form-creer-signalement-step-1').addClass('fr-stepper__hidden');
       $('#form-creer-signalement-step-2').removeClass('fr-stepper__hidden');
     }
   });
 
   $('nav.stepper-previous button.go-previous').on('click', function() {
-    $('.fr-stepper__state span').text('1');
-    $('.fr-stepper__title span[data-step=1]').removeClass('fr-stepper__hidden');
-    $('.fr-stepper__title span[data-step=2]').addClass('fr-stepper__hidden');
-    $('.fr-stepper__steps').attr('data-fr-current-step', '1');
     $('#form-creer-signalement-step-1').removeClass('fr-stepper__hidden');
     $('#form-creer-signalement-step-2').addClass('fr-stepper__hidden');
   });

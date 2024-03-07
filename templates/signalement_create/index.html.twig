@@ -18,18 +18,6 @@
     <form action="{{ path(app_name, {'uuid': uuid}) }}" method="POST" class="fr-my-5w fr-px-5w fr-container" data-ajax="{{ path('app_liste_employes') }}">
         {{ form_row(form._token) }}
 
-        <div class="fr-stepper">
-            <h2 class="fr-stepper__title fr-h2">
-                <span class="fr-stepper__state">Étape <span>1</span> sur 2</span>
-                <span data-step="1">Le logement et son occupant</span>
-                <span class="fr-stepper__hidden" data-step="2">Intervention</span>
-            </h2>
-            <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="2"></div>
-            <p class="fr-stepper__details">
-                <span class="fr-text--bold">Étape suivante :</span> Intervention
-            </p>
-        </div>
-
         <div id="form-creer-signalement-step-1">
             {% include "signalement_create/tab-1.html.twig" %}
         </div>

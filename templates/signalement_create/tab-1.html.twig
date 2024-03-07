@@ -1,57 +1,71 @@
-<h2>Adresse et infos du logement</h2>
 {% import "common/components/macro-forms.html.twig" as forms %}
+
+<div class="fr-stepper">
+    <h2 class="fr-stepper__title fr-h2">
+        <span class="fr-stepper__state">Étape <span>1</span> sur 2</span>
+        Le logement et son occupant
+    </h2>
+    <div class="fr-stepper__steps" data-fr-current-step="1" data-fr-steps="2"></div>
+    <p class="fr-stepper__details">
+        <span class="fr-text--bold">Étape suivante :</span> Intervention
+    </p>
+</div>
 
 <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
-        <div class="fr-form-group">
-            <div class="fr-input-group search-address">
-                <label for="rechercheAdresse" class="column-label fr-label">Rechercher l'adresse</label>
-                <span class="fr-hint-text help-text">
-                    Saisissez le début de votre adresse puis sélectionnez-la dans la liste. 
-                    <br>
-                    Si vous ne trouvez pas l'adresse, saisissez-la manuellement
-                </span>
-                <div class="fr-input-wrap fr-icon-map-pin-2-line">
-                    <input id="rechercheAdresse" type="text" class="fr-input" autocomplete="street">
-                    <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
-                        <select size="5">
-                        </select>
+        <fieldset class="fr-fieldset" role="group">
+            <legend class="fr-fieldset__legend column-label">Adresse du logement</legend>
+
+            <div class="fr-fieldset__element">
+                <div class="fr-input-group search-address">
+                    <label for="rechercheAdresse" class="column-label fr-label">Rechercher l'adresse</label>
+                    <span class="fr-hint-text help-text">
+                        Saisissez le début de votre adresse puis sélectionnez-la dans la liste. 
+                        <br>
+                        Si vous ne trouvez pas l'adresse, saisissez-la manuellement
+                    </span>
+                    <div class="fr-input-wrap fr-icon-map-pin-2-line">
+                        <input id="rechercheAdresse" type="text" class="fr-input" autocomplete="street">
+                        <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
+                            <select size="5">
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="fr-form-group fr-mt-3v">
-            {{ forms.input(form.adresse, 'Veuillez renseigner l\'adresse.') }}
-        </div>
+            <div class="fr-fieldset__element fr-mt-3v">
+                {{ forms.input(form.adresse, 'Veuillez renseigner l\'adresse.') }}
+            </div>
 
-        <div class="fr-form-group fr-mt-3v">
-            {{ forms.input(form.codePostal, 'Veuillez renseigner le code postal.', true) }}
-        </div>
+            <div class="fr-fieldset__element fr-mt-3v">
+                {{ forms.input(form.codePostal, 'Veuillez renseigner le code postal.', true) }}
+            </div>
 
-        {{ form_widget(form.codeInsee) }}
+            {{ form_widget(form.codeInsee) }}
 
-        <div class="fr-form-group fr-mt-3v">
-            {{ forms.input(form.ville, 'Veuillez renseigner la ville.') }}
-        </div>
+            <div class="fr-fieldset__element fr-mt-3v">
+                {{ forms.input(form.ville, 'Veuillez renseigner la ville.') }}
+            </div>
 
-        {{ form_widget(form.geoloc) }}
+            {{ form_widget(form.geoloc) }}
+        </fieldset>
 
-      <fieldset class="fr-fieldset fr-mt-3w" role="group">
-        <legend class="fr-fieldset__legend column-label">Informations complémentaires</legend>
+        <fieldset class="fr-fieldset fr-mt-3w" role="group">
+            <legend class="fr-fieldset__legend column-label">Informations complémentaires</legend>
 
-        <div class="fr-fieldset__element fr-mt-3v">
-            {{ forms.select(form.typeLogement, 'Veuillez renseigner le type de logement.') }}
-        </div>
+            <div class="fr-fieldset__element fr-mt-3v">
+                {{ forms.select(form.typeLogement, 'Veuillez renseigner le type de logement.') }}
+            </div>
 
-        <div id="form-group-localisation-immeuble" class="fr-fieldset__element fr-form-group-hidden fr-mt-3v">
-            {{ forms.select(form.localisationDansImmeuble, 'Veuillez renseigner la localisation dans l\'immeuble.') }}
-        </div>
+            <div id="form-group-localisation-immeuble" class="fr-fieldset__element fr-form-group-hidden fr-mt-3v">
+                {{ forms.select(form.localisationDansImmeuble, 'Veuillez renseigner la localisation dans l\'immeuble.') }}
+            </div>
 
-        <div class="fr-fieldset__element fr-mt-3v">
-            {{ forms.radio_choice(form.construitAvant1948, 'Veuillez indiquer l\'année de construction.') }}
-        </div>
-      </fieldset>
+            <div class="fr-fieldset__element fr-mt-3v">
+                {{ forms.radio_choice(form.construitAvant1948, 'Veuillez indiquer l\'année de construction.') }}
+            </div>
+        </fieldset>
     </div>
 
     <div class="fr-col-12 fr-col-md-6">
@@ -69,10 +83,10 @@
             <div class="fr-fieldset__element fr-mt-3v">
                 {{ forms.input(form.telephoneOccupant, 'Veuillez renseigner le numéro de téléphone de l\'occupant.', true) }}
             </div>
+            <div class="fr-fieldset__element fr-mt-3v">
+                {{ forms.input(form.emailOccupant, 'Veuillez renseigner l\'adresse e-mail de l\'occupant.', true) }}
+            </div>
         </fieldset>
-        <div class="fr-form-group fr-mt-3v">
-            {{ forms.input(form.emailOccupant, 'Veuillez renseigner l\'adresse e-mail de l\'occupant.', true) }}
-        </div>
     </div>
 </div>
 
