@@ -125,6 +125,8 @@ npm-install: ## Install the dependencies in the local node_modules folder
 npm-build: ## Build the dependencies in the local node_modules folder
 	@$(DOCKER_COMP) exec -it stopunaises_phpfpm npm run build
 
+npm-watch: ## Watch files for changes
+	@$(DOCKER_COMP) exec -it stopunaises_phpfpm npm run watch
 .env:
 	@bash -l -c 'cp .env.sample .env'
 
