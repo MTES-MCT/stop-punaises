@@ -448,7 +448,9 @@ span.image-caption {
     }
 
     .fr-col-lg-4 {
-        text-align: center;
+        figcaption, .fr-content-media__img {
+            text-align: center;
+        }
         
         a{
             background: none;
@@ -527,7 +529,9 @@ span.image-caption {
 
 .information-comment-eviter {
     .fr-col-lg-4 {
-        text-align: center;
+        figcaption, .fr-content-media__img {
+            text-align: center;
+        }
 
         a{
             background: none;
