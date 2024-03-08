@@ -25,11 +25,16 @@ function startListeSignalementsApp() {
       infoEmpty: "Résultats 0 - 0 sur 0",
       infoFiltered: "(sur un total de _MAX_)",
       zeroRecords: "Aucun signalement trouvé",
+      search: 'Rechercher',
       paginate: {
         first: "|&lt;",
         previous: "&lt; Page précédente",
         next: "Page suivante &gt;",
         last: "&gt;|"
+      },
+      aria: {
+        sortAscending: ' - activez pour trier dans un ordre croissant',
+        sortDescending: ' - activez pour trier dans un ordre décroissant'
       }
     },
     drawCallback: function( oSettings ) {
