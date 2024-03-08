@@ -50,6 +50,7 @@ function startListeSignalementsApp() {
       // refresh count when ajax call is done
       if (oSettings.json !== undefined) {
         $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'), oSettings.json.recordsFiltered);
+        document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement', oSettings.json.recordsFiltered);
       }
     }
   }
@@ -266,8 +267,8 @@ function refreshTableHistorique() {
   document.title = generatePageTitleFromDatatable('Les données historiques', 'signalement');
 }
 
-function generatePageTitleFromDatatable(prefix, element) {
-  let countElements = listTable.page.info().recordsDisplay;
+function generatePageTitleFromDatatable(prefix, element, nbRecords = undefined) {
+  let countElements = nbRecords !== undefined ? nbRecords : listTable.page.info().recordsDisplay;
   let plural = '';
   if(countElements > 1) {
     plural = 's';
