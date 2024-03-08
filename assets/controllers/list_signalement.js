@@ -49,7 +49,7 @@ function startListeSignalementsApp() {
 
       // refresh count when ajax call is done
       if (oSettings.json !== undefined) {
-        $("span#count-signalement").text(oSettings.json.recordsFiltered);
+        $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'), oSettings.json.recordsFiltered);
       }
     }
   }
@@ -278,8 +278,8 @@ function generatePageTitleFromDatatable(prefix, element) {
   return prefix +  ' - ' + countElements + ' ' + element + plural +'  trouvé' + plural + ' - page ' + currentPage + ' sur ' + totalPage + ' - Stop punaises';
 }
 
-function generateTableTitleFromDatatable(element) {
-  let countElements = listTable.page.info().recordsDisplay;
+function generateTableTitleFromDatatable(element, nbRecords = undefined) {
+  let countElements = nbRecords !== undefined ? nbRecords : listTable.page.info().recordsDisplay;
   let plural = '';
   if(countElements > 1) {
     plural = 's';
