@@ -49,7 +49,9 @@ function startListeSignalementsApp() {
 
       // refresh count when ajax call is done
       if (oSettings.json !== undefined) {
-        $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'), oSettings.json.recordsFiltered);
+        let textCount = generateTableTitleFromDatatable('signalement', oSettings.json.recordsFiltered);
+        $("span#count-signalement").text(textCount);
+        $("caption#count-signalement-caption").text(textCount);
         document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement', oSettings.json.recordsFiltered);
       }
     }
@@ -61,7 +63,9 @@ function startListeSignalementsApp() {
     options.serverSide = true;
     // refresh count when ajax call is done
     options.fnDrawCallback = function( oSettings ) {
-      $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+      let textCount = generateTableTitleFromDatatable('signalement');
+      $("span#count-signalement").text(textCount);
+      $("caption#count-signalement-caption").text(textCount);
       document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement');
     }
   }
@@ -172,7 +176,9 @@ function refreshTableHorsPerimetre() {
     listTable.columns(3).search(territoire);
   }
   listTable.draw();
-  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  let textCount = generateTableTitleFromDatatable('signalement')
+  $("span#count-signalement").text(textCount);
+  $("caption#count-signalement-caption").text(textCount);
   document.title = generatePageTitleFromDatatable('Les signalements hors périmètre', 'signalement');
 }
 
@@ -199,7 +205,9 @@ function refreshTableErpTransports() {
     listTable.columns(5).search(territoire);
   }
   listTable.draw();
-  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  let textCount = generateTableTitleFromDatatable('signalement')
+  $("span#count-signalement").text(textCount);
+  $("caption#count-signalement-caption").text(textCount);
   document.title = generatePageTitleFromDatatable('Les signalements ERP et transports', 'signalement');
 }
 
@@ -239,7 +247,9 @@ function refreshTableUsagers() {
   }
 
   listTable.draw();
-  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  let textCount = generateTableTitleFromDatatable('signalement')
+  $("span#count-signalement").text(textCount);
+  $("caption#count-signalement-caption").text(textCount);
   document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement');
 }
 
@@ -263,7 +273,9 @@ function refreshTableHistorique() {
   let typeSignalement = $('#filter-type').val();
   listTable.columns(indexColumnType).search(typeSignalement);
   listTable.draw();
-  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  let textCount = generateTableTitleFromDatatable('signalement')
+  $("span#count-signalement").text(textCount);
+  $("caption#count-signalement-caption").text(textCount);
   document.title = generatePageTitleFromDatatable('Les données historiques', 'signalement');
 }
 

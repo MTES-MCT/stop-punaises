@@ -54,6 +54,7 @@ function startListeEntreprisesApp() {
 
   listTable.on('draw', function() {
     $("span#count-entreprise").text(generateTableTitleFromDatatable('entreprise'));
+    $("caption#count-entreprise-caption").text(generateTableTitleFromDatatable('entreprise'));
     document.title = generatePageTitleFromDatatable('Les entreprises partenaires', 'entreprise');
   })
   
