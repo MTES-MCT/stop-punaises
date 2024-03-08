@@ -39,7 +39,7 @@ class SignalementFrontType extends AbstractType
                     'Autre' => 'autre',
                 ],
                 'expanded' => true,
-                'label' => 'Je vis dans...',
+                'label' => 'Je vis dans…',
                 'required' => true,
             ])
             ->add('superficie', NumberType::class, [
@@ -55,7 +55,7 @@ class SignalementFrontType extends AbstractType
                 'help_attr' => [
                     'class' => 'fr-hint-text',
                 ],
-                'label' => 'La superficie de mon logement est de...',
+                'label' => 'La superficie de mon logement est de…',
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner une superficie'),
@@ -133,7 +133,7 @@ class SignalementFrontType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => 'Je suis...',
+                'label' => 'Je suis…',
                 'row_attr' => [
                     'class' => 'fr-select-group',
                 ],
@@ -213,7 +213,7 @@ class SignalementFrontType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => 'Je pense avoir un problème de punaises depuis...',
+                'label' => 'Je pense avoir un problème de punaises depuis…',
                 'row_attr' => [
                     'class' => 'fr-select-group',
                 ],

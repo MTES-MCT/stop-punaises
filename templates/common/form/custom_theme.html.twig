@@ -1,0 +1,34 @@
+{% use 'form_div_layout.html.twig' %}
+
+{% block form_label %}
+    {% if label is not same as(false) %}
+        {% if ('radio' in block_prefixes) %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default(''))|trim}) %}
+        {% else %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' fr-label')|trim}) %}
+        {% endif %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' label-required')|trim}) %}
+        {% endif %}
+        <{{ element|default('label') }}{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %}>
+        {{block('form_label_content')}}
+        </{{ element|default('label') }}>
+    {% endif %}
+{% endblock form_label %}
+
+{% block form_label_content %}
+    {{ parent() }}
+    {{ block('form_help')}}
+{% endblock form_label_content %}
+
+{% block form_help %}
+    {% if help is not empty -%}
+        {% set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' fr-hint-text')|trim})%}
+        <{{ element|default('span') }} id="{{ id }}_help"{% with { attr: help_attr } %}{{ block('attributes') }}{% endwith %}>
+        {{- block('form_help_content') -}}
+        </{{ element|default('span') }}>
+    {% endif %}
+{% endblock form_help %}

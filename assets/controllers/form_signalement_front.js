@@ -251,8 +251,10 @@ class PunaisesFrontSignalementController {
     }
 
     if (!canGoNext) {
-      $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').removeClass('fr-hidden');
-      $('#signalement_front_' + idInput).attr('aria-describedby', idInput + '-error');
+      for (let i = 0; i < count; i++) {
+        $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').removeClass('fr-hidden');
+        $('#signalement_front_' + idInput + '_' + i).attr('aria-describedby', 'signalement_front_' + idInput + '-error');
+      }
     }
     
     return canGoNext;
