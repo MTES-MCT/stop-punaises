@@ -25,6 +25,8 @@ function startListeEmployesApp() {
       zeroRecords: "Aucun employé trouvé",
       paginate: {
         first: "|&lt;",
+        previous: "Page précédente",
+        next: "Page suivante",
         last: "&gt;|"
       }
     },
