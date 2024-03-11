@@ -152,8 +152,8 @@ class SignalementOccupantDataTableHandler
 
     private function formatNiveauInfestation(?string $niveauInfestation): string
     {
-        if (empty($niveauInfestation)) {
-            return 'N/C';
+        if (empty($niveauInfestation) && 0 !== $niveauInfestation) {
+            return 'Non communiqué';
         }
 
         return '<span class="niveau-infestation niveau-'.$niveauInfestation.'">'

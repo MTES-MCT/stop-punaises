@@ -27,9 +27,9 @@
             </div>
 
             <div class="fr-input-group fr-col-12 fr-col-lg-3">
-                <label class="fr-label" for="search-address">Adresse</label>
+                <label class="fr-label" for="search-address">Ville ou CP</label>
                 <div class="fr-input-wrap fr-icon-search-line">
-                    <input type="text" class="fr-input" id="search-address" placeholder="Ville, CP...">
+                    <input type="text" class="fr-input" id="search-address">
                 </div>
             </div>
 
@@ -54,7 +54,7 @@
     </div>
 
     <div class="fr-container fr-mt-3w">
-        <h2 id="liste-signalements-title" role="status"><span id="count-signalement">0</span> signalements trouvés</h2>
+        <h2 id="liste-signalements-title" role="status"><span id="count-signalement">0 signalements trouvés</span></h2>
 
         <div class="fr-grid-row fr-grid-row--right fr-mb-5v">
             <div class="fr-select-group fr-col-12 fr-col-lg-3">
@@ -79,7 +79,8 @@
         </div>
 
         {% if signalements is not empty %}
-            <table id="datatable" class="liste-signalements-historique nowrap" aria-labelledby="liste-signalements-title">
+            <table id="datatable" class="liste-signalements-historique nowrap">
+                <caption id="count-signalement-caption" class="fr-hidden">0 signalements trouvés</caption>
                 <thead>
                     <tr>
                         <th>ID</th>

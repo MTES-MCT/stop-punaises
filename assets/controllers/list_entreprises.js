@@ -24,11 +24,16 @@ function startListeEntreprisesApp() {
       infoEmpty: "Résultats 0 - 0 sur 0",
       infoFiltered: "(sur un total de _MAX_)",
       zeroRecords: "Aucune entreprise trouvée",
+      search: 'Rechercher',
       paginate: {
         first: "|&lt;",
         previous: "Page précédente",
         next: "Page suivante",
         last: "&gt;|"
+      },
+      aria: {
+        sortAscending: ' - activez pour trier dans un ordre croissant',
+        sortDescending: ' - activez pour trier dans un ordre décroissant'
       }
     },
     drawCallback: function(settings, json) {
@@ -60,6 +65,7 @@ function startListeEntreprisesApp() {
 
   listTable.on('draw', function() {
     $("span#count-entreprise").text(generateTableTitleFromDatatable('entreprise'));
+    $("caption#count-entreprise-caption").text(generateTableTitleFromDatatable('entreprise'));
     document.title = generatePageTitleFromDatatable('Les entreprises partenaires', 'entreprise');
   })
   

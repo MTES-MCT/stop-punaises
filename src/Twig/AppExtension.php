@@ -77,7 +77,7 @@ class AppExtension extends AbstractExtension
     public function formatLabelInfestation(?int $niveau = 0): string
     {
         if (empty($niveau) && 0 !== $niveau) {
-            return '-';
+            return 'Non communiqué';
         }
 
         return InfestationLevel::from($niveau)->label();

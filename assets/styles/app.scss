@@ -11,23 +11,26 @@ span.niveau-infestation {
     padding: 5px 10px;
     margin-bottom: 2px;
     border-radius: 20px;
-    color: var(--grey-1000-50);
+    color: var(--grey-200-850);
 
     &.niveau-0 {
         background-color: var(--success-425-625);
+        color: var(--grey-1000-50);
     }
     &.niveau-1 {
         background-color: var(--yellow-tournesol-925-125);
-        color: var(--grey-200-850);
     }
     &.niveau-2 {
         background-color: var(--warning-425-625);
+        color: var(--grey-1000-50);
     }
     &.niveau-3 {
         background-color: var(--error-425-625);
+        color: var(--grey-1000-50);
     }
     &.niveau-4 {
         background-color: var(--grey-50-1000);
+        color: var(--grey-1000-50);
     }
 }
 

@@ -51,7 +51,7 @@
                 </div>
                 <div class="fr-col-12 fr-col-lg-3">
                     <div class="add-button-container">
-                        <button class="fr-btn fr-btn--icon-left fr-icon-add-line"  data-fr-opened="false" aria-controls="fr-modal-create-employe">Ajouter un employé</button>
+                        <button class="fr-btn fr-btn--icon-left fr-icon-add-line" data-fr-opened="false" aria-controls="fr-modal-create-employe">Ajouter un employé</button>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,8 @@
             </div>
 
             {% if entreprise.employes is not empty %}
-                <table id="datatable" class="nowrap" aria-labelledby="liste-employes-title">
+                <table id="datatable" class="nowrap">
+                    <caption id="count-entreprise-caption" class="fr-hidden">Liste des employés de l'entreprise {{entreprise.nom}}</caption>
                     <thead>
                         <tr>
                             <th>ID</th>

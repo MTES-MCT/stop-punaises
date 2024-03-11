@@ -108,7 +108,7 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
             $signalement->setTypeDiagnostic($row['type_diagnostic']);
         }
 
-        if (!empty($row['niveau_infestation'])) {
+        if (isset($row['niveau_infestation'])) {
             $signalement->setNiveauInfestation($row['niveau_infestation']);
         }
 

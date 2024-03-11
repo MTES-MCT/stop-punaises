@@ -25,11 +25,16 @@ function startListeSignalementsApp() {
       infoEmpty: "Résultats 0 - 0 sur 0",
       infoFiltered: "(sur un total de _MAX_)",
       zeroRecords: "Aucun signalement trouvé",
+      search: 'Rechercher',
       paginate: {
         first: "|&lt;",
         previous: "Page précédente",
         next: "Page suivante",
         last: "&gt;|"
+      },
+      aria: {
+        sortAscending: ' - activez pour trier dans un ordre croissant',
+        sortDescending: ' - activez pour trier dans un ordre décroissant'
       }
     },
     drawCallback: function( oSettings ) {
@@ -69,7 +74,10 @@ function startListeSignalementsApp() {
 
       // refresh count when ajax call is done
       if (oSettings.json !== undefined) {
-        $("span#count-signalement").text(oSettings.json.recordsFiltered);
+        let textCount = generateTableTitleFromDatatable('signalement', oSettings.json.recordsFiltered);
+        $("span#count-signalement").text(textCount);
+        $("caption#count-signalement-caption").text(textCount);
+        document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement', oSettings.json.recordsFiltered);
       }
     }
   }
@@ -80,7 +88,9 @@ function startListeSignalementsApp() {
     options.serverSide = true;
     // refresh count when ajax call is done
     options.fnDrawCallback = function( oSettings ) {
-      $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+      let textCount = generateTableTitleFromDatatable('signalement');
+      $("span#count-signalement").text(textCount);
+      $("caption#count-signalement-caption").text(textCount);
       document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement');
     }
   }
@@ -191,7 +201,9 @@ function refreshTableHorsPerimetre() {
     listTable.columns(3).search(territoire);
   }
   listTable.draw();
-  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  let textCount = generateTableTitleFromDatatable('signalement')
+  $("span#count-signalement").text(textCount);
+  $("caption#count-signalement-caption").text(textCount);
   document.title = generatePageTitleFromDatatable('Les signalements hors périmètre', 'signalement');
 }
 
@@ -218,7 +230,9 @@ function refreshTableErpTransports() {
     listTable.columns(5).search(territoire);
   }
   listTable.draw();
-  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  let textCount = generateTableTitleFromDatatable('signalement')
+  $("span#count-signalement").text(textCount);
+  $("caption#count-signalement-caption").text(textCount);
   document.title = generatePageTitleFromDatatable('Les signalements ERP et transports', 'signalement');
 }
 
@@ -258,7 +272,9 @@ function refreshTableUsagers() {
   }
 
   listTable.draw();
-  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  let textCount = generateTableTitleFromDatatable('signalement')
+  $("span#count-signalement").text(textCount);
+  $("caption#count-signalement-caption").text(textCount);
   document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement');
 }
 
@@ -282,12 +298,14 @@ function refreshTableHistorique() {
   let typeSignalement = $('#filter-type').val();
   listTable.columns(indexColumnType).search(typeSignalement);
   listTable.draw();
-  $("span#count-signalement").text(generateTableTitleFromDatatable('signalement'));
+  let textCount = generateTableTitleFromDatatable('signalement')
+  $("span#count-signalement").text(textCount);
+  $("caption#count-signalement-caption").text(textCount);
   document.title = generatePageTitleFromDatatable('Les données historiques', 'signalement');
 }
 
-function generatePageTitleFromDatatable(prefix, element) {
-  let countElements = listTable.page.info().recordsDisplay;
+function generatePageTitleFromDatatable(prefix, element, nbRecords = undefined) {
+  let countElements = nbRecords !== undefined ? nbRecords : listTable.page.info().recordsDisplay;
   let plural = '';
   if(countElements > 1) {
     plural = 's';
@@ -298,8 +316,8 @@ function generatePageTitleFromDatatable(prefix, element) {
   return prefix +  ' - ' + countElements + ' ' + element + plural +'  trouvé' + plural + ' - page ' + currentPage + ' sur ' + totalPage + ' - Stop punaises';
 }
 
-function generateTableTitleFromDatatable(element) {
-  let countElements = listTable.page.info().recordsDisplay;
+function generateTableTitleFromDatatable(element, nbRecords = undefined) {
+  let countElements = nbRecords !== undefined ? nbRecords : listTable.page.info().recordsDisplay;
   let plural = '';
   if(countElements > 1) {
     plural = 's';
