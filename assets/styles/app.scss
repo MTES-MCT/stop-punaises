@@ -153,8 +153,6 @@ span.statut-infestation {
             }
         }
     }
-}
-.fr-header {
     .fr-header__tools-links {
         ul.fr-btns-group {
             li {
@@ -162,6 +160,14 @@ span.statut-infestation {
                     border-bottom: 1px solid var(--text-action-high-blue-france);
                 }
             }
+        }
+    }
+    .fr-header__service {
+        a:focus {
+            outline-color:#0a76f6;
+            outline-offset:2px;
+            outline-style:solid;
+            outline-width:2px;
         }
     }
 }
