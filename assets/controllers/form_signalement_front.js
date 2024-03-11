@@ -459,9 +459,9 @@ class PunaisesFrontSignalementController {
       for (let file of event.target.files) {
         let errorText = '';
         if (file.size > 10 * 1024 * 1024) {
-          errorText += 'Merci d\'ajouter une photo de moins de 10 Mo. ';
+          errorText += 'Le fichier est trop lourd. Merci d\'ajouter une photo de moins de 10 Mo. ';
         } else if(file.type !== 'image/jpeg' && file.type !== 'image/png') {
-          errorText += 'Merci de choisir un fichier au format jpg ou png. ';
+          errorText += 'Format de fichier non supporté. Merci de choisir un fichier au format jpg ou png. ';
         } 
         if (errorText != ''){
           errorDiv.text(errorText).removeClass('fr-hidden');

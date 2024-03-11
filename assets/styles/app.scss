@@ -745,6 +745,7 @@ span.image-caption {
             background-color: var(--grey-1000-50);
             filter: drop-shadow(var(--raised-shadow));
             font-weight: normal;
+            word-wrap: break-word;
         }
     }
 

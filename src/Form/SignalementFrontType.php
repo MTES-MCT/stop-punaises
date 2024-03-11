@@ -288,7 +288,7 @@ class SignalementFrontType extends AbstractType
             ->add('nomOccupant', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
-                    'maxlength' => '100',
+                    'maxlength' => '50',
                     'autocomplete' => 'family-name',
                 ],
                 'label_attr' => [
@@ -300,7 +300,7 @@ class SignalementFrontType extends AbstractType
             ->add('prenomOccupant', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
-                    'maxlength' => '100',
+                    'maxlength' => '50',
                     'autocomplete' => 'given-name',
                 ],
                 'label_attr' => [
