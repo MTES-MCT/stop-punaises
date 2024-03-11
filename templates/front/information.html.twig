@@ -8,7 +8,7 @@
         <h1>Tout savoir sur les punaises de lit</h1>
         <div class="fr-grid-row fr-grid-row--gutters fr-px-1w">
             <div class="fr-col-12 fr-col-lg-6 video-container">
-                <figure role="group" class="fr-content-media">
+                <figure class="fr-content-media">
                     <video controls title="Tout savoir sur les punaises de lit">
                         <source src="{{ asset('build/video/lutte-contre-les-punaises-de-lit.mp4') }}" type="video/mp4">
                         <p>
@@ -270,13 +270,100 @@
                     <figure class="fr-content-media" aria-label="Où se cachent les punaises de lit ?">
                         <div class="fr-content-media__img">
                             <img src="{{ asset('build/images/flyer-ou-se-cachent-elles-resize.jpg') }}" width="500" height="954"
-                                alt="Où se cachent les punaises de lit ? Dans la chambre, dans les matelas et sommiers. Derrière les cadres, les raccords de papier peint, sous les meubles, dans les plinthes, sous les prises électriques. Dans les fissures et les fentes du parquet. Dans les canapés. Sous les tapis."
+                                alt="Punaises de lit : où se cachent-elles ?"
                                 >
-                            <button class="fr-btn"  data-fr-opened="false" aria-controls="fr-modal-flyer-cache">
+                            <button class="fr-btn"  data-fr-opened="false" aria-controls="fr-modal-flyer-cache"
+                                title="Agrandir l’image « Punaise de lit : où se cachent-elles ? »"
+                                aria-label="Agrandir l’image « Punaise de lit : où se cachent-elles ? »"
+                                >
                                 Agrandir l'image
                             </button>
                         </div>
-                        <figcaption class="fr-content-media__caption">Crédit : Citizen</figcaption>
+                        <figcaption class="fr-content-media__caption">
+                            Crédit : Citizen
+                            <br>
+                        </figcaption>
+                        <div class="fr-transcription" id="transcription-ou-se-cachent-elles">
+                            <button
+                                class="fr-transcription__btn"
+                                aria-expanded="false"
+                                aria-controls="fr-transcription-collapse-transcription-ou-se-cachent-elles"
+                                data-fr-js-collapse-button="true"
+                                >
+                                Transcription
+                            </button>
+                            <div
+                                class="fr-collapse"
+                                id="fr-transcription-collapse-transcription-ou-se-cachent-elles"
+                                data-fr-js-collapse="true"
+                                >
+                                <div class="fr-transcription__footer">
+                                    <div class="fr-transcription__actions-group">
+                                    <button
+                                        class="fr-btn--fullscreen fr-btn"
+                                        aria-controls="fr-transcription-modal-transcription-ou-se-cachent-elles"
+                                        aria-label="Agrandir la transcription"
+                                        data-fr-opened="false"
+                                        id="button-agrandir-ou-se-cachent-elles"
+                                        data-fr-js-modal-button="true"
+                                        >
+                                        Agrandir
+                                    </button>
+                                    </div>
+                                </div>
+                                <div
+                                    id="fr-transcription-modal-transcription-ou-se-cachent-elles"
+                                    class="fr-modal"
+                                    aria-labelledby="fr-transcription-modal-transcription-ou-se-cachent-elles-title"
+                                    data-fr-js-modal="true"
+                                    >
+                                    <div class="fr-container fr-container--fluid fr-container-md">
+                                        <div class="fr-grid-row fr-grid-row--center">
+                                            <div class="fr-col-12 fr-col-md-10 fr-col-lg-8">
+                                                <div class="fr-modal__body" data-fr-js-modal-body="true">
+                                                    <div class="fr-modal__header">
+                                                        <button
+                                                            class="fr-btn--close fr-btn"
+                                                            aria-controls="fr-transcription-modal-transcription-ou-se-cachent-elles"
+                                                            id="button-fermer-ou-se-cachent-elles"
+                                                            title="Fermer"
+                                                            data-fr-js-modal-button="true"
+                                                            >
+                                                            Fermer
+                                                        </button>
+                                                        </div>
+                                                        <div class="fr-modal__content">
+                                                        <h1
+                                                            id="fr-transcription-modal-transcription-ou-se-cachent-elles-title"
+                                                            class="fr-modal__title"
+                                                        >
+                                                            Punaises de lit : où se cachent-elles ?
+                                                        </h1>
+                                                        <div>
+                                                            Les punaises de lit sont visibles à l'oeil nu et sont généralement brunes.
+                                                            <br>
+                                                            L'adulte a les dimensions d'un pépin de pomme. L'oeuf, de couleur blanche, mesure environ 1mm. Elles ne sautent pas et ne volent pas.
+                                                            <br>
+                                                            La chambre, leur espace préféré.
+                                                            <br>
+                                                            On les trouve en grande majorité :
+                                                            <br>
+                                                            <ul>
+                                                                <li>dans les matelas et sommiers qu'il ne faut pas hésiter à retourner pour une inspection complète</li>
+                                                                <li>derrière les cadres, les raccords de papier peint, sous les meubles, dans les plinthes, sous les prises électriques...</li>
+                                                                <li>dans les fissures et les fentes du parquet</li>
+                                                                <li>dans les canapés</li>
+                                                                <li>sous les tapis</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </figure>
                     <dialog aria-labelledby="fr-modal-title-modal-flyer-cache" id="fr-modal-flyer-cache" class="fr-modal">
                         <div class="fr-container fr-container--fluid fr-container-md">
@@ -294,25 +381,6 @@
                                                         alt="Punaises de lit : où se cachent-elles ?"
                                                         >
                                                 </div>
-                                                <figcaption class="fr-content-media__caption align-left">
-                                                    Punaises de lit : où se cachent-elles ?
-                                                    <br>
-                                                    Les punaises de lit sont visibles à l'oeil nu et sont généralement brunes.
-                                                    <br>
-                                                    L'adulte a les dimensions d'un pépin de pomme. L'oeuf, de couleur blanche, mesure environ 1mm. Elles ne sautent pas et ne volent pas.
-                                                    <br>
-                                                    La chambre, leur espace préféré.
-                                                    <br>
-                                                    On les trouve en grande majorité :
-                                                    <br>
-                                                    <ul>
-                                                        <li>dans les matelas et sommiers qu'il ne faut pas hésiter à retourner pour une inspection complète</li>
-                                                        <li>derrière les cadres, les raccords de papier peint, sous les meubles, dans les plinthes, sous les prises électriques...</li>
-                                                        <li>dans les fissures et les fentes du parquet</li>
-                                                        <li>dans les canapés</li>
-                                                        <li>sous les tapis</li>
-                                                    </ul>
-                                                </figcaption>
                                             </figure>
                                         </div>
                                     </div>
@@ -559,18 +627,98 @@
                     </div>
                 </div>
 
+
                 <div class="fr-col-12 fr-col-lg-4">
                     <figure class="fr-content-media" aria-label="Comment éviter les punaises de lit ?">
                         <div class="fr-content-media__img">
                             <img src="{{ asset('build/images/flyer-comment-les-eviter.jpg') }}" width="500" height="954"
                                 alt="Punaises de lit : comment les éviter ?"
                                 >
-                            <br>
-                            <button class="fr-btn"  data-fr-opened="false" aria-controls="fr-modal-flyer-eviter">
+                            <button class="fr-btn"  data-fr-opened="false" aria-controls="fr-modal-flyer-eviter"
+                                title="Agrandir l’image « Punaise de lit : comment les éviter ? »"
+                                aria-label="Agrandir l’image « Punaise de lit : comment les éviter ? »"
+                                >
                                 Agrandir l'image
                             </button>
                         </div>
                         <figcaption class="fr-content-media__caption">Crédit : Citizen</figcaption>
+                        <div class="fr-transcription" id="transcription-comment-eviter">
+                            <button
+                                class="fr-transcription__btn"
+                                aria-expanded="false"
+                                aria-controls="fr-transcription-collapse-transcription-comment-eviter"
+                                data-fr-js-collapse-button="true"
+                                >
+                                Transcription
+                            </button>
+                            <div
+                                class="fr-collapse"
+                                id="fr-transcription-collapse-transcription-comment-eviter"
+                                data-fr-js-collapse="true"
+                                >
+                                <div class="fr-transcription__footer">
+                                    <div class="fr-transcription__actions-group">
+                                    <button
+                                        class="fr-btn--fullscreen fr-btn"
+                                        aria-controls="fr-transcription-modal-transcription-comment-eviter"
+                                        aria-label="Agrandir la transcription"
+                                        data-fr-opened="false"
+                                        id="button-agrandir-comment-eviter"
+                                        data-fr-js-modal-button="true"
+                                        >
+                                        Agrandir
+                                    </button>
+                                    </div>
+                                </div>
+                                <div
+                                    id="fr-transcription-modal-transcription-comment-eviter"
+                                    class="fr-modal"
+                                    aria-labelledby="fr-transcription-modal-transcription-comment-eviter-title"
+                                    data-fr-js-modal="true"
+                                    >
+                                    <div class="fr-container fr-container--fluid fr-container-md">
+                                        <div class="fr-grid-row fr-grid-row--center">
+                                            <div class="fr-col-12 fr-col-md-10 fr-col-lg-8">
+                                                <div class="fr-modal__body" data-fr-js-modal-body="true">
+                                                    <div class="fr-modal__header">
+                                                        <button
+                                                            class="fr-btn--close fr-btn"
+                                                            aria-controls="fr-transcription-modal-transcription-comment-eviter"
+                                                            id="button-fermer-comment-eviter"
+                                                            title="Fermer"
+                                                            data-fr-js-modal-button="true"
+                                                            >
+                                                            Fermer
+                                                        </button>
+                                                        </div>
+                                                        <div class="fr-modal__content">
+                                                        <h1
+                                                            id="fr-transcription-modal-transcription-comment-eviter-title"
+                                                            class="fr-modal__title"
+                                                        >
+                                                            Punaises de lit : comment les éviter ?
+                                                        </h1>
+                                                        <div>
+                                                            Des gestes de prévention simples permettent de limiter leur venue ou installation.
+                                                            <br>
+                                                            En voyageant, soyez vigilants :
+                                                            <br>
+                                                            <ul>
+                                                                <li>Ne posez pas votre bagage sur le lit et encore moins sous le lit</li>
+                                                                <li>Contrôlez vos effets personnels à votre retour</li>
+                                                                <li>Evitez d'encombrer les espaces</li>
+                                                                <li>Attention aux achats d'occasion. Lavez bien les vêtements à 60°C.</li>
+                                                                <li>Nettoyez les meubles récupérés</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </figure>
                     <dialog aria-labelledby="fr-modal-title-modal-flyer-eviter" id="fr-modal-flyer-eviter" class="fr-modal">
                         <div class="fr-container fr-container--fluid fr-container-md">
@@ -585,24 +733,9 @@
                                             <figure class="fr-content-media" aria-label="Comment éviter les punaises de lit ?">
                                                 <div class="fr-content-media__img">
                                                     <img src="{{ asset('build/images/flyer-comment-les-eviter.jpg') }}"
-                                                        alt="Comment éviter les punaises de lit ? En voyage, ne posez pas votre bagage sur le lit, encore moins sous le lit. Contrôlez vos effets personnels à votre retour. Evitez d'encombrer les espaces. Attention aux achats d'occasion, lavez-les à 60°C. Nettoyez les meubles récupérés."
+                                                        alt="Punaises de lit : comment les éviter ?"
                                                         >
                                                 </div>
-                                                <figcaption class="fr-content-media__caption align-left">
-                                                    Punaises de lit : comment les éviter ?
-                                                    <br>
-                                                    Des gestes de prévention simples permettent de limiter leur venue ou installation.
-                                                    <br>
-                                                    En voyageant, soyez vigilants :
-                                                    <br>
-                                                    <ul>
-                                                        <li>Ne posez pas votre bagage sur le lit et encore moins sous le lit</li>
-                                                        <li>Contrôlez vos effets personnels à votre retour</li>
-                                                        <li>Evitez d'encombrer les espaces</li>
-                                                        <li>Attention aux achats d'occasion. Lavez bien les vêtements à 60°C.</li>
-                                                        <li>Nettoyez les meubles récupérés</li>
-                                                    </ul>
-                                                </figcaption>
                                             </figure>
                                         </div>
                                     </div>
