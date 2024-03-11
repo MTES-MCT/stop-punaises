@@ -211,7 +211,7 @@ class SignalementHistoryType extends AbstractType
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
-                'label' => 'Email (facultatif)',
+                'label' => 'E-mail (facultatif)',
                 'help' => 'Format attendu : nom@domaine.fr',
                 'help_attr' => [
                     'class' => 'fr-hint-text',
