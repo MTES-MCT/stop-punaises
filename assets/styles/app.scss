@@ -122,6 +122,11 @@ span.statut-infestation {
         border: 0px;
         background: var(--blue-france-850-200);
     }
+
+    thead > tr > th[class*="sort"]:before,
+    thead > tr > th[class*="sort"]:after {
+        content: "" !important;
+    }
 }
 
 .fr-header {
