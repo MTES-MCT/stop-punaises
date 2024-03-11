@@ -38,6 +38,10 @@ function startListeSignalementsApp() {
       }
     },
     drawCallback: function( oSettings ) {
+      $('table th').removeClass('sortable');
+      $('table th').removeAttr('aria-controls');
+      $('table th').removeAttr('aria-label');
+      $('table th').removeAttr('aria-sort');
       $('#datatable-ajax_paginate').attr('role', 'navigation');
       $('#datatable-ajax_paginate').attr('aria-label', 'Pagination');
       $('#datatable-ajax_previous').attr('title', 'Page précédente');

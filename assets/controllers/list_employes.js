@@ -36,6 +36,10 @@ function startListeEmployesApp() {
       }
     },
     drawCallback: function(settings, json) {
+      $('table th').removeClass('sortable');
+      $('table th').removeAttr('aria-controls');
+      $('table th').removeAttr('aria-label');
+      $('table th').removeAttr('aria-sort');
       $('#datatable_paginate').attr('role', 'navigation');
       $('#datatable_paginate').attr('aria-label', 'Pagination');
       $('#datatable_previous').attr('title', 'Page précédente');
