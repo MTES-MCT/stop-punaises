@@ -126,6 +126,8 @@ function checkSignalementSingleSelect(idSelect) {
     $('select#' + idSelect).siblings('.fr-error-text').removeClass('fr-hidden');
     $('select#' + idSelect).attr('aria-describedby', idSelect + '-error');
     return false;
+  } else {
+    $('select#' + idSelect).removeAttr('aria-describedby');
   }
   return true;
 }

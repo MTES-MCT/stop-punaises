@@ -138,7 +138,10 @@ class PunaisesFrontSignalementController {
       } else {
         self.stepStr = self.CLOSED_STEP_LIST[self.step - 1];
       }
-    
+      const elements = $('.current-step').find('[aria-describedby]');
+      elements.each(function() {
+        $(this).removeAttr('aria-describedby');
+      });
       $('.current-step').slideUp(200, function() {
         $('.current-step').removeClass('current-step');
         $('#step-' + self.stepStr).slideDown(200, function() {
