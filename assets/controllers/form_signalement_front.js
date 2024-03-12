@@ -209,6 +209,8 @@ class PunaisesFrontSignalementController {
 
   checkSingleInput(idInput) {
     $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
+    $('input#' + idInput).removeAttr('aria-describedby');
+
     if ($('input#' + idInput).val() == '') {
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
       $('input#' + idInput).attr('aria-describedby', idInput + '-error');
@@ -219,6 +221,7 @@ class PunaisesFrontSignalementController {
 
   checkValidSuperficieInput(idInput) {
     $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
+    $('input#' + idInput).removeAttr('aria-describedby');
     $('input#' + idInput).siblings('.fr-error-text').text('Veuillez renseigner la superficie de votre logement.');
 
     if ($('input#' + idInput).val() == '') {
@@ -245,6 +248,9 @@ class PunaisesFrontSignalementController {
 
   checkChoicesInput(idInput, count) {
     $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').addClass('fr-hidden');
+    for (let i = 0; i < count; i++) {
+      $('#signalement_front_' + idInput + '_' + i).removeAttr('aria-describedby');
+    }
 
     let canGoNext = false;
     for (let i = 0; i < count; i++) {
@@ -478,6 +484,7 @@ class PunaisesFrontSignalementController {
             strAppend += '</div>';
             $('.fr-front-signalement-photos').append(strAppend);
             errorDiv.addClass('fr-hidden');
+            inputDiv.removeAttr('aria-describedby');
         }
       }
     });
