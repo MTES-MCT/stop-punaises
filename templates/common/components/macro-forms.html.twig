@@ -3,9 +3,6 @@
     {% if form_errors(form_view) %}
         <div class="fr-input-group fr-input-group--error">
             {{ form_label(form_view) }}
-            {% if help %}
-                {{ form_help(form_view) }}                
-            {% endif %}
             {{ form_widget(form_view, { 'attr': {
                 'aria-describedby': form_view.vars.id ~ '-error',
                 'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
@@ -21,9 +18,6 @@
     {% else %}
         <div class="fr-input-group">
             {{ form_label(form_view) }}
-            {% if help %}
-                {{ form_help(form_view) }}                
-            {% endif %}
             {{ form_widget(form_view, { 'attr': {
                 'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
                 'onvalid': "this.setCustomValidity('')",
@@ -42,9 +36,6 @@
     {% if form_errors(form_view) %}
         <div class="fr-select-group fr-select-group--error">
             {{ form_label(form_view) }}
-            {% if help %}
-                {{ form_help(form_view) }}                
-            {% endif %}
             {{ form_widget(form_view, { 'attr': {
                 'aria-describedby': form_view.vars.id ~ '-error',
                 'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
@@ -60,9 +51,6 @@
     {% else %}
         <div class="fr-select-group">
             {{ form_label(form_view) }}
-            {% if help %}
-                {{ form_help(form_view) }}                
-            {% endif %}
             {{ form_widget(form_view, { 'attr': {
                 'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
                 'onvalid': "this.setCustomValidity('')",

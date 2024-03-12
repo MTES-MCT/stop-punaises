@@ -138,7 +138,10 @@ class PunaisesFrontSignalementController {
       } else {
         self.stepStr = self.CLOSED_STEP_LIST[self.step - 1];
       }
-    
+      const elements = $('.current-step').find('[aria-describedby]');
+      elements.each(function() {
+        $(this).removeAttr('aria-describedby');
+      });
       $('.current-step').slideUp(200, function() {
         $('.current-step').removeClass('current-step');
         $('#step-' + self.stepStr).slideDown(200, function() {
@@ -206,6 +209,8 @@ class PunaisesFrontSignalementController {
 
   checkSingleInput(idInput) {
     $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
+    $('input#' + idInput).removeAttr('aria-describedby');
+
     if ($('input#' + idInput).val() == '') {
       $('input#' + idInput).siblings('.fr-error-text').removeClass('fr-hidden');
       $('input#' + idInput).attr('aria-describedby', idInput + '-error');
@@ -216,6 +221,7 @@ class PunaisesFrontSignalementController {
 
   checkValidSuperficieInput(idInput) {
     $('input#' + idInput).siblings('.fr-error-text').addClass('fr-hidden');
+    $('input#' + idInput).removeAttr('aria-describedby');
     $('input#' + idInput).siblings('.fr-error-text').text('Veuillez renseigner la superficie de votre logement.');
 
     if ($('input#' + idInput).val() == '') {
@@ -242,6 +248,9 @@ class PunaisesFrontSignalementController {
 
   checkChoicesInput(idInput, count) {
     $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').addClass('fr-hidden');
+    for (let i = 0; i < count; i++) {
+      $('#signalement_front_' + idInput + '_' + i).removeAttr('aria-describedby');
+    }
 
     let canGoNext = false;
     for (let i = 0; i < count; i++) {
@@ -251,8 +260,10 @@ class PunaisesFrontSignalementController {
     }
 
     if (!canGoNext) {
-      $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').removeClass('fr-hidden');
-      $('#signalement_front_' + idInput).attr('aria-describedby', idInput + '-error');
+      for (let i = 0; i < count; i++) {
+        $('#signalement_front_' + idInput + '_legend').siblings('.fr-error-text').removeClass('fr-hidden');
+        $('#signalement_front_' + idInput + '_' + i).attr('aria-describedby', 'signalement_front_' + idInput + '-error');
+      }
     }
     
     return canGoNext;
@@ -473,6 +484,7 @@ class PunaisesFrontSignalementController {
             strAppend += '</div>';
             $('.fr-front-signalement-photos').append(strAppend);
             errorDiv.addClass('fr-hidden');
+            inputDiv.removeAttr('aria-describedby');
         }
       }
     });

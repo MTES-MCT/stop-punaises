@@ -1,4 +1,6 @@
 {% extends 'front_signalement/base_step.html.twig' %}
+{% use 'common/form/custom_theme.html.twig' %}
+{% form_theme form 'common/form/custom_theme.html.twig' %}
 
 {% block content %}
     {% import "common/components/macro-forms.html.twig" as forms %}
@@ -18,7 +20,6 @@
     <div class="fr-form-group">
         <div class="fr-input-group">
             {{ form_label(form.superficie) }}
-            {{ form_help(form.superficie) }}
             {{ form_widget(form.superficie) }}
             <span class="input-precision">m²</span>
             <p id="{{ form.superficie.vars.id }}-error" class="fr-error-text fr-hidden">
@@ -29,8 +30,9 @@
 
     <div class="fr-form-group">
         <div class="fr-input-group search-address">
-            <label for="rechercheAdresse" class="fr-label required">Mon adresse est...</label>
-            <span class="fr-hint-text help-text">Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</span>
+            <label for="rechercheAdresse" class="fr-label required">Mon adresse est…
+                <span class="fr-hint-text help-text">Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</span>
+            </label>
             <div class="fr-input-wrap fr-icon-map-pin-2-line">
                 <input id="rechercheAdresse" type="text" class="fr-input" autocomplete="street">
                 <p id="rechercheAdresse-error" class="fr-error-text fr-hidden">
@@ -45,7 +47,10 @@
                 
         <div class="fr-toggle">
             <input type="checkbox" class="fr-toggle__input" aria-describedby="toggle-skip-search-address-hint-text" id="toggle-skip-search-address">
-            <label class="fr-toggle__label" for="toggle-skip-search-address" data-fr-checked-label="Activé" data-fr-unchecked-label="Désactivé">Saisir manuellement</label>
+            <label class="fr-toggle__label"
+                   for="toggle-skip-search-address"
+                   data-fr-checked-label="Activée"
+                   data-fr-unchecked-label="Désactivée">Saisie manuelle de l'adresse</label>
         </div>
     </div>
 

@@ -3,6 +3,7 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
+    {% import "common/components/macro-forms.html.twig" as forms %}
     <div id="contact-container" class="fr-container--fluid fr-py-5w fr-py-md-10w">
     
         {% for label, messages in app.flashes %}
@@ -50,39 +51,15 @@
                 {{ form_start(form) }}
                 <div class="fr-grid-row fr-grid-row--gutters">
                     <div class="fr-col-12">
-                        {{ form_label(form.nom) }}
-                        {{ form_widget(form.nom) }}
-                        {% if form.nom.vars.errors|length > 0 %}
-                            {% for error in form.nom.vars.errors %}
-                                <p id="text-input-error-desc-error" class="fr-error-text">
-                                    {{ error.message }}
-                                </p>
-                            {% endfor %}
-                        {% endif %}
+                        {{ forms.input(form.nom, 'Merci de renseigner votre nom complet.') }}
                     </div>
 
                     <div class="fr-col-12">
-                        {{ form_label(form.email) }}
-                        {{ form_widget(form.email) }}
-                        {% if form.email.vars.errors|length > 0 %}
-                            {% for error in form.email.vars.errors %}
-                                <p id="text-input-error-desc-error" class="fr-error-text">
-                                    {{ error.message }}
-                                </p>
-                            {% endfor %}
-                        {% endif %}
+                        {{ forms.input(form.email, 'Merci de renseigner votre email.') }}
                     </div>
 
                     <div class="fr-col-12">
-                        {{ form_label(form.message) }}
-                        {{ form_widget(form.message) }}
-                        {% if form.message.vars.errors|length > 0 %}
-                            {% for error in form.message.vars.errors %}
-                                <p id="text-input-error-desc-error" class="fr-error-text">
-                                    {{ error.message }}
-                                </p>
-                            {% endfor %}
-                        {% endif %}
+                        {{ forms.input(form.message, 'Merci de renseigner votre message.') }}
                     </div>
                 </div>
                 {{ form_end(form) }}
