@@ -27,7 +27,7 @@ enum InfestationLevel: int
             '0 - Nulle',
             '1 - Faible',
             '2 - Moyenne',
-            '3 - Elevée',
+            '3 - Élevée',
             '4 - Très élevée',
         ];
     }

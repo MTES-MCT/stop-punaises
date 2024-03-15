@@ -1,3 +1,6 @@
-<span class="niveau-infestation niveau-{{ signalement.niveauInfestation }}">
+<span class="niveau-infestation niveau-{{ signalement.niveauInfestation }}"
+    title="infestation de niveau {{ signalement.niveauInfestation|label_infestation }}"
+    aria-label="infestation de niveau {{ signalement.niveauInfestation|label_infestation }}"
+    >
     {{ signalement.niveauInfestation|label_infestation }}
 </span>

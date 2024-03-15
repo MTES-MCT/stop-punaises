@@ -156,8 +156,13 @@ class SignalementOccupantDataTableHandler
             return 'Non communiqué';
         }
 
-        return '<span class="niveau-infestation niveau-'.$niveauInfestation.'">'
-                .$this->appExtension->formatLabelInfestation($niveauInfestation).
+        $label = $this->appExtension->formatLabelInfestation($niveauInfestation);
+
+        return '<span class="niveau-infestation niveau-'.$niveauInfestation.'"
+                title="infestation de niveau '.$label.'"
+                aria-label="infestation de niveau '.$label.'"
+                >'
+                .$label.
                 '</span>';
     }
 
