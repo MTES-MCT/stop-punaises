@@ -54,7 +54,7 @@ class AccountActivationController extends AbstractController
         return $this->render('security/reset_password.html.twig');
     }
 
-    #[Route(path: '/activation-compte/{id}/{token}', name: 'activate_account', requirements: ['token' => '.+'])]
+    #[Route(path: '/activation-compte/{uuid}/{token}', name: 'activate_account', requirements: ['token' => '.+'])]
     public function resetPassword(
         Request $request,
         ActivationToken $activationToken,

@@ -32,7 +32,7 @@ class AccountActivationControllerTest extends WebTestCase
         /** @var RouterInterface $router */
         $router = self::getContainer()->get(RouterInterface::class);
 
-        $route = $router->generate('activate_account', ['id' => $this->user->getId(), 'token' => $this->user->getToken()]);
+        $route = $router->generate('activate_account', ['uuid' => $this->user->getUuid(), 'token' => $this->user->getToken()]);
         $this->client->request('GET', $route);
 
         $password = 'Stop-Punaise01';
@@ -49,7 +49,7 @@ class AccountActivationControllerTest extends WebTestCase
         /** @var RouterInterface $router */
         $router = self::getContainer()->get(RouterInterface::class);
 
-        $route = $router->generate('activate_account', ['id' => $this->user->getId(), 'token' => $this->user->getToken()]);
+        $route = $router->generate('activate_account', ['uuid' => $this->user->getUuid(), 'token' => $this->user->getToken()]);
         $this->client->request('GET', $route);
 
         $this->client->submitForm('Confirmer', [
@@ -71,7 +71,7 @@ class AccountActivationControllerTest extends WebTestCase
         /** @var RouterInterface $router */
         $router = self::getContainer()->get(RouterInterface::class);
 
-        $route = $router->generate('activate_account', ['id' => $this->user->getId(), 'token' => $this->user->getToken()]);
+        $route = $router->generate('activate_account', ['uuid' => $this->user->getUuid(), 'token' => $this->user->getToken()]);
         $this->client->request('GET', $route);
 
         $this->client->submitForm('Confirmer', [
