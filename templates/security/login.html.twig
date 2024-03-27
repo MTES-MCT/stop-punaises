@@ -3,6 +3,20 @@
 {% block title %}Connexion à l'espace pro{% if error %} | Erreur d'identification{% endif %}{% endblock %}
 
 {% block body %}
+{% for label, messages in app.flashes %}
+	{% for message in messages %}
+		<div role="status" class="fr-alert fr-alert--{{ label }} fr-alert--sm fr-mb-3v">
+			{% if label is same as('error') or label is same as('error error-raw')  %}
+				<strong>Erreur...</strong>
+			{% endif %}
+			{% if label is same as('error error-raw')  %}
+				<p>{{ message|raw }}</p>
+			{% else %}
+				<p>{{ message }}</p>
+			{% endif %}
+		</div>
+	{% endfor %}
+{% endfor %}
 <div class="fr-container fr-py-5w">
     <div class="fr-grid-row fr-grid-row--center">
         <div class="fr-col-10 fr-col-md-8 fr-col-lg-6">

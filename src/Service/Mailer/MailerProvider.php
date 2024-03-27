@@ -65,7 +65,7 @@ class MailerProvider implements MailerProviderInterface
 
     public function sendResetPasswordMessage(User $user): void
     {
-        $link = $this->urlGenerator->generate('reset_password', ['token' => $user->getToken()]);
+        $link = $this->urlGenerator->generate('activate_account', ['uuid' => $user->getUuid(), 'token' => $user->getToken()]);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::RESET_PASSWORD, ['link' => $link])
@@ -76,7 +76,7 @@ class MailerProvider implements MailerProviderInterface
 
     public function sendActivateMessage(User $user): void
     {
-        $link = $this->urlGenerator->generate('activate_account', ['token' => $user->getToken()]);
+        $link = $this->urlGenerator->generate('activate_account', ['uuid' => $user->getUuid(), 'token' => $user->getToken()]);
         $message = $this
             ->messageFactory
             ->createInstanceFrom(Template::ACCOUNT_ACTIVATION, ['link' => $link])

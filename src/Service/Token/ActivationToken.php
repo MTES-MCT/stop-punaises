@@ -4,19 +4,16 @@ namespace App\Service\Token;
 
 use App\Entity\Enum\Status;
 use App\Entity\User;
-use App\Repository\UserRepository;
 
 class ActivationToken extends AbstractGeneratorToken
 {
-    public function __construct(private UserRepository $userRepository)
+    public function validateToken(User $user, string $token): bool|User
     {
-    }
+        if ($user->getToken() != $token) {
+            return false;
+        }
 
-    public function validateToken(string $token): bool|User
-    {
-        $user = $this->userRepository->findOneBy(['token' => $token]);
-
-        if ($this->canActivateAccount($user)) {
+        if ($this->canActivateAccount($user) || $this->canUpdatePassword($user)) {
             return $user;
         }
 
@@ -28,5 +25,12 @@ class ActivationToken extends AbstractGeneratorToken
         return null !== $user
             && new \DateTimeImmutable() < $user->getTokenExpiredAt()
             && Status::INACTIVE === $user->getStatus();
+    }
+
+    private function canUpdatePassword(?User $user): bool
+    {
+        return null !== $user
+            && new \DateTimeImmutable() < $user->getTokenExpiredAt()
+            && Status::ACTIVE === $user->getStatus();
     }
 }

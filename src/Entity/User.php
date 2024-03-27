@@ -6,10 +6,12 @@ use App\Entity\Behaviour\ActivableTrait;
 use App\Entity\Behaviour\TimestampableTrait;
 use App\Entity\Enum\Status;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -25,6 +27,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(type: Types::GUID)]
+    private $uuid;
+
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\Email]
     #[Assert\NotBlank]
@@ -34,10 +39,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     #[ORM\Column]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 8, max: 200, minMessage: 'Votre mot de passe doit contenir au moins {{ limit }} caratères')]
-    #[Assert\NotCompromisedPassword(message: 'Ce mot de passe est compromis, veuillez en choisir un autre.')]
-    #[Assert\NotEqualTo(propertyPath: 'email', message: 'Votre mot de passe ne doit pas contenir votre email.')]
+    #[Assert\NotBlank(groups: ['password'])]
+    #[Assert\Length(min: 8, max: 200, minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.', groups: ['password'])]
+    #[Assert\Regex(pattern: '/[A-Z]/', message: 'Le mot de passe doit contenir au moins une lettre majuscule.', groups: ['password'])]
+    #[Assert\Regex(pattern: '/[a-z]/', message: 'Le mot de passe doit contenir au moins une lettre minuscule.', groups: ['password'])]
+    #[Assert\Regex(pattern: '/[0-9]/', message: 'Le mot de passe doit contenir au moins un chiffre.', groups: ['password'])]
+    #[Assert\Regex(pattern: '/[^a-zA-Z0-9]/', message: 'Le mot de passe doit contenir au moins un caractère spécial.', groups: ['password'])]
+    #[Assert\NotCompromisedPassword(message: 'Ce mot de passe est compromis, veuillez en choisir un autre.', groups: ['password'])]
+    #[Assert\NotEqualTo(propertyPath: 'email', message: 'Le mot de passe ne doit pas être votre e-mail.', groups: ['password'])]
     private ?string $password = null;
 
     #[ORM\Column(nullable: true)]
@@ -58,6 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->status = Status::INACTIVE;
+        $this->uuid = Uuid::v4();
     }
 
     public function getId(): ?int
@@ -195,6 +205,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setStatus(Status $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }
