@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := help
 .PHONY: help
 
-DOCKER_COMP   = docker compose
+DOCKER_COMP   = docker compose #
 DOCKER_COMP_FILE_TOOLS   = docker-compose.tools.yml
 DATABASE_USER = stopunaises
 DATABASE_NAME = stopunaises_db
