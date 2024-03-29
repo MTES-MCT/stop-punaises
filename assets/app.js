@@ -22,6 +22,7 @@ import './controllers/form_back_stop_intervention';
 import './controllers/component_search_address';
 import './controllers/component_search_commune';
 import './controllers/component_file_auto_submit';
+import './controllers/reinit_password';
 
 import './controllers/list_signalement';
 import './controllers/list_entreprises';
