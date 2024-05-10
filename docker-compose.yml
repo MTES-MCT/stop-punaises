@@ -3,7 +3,7 @@ version: "3.8"
 
 services:
   stopunaises_mysql:
-    image: 'mysql:5.7.38'
+    image: 'mysql:8.0.31'
     container_name: stopunaises_mysql
     restart: always
     environment:
