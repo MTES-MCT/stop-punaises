@@ -216,60 +216,70 @@ class SuiviUsagerViewController extends AbstractController
         return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
     }
 
-    #[Route('/interventions/{id}/choix', name: 'app_signalement_estimation_choice', methods: 'POST')]
+    #[Route('/interventions/{uuid}/{id}/choix', name: 'app_signalement_estimation_choice', methods: 'POST')]
     public function signalement_choice(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
+        Signalement $signalement,
         Intervention $intervention,
         InterventionManager $interventionManager,
         InterventionRepository $interventionRepository,
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
     ): Response {
-        if ($this->isCsrfTokenValid('signalement_estimation_choice', $request->get('_csrf_token'))) {
-            if ('accept' == $request->get('action')) {
-                $this->addFlash('success', 'L\'estimation a bien été acceptée');
-                $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
-                $intervention->setAcceptedByUsager(true);
-                $interventionManager->save($intervention);
+        if (!$this->isCsrfTokenValid('signalement_estimation_choice', $request->get('_csrf_token'))) {
+            return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
+        }
+        if ($intervention->getSignalement()->getId() !== $signalement->getId()) {
+            return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
+        }
+        if (!$intervention->getEstimationSentAt() || $intervention->getChoiceByUsagerAt()) {
+            return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
+        }
 
-                $mailerProvider->sendSignalementEstimationAccepted($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
+        if ('accept' == $request->get('action')) {
+            $this->addFlash('success', 'L\'estimation a bien été acceptée');
+            $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
+            $intervention->setAcceptedByUsager(true);
+            $interventionManager->save($intervention);
 
-                // On refuse les autres estimations en attente
-                $interventionsToAnswer = $interventionRepository->findInterventionsWithMissingAnswerFromUsager($intervention->getSignalement());
-                foreach ($interventionsToAnswer as $interventionToAnswer) {
-                    $interventionToAnswer->setChoiceByUsagerAt(new \DateTimeImmutable());
-                    $interventionToAnswer->setAcceptedByUsager(false);
-                    $interventionManager->save($interventionToAnswer);
-                    $mailerProvider->sendSignalementEstimationRefused($interventionToAnswer->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
-                    $eventDispatcher->dispatch(
-                        new InterventionUsagerRefusedEvent(
-                            $interventionToAnswer
-                        ),
-                        InterventionUsagerRefusedEvent::NAME
-                    );
-                }
+            $mailerProvider->sendSignalementEstimationAccepted($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
 
-                $eventDispatcher->dispatch(
-                    new InterventionUsagerAcceptedEvent(
-                        $intervention
-                    ),
-                    InterventionUsagerAcceptedEvent::NAME
-                );
-            } elseif ('refuse' == $request->get('action')) {
-                $this->addFlash('success', 'L\'estimation a bien été refusée');
-                $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
-                $intervention->setAcceptedByUsager(false);
-                $interventionManager->save($intervention);
-
+            // On refuse les autres estimations en attente
+            $interventionsToAnswer = $interventionRepository->findInterventionsWithMissingAnswerFromUsager($intervention->getSignalement());
+            foreach ($interventionsToAnswer as $interventionToAnswer) {
+                $interventionToAnswer->setChoiceByUsagerAt(new \DateTimeImmutable());
+                $interventionToAnswer->setAcceptedByUsager(false);
+                $interventionManager->save($interventionToAnswer);
+                $mailerProvider->sendSignalementEstimationRefused($interventionToAnswer->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
                 $eventDispatcher->dispatch(
                     new InterventionUsagerRefusedEvent(
-                        $intervention
+                        $interventionToAnswer
                     ),
                     InterventionUsagerRefusedEvent::NAME
                 );
-
-                $mailerProvider->sendSignalementEstimationRefused($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
             }
+
+            $eventDispatcher->dispatch(
+                new InterventionUsagerAcceptedEvent(
+                    $intervention
+                ),
+                InterventionUsagerAcceptedEvent::NAME
+            );
+        } elseif ('refuse' == $request->get('action')) {
+            $this->addFlash('success', 'L\'estimation a bien été refusée');
+            $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
+            $intervention->setAcceptedByUsager(false);
+            $interventionManager->save($intervention);
+
+            $eventDispatcher->dispatch(
+                new InterventionUsagerRefusedEvent(
+                    $intervention
+                ),
+                InterventionUsagerRefusedEvent::NAME
+            );
+
+            $mailerProvider->sendSignalementEstimationRefused($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
