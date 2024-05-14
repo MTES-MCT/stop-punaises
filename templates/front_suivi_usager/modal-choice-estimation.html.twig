@@ -44,7 +44,7 @@
                         </div>
                         {% endif %}
 
-                        <form action="{{ path('app_signalement_estimation_choice', {'id': intervention.id }) }}" method="POST" class="align-center fr-mt-3v">
+                        <form action="{{ path('app_signalement_estimation_choice', {'uuid': intervention.signalement.uuid, 'id': intervention.id }) }}" method="POST" class="align-center fr-mt-3v">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_estimation_choice') }}">
                             <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check fr-mb-3v" name="action" value="accept">Accepter</button>
                             <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close" name="action" value="refuse">Refuser</button>
