@@ -228,13 +228,13 @@ class SuiviUsagerViewController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
     ): Response {
         if (!$this->isCsrfTokenValid('signalement_estimation_choice', $request->get('_csrf_token'))) {
-            return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
+            return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
         }
         if ($intervention->getSignalement()->getId() !== $signalement->getId()) {
-            return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
+            return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
         }
         if (!$intervention->getEstimationSentAt() || $intervention->getChoiceByUsagerAt()) {
-            return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
+            return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
         }
 
         if ('accept' == $request->get('action')) {
@@ -282,7 +282,7 @@ class SuiviUsagerViewController extends AbstractController
             $mailerProvider->sendSignalementEstimationRefused($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
         }
 
-        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $intervention->getSignalement()->getUuidPublic()]);
+        return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
     }
 
     #[Route(
