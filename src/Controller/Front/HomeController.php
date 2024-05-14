@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\Cache;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
@@ -94,10 +95,17 @@ class HomeController extends AbstractController
     public function contact(
         Request $request,
         ContactFormHandler $contactFormHandler,
+        RateLimiterFactory $contactFormLimiter
     ): Response {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
+            $limiter = $contactFormLimiter->create($request->getClientIp());
+            if (false === $limiter->consume(1)->isAccepted()) {
+                $this->addFlash('error', 'Vous avez atteint le nombre maximum de messages que vous pouvez envoyer. Veuillez réessayer plus tard.');
+
+                return $this->redirectToRoute('app_front_contact');
+            }
             if ($form->isValid()) {
                 $contactFormHandler->handle($form);
                 $this->addFlash('success', 'Votre message à bien été envoyé !');
