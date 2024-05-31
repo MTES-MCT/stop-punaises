@@ -4,6 +4,7 @@ namespace App\Service\Import\Signalement;
 
 use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
+use App\Entity\Enum\SignalementType;
 use App\Manager\SignalementManager;
 use App\Repository\SignalementRepository;
 use App\Repository\TerritoireRepository;
@@ -82,6 +83,7 @@ class SignalementImportLoader
                 $zipCode = $this->zipCodeService->getByCodePostal($signalement->getCodePostal());
                 $territoire = $this->territoireRepository->findOneBy(['zip' => $zipCode]);
                 $signalement->setTerritoire($territoire);
+                $signalement->setType(SignalementType::TYPE_LOGEMENT);
 
                 $this->signalementManager->save($signalement);
 
