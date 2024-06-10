@@ -44,13 +44,17 @@ class SignalementImportLoader
      * @throws NonUniqueResultException
      * @throws \Exception
      */
-    public function load(Entreprise $entreprise, array $data, array $headers, ?OutputInterface $output = null): void
+    public function load(?Entreprise $commandEntreprise, array $data, array $headers, ?OutputInterface $output = null): void
     {
         $countSignalement = 0;
         if ($output) {
             $progressBar = new ProgressBar($output);
             $progressBar->start(\count($data));
         }
+
+        // avoids loading same entreprise entity multiple times
+        /** @var Entreprise $currentEntreprise */
+        $currentEntreprise = null;
 
         foreach ($data as $item) {
             $dataMapped = $this->signalementImportMapper->map($headers, $item);
@@ -60,7 +64,18 @@ class SignalementImportLoader
                 if ($output) {
                     $progressBar->advance();
                 }
-                $dataMapped['entreprise'] = $entreprise;
+
+                if (!empty($commandEntreprise)) {
+                    $dataMapped['entreprise'] = $commandEntreprise;
+                } else {
+                    if (empty($currentEntreprise) || $currentEntreprise->getUuid() !== $dataMapped['entreprise']) {
+                        $currentEntreprise = $this->entityManager->getRepository(Entreprise::class)->findOneBy(['uuid' => $dataMapped['entreprise']]);
+                    }
+                    if (!empty($currentEntreprise)) {
+                        $dataMapped['entreprise'] = $currentEntreprise;
+                    }
+                }
+
                 $dataMapped['declarant'] = Declarant::DECLARANT_ENTREPRISE;
                 $dateIntervention = $dataMapped['dateIntervention'];
 
