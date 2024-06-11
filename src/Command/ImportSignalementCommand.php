@@ -37,7 +37,7 @@ class ImportSignalementCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('entreprise_uuid', InputArgument::REQUIRED, 'Entreprise uuid to target');
+        $this->addArgument('entreprise_uuid', InputArgument::OPTIONAL, 'Entreprise uuid to target');
     }
 
     /**
@@ -48,15 +48,20 @@ class ImportSignalementCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $entrepriseUuid = $input->getArgument('entreprise_uuid');
-        /** @var Entreprise $entreprise */
-        $entreprise = $this->entityManager->getRepository(Entreprise::class)->findOneBy(['uuid' => $entrepriseUuid]);
-        if (null === $entreprise) {
-            $io->error('Entreprise does not exist');
 
-            return Command::FAILURE;
+        if (!empty($entrepriseUuid)) {
+            /** @var Entreprise $entreprise */
+            $entreprise = $this->entityManager->getRepository(Entreprise::class)->findOneBy(['uuid' => $entrepriseUuid]);
+            if (null === $entreprise) {
+                $io->error('Entreprise does not exist');
+
+                return Command::FAILURE;
+            }
+        } else {
+            $entreprise = null;
         }
 
-        $fromFile = 'csv/signalements_'.$entrepriseUuid.'.csv';
+        $fromFile = $entrepriseUuid ? 'csv/signalements_'.$entrepriseUuid.'.csv' : 'csv/signalements.csv';
         $toFile = $this->parameterBag->get('uploads_tmp_dir').'signalements.csv';
         if (!$this->fileStorage->fileExists($fromFile)) {
             $io->error('CSV File does not exist');
@@ -75,7 +80,11 @@ class ImportSignalementCommand extends Command
 
         $metadata = $this->signalementImportLoader->getMetadata();
 
-        $io->success(sprintf('%s signalement(s) have been imported for entreprise %s', $metadata['count_signalement'], $entreprise->getNom()));
+        if (!empty($entreprise)) {
+            $io->success(sprintf('%s signalement(s) have been imported for entreprise %s', $metadata['count_signalement'], $entreprise->getNom()));
+        } else {
+            $io->success(sprintf('%s signalement(s) have been imported', $metadata['count_signalement']));
+        }
 
         return Command::SUCCESS;
     }

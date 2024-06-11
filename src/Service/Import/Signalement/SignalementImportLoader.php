@@ -68,8 +68,8 @@ class SignalementImportLoader
                 if (!empty($commandEntreprise)) {
                     $dataMapped['entreprise'] = $commandEntreprise;
                 } else {
-                    if (empty($currentEntreprise) || $currentEntreprise->getUuid() !== $dataMapped['entreprise']) {
-                        $currentEntreprise = $this->entityManager->getRepository(Entreprise::class)->findOneBy(['uuid' => $dataMapped['entreprise']]);
+                    if (empty($currentEntreprise) || $currentEntreprise->getUuid() !== $dataMapped['entrepriseUUID']) {
+                        $currentEntreprise = $this->entityManager->getRepository(Entreprise::class)->findOneBy(['uuid' => $dataMapped['entrepriseUUID']]);
                     }
                     if (!empty($currentEntreprise)) {
                         $dataMapped['entreprise'] = $currentEntreprise;

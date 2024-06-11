@@ -41,6 +41,11 @@ else
       aws s3 cp data/signalement/signalements_${uuid}.csv s3://${BUCKET_URL}/csv/ ${debug}
       aws s3 ls s3://${BUCKET_URL}/csv/signalements_${uuid}.csv
       ;;
+    "signalements-multi")
+      echo "Upload signalements.csv to cloud..."
+      aws s3 cp data/signalement/signalements.csv s3://${BUCKET_URL}/csv/ ${debug}
+      aws s3 ls s3://${BUCKET_URL}/csv/signalements.csv
+      ;;
     "entreprisespubliques")
       echo "Upload entreprises.csv to cloud..."
       aws s3 cp data/entreprises.csv s3://${BUCKET_URL}/csv/ ${debug}
