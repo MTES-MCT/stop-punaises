@@ -31,6 +31,7 @@ class SignalementImportMapper
             'Type de traitement' => 'typeTraitement',
             'Nom biocide (si pertinent)' => 'nomBiocide',
             'Prix facturé' => 'prixFactureHT',
+            'Entreprise' => 'entrepriseUUID',
         ];
     }
 
@@ -59,7 +60,6 @@ class SignalementImportMapper
                         $fieldValue = $this->transformToNiveauInfestation($fieldValue);
                         break;
                     case 'construitAvant1948':
-                    case 'faitVisitePostTraitement':
                     case 'faitVisitePostTraitement':
                         $fieldValue = ('Oui' === $fieldValue) ? 1 : 0;
                         break;
