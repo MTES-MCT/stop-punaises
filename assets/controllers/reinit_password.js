@@ -27,7 +27,7 @@ function canSubmitFormReinitPassword() {
         canSubmit = false;
         pwdMatchError.classList.remove('fr-hidden')
     }
-    if (pass.length < 8) {
+    if (pass.length < 12) {
         messageLength.classList.remove('fr-message--info', 'fr-message--valid')
         messageLength.classList.add('fr-message--error')
         canSubmit = false;
