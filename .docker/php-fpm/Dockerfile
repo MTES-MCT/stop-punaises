@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.3-fpm
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         curl \
@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && pecl bundle -d /usr/src/php/ext apcu \
         && docker-php-ext-install -j2 apcu \
         # Install Xdebug
-        && pecl bundle -d /usr/src/php/ext xdebug-3.0.4 \
+        && pecl bundle -d /usr/src/php/ext xdebug-3.4 \
         && docker-php-ext-install xdebug \
         # Install Redis
         && pecl install redis \

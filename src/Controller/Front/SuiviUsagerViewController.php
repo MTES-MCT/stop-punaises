@@ -294,8 +294,8 @@ class SuiviUsagerViewController extends AbstractController
         #[MapEntity(mapping: ['signalement_uuid' => 'uuid'])]
         Signalement $signalement,
         #[MapEntity(mapping: ['thread_uuid' => 'uuid'])]
-        MessageThread $messageThread
-        ): Response {
+        MessageThread $messageThread,
+    ): Response {
         return $this->render('front_suivi_usager/messages_thread.html.twig', [
             'signalement' => $signalement,
             'entreprise_name' => $messageThread->getEntreprise()->getNom(),

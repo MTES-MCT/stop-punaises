@@ -3,7 +3,6 @@
 namespace App\Service\Upload;
 
 use App\Exception\File\MaxUploadSizeExceededException;
-use DateTimeImmutable;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
@@ -24,7 +23,7 @@ class UploadHandlerService
         private ParameterBagInterface $parameterBag,
         private SluggerInterface $slugger,
         private Filesystem $filesystem,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
     ) {
         $this->file = null;
     }
@@ -106,7 +105,7 @@ class UploadHandlerService
     }
 
     public function handleUploadFilesRequest(
-        ?array $filesPosted
+        ?array $filesPosted,
     ): array {
         $filesToSave = [];
         if (isset($filesPosted) && \is_array($filesPosted)) {
@@ -129,11 +128,11 @@ class UploadHandlerService
                     $this->logger->error($exception->getMessage());
                 }
                 if (!empty($newFilename)) {
-                    array_push($filesToSave, [
+                    $filesToSave[] = [
                         'file' => $newFilename,
                         'title' => $title,
-                        'date' => (new DateTimeImmutable())->format('d.m.Y'),
-                    ]);
+                        'date' => (new \DateTimeImmutable())->format('d.m.Y'),
+                    ];
                 }
             }
         }

@@ -11,7 +11,7 @@ class MessageFactory
         MessageThread $messageThread,
         string $sender,
         string $recipient,
-        string $message
+        string $message,
     ): Message {
         return (new Message())
             ->setSender($sender)

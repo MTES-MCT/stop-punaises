@@ -12,7 +12,7 @@ class InterventionEntrepriseResolvedEvent extends Event
     public function __construct(
         private Intervention $intervention,
         private ?\DateTimeImmutable $createdAt = null,
-        ) {
+    ) {
     }
 
     public function getIntervention(): Intervention

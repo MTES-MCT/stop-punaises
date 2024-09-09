@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class EntrepriseRegisteredSubscriber implements EventSubscriberInterface
 {
     public function __construct(private MailerProviderInterface $mailerProvider,
-                                private UserManager $userManager
+        private UserManager $userManager,
     ) {
     }
 

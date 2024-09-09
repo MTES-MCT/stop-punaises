@@ -344,7 +344,7 @@ class SignalementFrontType extends AbstractType
                 ],
                 'required' => false,
                 'constraints' => [
-                    new Assert\Email(
+                    new Email(
                         mode: Email::VALIDATION_MODE_STRICT,
                         message: 'Veuillez renseigner un email valide.'
                     ),

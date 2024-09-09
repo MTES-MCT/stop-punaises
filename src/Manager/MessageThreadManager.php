@@ -14,7 +14,7 @@ class MessageThreadManager extends AbstractManager
     public function __construct(
         private MessageThreadFactory $messageThreadFactory,
         protected ManagerRegistry $managerRegistry,
-        protected string $entityName = MessageThread::class
+        protected string $entityName = MessageThread::class,
     ) {
         parent::__construct($managerRegistry, $entityName);
     }

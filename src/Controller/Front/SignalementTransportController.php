@@ -45,8 +45,8 @@ class SignalementTransportController extends AbstractController
         $form = $this->createForm(SignalementTransportType::class, $signalement);
         $form->handleRequest($request);
 
-        if ($form->isValid() &&
-            $this->isCsrfTokenValid('save_signalement_transport', $request->request->get('_csrf_token'))
+        if ($form->isValid()
+            && $this->isCsrfTokenValid('save_signalement_transport', $request->request->get('_csrf_token'))
         ) {
             $files = $uploadHandlerService->handleUploadFilesRequest($request->files->get('file-upload'));
             $signalement->setPhotos($files);

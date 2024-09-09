@@ -25,7 +25,7 @@ class SignalementCreateController extends AbstractController
         SignalementManager $signalementManager,
         TerritoireRepository $territoireRepository,
         ZipCodeProvider $zipCodeService,
-        ReferenceGenerator $referenceGenerator
+        ReferenceGenerator $referenceGenerator,
     ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(

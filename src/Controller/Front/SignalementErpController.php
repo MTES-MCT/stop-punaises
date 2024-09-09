@@ -45,8 +45,8 @@ class SignalementErpController extends AbstractController
         $form = $this->createForm(SignalementErpType::class, $signalement);
         $form->handleRequest($request);
 
-        if ($form->isValid() &&
-            $this->isCsrfTokenValid('save_signalement_erp', $request->request->get('_csrf_token'))
+        if ($form->isValid()
+            && $this->isCsrfTokenValid('save_signalement_erp', $request->request->get('_csrf_token'))
         ) {
             $files = $uploadHandlerService->handleUploadFilesRequest($request->files->get('file-upload'));
             $signalement->setPhotos($files);

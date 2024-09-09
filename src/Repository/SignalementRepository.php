@@ -129,7 +129,7 @@ class SignalementRepository extends ServiceEntityRepository
             END AS procedure_progress';
     }
 
-    private function buildSelectStatut(Entreprise|null $entreprise): string
+    private function buildSelectStatut(?Entreprise $entreprise): string
     {
         if (empty($entreprise)) {
             return 'CASE
@@ -180,11 +180,11 @@ class SignalementRepository extends ServiceEntityRepository
     }
 
     public function findDeclaredByOccupants(
-        Entreprise|null $entreprise = null,
-        ?string $start,
-        ?string $length,
-        ?string $orderColumn,
-        ?string $orderDirection,
+        ?Entreprise $entreprise = null,
+        ?string $start = null,
+        ?string $length = null,
+        ?string $orderColumn = null,
+        ?string $orderDirection = null,
         ?SignalementOccupantDataTableFilters $filters = null,
     ): array|int {
         $connexion = $this->getEntityManager()->getConnection();

@@ -10,7 +10,7 @@ class CsvParser
             'delimiter' => ';',
             'enclosure' => '"',
             'escape' => '\\',
-        ]
+        ],
     ) {
     }
 

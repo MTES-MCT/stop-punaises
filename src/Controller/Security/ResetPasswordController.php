@@ -21,7 +21,7 @@ class ResetPasswordController extends AbstractController
     )]
     public function requestPassword(
         Request $request,
-        UserManager $userManager
+        UserManager $userManager,
     ): Response {
         if ($this->getUser()) {
             return $this->redirectToRoute('app_dashboard_home');

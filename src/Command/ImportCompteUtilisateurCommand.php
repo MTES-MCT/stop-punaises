@@ -33,7 +33,7 @@ class ImportCompteUtilisateurCommand extends Command
         private UploadHandlerService $uploadHandlerService,
         private ParameterBagInterface $parameterBag,
         private EventDispatcherInterface $eventDispatcher,
-        private CsvParser $csvParser
+        private CsvParser $csvParser,
     ) {
         parent::__construct();
     }

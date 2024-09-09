@@ -13,7 +13,7 @@ class InterventionEntrepriseRefusedEvent extends Event
         private Intervention $intervention,
         private int $userId,
         private ?\DateTimeImmutable $createdAt = null,
-        ) {
+    ) {
     }
 
     public function getIntervention(): Intervention

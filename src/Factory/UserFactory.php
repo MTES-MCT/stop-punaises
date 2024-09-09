@@ -12,7 +12,7 @@ class UserFactory
 {
     public function __construct(
         private UserPasswordHasherInterface $hasher,
-        private GeneratorToken $token
+        private GeneratorToken $token,
     ) {
     }
 

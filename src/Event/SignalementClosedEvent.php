@@ -13,7 +13,7 @@ class SignalementClosedEvent extends Event
         private Signalement $signalement,
         private ?\DateTimeImmutable $createdAt = null,
         private bool $isAdminAction = false,
-        ) {
+    ) {
     }
 
     public function getSignalement(): Signalement

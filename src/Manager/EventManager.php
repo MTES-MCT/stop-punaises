@@ -15,7 +15,7 @@ class EventManager extends AbstractManager
         private EventFactory $eventFactory,
         private EventRepository $eventRepository,
         protected ManagerRegistry $managerRegistry,
-        protected string $entityName = Event::class
+        protected string $entityName = Event::class,
     ) {
         parent::__construct($managerRegistry, $entityName);
     }
@@ -25,7 +25,7 @@ class EventManager extends AbstractManager
         string $domain,
         ?int $userId,
         ?string $recipient,
-        ?string $title = null
+        ?string $title = null,
     ) {
         $activeEvents = $this->eventRepository->findActiveDomainEvents(
             $signalement->getUuid(),
@@ -45,7 +45,7 @@ class EventManager extends AbstractManager
         Signalement $signalement,
         string $description,
         ?string $recipient,
-        ?int $userId
+        ?int $userId,
     ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_NEW_SIGNALEMENT,
@@ -89,7 +89,7 @@ class EventManager extends AbstractManager
         Signalement $signalement,
         string $description,
         ?string $recipient,
-        ?int $userId
+        ?int $userId,
     ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_SWITCH_TRAITEMENT,
@@ -111,7 +111,7 @@ class EventManager extends AbstractManager
         string $title,
         string $description,
         ?string $recipient,
-        ?int $userId
+        ?int $userId,
     ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_SIGNALEMENT_ACCEPTED_BY_ENTREPRISE,
@@ -133,7 +133,7 @@ class EventManager extends AbstractManager
         string $title,
         string $description,
         ?string $recipient,
-        ?int $userId
+        ?int $userId,
     ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_SIGNALEMENT_REFUSED_BY_ENTREPRISE,
@@ -156,7 +156,7 @@ class EventManager extends AbstractManager
         string $description,
         ?string $recipient,
         ?int $userId = null,
-        ?string $actionLink = null
+        ?string $actionLink = null,
     ): Event {
         $this->setPreviousInactive($messageThread->getSignalement(), Event::DOMAIN_MESSAGE, $userId, $recipient, $title);
 
@@ -325,7 +325,7 @@ class EventManager extends AbstractManager
         Signalement $signalement,
         string $description,
         ?string $recipient,
-        ?int $userId
+        ?int $userId,
     ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_ADMIN_NOTICE,
@@ -347,7 +347,7 @@ class EventManager extends AbstractManager
         string $title,
         string $description,
         ?string $recipient,
-        ?int $userId
+        ?int $userId,
     ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_SIGNALEMENT_RESOLVED_BY_ENTREPRISE,
@@ -368,7 +368,7 @@ class EventManager extends AbstractManager
         Signalement $signalement,
         string $description,
         ?string $recipient,
-        ?int $userId
+        ?int $userId,
     ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_SIGNALEMENT_RESOLVED_ACCEPTED_BY_USAGER,
@@ -389,7 +389,7 @@ class EventManager extends AbstractManager
         Signalement $signalement,
         string $description,
         ?string $recipient,
-        ?int $userId
+        ?int $userId,
     ): Event {
         $event = $this->eventFactory->createInstance(
             domain: Event::DOMAIN_CLOSE_SIGNALEMENT,

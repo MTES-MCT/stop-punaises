@@ -256,7 +256,7 @@ class SignalementErpType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner votre email.'),
-                    new Assert\Email(
+                    new Email(
                         mode: Email::VALIDATION_MODE_STRICT,
                         message: 'Veuillez renseigner un email valide.'
                     ),

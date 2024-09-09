@@ -95,7 +95,7 @@ class HomeController extends AbstractController
     public function contact(
         Request $request,
         ContactFormHandler $contactFormHandler,
-        RateLimiterFactory $contactFormLimiter
+        RateLimiterFactory $contactFormLimiter,
     ): Response {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);

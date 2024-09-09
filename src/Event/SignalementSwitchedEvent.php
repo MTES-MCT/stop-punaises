@@ -13,7 +13,7 @@ class SignalementSwitchedEvent extends Event
     public function __construct(
         private Signalement $signalement,
         private ?\DateTimeImmutable $createdAt = null,
-        ) {
+    ) {
     }
 
     public function getSignalement(): Signalement

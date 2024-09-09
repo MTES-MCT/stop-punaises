@@ -24,13 +24,13 @@ class EntrepriseViewController extends AbstractController
 {
     #[Route('/bo/entreprises/{uuid}', name: 'app_entreprise_view')]
     public function index(Request $request,
-                          Entreprise $entreprise,
-                          UserManager $userManager,
-                          Security $security,
-                          EntityManagerInterface $entityManager,
-                          EntrepriseManager $entrepriseManager,
-                          EmployeManager $employeManager,
-                          EventDispatcherInterface $eventDispatcher): Response
+        Entreprise $entreprise,
+        UserManager $userManager,
+        Security $security,
+        EntityManagerInterface $entityManager,
+        EntrepriseManager $entrepriseManager,
+        EmployeManager $employeManager,
+        EventDispatcherInterface $eventDispatcher): Response
     {
         $this->denyAccessUnlessGranted('ENTREPRISE_VIEW', $entreprise);
 
