@@ -15,7 +15,7 @@ class GeolocateService
     {
     }
 
-    public function geolocate(Signalement $signalement): string
+    public function geolocate(Signalement $signalement): int
     {
         $address = $signalement->getAdresse();
         $postalCode = $signalement->getCodePostal();
@@ -33,7 +33,6 @@ class GeolocateService
             $fullAddress .= $city;
         }
 
-        $statusCode = Response::HTTP_SERVICE_UNAVAILABLE;
         // Make the API request to geocode the address
         $response = $this->client->request('GET', 'https://api-adresse.data.gouv.fr/search', [
             'query' => [

@@ -15,6 +15,9 @@ class EmailEntrepriseUniqueValidator extends ConstraintValidator
 
     public function validate(mixed $value, Constraint $constraint): void
     {
+        /** @var EmailEntrepriseUnique $constraint */
+        $constraint = $constraint;
+
         if (null === $value || '' === $value) {
             return;
         }
@@ -27,7 +30,6 @@ class EmailEntrepriseUniqueValidator extends ConstraintValidator
         $isEmailExists = $this->userManager->emailExists($value->getEmail());
 
         if ($isEmailExists) {
-            /** @var EmailEntrepriseUnique $constraint */
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value->getEmail())
                 ->atPath('entreprise.email')

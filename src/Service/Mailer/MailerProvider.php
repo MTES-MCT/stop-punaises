@@ -22,8 +22,9 @@ class MailerProvider implements MailerProviderInterface
 
     public function send(MessageInterface $message): void
     {
+        /** @var Message $message */
+        $message = $message;
         if (empty($message->getTo())) {
-            /* @var Message $message */
             $message->setTo([$this->parameterBag->get('inconnu_email')]);
         }
 
