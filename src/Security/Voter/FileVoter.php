@@ -34,7 +34,7 @@ class FileVoter extends Voter
         if (\in_array('ROLE_ADMIN', $user->getRoles())) {
             return true;
         } elseif (null !== $user->getEntreprise() && null !== $signalement->getEntreprise()) {
-            return $user->getEntreprise()->getId() === $signalement->getEntreprise()?->getId();
+            return $user->getEntreprise()->getId() === $signalement->getEntreprise()->getId();
         }
 
         return false;

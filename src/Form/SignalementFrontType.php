@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Signalement;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -21,7 +20,7 @@ use Symfony\Component\Validator\Constraints\Email;
 
 class SignalementFrontType extends AbstractType
 {
-    public function __construct(private Security $security)
+    public function __construct()
     {
     }
 

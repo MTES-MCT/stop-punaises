@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Event\EntrepriseRegisteredEvent;
-use App\Repository\TerritoireRepository;
 use App\Service\Import\CompteUtilisateur\CompteUtilisateurLoader;
 use App\Service\Import\CsvParser;
 use App\Service\Upload\UploadHandlerService;
@@ -27,7 +26,6 @@ class ImportCompteUtilisateurCommand extends Command
     private const PARAM_FILE_VERSION = 'file-version';
 
     public function __construct(
-        private TerritoireRepository $territoireRepository,
         private CompteUtilisateurLoader $compteUtilisateurLoader,
         private FilesystemOperator $fileStorage,
         private UploadHandlerService $uploadHandlerService,

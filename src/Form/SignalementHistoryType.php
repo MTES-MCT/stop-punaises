@@ -268,7 +268,7 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'class' => InfestationLevel::class,
                 'choice_label' => function (InfestationLevel $infestationLevel) {
-                    return $infestationLevel ? $infestationLevel->label() : '';
+                    return $infestationLevel->label();
                 },
 
                 'label_attr' => [

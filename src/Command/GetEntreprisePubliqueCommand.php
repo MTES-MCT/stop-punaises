@@ -2,13 +2,8 @@
 
 namespace App\Command;
 
-use App\Service\Import\CsvParser;
-use App\Service\Import\EntreprisePublique\EntreprisePubliqueImportLoader;
-use App\Service\Upload\UploadHandlerService;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use League\Flysystem\FilesystemException;
-use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -128,12 +123,7 @@ class GetEntreprisePubliqueCommand extends Command
     ];
 
     public function __construct(
-        private CsvParser $csvParser,
         private ParameterBagInterface $parameterBag,
-        private EntityManagerInterface $entityManager,
-        private FilesystemOperator $fileStorage,
-        private UploadHandlerService $uploadHandlerService,
-        private EntreprisePubliqueImportLoader $entreprisePubliqueImportLoader,
     ) {
         parent::__construct();
     }

@@ -94,7 +94,7 @@ class EntrepriseViewController extends AbstractController
     private function dispatchEntrepriseUpdateEvent(
         EventDispatcherInterface $eventDispatcher,
         FormInterface $form,
-        Entreprise $entreprise,
+        ?Entreprise $entreprise,
     ): void {
         $currentEmail = $entreprise?->getUser()?->getEmail();
         $newEmail = $form->getData()->getEmail();

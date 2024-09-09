@@ -255,6 +255,13 @@ class Entreprise
         return $this->user;
     }
 
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Intervention>
      */

@@ -100,28 +100,20 @@ class SignalementOccupantDataTableHandler
         switch ($orderColumn) {
             case self::ORDER_COL_STATUT:
                 return 'statut';
-                break;
             case self::ORDER_COL_ID:
                 return 'id';
-                break;
             case self::ORDER_COL_DATE:
                 return 'date';
-                break;
             case self::ORDER_COL_NIVEAU_INFESTATION:
                 return 'infestation';
-                break;
             case self::ORDER_COL_COMMUNE:
                 return 'commune';
-                break;
             case self::ORDER_COL_TYPE:
                 return 'type';
-                break;
             case self::ORDER_COL_PROCEDURE:
                 return 'procedure';
-                break;
             default:
                 return '';
-                break;
         }
     }
 

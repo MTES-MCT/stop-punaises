@@ -6,10 +6,10 @@ use App\Entity\User;
 use App\Factory\EntrepriseFactory;
 use App\Manager\EntrepriseManager;
 use App\Manager\UserManager;
-use App\Repository\EntrepriseRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CompteUtilisateurLoader
@@ -33,7 +33,6 @@ class CompteUtilisateurLoader
         private CompteUtilisateurMapper $compteUtilisateurMapper,
         private EntrepriseFactory $entrepriseFactory,
         private EntrepriseManager $entrepriseManager,
-        private EntrepriseRepository $entrepriseRepository,
         private ValidatorInterface $validator,
         private LoggerInterface $logger,
         private UserManager $userManager,
@@ -79,6 +78,7 @@ class CompteUtilisateurLoader
                     continue;
                 }
 
+                /** @var ConstraintViolationList $errors */
                 $errors = $this->validator->validate($entreprise);
 
                 if (null !== $entreprise && 0 === $errors->count()) {

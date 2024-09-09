@@ -18,7 +18,7 @@ class StatusProvider
             || ($signalement->isAutotraitement() && !$security->isGranted('ROLE_ADMIN'))
         ) {
             $signalementStatus = SignalementStatus::CLOSED;
-        } elseif (!$signalement->isAutotraitement() && !empty($signalement->getInterventions())) {
+        } elseif (!$signalement->isAutotraitement() && (\count($signalement->getInterventions()) > 0)) {
             $isAnnule = false;
             $isRefuse = false;
             $isInterventionExistante = false;

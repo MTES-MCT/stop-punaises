@@ -11,12 +11,10 @@ use App\Exception\User\UserAccountAlreadyActiveException;
 use App\Exception\User\UserEmailNotFoundException;
 use App\Factory\UserFactory;
 use App\Service\Mailer\MailerProvider;
-use App\Service\Mailer\MessageFactory;
 use App\Service\Token\GeneratorToken;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserManager extends AbstractManager
 {
@@ -24,10 +22,8 @@ class UserManager extends AbstractManager
         protected ManagerRegistry $managerRegistry,
         private ParameterBagInterface $parameterBag,
         private MailerProvider $mailerProvider,
-        private MessageFactory $messageFactory,
         private GeneratorToken $tokenGenerator,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
-        private UrlGeneratorInterface $urlGenerator,
         private UserFactory $userFactory,
         string $entityName = User::class)
     {

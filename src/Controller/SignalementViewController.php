@@ -40,7 +40,7 @@ class SignalementViewController extends AbstractController
 
     #[Route('/bo/signalements/{uuid}', name: 'app_signalement_view')]
     public function indexSignalement(
-        Signalement $signalement,
+        ?Signalement $signalement,
         InterventionRepository $interventionRepository,
     ): Response {
         if (!$signalement) {
@@ -216,7 +216,7 @@ class SignalementViewController extends AbstractController
             } else {
                 /** @var User $user */
                 $user = $this->getUser();
-                $userEntreprise = $user?->getEntreprise();
+                $userEntreprise = $user->getEntreprise();
                 $intervention = $interventionRepository->findBySignalementAndEntreprise(
                     $signalement,
                     $userEntreprise
@@ -305,7 +305,7 @@ class SignalementViewController extends AbstractController
     }
 
     #[Route('/bo/historique/{uuid}', name: 'app_signalement_historique_view')]
-    public function indexHistorique(Signalement $signalement): Response
+    public function indexHistorique(?Signalement $signalement): Response
     {
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
@@ -403,7 +403,11 @@ class SignalementViewController extends AbstractController
             'entreprise' => $entreprise,
         ]);
 
-        return $messagesThread?->getMessages();
+        if (null !== $messagesThread) {
+            return $messagesThread->getMessages();
+        }
+
+        return null;
     }
 
     private function getEvents(

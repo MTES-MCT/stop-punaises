@@ -89,7 +89,7 @@ class SignalementImportMapper
         return $dataMapped;
     }
 
-    private function transformToTypeLogement(string $value): ?string
+    private function transformToTypeLogement(string $value): string
     {
         if ('Immeuble' === $value) {
             return 'appartement';
@@ -154,7 +154,7 @@ class SignalementImportMapper
         return null;
     }
 
-    private function transformToTypeTraitement(string $value): ?array
+    private function transformToTypeTraitement(string $value): array
     {
         $valueReturn = [];
         $value = strtolower($value);
