@@ -59,7 +59,7 @@ class SendRemindersCommand extends Command
         $countInterventionsToNotifyUsager = $this->notifyAskInterventionCompleteForUsager();
         $countInterventionsToNotifyPro = $this->notifyAskInterventionCompleteForPro();
 
-        $this->io->success(sprintf(
+        $this->io->success(\sprintf(
             '%s signalements were notified, %s auto-traitement signalements closed, %s traitement pro signalement closed, %s interventions were notified for usager, %s interventions were notified for pro',
             $countSignalementsToNotify,
             $countSignalementsTraitementAutoToClose,
@@ -76,7 +76,7 @@ class SendRemindersCommand extends Command
         $signalementsToNotify = $this->signalementRepository->findToNotify();
         $countSignalementsToNotify = \count($signalementsToNotify);
         foreach ($signalementsToNotify as $signalement) {
-            $this->io->success(sprintf('Signalement id %s to notify',
+            $this->io->success(\sprintf('Signalement id %s to notify',
                 $signalement->getUuid()
             ));
             $signalement->setReminderAutotraitementAt(new \DateTimeImmutable());
@@ -99,7 +99,7 @@ class SendRemindersCommand extends Command
         $signalementsToClose = $this->signalementRepository->findTraitementAutoToClose();
         $countCloseSignalementsTraitementAuto = \count($signalementsToClose);
         foreach ($signalementsToClose as $signalement) {
-            $this->io->success(sprintf('Signalement autotraitement id %s is closed',
+            $this->io->success(\sprintf('Signalement autotraitement id %s is closed',
                 $signalement->getUuid()
             ));
             $this->closeSignalement($signalement);
@@ -125,7 +125,7 @@ class SendRemindersCommand extends Command
             }
 
             ++$countCloseSignalementsTraitementPro;
-            $this->io->success(sprintf('Signalement pro id %s is closed',
+            $this->io->success(\sprintf('Signalement pro id %s is closed',
                 $signalement->getUuid()
             ));
             $this->closeSignalement($signalement);
@@ -155,7 +155,7 @@ class SendRemindersCommand extends Command
         $interventionsToNotifyUsager = $this->interventionRepository->findToNotifyUsager();
         $countInterventionsToNotifyUsager = \count($interventionsToNotifyUsager);
         foreach ($interventionsToNotifyUsager as $intervention) {
-            $this->io->success(sprintf('Intervention id %s to notify for usager',
+            $this->io->success(\sprintf('Intervention id %s to notify for usager',
                 $intervention->getId()
             ));
             $intervention->setReminderResolvedByEntrepriseAt(new \DateTimeImmutable());
@@ -178,7 +178,7 @@ class SendRemindersCommand extends Command
         $interventionsToNotifyPro = $this->interventionRepository->findToNotifyPro();
         $countInterventionsToNotifyPro = \count($interventionsToNotifyPro);
         foreach ($interventionsToNotifyPro as $intervention) {
-            $this->io->success(sprintf('Intervention id %s to notify for pro',
+            $this->io->success(\sprintf('Intervention id %s to notify for pro',
                 $intervention->getId()
             ));
             $intervention->setReminderPendingEntrepriseConclusionAt(new \DateTimeImmutable());

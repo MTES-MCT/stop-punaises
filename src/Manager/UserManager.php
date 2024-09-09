@@ -10,7 +10,7 @@ use App\Exception\User\RequestPasswordNotAllowedException;
 use App\Exception\User\UserAccountAlreadyActiveException;
 use App\Exception\User\UserEmailNotFoundException;
 use App\Factory\UserFactory;
-use App\Service\Mailer\MailerProviderInterface;
+use App\Service\Mailer\MailerProvider;
 use App\Service\Mailer\MessageFactory;
 use App\Service\Token\GeneratorToken;
 use Doctrine\Persistence\ManagerRegistry;
@@ -23,7 +23,7 @@ class UserManager extends AbstractManager
     public function __construct(
         protected ManagerRegistry $managerRegistry,
         private ParameterBagInterface $parameterBag,
-        private MailerProviderInterface $mailerProvider,
+        private MailerProvider $mailerProvider,
         private MessageFactory $messageFactory,
         private GeneratorToken $tokenGenerator,
         private PasswordHasherFactoryInterface $passwordHasherFactory,

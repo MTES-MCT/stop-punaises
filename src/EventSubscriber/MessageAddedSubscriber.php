@@ -44,14 +44,14 @@ class MessageAddedSubscriber implements EventSubscriberInterface
             $this->mailerProvider->sendNotificationToEntreprise($signalement, $entrepriseEmail);
             $this->eventManager->createEventMessage(
                 messageThread: $messageThread,
-                title: sprintf('Messages avec %s', $entrepriseName),
-                description: sprintf('L\'entreprise %s va vous contacter.', $entrepriseName),
+                title: \sprintf('Messages avec %s', $entrepriseName),
+                description: \sprintf('L\'entreprise %s va vous contacter.', $entrepriseName),
                 recipient: $signalement->getEmailOccupant(),
             );
             $this->eventManager->createEventMessage(
                 messageThread: $messageThread,
-                title: sprintf('Messages avec %s', $entrepriseName),
-                description: sprintf('Echanges avec %s.', $entrepriseName),
+                title: \sprintf('Messages avec %s', $entrepriseName),
+                description: \sprintf('Echanges avec %s.', $entrepriseName),
                 recipient: null,
                 userId: Event::USER_ADMIN,
                 actionLink: $link,
@@ -59,7 +59,7 @@ class MessageAddedSubscriber implements EventSubscriberInterface
             $this->eventManager->createEventMessage(
                 messageThread: $messageThread,
                 title: 'Message avec l\'usager',
-                description: sprintf('Vos échanges avec %s.', $signalement->getNomCompletOccupant()),
+                description: \sprintf('Vos échanges avec %s.', $signalement->getNomCompletOccupant()),
                 recipient: $entrepriseEmail,
                 userId: $entreprise->getUser()->getId(),
                 actionLink: 'link-send-message',
@@ -69,15 +69,15 @@ class MessageAddedSubscriber implements EventSubscriberInterface
 
             $this->eventManager->createEventMessage(
                 messageThread: $messageThread,
-                title: sprintf('Messages avec %s', $entrepriseName),
-                description: sprintf('Vos échanges avec %s.', $entrepriseName),
+                title: \sprintf('Messages avec %s', $entrepriseName),
+                description: \sprintf('Vos échanges avec %s.', $entrepriseName),
                 recipient: $signalement->getEmailOccupant(),
                 actionLink: $link,
             );
             $this->eventManager->createEventMessage(
                 messageThread: $messageThread,
-                title: sprintf('Messages avec %s', $entrepriseName),
-                description: sprintf('Echanges avec %s.', $entrepriseName),
+                title: \sprintf('Messages avec %s', $entrepriseName),
+                description: \sprintf('Echanges avec %s.', $entrepriseName),
                 recipient: null,
                 userId: Event::USER_ADMIN,
                 actionLink: $link,
@@ -87,7 +87,7 @@ class MessageAddedSubscriber implements EventSubscriberInterface
                 $this->eventManager->createEventMessage(
                     messageThread: $messageThread,
                     title: 'Message avec l\'usager',
-                    description: sprintf('Vos échanges avec %s.', $signalement->getNomCompletOccupant()),
+                    description: \sprintf('Vos échanges avec %s.', $signalement->getNomCompletOccupant()),
                     recipient: $entrepriseEmail,
                     userId: $entreprise->getUser()->getId(),
                     actionLink: 'link-send-message',
@@ -103,7 +103,7 @@ class MessageAddedSubscriber implements EventSubscriberInterface
         $event = $this->eventManager->findOneBy([
             'domain' => Event::DOMAIN_MESSAGE,
             'title' => 'Message avec l\'usager',
-            'description' => sprintf('Vos échanges avec %s.', $entreprise->getNom()),
+            'description' => \sprintf('Vos échanges avec %s.', $entreprise->getNom()),
             'entityName' => Signalement::class,
             'entityUuid' => $signalement->getUuid(),
         ]);

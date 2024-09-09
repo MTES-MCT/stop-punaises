@@ -59,7 +59,7 @@ class ImportEntreprisePubliqueCommand extends Command
 
         $countEntreprises = $this->entreprisePubliqueImportLoader->countEntreprises();
 
-        $io->success(sprintf('%s entreprises publiques importées', $countEntreprises));
+        $io->success(\sprintf('%s entreprises publiques importées', $countEntreprises));
 
         return Command::SUCCESS;
     }

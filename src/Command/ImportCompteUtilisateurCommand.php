@@ -8,7 +8,6 @@ use App\Service\Import\CompteUtilisateur\CompteUtilisateurLoader;
 use App\Service\Import\CsvParser;
 use App\Service\Upload\UploadHandlerService;
 use League\Flysystem\FilesystemOperator;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -17,6 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand(
     name: 'app:import-compte-utilisateur',
@@ -55,7 +55,7 @@ class ImportCompteUtilisateurCommand extends Command
         }
 
         if (!$this->fileStorage->fileExists($fromFile)) {
-            $io->error(sprintf('%s file does not exist', $fromFile));
+            $io->error(\sprintf('%s file does not exist', $fromFile));
 
             return Command::FAILURE;
         }
@@ -78,7 +78,7 @@ class ImportCompteUtilisateurCommand extends Command
             }
         }
 
-        $io->success(sprintf(' %s entreprise(s) updated.'.\PHP_EOL,
+        $io->success(\sprintf(' %s entreprise(s) updated.'.\PHP_EOL,
             $metadata[CompteUtilisateurLoader::METADATA_NB_USERS_UPDATED]
         ));
 
@@ -89,11 +89,11 @@ class ImportCompteUtilisateurCommand extends Command
             return Command::FAILURE;
         }
 
-        $io->success(sprintf(' %s entreprise(s) created.'.\PHP_EOL,
+        $io->success(\sprintf(' %s entreprise(s) created.'.\PHP_EOL,
             $metadata[CompteUtilisateurLoader::METADATA_NB_USERS_CREATED]
         ));
 
-        $io->success(sprintf(' %s entreprise(s) already exists.'.\PHP_EOL,
+        $io->success(\sprintf(' %s entreprise(s) already exists.'.\PHP_EOL,
             $metadata[CompteUtilisateurLoader::METADATA_NB_USERS_EXISTS]
         ));
 
@@ -111,7 +111,7 @@ class ImportCompteUtilisateurCommand extends Command
         }
         $progressBar->finish();
         $progressBar->clear();
-        $io->success(sprintf(' %s user(s) account created,', $countUser));
+        $io->success(\sprintf(' %s user(s) account created,', $countUser));
 
         return Command::SUCCESS;
     }

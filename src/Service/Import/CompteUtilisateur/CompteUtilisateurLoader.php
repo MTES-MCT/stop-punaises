@@ -87,11 +87,11 @@ class CompteUtilisateurLoader
                     $this->entrepriseManager->persist($entreprise);
                     unset($entreprise);
                     if (0 === $countEntreprise % self::FLUSH_COUNT) {
-                        $this->logger->info(sprintf('in progress - %s entreprise saved', $countEntreprise));
+                        $this->logger->info(\sprintf('in progress - %s entreprise saved', $countEntreprise));
                         $this->entrepriseManager->flush();
                     }
                 } elseif ($errors->count() > 0) {
-                    $this->metadata[self::METADATA_ERRORS][] = sprintf(
+                    $this->metadata[self::METADATA_ERRORS][] = \sprintf(
                         'line %d : %s - %s',
                         $lineNumber,
                         (string) $errors,

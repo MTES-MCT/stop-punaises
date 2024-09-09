@@ -12,6 +12,7 @@ use App\Repository\TerritoireRepository;
 use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\ZipCodeProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -6,17 +6,18 @@ use App\Entity\Enum\Role;
 use App\Entity\User;
 use App\Event\EntrepriseUpdatedEvent;
 use App\Manager\UserManager;
-use App\Service\Mailer\MailerProviderInterface;
+use App\Service\Mailer\MailerProvider;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EntrepriseUpdatedSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private MailerProviderInterface $mailerProvider,
+        private MailerProvider $mailerProvider,
         private UserManager $userManager,
         private Security $security,
         private UrlGeneratorInterface $urlGenerator,
@@ -31,6 +32,7 @@ class EntrepriseUpdatedSubscriber implements EventSubscriberInterface
         if ($user instanceof User) {
             $this->mailerProvider->sendActivateMessage($user);
 
+            /** @var Session $session */
             $session = $this->requestStack->getSession();
             if (!$this->security->isGranted(Role::ROLE_ADMIN->value)) {
                 $session->getFlashBag()->add('success', 'Merci d\'activer votre compte');

@@ -197,13 +197,17 @@ class GetEntreprisePubliqueCommand extends Command
 
                     $websiteQuery = $xpath->query('.//li[@class="website"]/a', $childDiv);
                     if ($websiteQuery->item(0)) {
-                        $websiteLink = $websiteQuery->item(0)->getAttribute('href');
+                        /** @var \DOMElement $item */
+                        $item = $websiteQuery->item(0);
+                        $websiteLink = $item->getAttribute('href');
                         $entrepriseItem['url'] = $websiteLink;
                     }
 
                     $telephoneQuery = $xpath->query('.//li[@class="telephone"]', $childDiv);
                     if ($telephoneQuery->item(0)) {
-                        $telephone = $telephoneQuery->item(0)->getAttribute('data-tel');
+                        /** @var \DOMElement $item */
+                        $item = $telephoneQuery->item(0);
+                        $telephone = $item->getAttribute('data-tel');
                         $entrepriseItem['telephone'] = $telephone;
                     }
 

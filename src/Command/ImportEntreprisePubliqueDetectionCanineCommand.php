@@ -60,7 +60,7 @@ class ImportEntreprisePubliqueDetectionCanineCommand extends Command
 
         $countEntreprises = $this->entreprisePubliqueImportLoader->countEntreprises();
 
-        $io->success(sprintf('%s entreprises publiques de détection canine importées ou mises à jour', $countEntreprises));
+        $io->success(\sprintf('%s entreprises publiques de détection canine importées ou mises à jour', $countEntreprises));
 
         return Command::SUCCESS;
     }

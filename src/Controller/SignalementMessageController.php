@@ -44,6 +44,7 @@ class SignalementMessageController extends AbstractController
             message : $data['message']
         );
 
+        /** @var ConstraintViolationList $errors */
         $errors = $validator->validate($message);
         if (0 === $errors->count() && $this->isCsrfTokenValid('send_message', $data['_token'])) {
             $messageResponse = $messageManager->createMessageResponse($message, $this->getUser());

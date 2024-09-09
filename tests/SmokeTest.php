@@ -20,7 +20,7 @@ class SmokeTest extends WebTestCase
         $this->assertLessThan(
             $statusCode,
             $client->getResponse()->getStatusCode(),
-            sprintf('Result value: %d', $client->getResponse()->getStatusCode())
+            \sprintf('Result value: %d', $client->getResponse()->getStatusCode())
         );
     }
 

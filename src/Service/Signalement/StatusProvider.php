@@ -4,6 +4,7 @@ namespace App\Service\Signalement;
 
 use App\Entity\Enum\SignalementStatus;
 use App\Entity\Signalement;
+use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class StatusProvider

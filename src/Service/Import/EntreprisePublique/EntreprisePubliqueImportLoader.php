@@ -68,7 +68,7 @@ class EntreprisePubliqueImportLoader
         if ($output) {
             $this->progressBar->advance();
         }
-        $entreprisePublique = $this->entreprisePubliqueManager->createOrUpdate($dataMapped, true);
+        $entreprisePublique = $this->entreprisePubliqueManager->createOrUpdate($dataMapped);
         $this->entreprisePubliqueManager->save($entreprisePublique);
     }
 

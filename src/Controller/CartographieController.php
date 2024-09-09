@@ -17,8 +17,6 @@ class CartographieController extends AbstractController
         CartoStatutCalculator $cartoStatutCalculator,
         Request $request,
     ): Response {
-        /** @var User $user */
-        $user = $this->getUser();
         if ($request->get('load_markers')) {
             if ($request->get('filter-date')) {
                 $date = \DateTimeImmutable::createFromFormat('j/m/Y', $request->get('filter-date'));

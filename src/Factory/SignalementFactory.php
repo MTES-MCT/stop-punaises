@@ -6,13 +6,13 @@ use App\Entity\Signalement;
 
 class SignalementFactory
 {
-    public function createInstanceFrom(array $data, bool $isImported = false): Signalement
+    public function createInstanceFrom(array $data): Signalement
     {
         return (new Signalement())
         ->setReference($data['reference'])
         ->setEntreprise($data['entreprise'])
         ->setDeclarant($data['declarant'])
-        ->setCreatedAtValue($data['createdAt'])
+        ->setCreatedAtValue()
         ->setDateIntervention($data['dateIntervention'])
         ->setTypeLogement($data['typeLogement'])
         ->setLocalisationDansImmeuble($data['localisationDansImmeuble'])

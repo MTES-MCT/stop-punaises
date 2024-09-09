@@ -5,12 +5,13 @@ namespace App\EventSubscriber;
 use App\Entity\Enum\Role;
 use App\Event\EntrepriseRegisteredEvent;
 use App\Manager\UserManager;
-use App\Service\Mailer\MailerProviderInterface;
+use App\Service\Mailer\MailerProvider;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class EntrepriseRegisteredSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private MailerProviderInterface $mailerProvider,
+    public function __construct(
+        private MailerProvider $mailerProvider,
         private UserManager $userManager,
     ) {
     }
