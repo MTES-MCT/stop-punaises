@@ -40,7 +40,7 @@ class SignalementListController extends AbstractController
     public function historique(
         Request $request,
         SignalementManager $signalementManager,
-        EntrepriseRepository $entrepriseRepository
+        EntrepriseRepository $entrepriseRepository,
     ): Response {
         $signalements = $signalementManager->findHistoriqueEntreprise();
 
@@ -60,7 +60,7 @@ class SignalementListController extends AbstractController
     #[Route('/bo/hors-perimetre', name: 'app_horsperimetre_list')]
     public function horsPerimetre(
         SignalementRepository $signalementRepository,
-        TerritoireRepository $territoireRepository
+        TerritoireRepository $territoireRepository,
     ): Response {
         $territoires = $territoireRepository->findAll();
         $signalements = $signalementRepository->findFromInactiveTerritories();
@@ -74,7 +74,7 @@ class SignalementListController extends AbstractController
     #[Route('/bo/erp-transports', name: 'app_erptransports_list')]
     public function erpTransports(
         SignalementRepository $signalementRepository,
-        TerritoireRepository $territoireRepository
+        TerritoireRepository $territoireRepository,
     ): Response {
         $territoires = $territoireRepository->findAll();
         $signalements = $signalementRepository->findErpTransportsSignalements();

@@ -6,7 +6,6 @@ use App\Entity\Event;
 use App\Entity\Intervention;
 use App\Manager\EventManager;
 use App\Repository\EventRepository;
-use DateTimeImmutable;
 
 class EstimationSentFactory
 {
@@ -16,7 +15,7 @@ class EstimationSentFactory
     ) {
     }
 
-    public function add(Intervention $intervention, ?DateTimeImmutable $createdAt, int $entrepriseUserId): void
+    public function add(Intervention $intervention, ?\DateTimeImmutable $createdAt, int $entrepriseUserId): void
     {
         $signalement = $intervention->getSignalement();
         $event = $this->eventManager->createEventEstimationSent(

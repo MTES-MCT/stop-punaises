@@ -19,7 +19,7 @@ class EntrepriseListController extends AbstractController
     public function index(
         Request $request,
         EntrepriseManager $entrepriseManager,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
     ): Response {
         $entreprise = new Entreprise();
         $form = $this->createForm(EntrepriseType::class, $entreprise);

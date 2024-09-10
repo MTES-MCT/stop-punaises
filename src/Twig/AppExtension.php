@@ -93,7 +93,7 @@ class AppExtension extends AbstractExtension
         return $type->label();
     }
 
-    public function formatConstructionAvant1948(bool|null $construitAvant1948 = null): string
+    public function formatConstructionAvant1948(?bool $construitAvant1948 = null): string
     {
         if (null === $construitAvant1948) {
             return 'Non renseigné';

@@ -15,7 +15,7 @@ class CartographieController extends AbstractController
     public function index(
         SignalementRepository $signalementRepository,
         CartoStatutCalculator $cartoStatutCalculator,
-        Request $request
+        Request $request,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -32,7 +32,7 @@ class CartographieController extends AbstractController
 
             return $this->json(
                 [
-                'signalements' => $cartoStatutCalculator->calculate($signalements, $date),
+                    'signalements' => $cartoStatutCalculator->calculate($signalements, $date),
                 ]
             );
         }

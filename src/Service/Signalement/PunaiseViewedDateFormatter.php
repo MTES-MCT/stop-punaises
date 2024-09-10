@@ -9,7 +9,7 @@ class PunaiseViewedDateFormatter
 
     public static function format(
         \DateTimeInterface $dateViewedAt,
-        \DateTimeInterface $timeViewedAt
+        \DateTimeInterface $timeViewedAt,
     ): \DateTimeImmutable {
         return new \DateTimeImmutable(
             sprintf('%s %s', $dateViewedAt->format(self::FORMAT_DATE), $timeViewedAt->format(self::FORMAT_HOUR))

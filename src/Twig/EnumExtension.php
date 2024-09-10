@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
-use BadMethodCallException;
-use InvalidArgumentException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -69,7 +67,7 @@ class EnumExtension extends AbstractExtension
             public function __construct(private readonly string $enum)
             {
                 if (!enum_exists($this->enum)) {
-                    throw new InvalidArgumentException("$this->enum is not an Enum type and cannot be used in this function");
+                    throw new \InvalidArgumentException("$this->enum is not an Enum type and cannot be used in this function");
                 }
             }
 
@@ -85,7 +83,7 @@ class EnumExtension extends AbstractExtension
                     return $this->enum::$name(...$arguments);
                 }
 
-                throw new BadMethodCallException("Neither \"{$enumFQN}\" or \"{$enumFQN}::{$name}()\" exist in this runtime.");
+                throw new \BadMethodCallException("Neither \"{$enumFQN}\" or \"{$enumFQN}::{$name}()\" exist in this runtime.");
             }
         };
     }

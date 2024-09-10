@@ -13,7 +13,7 @@ class ZipCodeProviderTest extends KernelTestCase
     {
         self::bootKernel();
         $container = static::getContainer();
-        $this->zipcodeProvider = $container->get(ZipcodeProvider::class);
+        $this->zipcodeProvider = $container->get(ZipCodeProvider::class);
     }
 
     public function testGetZipCodeTerritory(): void

@@ -8,7 +8,7 @@ class DataTableResponse
         private int $draw = 0,
         private int $recordsTotal = 0,
         private int $recordsFiltered = 0,
-        private array $data = []
+        private array $data = [],
     ) {
     }
 

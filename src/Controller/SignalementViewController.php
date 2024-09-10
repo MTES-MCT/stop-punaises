@@ -21,7 +21,6 @@ use App\Repository\InterventionRepository;
 use App\Repository\MessageThreadRepository;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Upload\UploadHandlerService;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -128,7 +127,7 @@ class SignalementViewController extends AbstractController
                 $intervention->setSignalement($signalement);
                 $intervention->setEntreprise($user->getEntreprise());
             }
-            $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
+            $intervention->setChoiceByEntrepriseAt(new \DateTimeImmutable());
             $intervention->setAccepted(true);
             $interventionManager->save($intervention);
             $this->addFlash('success', 'Le signalement a bien été accepté');
@@ -161,7 +160,7 @@ class SignalementViewController extends AbstractController
             /** @var User $user */
             $user = $this->getUser();
             $intervention->setEntreprise($user->getEntreprise());
-            $intervention->setChoiceByEntrepriseAt(new DateTimeImmutable());
+            $intervention->setChoiceByEntrepriseAt(new \DateTimeImmutable());
             $intervention->setAccepted(false);
             $intervention->setCommentaireRefus($request->get('commentaire'));
             $errors = $validator->validate($intervention);
@@ -224,7 +223,7 @@ class SignalementViewController extends AbstractController
                 );
                 $intervention->setCommentaireEstimation($request->get('commentaire'));
                 $intervention->setMontantEstimation(ceil($montant));
-                $intervention->setEstimationSentAt(new DateTimeImmutable());
+                $intervention->setEstimationSentAt(new \DateTimeImmutable());
                 $interventionManager->save($intervention);
                 $this->addFlash('success', 'L\'estimation a bien été transmise.');
 
@@ -282,7 +281,7 @@ class SignalementViewController extends AbstractController
 
             $wasAccepted = $intervention->isAccepted();
             if ($wasAccepted) {
-                $date = new DateTimeImmutable();
+                $date = new \DateTimeImmutable();
                 $intervention->setCanceledByEntrepriseAt($date);
             }
             $intervention->setAccepted(false);
@@ -373,7 +372,7 @@ class SignalementViewController extends AbstractController
         string $filename,
         Request $request,
         SignalementManager $signalementManager,
-        FilesystemOperator $fileStorage
+        FilesystemOperator $fileStorage,
     ): Response {
         $this->denyAccessUnlessGranted('FILE_DELETE', $signalement);
         if ($this->isCsrfTokenValid('signalement_delete_file_'.$signalement->getId(), $request->get('_csrf_token'))) {

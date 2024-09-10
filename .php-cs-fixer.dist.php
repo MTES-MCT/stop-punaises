@@ -22,7 +22,8 @@ return (new PhpCsFixer\Config())
         'no_useless_else' => true,
         'no_useless_return' => true,
         'blank_line_between_import_groups' => false,
-        'single_space_after_construct' => true
+        'single_space_around_construct' => true,
+        'native_function_invocation' => false
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__.'/var/.php_cs.cache')

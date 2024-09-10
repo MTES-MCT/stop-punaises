@@ -27,7 +27,7 @@ class AccountActivationController extends AbstractController
     )]
     public function requestPassword(
         Request $request,
-        UserManager $userManager
+        UserManager $userManager,
     ): Response {
         if ($this->getUser()) {
             return $this->redirectToRoute('app_dashboard_home');
@@ -62,7 +62,7 @@ class AccountActivationController extends AbstractController
         ValidatorInterface $validator,
         Security $security,
         User $user,
-        string $token
+        string $token,
     ): Response {
         if (false === $activationToken->validateToken($user, $token)) {
             $this->addFlash('error', 'Votre lien est invalide ou expiré');
@@ -72,8 +72,8 @@ class AccountActivationController extends AbstractController
         if ($security->getUser()) {
             $security->logout(false);
         }
-        if ($request->isMethod('POST') &&
-            $this->isCsrfTokenValid('create_password_'.$user->getId(), $request->get('_csrf_token'))
+        if ($request->isMethod('POST')
+            && $this->isCsrfTokenValid('create_password_'.$user->getId(), $request->get('_csrf_token'))
         ) {
             if ($request->get('password') !== $request->get('password-repeat')) {
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas.');

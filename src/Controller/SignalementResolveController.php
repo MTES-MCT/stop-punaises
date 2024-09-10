@@ -9,7 +9,6 @@ use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
 use App\Service\Mailer\MailerProvider;
-use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
@@ -28,7 +27,7 @@ class SignalementResolveController extends AbstractController
         InterventionManager $interventionManager,
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
-        ): Response {
+    ): Response {
         $form = $this->createForm(SignalementHistoryType::class, $signalement);
         $form->handleRequest($request);
 
@@ -45,7 +44,7 @@ class SignalementResolveController extends AbstractController
                 $signalement,
                 $userEntreprise
             );
-            $intervention->setResolvedByEntrepriseAt(new DateTimeImmutable());
+            $intervention->setResolvedByEntrepriseAt(new \DateTimeImmutable());
             $interventionManager->save($intervention);
 
             $mailerProvider->sendSignalementTraitementResolved($signalement, $intervention);

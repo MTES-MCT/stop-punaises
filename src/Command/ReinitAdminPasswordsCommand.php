@@ -29,7 +29,7 @@ class ReinitAdminPasswordsCommand extends Command
         private ValidatorInterface $validator,
         private UserPasswordHasherInterface $hasher,
         private UserRepository $userRepository,
-        private GeneratorToken $tokenGenerator
+        private GeneratorToken $tokenGenerator,
     ) {
         parent::__construct();
     }

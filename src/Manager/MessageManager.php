@@ -14,7 +14,7 @@ class MessageManager extends AbstractManager
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,
         protected ManagerRegistry $managerRegistry,
-        protected string $entityName = Message::class
+        protected string $entityName = Message::class,
     ) {
         parent::__construct($managerRegistry, $entityName);
     }

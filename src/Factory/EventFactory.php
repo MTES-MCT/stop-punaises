@@ -17,7 +17,7 @@ class EventFactory
         ?string $actionLink = null,
         ?string $actionLabel = null,
         ?string $entityName = null,
-        ?string $entityUuid = null
+        ?string $entityUuid = null,
     ) {
         return (new Event())
             ->setActive(true)

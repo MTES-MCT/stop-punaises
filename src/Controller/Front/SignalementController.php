@@ -36,8 +36,8 @@ class SignalementController extends AbstractController
         $codePostal = $request->get('code-postal');
 
         $activeTerritoires = array_map(function ($codeDepartement) {
-            if (Territoire::CORSE_DU_SUD_CODE_DEPARTMENT_2A === $codeDepartement ||
-                Territoire::HAUTE_CORSE_CODE_DEPARTMENT_2B === $codeDepartement) {
+            if (Territoire::CORSE_DU_SUD_CODE_DEPARTMENT_2A === $codeDepartement
+                || Territoire::HAUTE_CORSE_CODE_DEPARTMENT_2B === $codeDepartement) {
                 return '20';
             }
 

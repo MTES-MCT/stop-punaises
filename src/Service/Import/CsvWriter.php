@@ -14,7 +14,7 @@ class CsvWriter
             'delimiter' => ',',
             'enclosure' => '"',
             'escape' => '\\',
-        ]
+        ],
     ) {
         if (file_exists($this->filepath)) {
             unlink($this->filepath);

@@ -7,8 +7,6 @@ use App\Service\Import\EntreprisePublique\EntreprisePubliqueImportLoader;
 use App\Service\Upload\UploadHandlerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use DOMDocument;
-use DOMXPath;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -170,9 +168,9 @@ class GetEntreprisePubliqueCommand extends Command
         $htmlContent = file_get_contents(self::DISTANT_URL.$slug.'/');
 
         libxml_use_internal_errors(true);
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadHTML($htmlContent);
-        $xpath = new DOMXPath($dom);
+        $xpath = new \DOMXPath($dom);
         $postsDiv = $xpath->query('//div[@id="posts"]')->item(0);
         if ($postsDiv) {
             $childDivs = $xpath->query('./div', $postsDiv);
