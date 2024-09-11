@@ -4,7 +4,6 @@ namespace App\Controller\Security;
 
 use App\Controller\Security\Utils\ValidatorPasswordResetableTrait;
 use App\Exception\User\RequestPasswordNotAllowedException;
-use App\Exception\User\UserEmailNotFoundException;
 use App\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,10 +29,6 @@ class ResetPasswordController extends AbstractController
         if ($request->isMethod('POST') && $email = $request->request->get('email')) {
             try {
                 $userManager->requestPasswordFrom($email);
-            } catch (UserEmailNotFoundException $exception) {
-                $this->addFlash('error', $exception->getMessage());
-
-                return $this->render('security/reset_password.html.twig');
             } catch (RequestPasswordNotAllowedException $exception) {
                 $this->addFlash('error', $exception->getMessage());
 

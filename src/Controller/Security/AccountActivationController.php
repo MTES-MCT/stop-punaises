@@ -6,7 +6,6 @@ use App\Controller\Security\Utils\ValidatorPasswordResetableTrait;
 use App\Entity\Enum\Status;
 use App\Entity\User;
 use App\Exception\User\UserAccountAlreadyActiveException;
-use App\Exception\User\UserEmailNotFoundException;
 use App\Manager\UserManager;
 use App\Service\Token\ActivationToken;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,10 +39,6 @@ class AccountActivationController extends AbstractController
                 return $this->render('security/reset_password_link_sent.html.twig', [
                     'email' => $email,
                 ]);
-            } catch (UserEmailNotFoundException $exception) {
-                $this->addFlash('error', $exception->getMessage());
-
-                return $this->render('security/reset_password.html.twig');
             } catch (UserAccountAlreadyActiveException $exception) {
                 $this->addFlash('error', $exception->getMessage());
 
