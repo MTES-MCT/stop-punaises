@@ -6,6 +6,7 @@ use App\Entity\Employe;
 use App\Entity\Entreprise;
 use App\Entity\Enum\InfestationLevel;
 use App\Entity\Signalement;
+use App\Entity\User;
 use App\Repository\EmployeRepository;
 use App\Repository\EntrepriseRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -267,7 +268,7 @@ class SignalementHistoryType extends AbstractType
                 ],
                 'class' => InfestationLevel::class,
                 'choice_label' => function (InfestationLevel $infestationLevel) {
-                    return $infestationLevel ? $infestationLevel->label() : '';
+                    return $infestationLevel->label();
                 },
 
                 'label_attr' => [
@@ -509,7 +510,9 @@ class SignalementHistoryType extends AbstractType
             ->add('agent', EntityType::class, [
                 'class' => Employe::class,
                 'query_builder' => function (EmployeRepository $er) {
-                    $entreprise = $this->security->getUser()->getEntreprise();
+                    /** @var User $user */
+                    $user = $this->security->getUser();
+                    $entreprise = $user->getEntreprise();
 
                     return $er
                         ->createQueryBuilder('e')
@@ -531,7 +534,9 @@ class SignalementHistoryType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             /** @var Signalement $signalement */
             $signalement = $event->getForm()->getData();
-            $signalement->setEntreprise($this->security->getUser()->getEntreprise());
+            /** @var User $user */
+            $user = $this->security->getUser();
+            $signalement->setEntreprise($user->getEntreprise());
         });
     }
 }

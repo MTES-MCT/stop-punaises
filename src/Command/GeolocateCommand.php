@@ -10,7 +10,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[AsCommand(
     name: 'app:geolocate',
@@ -19,7 +18,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class GeolocateCommand extends Command
 {
     public function __construct(
-        private readonly HttpClientInterface $client,
         private EntityManagerInterface $entityManager,
         private GeolocateService $geolocateService,
     ) {

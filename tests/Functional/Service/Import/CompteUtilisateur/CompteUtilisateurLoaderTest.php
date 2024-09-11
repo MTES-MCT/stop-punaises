@@ -6,7 +6,6 @@ use App\Entity\Entreprise;
 use App\Factory\EntrepriseFactory;
 use App\Manager\EntrepriseManager;
 use App\Manager\UserManager;
-use App\Repository\EntrepriseRepository;
 use App\Service\Import\CompteUtilisateur\CompteUtilisateurLoader;
 use App\Service\Import\CompteUtilisateur\CompteUtilisateurMapper;
 use Faker\Factory;
@@ -19,18 +18,15 @@ class CompteUtilisateurLoaderTest extends KernelTestCase
     private CompteUtilisateurMapper $compteUtilisateurMapper;
     private EntrepriseFactory $entrepriseFactory;
     private EntrepriseManager $entrepriseManager;
-    private EntrepriseRepository $entrepriseRepository;
     private LoggerInterface $logger;
     private ValidatorInterface $validator;
     private UserManager $userManager;
 
     protected function setUp(): void
     {
-        $kernel = self::bootKernel();
         $this->compteUtilisateurMapper = self::getContainer()->get(CompteUtilisateurMapper::class);
         $this->entrepriseFactory = self::getContainer()->get(EntrepriseFactory::class);
         $this->entrepriseManager = self::getContainer()->get(EntrepriseManager::class);
-        $this->entrepriseRepository = self::getContainer()->get(EntrepriseRepository::class);
         $this->logger = self::getContainer()->get(LoggerInterface::class);
         $this->validator = self::getContainer()->get(ValidatorInterface::class);
         $this->userManager = self::getContainer()->get(UserManager::class);
@@ -42,7 +38,6 @@ class CompteUtilisateurLoaderTest extends KernelTestCase
             $this->compteUtilisateurMapper,
             $this->entrepriseFactory,
             $this->entrepriseManager,
-            $this->entrepriseRepository,
             $this->validator,
             $this->logger,
             $this->userManager,

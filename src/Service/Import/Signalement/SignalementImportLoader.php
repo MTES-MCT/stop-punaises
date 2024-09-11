@@ -6,7 +6,6 @@ use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
 use App\Entity\Enum\SignalementType;
 use App\Manager\SignalementManager;
-use App\Repository\SignalementRepository;
 use App\Repository\TerritoireRepository;
 use App\Service\Signalement\GeolocateService;
 use App\Service\Signalement\ReferenceGenerator;
@@ -16,7 +15,6 @@ use Doctrine\ORM\NonUniqueResultException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class SignalementImportLoader
 {
@@ -29,9 +27,7 @@ class SignalementImportLoader
     public function __construct(
         private SignalementImportMapper $signalementImportMapper,
         private SignalementManager $signalementManager,
-        private SignalementRepository $signalementRepository,
         private EntityManagerInterface $entityManager,
-        private ParameterBagInterface $parameterBag,
         private LoggerInterface $logger,
         private ZipCodeProvider $zipCodeService,
         private TerritoireRepository $territoireRepository,
@@ -105,7 +101,7 @@ class SignalementImportLoader
                 $this->geolocateService->geolocate($signalement);
                 $this->metadata['count_signalement'] = $countSignalement;
                 if (0 === $countSignalement % self::FLUSH_COUNT) {
-                    $this->logger->info(sprintf('in progress - %s signalements saved', $countSignalement));
+                    $this->logger->info(\sprintf('in progress - %s signalements saved', $countSignalement));
                     $this->signalementManager->flush();
                 } else {
                     $this->signalementManager->persist($signalement);

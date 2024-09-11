@@ -6,7 +6,7 @@ use App\Entity\Enum\Role;
 use App\Entity\User;
 use App\Factory\UserFactory;
 use App\Manager\UserManager;
-use App\Service\Mailer\MailerProviderInterface;
+use App\Service\Mailer\MailerProvider;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[AsCommand(
@@ -29,7 +30,7 @@ class AddUserCommand extends Command
         private UserFactory $userFactory,
         private UserManager $userManager,
         private ValidatorInterface $validator,
-        private MailerProviderInterface $mailer,
+        private MailerProvider $mailer,
         private TokenGeneratorInterface $tokenGenerator,
         private ParameterBagInterface $parameterBag,
     ) {
@@ -69,8 +70,9 @@ class AddUserCommand extends Command
                 (new \DateTimeImmutable())->modify($this->parameterBag->get('token_lifetime'))
             );
 
+        /** @var ConstraintViolationList $errors */
         $errors = $this->validator->validate($user);
-        if (\count($errors) > 0) {
+        if ($errors->count() > 0) {
             $this->io->error((string) $errors);
 
             return Command::FAILURE;
@@ -79,7 +81,7 @@ class AddUserCommand extends Command
         $this->userManager->save($user);
         $this->mailer->sendActivateMessage($user);
 
-        $this->io->success(sprintf('%s was successfully created',
+        $this->io->success(\sprintf('%s was successfully created',
             $user->getEmail()
         ));
 

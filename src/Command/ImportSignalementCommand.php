@@ -81,9 +81,9 @@ class ImportSignalementCommand extends Command
         $metadata = $this->signalementImportLoader->getMetadata();
 
         if (!empty($entreprise)) {
-            $io->success(sprintf('%s signalement(s) have been imported for entreprise %s', $metadata['count_signalement'], $entreprise->getNom()));
+            $io->success(\sprintf('%s signalement(s) have been imported for entreprise %s', $metadata['count_signalement'], $entreprise->getNom()));
         } else {
-            $io->success(sprintf('%s signalement(s) have been imported', $metadata['count_signalement']));
+            $io->success(\sprintf('%s signalement(s) have been imported', $metadata['count_signalement']));
         }
 
         return Command::SUCCESS;

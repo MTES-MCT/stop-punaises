@@ -3,13 +3,9 @@
 namespace App\Service\Import\EntreprisePublique;
 
 use App\Manager\EntreprisePubliqueManager;
-use App\Repository\EntreprisePubliqueRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class EntreprisePubliqueImportLoader
 {
@@ -19,10 +15,6 @@ class EntreprisePubliqueImportLoader
     public function __construct(
         private EntreprisePubliqueImportMapper $entreprisePubliqueImportMapper,
         private EntreprisePubliqueManager $entreprisePubliqueManager,
-        private EntreprisePubliqueRepository $entreprisePubliqueRepository,
-        private EntityManagerInterface $entityManager,
-        private ParameterBagInterface $parameterBag,
-        private LoggerInterface $logger,
     ) {
     }
 
@@ -68,7 +60,7 @@ class EntreprisePubliqueImportLoader
         if ($output) {
             $this->progressBar->advance();
         }
-        $entreprisePublique = $this->entreprisePubliqueManager->createOrUpdate($dataMapped, true);
+        $entreprisePublique = $this->entreprisePubliqueManager->createOrUpdate($dataMapped);
         $this->entreprisePubliqueManager->save($entreprisePublique);
     }
 

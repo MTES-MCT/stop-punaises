@@ -2,14 +2,14 @@
 
 namespace App\FormHandler;
 
-use App\Service\Mailer\MailerProviderInterface;
+use App\Service\Mailer\MailerProvider;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormInterface;
 
 class ContactFormHandler
 {
     public function __construct(
-        private MailerProviderInterface $mailerProvider,
+        private MailerProvider $mailerProvider,
         private ParameterBagInterface $parameterBag,
     ) {
     }

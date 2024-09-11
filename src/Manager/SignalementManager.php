@@ -100,7 +100,7 @@ class SignalementManager extends AbstractManager
             return $this->update($signalement, $data);
         }
 
-        $signalement = $this->signalementFactory->createInstanceFrom($data, $isImported);
+        $signalement = $this->signalementFactory->createInstanceFrom($data);
 
         return $signalement;
     }
@@ -111,7 +111,7 @@ class SignalementManager extends AbstractManager
             ->setReference($data['reference'])
             ->setEntreprise($data['entreprise'])
             ->setDeclarant($data['declarant'])
-            ->setCreatedAtValue($data['createdAt'])
+            ->setCreatedAtValue()
             ->setDateIntervention($data['dateIntervention'])
             ->setTypeLogement($data['typeLogement'])
             ->setLocalisationDansImmeuble($data['localisationDansImmeuble'])

@@ -41,8 +41,6 @@ class EntrepriseVoter extends Voter
             self::EDIT => $this->canEdit($entreprise, $user),
             default => false,
         };
-
-        return false;
     }
 
     private function canEdit(Entreprise $entreprise, User $user): bool

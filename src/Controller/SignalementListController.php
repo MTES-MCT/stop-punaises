@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Enum\InfestationLevel;
+use App\Entity\User;
 use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
 use App\Repository\SignalementRepository;
@@ -20,7 +21,6 @@ class SignalementListController extends AbstractController
         TerritoireRepository $territoireRepository,
     ): Response {
         $territoires = $territoireRepository->findAll();
-        $signalements = $signalementManager->findDeclaredByOccupants();
 
         $entreprise = null;
         if (!$this->isGranted('ROLE_ADMIN')) {

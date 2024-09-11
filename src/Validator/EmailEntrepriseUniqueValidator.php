@@ -15,7 +15,8 @@ class EmailEntrepriseUniqueValidator extends ConstraintValidator
 
     public function validate(mixed $value, Constraint $constraint): void
     {
-        /* @var App\Validator\EmailEntrepriseUnique $constraint */
+        /** @var EmailEntrepriseUnique $constraint */
+        $constraint = $constraint;
 
         if (null === $value || '' === $value) {
             return;

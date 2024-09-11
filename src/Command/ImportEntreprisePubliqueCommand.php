@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Service\Import\CsvParser;
 use App\Service\Import\EntreprisePublique\EntreprisePubliqueImportLoader;
 use App\Service\Upload\UploadHandlerService;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
@@ -25,7 +24,6 @@ class ImportEntreprisePubliqueCommand extends Command
     public function __construct(
         private CsvParser $csvParser,
         private ParameterBagInterface $parameterBag,
-        private EntityManagerInterface $entityManager,
         private FilesystemOperator $fileStorage,
         private UploadHandlerService $uploadHandlerService,
         private EntreprisePubliqueImportLoader $entreprisePubliqueImportLoader,
@@ -59,7 +57,7 @@ class ImportEntreprisePubliqueCommand extends Command
 
         $countEntreprises = $this->entreprisePubliqueImportLoader->countEntreprises();
 
-        $io->success(sprintf('%s entreprises publiques importées', $countEntreprises));
+        $io->success(\sprintf('%s entreprises publiques importées', $countEntreprises));
 
         return Command::SUCCESS;
     }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Signalement;
+use App\Entity\User;
 use App\Event\InterventionEntrepriseResolvedEvent;
 use App\Form\SignalementHistoryType;
 use App\Manager\InterventionManager;
@@ -11,6 +12,7 @@ use App\Repository\InterventionRepository;
 use App\Service\Mailer\MailerProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

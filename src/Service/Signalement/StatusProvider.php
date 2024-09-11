@@ -4,6 +4,7 @@ namespace App\Service\Signalement;
 
 use App\Entity\Enum\SignalementStatus;
 use App\Entity\Signalement;
+use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class StatusProvider
@@ -17,7 +18,7 @@ class StatusProvider
             || ($signalement->isAutotraitement() && !$security->isGranted('ROLE_ADMIN'))
         ) {
             $signalementStatus = SignalementStatus::CLOSED;
-        } elseif (!$signalement->isAutotraitement() && !empty($signalement->getInterventions())) {
+        } elseif (!$signalement->isAutotraitement() && (\count($signalement->getInterventions()) > 0)) {
             $isAnnule = false;
             $isRefuse = false;
             $isInterventionExistante = false;

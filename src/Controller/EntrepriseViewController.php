@@ -9,11 +9,8 @@ use App\Form\EmployeType;
 use App\Form\EntrepriseType;
 use App\Manager\EmployeManager;
 use App\Manager\EntrepriseManager;
-use App\Manager\UserManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,9 +22,6 @@ class EntrepriseViewController extends AbstractController
     #[Route('/bo/entreprises/{uuid}', name: 'app_entreprise_view')]
     public function index(Request $request,
         Entreprise $entreprise,
-        UserManager $userManager,
-        Security $security,
-        EntityManagerInterface $entityManager,
         EntrepriseManager $entrepriseManager,
         EmployeManager $employeManager,
         EventDispatcherInterface $eventDispatcher): Response
@@ -100,7 +94,7 @@ class EntrepriseViewController extends AbstractController
     private function dispatchEntrepriseUpdateEvent(
         EventDispatcherInterface $eventDispatcher,
         FormInterface $form,
-        Entreprise $entreprise,
+        ?Entreprise $entreprise,
     ): void {
         $currentEmail = $entreprise?->getUser()?->getEmail();
         $newEmail = $form->getData()->getEmail();

@@ -3,6 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\Signalement;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,10 +30,11 @@ class FileVoter extends Voter
 
     private function canDelete(Signalement $signalement, UserInterface $user): bool
     {
+        /** @var User $user */
         if (\in_array('ROLE_ADMIN', $user->getRoles())) {
             return true;
         } elseif (null !== $user->getEntreprise() && null !== $signalement->getEntreprise()) {
-            return $user->getEntreprise()->getId() === $signalement->getEntreprise()?->getId();
+            return $user->getEntreprise()->getId() === $signalement->getEntreprise()->getId();
         }
 
         return false;

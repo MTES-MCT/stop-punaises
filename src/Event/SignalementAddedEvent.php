@@ -32,7 +32,7 @@ class SignalementAddedEvent extends Event
         return $this->createdAt;
     }
 
-    public function getPdfSize(): string
+    public function getPdfSize(): int
     {
         return $this->pdfSize;
     }
