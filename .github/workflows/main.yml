@@ -108,7 +108,7 @@ jobs:
 
       - name: Run tests
         run: |
-          composer require --dev dama/doctrine-test-bundle:7.3
+          composer require --dev dama/doctrine-test-bundle:8.2
           ./vendor/bin/phpunit --stop-on-failure --testdox -d memory_limit=-1
         env:
           APP_SECRET: ${{ secrets.APP_SECRET }}
