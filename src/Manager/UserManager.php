@@ -6,8 +6,6 @@ use App\Entity\Entreprise;
 use App\Entity\Enum\Role;
 use App\Entity\Enum\Status;
 use App\Entity\User;
-use App\Exception\User\RequestPasswordNotAllowedException;
-use App\Exception\User\UserAccountAlreadyActiveException;
 use App\Factory\UserFactory;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Token\GeneratorToken;
@@ -33,9 +31,6 @@ class UserManager extends AbstractManager
     {
         $user = $this->loadUserToken($email);
         if (!empty($user)) {
-            if (Status::INACTIVE === $user->getStatus()) {
-                throw new RequestPasswordNotAllowedException($email);
-            }
             $this->save($user);
             $this->mailerProvider->sendResetPasswordMessage($user);
         }
@@ -45,9 +40,6 @@ class UserManager extends AbstractManager
     {
         $user = $this->loadUserToken($email);
         if (!empty($user)) {
-            if (Status::ACTIVE === $user->getStatus()) {
-                throw new UserAccountAlreadyActiveException($email);
-            }
             $this->save($user);
             $this->mailerProvider->sendActivateMessage($user);
         }
