@@ -274,7 +274,7 @@ class SignalementTransportType extends AbstractType
             }
         });
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             /** @var Signalement $signalement */
             $signalement = $event->getData();
