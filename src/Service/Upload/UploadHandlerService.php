@@ -14,6 +14,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class UploadHandlerService
 {
     public const MAX_FILESIZE = 10 * 1024 * 1024;
+    public const UPLOAD_ACCEPTED_EXTENSIONS = ['jpg', 'jpeg', 'png'];
+    public const UPLOAD_ACCEPTED_MIME_TYPES = ['image/jpeg', 'image/png'];
 
     private $file;
 
@@ -100,6 +102,16 @@ class UploadHandlerService
         return $this->file;
     }
 
+    private function isAcceptedPhotoFormat(UploadedFile $file): bool
+    {
+        return \in_array($file->getMimeType(), self::UPLOAD_ACCEPTED_MIME_TYPES)
+                && (
+                    \in_array($file->getClientOriginalExtension(), self::UPLOAD_ACCEPTED_EXTENSIONS)
+                    || \in_array($file->getExtension(), self::UPLOAD_ACCEPTED_EXTENSIONS)
+                    || \in_array($file->guessExtension(), self::UPLOAD_ACCEPTED_EXTENSIONS)
+                );
+    }
+
     public function handleUploadFilesRequest(
         ?array $filesPosted,
     ): array {
@@ -110,6 +122,12 @@ class UploadHandlerService
                 if ($file->getError()) {
                     return [];
                 }
+
+                if (!$this->isAcceptedPhotoFormat($file)) {
+                    $this->logger->error('Bad format : '.$file->getClientOriginalName());
+                    continue;
+                }
+
                 $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
                 $title = $originalFilename.'.'.$file->guessExtension();
                 $safeFilename = $this->slugger->slug($originalFilename);

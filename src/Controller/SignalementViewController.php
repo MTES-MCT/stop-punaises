@@ -19,6 +19,7 @@ use App\Manager\SignalementManager;
 use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Repository\MessageThreadRepository;
+use App\Security\Voter\FileVoter;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Upload\UploadHandlerService;
 use Doctrine\Common\Collections\Collection;
@@ -356,15 +357,17 @@ class SignalementViewController extends AbstractController
         UploadHandlerService $uploadHandlerService,
         SignalementManager $signalementManager,
     ): Response {
-        $filesPosted = $request->files->get('file-upload');
-        $filesToSave = $signalement->getPhotos();
-        if (null == $filesToSave) {
-            $filesToSave = [];
+        if ($this->isCsrfTokenValid('signalement_add_file', $request->get('_csrf_token'))) {
+            $filesPosted = $request->files->get('file-upload');
+            $filesToSave = $signalement->getPhotos();
+            if (null == $filesToSave) {
+                $filesToSave = [];
+            }
+            $newFilesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
+            $filesToSave = array_merge($filesToSave, $newFilesToSave);
+            $signalement->setPhotos($filesToSave);
+            $signalementManager->save($signalement);
         }
-        $newFilesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
-        $filesToSave = array_merge($filesToSave, $newFilesToSave);
-        $signalement->setPhotos($filesToSave);
-        $signalementManager->save($signalement);
 
         return $this->redirectToRoute('app_signalement_historique_view', ['uuid' => $signalement->getUuid()]);
     }
@@ -377,7 +380,7 @@ class SignalementViewController extends AbstractController
         SignalementManager $signalementManager,
         FilesystemOperator $fileStorage,
     ): Response {
-        $this->denyAccessUnlessGranted('FILE_DELETE', $signalement);
+        $this->denyAccessUnlessGranted(FileVoter::DELETE, $signalement);
         if ($this->isCsrfTokenValid('signalement_delete_file_'.$signalement->getId(), $request->get('_csrf_token'))) {
             $filesToSave = $signalement->getPhotos();
             foreach ($filesToSave as $k => $v) {
