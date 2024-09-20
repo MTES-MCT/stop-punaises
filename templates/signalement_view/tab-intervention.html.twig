@@ -58,6 +58,7 @@
     <div class="fr-mt-2w">
         <h3>Photos de la situation</h3>
         <form action="{{ path('app_add_photos', {'uuid': signalement.uuid }) }}" method="POST" enctype="multipart/form-data" class="fr-my-3w file-auto-submit">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_add_file') }}">
             <div class="fr-upload-group">
                 <label class="fr-label" for="file-upload">Ajouter des photos
                     <span class="fr-hint-text">Taille maximale : 10 Mo. Formats supportés : jpg, png. Plusieurs fichiers possibles.</span>
