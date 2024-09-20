@@ -107,13 +107,14 @@ class UploadHandlerService
                     $this->uploadFromFile($file, $newFilename);
                 } catch (MaxUploadSizeExceededException|MalwareDetectedException $exception) {
                     $newFilename = '';
-                    $this->logger->error($errorMessage = $exception->getMessage());
+                    $this->logger->error($exception->getMessage());
                 }
                 if (!empty($newFilename)) {
                     $filesToSave[] = [
                         'file' => $newFilename,
                         'title' => $title,
                         'date' => (new \DateTimeImmutable())->format('d.m.Y'),
+                        'scannedAt' => (new \DateTimeImmutable())->format('Y-m-d H:i:s'),
                     ];
                 }
             }
