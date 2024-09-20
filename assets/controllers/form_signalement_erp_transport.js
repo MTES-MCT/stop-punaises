@@ -110,7 +110,7 @@ function handleFileUpload() {
             } else {
                 let filename = file.name;
                 let imgSrc = URL.createObjectURL(file);
-                let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
+                let strAppend = '<div class="fr-col-6 fr-col-md-3 align-center">';
                 strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
                 strAppend += '<br><button type="button" data-filename="' + filename  +'" class="fr-link fr-icon-close-circle-line fr-link--icon-left link--error file-uploaded"> Supprimer </button>';
                 strAppend += '</div>';
