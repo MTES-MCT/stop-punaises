@@ -95,9 +95,9 @@ class Signalement
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100)]
     #[Assert\Email]
-    #[Assert\NotBlank(message: 'Veuillez renseigner votre email.', groups: ['front_add_signalement_logement'])]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre e-mail.', groups: ['front_add_signalement_logement'])]
     #[Assert\Email(
-        message: 'Veuillez renseigner une adresse email valide.',
+        message: 'Veuillez renseigner une adresse e-mail valide.',
         groups: ['front_add_signalement_logement']
     )]
     private ?string $emailOccupant = null;
