@@ -250,6 +250,12 @@ class Signalement
     private SignalementType $type;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner la date.', groups: ['front_add_signalement_transport'])]
+    #[Assert\LessThan(
+        value: new \DateTime(),
+        message: 'La date renseignée n\'est pas encore passée, veuillez renseigner une nouvelle date.',
+        groups: ['front_add_signalement_transport']
+    )]
     private ?\DateTimeImmutable $punaisesViewedAt = null;
 
     #[ORM\Column(type: 'string', nullable: true, enumType: PlaceType::class)]

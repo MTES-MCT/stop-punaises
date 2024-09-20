@@ -54,13 +54,6 @@ class SignalementTransportType extends AbstractType
                 'label' => 'Date',
                 'required' => true,
                 'invalid_message' => 'La date que vous avez saisie a un format de date incorrect.',
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner la date.'),
-                    new Assert\LessThan(
-                        value: new \DateTime(),
-                        message: 'La date renseignée n\'est pas encore passée, veuillez renseigner une nouvelle date.'
-                    ),
-                ],
             ])
             ->add('punaisesViewedTimeAt', TimeType::class, [
                 'widget' => 'single_text',
@@ -96,6 +89,7 @@ class SignalementTransportType extends AbstractType
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(message: 'Veuillez renseigner la commune.'),
+                    //TODO : rebase de precedente PR pour eviter conflit
                 ],
             ])
             ->add('geoloc', HiddenType::class, [
@@ -299,7 +293,7 @@ class SignalementTransportType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Signalement::class,
-            'csrf_protection' => false, // generated manually
+            'validation_groups' => ['Default', 'front_add_signalement_transport'],
         ]);
     }
 }

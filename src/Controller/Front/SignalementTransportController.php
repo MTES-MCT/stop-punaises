@@ -40,14 +40,17 @@ class SignalementTransportController extends AbstractController
         SignalementManager $signalementManager,
         UploadHandlerService $uploadHandlerService,
         MailerProvider $mailerProvider,
+        ParameterBagInterface $parameterBag
     ): Response {
+        if (!$parameterBag->get('feature_three_forms')) {
+            return $this->redirectToRoute('home');
+        }
         $signalement = new Signalement();
         $form = $this->createForm(SignalementTransportType::class, $signalement);
         $form->handleRequest($request);
 
-        if ($form->isValid()
-            && $this->isCsrfTokenValid('save_signalement_transport', $request->request->get('_csrf_token'))
-        ) {
+        if ($form->isValid()) {
+            dump($signalement->getPunaisesViewedAt());
             $files = $uploadHandlerService->handleUploadFilesRequest($request->files->get('file-upload'));
             $signalement->setPhotos($files);
             $signalementManager->save($signalement);

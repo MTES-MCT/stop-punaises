@@ -117,7 +117,7 @@
                 <div class="fr-form-group fr-mt-3v">
                     {{ forms.input(form.emailDeclarant, 'Veuillez renseigner votre adresse e-mail.') }}
                 </div>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('save_signalement_transport') }}">
+                {{ form_widget(form._token) }}
                 <div class="fr-input-group">
                     <button type="submit" class="fr-btn btn-next fr-btn--icon-left fr-icon-check-line">
                         Signaler mon problème
