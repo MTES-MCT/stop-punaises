@@ -23,9 +23,10 @@ class SignalementControllerTest extends WebTestCase
     /** @dataProvider providePayloadSignalement */
     public function testAddSignalementLogement(array $payload, ?string $codePostal = null): void
     {
+        $csrf_token = $this->generateCsrfToken($this->client, 'signalement_front');
+        $payload['_token'] = $csrf_token;
         $payloadSignalement = [
             'signalement_front' => $payload,
-            '_csrf_token' => $this->generateCsrfToken($this->client, 'front-add-signalement'),
             'code-postal' => $codePostal,
         ];
 
@@ -36,6 +37,7 @@ class SignalementControllerTest extends WebTestCase
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $bodyContent = $this->client->getResponse()->getContent();
+        $this->assertStringContainsString('{"response":"success"}', $bodyContent);
         $this->assertEquals(json_decode($bodyContent, true)['response'], 'success');
     }
 
@@ -43,19 +45,19 @@ class SignalementControllerTest extends WebTestCase
     {
         yield 'Post signalement in territory not open' => [
             [
-                'superficie' => '',
-                'adresse' => '',
+                'superficie' => '45',
+                'adresse' => '8 chemin de la route',
                 'codePostal' => '18250',
                 'codeInsee' => '',
-                'ville' => '',
+                'ville' => 'Achères',
                 'geoloc' => '',
                 'nomProprietaire' => '',
                 'numeroAllocataire' => '',
                 'infestationLogementsVoisins' => '2',
-                'niveauInfestation' => '',
+                'niveauInfestation' => '0',
                 'nomOccupant' => 'Doe',
                 'prenomOccupant' => 'John',
-                'telephoneOccupant' => '',
+                'telephoneOccupant' => '0607060706',
                 'emailOccupant' => 'john.doe@punaises.com',
                 'autotraitement' => 'true',
             ],

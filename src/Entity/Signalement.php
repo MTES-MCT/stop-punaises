@@ -32,12 +32,30 @@ class Signalement
     private ?string $uuid = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner une adresse.',
+        groups: ['front_add_signalement_logement']
+    )]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner le code postal.',
+        groups: ['front_add_signalement_logement']
+    )]
+    #[Assert\Regex(
+        pattern: '/^[0-9]{5}$/',
+        message: 'Veuillez utiliser un code postal valide',
+    )]
     private ?string $codePostal = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner la ville.',
+        groups: ['front_add_signalement_logement']
+    )]
     private ?string $ville = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -47,6 +65,7 @@ class Signalement
     private ?bool $construitAvant1948 = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50)]
     #[Assert\NotBlank(
         message: 'Veuillez renseigner votre nom.',
         groups: ['front_add_signalement_logement', 'back_add_signalement_logement']
@@ -54,6 +73,7 @@ class Signalement
     private ?string $nomOccupant = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50)]
     #[Assert\NotBlank(
         message: 'Veuillez renseigner votre prenom.',
         groups: ['front_add_signalement_logement', 'back_add_signalement_logement']
@@ -66,11 +86,20 @@ class Signalement
         match: true,
         message: 'Merci de saisir le numéro de téléphone au bon format'
     )]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner votre numéro de téléphone.',
+        groups: ['front_add_signalement_logement']
+    )]
     private ?string $telephoneOccupant = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Length(max: 100)]
     #[Assert\Email]
     #[Assert\NotBlank(message: 'Veuillez renseigner votre email.', groups: ['front_add_signalement_logement'])]
+    #[Assert\Email(
+        message: 'Veuillez renseigner une adresse email valide.',
+        groups: ['front_add_signalement_logement']
+    )]
     private ?string $emailOccupant = null;
 
     #[ORM\Column(length: 30, nullable: true)]
@@ -80,6 +109,16 @@ class Signalement
     private ?\DateTimeInterface $dateIntervention = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[Assert\Range(
+        min: 0,
+        max: 4,
+        notInRangeMessage: 'Le niveau d\'infestation doit être compris entre 1 et 4.',
+        groups: ['front_add_signalement_logement']
+    )]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner un niveau d\'infestation.',
+        groups: ['front_add_signalement_logement']
+    )]
     private ?int $niveauInfestation = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
@@ -113,6 +152,7 @@ class Signalement
     private ?string $localisationDansImmeuble = null;
 
     #[ORM\Column(length: 10, nullable: true)]
+    #[Assert\Regex(pattern: '/^[0-9][0-9A-Za-z][0-9]{3}$/', message: 'Le code insee doit être composé de 5 caractères.')]
     private ?string $codeInsee = null;
 
     #[ORM\ManyToOne(inversedBy: 'signalements')]
@@ -128,6 +168,14 @@ class Signalement
     private ?bool $autotraitement = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[Assert\NotBlank(
+        message: 'Veuillez renseigner une superficie.',
+        groups: ['front_add_signalement_logement']
+    )]
+    #[Assert\Regex(
+        pattern: '/^[0-9]{1,5}$/',
+        message: 'Veuillez renseigner une superficie valide',
+    )]
     private ?int $superficie = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -164,6 +212,7 @@ class Signalement
     private ?bool $locataire = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Length(max: 100)]
     private ?string $nomProprietaire = null;
 
     #[ORM\Column(nullable: true)]
@@ -173,6 +222,7 @@ class Signalement
     private ?bool $allocataire = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50)]
     private ?string $numeroAllocataire = null;
 
     #[ORM\Column(nullable: true)]

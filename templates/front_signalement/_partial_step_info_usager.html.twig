@@ -80,8 +80,6 @@
 
     {{ form_widget(form.autotraitement) }}
 
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('front-add-signalement') }}">
-
     <div class="if-logement-social">
         {% include 'front_signalement/_partial_signalement_navigation_container.html.twig' with {'next': 'Recevoir le protocole', 'previous': 'Retour' } %}
     </div>
