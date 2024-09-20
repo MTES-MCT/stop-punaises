@@ -16,4 +16,5 @@ return [
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
     Sentry\SentryBundle\SentryBundle::class => ['prod' => true],
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
+    Sineflow\ClamAV\Bundle\SineflowClamAVBundle::class => ['all' => true],
 ];

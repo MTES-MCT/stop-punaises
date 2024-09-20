@@ -4,3 +4,4 @@ docker-compose.yml
 tools
 cypress
 cypress.config.js
+/node_modules

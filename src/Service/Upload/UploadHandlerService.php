@@ -2,74 +2,42 @@
 
 namespace App\Service\Upload;
 
+use App\Exception\File\MalwareDetectedException;
 use App\Exception\File\MaxUploadSizeExceededException;
+use App\Security\FileScanner;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UploadHandlerService
 {
-    public const MAX_FILESIZE = 10 * 1024 * 1024;
+    public const int|float MAX_FILESIZE = 10 * 1024 * 1024;
     public const UPLOAD_ACCEPTED_EXTENSIONS = ['jpg', 'jpeg', 'png'];
     public const UPLOAD_ACCEPTED_MIME_TYPES = ['image/jpeg', 'image/png'];
 
-    private $file;
+    private ?array $file;
 
     public function __construct(
-        private FilesystemOperator $fileStorage,
-        private ParameterBagInterface $parameterBag,
-        private SluggerInterface $slugger,
-        private LoggerInterface $logger,
+        private readonly FilesystemOperator $fileStorage,
+        private readonly SluggerInterface $slugger,
+        private readonly LoggerInterface $logger,
+        private readonly FileScanner $fileScanner,
     ) {
         $this->file = null;
     }
 
-    public function toTempFolder(UploadedFile $file): self|array
-    {
-        $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
-        $titre = $originalFilename.'.'.$file->guessExtension();
-        // this is needed to safely include the file name as part of the URL
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-        if ($file->getSize() > self::MAX_FILESIZE) {
-            throw new MaxUploadSizeExceededException(self::MAX_FILESIZE);
-        }
-        try {
-            $file->move(
-                $this->parameterBag->get('uploads_tmp_dir'),
-                $newFilename
-            );
-        } catch (FileException $e) {
-            $this->logger->error($e->getMessage());
-
-            return ['error' => 'Erreur lors du téléversement.', 'message' => $e->getMessage(), 'status' => 500];
-        }
-        $this->file = ['file' => $newFilename, 'titre' => $titre];
-
-        return $this;
-    }
-
-    public function uploadFromFilename(string $filename): string
-    {
-        $tmpFilepath = $this->parameterBag->get('uploads_tmp_dir').$filename;
-
-        try {
-            $resourceFile = fopen($tmpFilepath, 'r');
-            $this->fileStorage->writeStream($filename, $resourceFile);
-            fclose($resourceFile);
-        } catch (FilesystemException $exception) {
-            $this->logger->error($exception->getMessage());
-        }
-
-        return $filename;
-    }
-
+    /**
+     * @throws MaxUploadSizeExceededException
+     * @throws MalwareDetectedException
+     */
     public function uploadFromFile(UploadedFile $file, $newFilename): void
     {
+        if (!$this->fileScanner->isClean($file->getPathname())) {
+            throw new MalwareDetectedException($file->getClientOriginalName());
+        }
+
         if ($file->getSize() > self::MAX_FILESIZE) {
             throw new MaxUploadSizeExceededException(self::MAX_FILESIZE);
         }
@@ -82,12 +50,15 @@ class UploadHandlerService
         }
     }
 
+    /**
+     * @throws FilesystemException
+     */
     public function createTmpFileFromBucket($from, $to): void
     {
         $resourceBucket = $this->fileStorage->read($from);
-        $resourceFileSytem = fopen($to, 'w');
-        fwrite($resourceFileSytem, $resourceBucket);
-        fclose($resourceFileSytem);
+        $resourceFileSystem = fopen($to, 'w');
+        fwrite($resourceFileSystem, $resourceBucket);
+        fclose($resourceFileSystem);
     }
 
     public function setKey(string $key): ?array
@@ -116,7 +87,7 @@ class UploadHandlerService
         ?array $filesPosted,
     ): array {
         $filesToSave = [];
-        if (isset($filesPosted) && \is_array($filesPosted)) {
+        if (isset($filesPosted)) {
             /** @var UploadedFile $file */
             foreach ($filesPosted as $file) {
                 if ($file->getError()) {
@@ -134,12 +105,9 @@ class UploadHandlerService
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
                 try {
                     $this->uploadFromFile($file, $newFilename);
-                } catch (FilesystemException $exception) {
+                } catch (MaxUploadSizeExceededException|MalwareDetectedException $exception) {
                     $newFilename = '';
-                    $this->logger->error($exception->getMessage());
-                } catch (MaxUploadSizeExceededException $exception) {
-                    $newFilename = '';
-                    $this->logger->error($exception->getMessage());
+                    $this->logger->error($errorMessage = $exception->getMessage());
                 }
                 if (!empty($newFilename)) {
                     $filesToSave[] = [

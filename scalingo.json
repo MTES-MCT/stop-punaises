@@ -4,6 +4,14 @@
     "COMPOSER_DEV": {
       "description": "Install composer dev dependencies",
       "value": "true"
+    },
+    "CLAMD_DISABLE_DAEMON": {
+      "description": "When set, this environment variable instructs the image to NOT start the clamd daemon.",
+      "value": "true"
+    },
+    "FRESHCLAM_DISABLE_DAEMON": {
+      "description": "When set, this environment variable instructs the image to NOT start the freshclam daemon.",
+      "value": "true"
     }
   }
 }

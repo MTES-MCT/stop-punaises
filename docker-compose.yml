@@ -64,5 +64,10 @@ services:
     image: redis:7.0-alpine
     container_name: stopunaises_redis
 
+  stopunaises_clamav:
+    image: clamav/clamav
+    container_name: stopunaises_clamav
+    volumes:
+      - .:/app/
 volumes:
   dbdata:
