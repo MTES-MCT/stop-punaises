@@ -1,6 +1,17 @@
 add_header X-Frame-Options "deny";
-add_header X-Content-Type-Options nosniff;
+add_header X-Content-Type-Options "nosniff";
 add_header X-XSS-Protection "1; mode=block";
+add_header Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), accelerometer=(), ambient-light-sensor=(), gyroscope=(), magnetometer=(), usb=(), vibrate=()";
+add_header X-Permitted-Cross-Domain-Policies "none";
+add_header Referrer-Policy "no-referrer";
+add_header Cross-Origin-Embedder-Policy "unsafe-none";  # Temporarily disable COEP for matomo.js
+add_header Cross-Origin-Opener-Policy "same-origin";
+add_header Cross-Origin-Resource-Policy "cross-origin";
+add_header Upgrade-Insecure-Requests "1";
+add_header X-Powered-By "none";
+add_header Access-Control-Allow-Origin "*";
+add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+add_header Access-Control-Allow-Headers "Content-Type, Authorization";
 
 location ~* ^/bo/historique/.*\/supprimer-photo$ {
     try_files $uri /index.php$is_args$args;
