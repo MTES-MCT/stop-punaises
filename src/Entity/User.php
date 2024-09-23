@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Entity\Behaviour\ActivableTrait;
+use App\Entity\Behaviour\EntityHistoryInterface;
 use App\Entity\Behaviour\TimestampableTrait;
+use App\Entity\Enum\HistoryEntryEvent;
 use App\Entity\Enum\Status;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
@@ -17,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
 #[UniqueEntity('email')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, EntityHistoryInterface
 {
     use ActivableTrait;
     use TimestampableTrait;
@@ -219,5 +221,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->uuid = $uuid;
 
         return $this;
+    }
+
+    public function getHistoryRegisteredEvent(): array
+    {
+        return [HistoryEntryEvent::LOGIN];
     }
 }
