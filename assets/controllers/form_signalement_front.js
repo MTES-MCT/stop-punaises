@@ -849,9 +849,9 @@ class PunaisesFrontSignalementController {
         self.refreshStep(nbStep);
       },
       error: function (xhr, desc, err) {
-        console.log(xhr);
         if (xhr.responseJSON != undefined) {
-          alert("Erreur lors de l'ajout du signalement (" + xhr.responseJSON.errors[0].message + ")");
+          const errorValues = Object.values(xhr.responseJSON.errors);
+          alert("Erreur lors de l'ajout du signalement (" + errorValues[0].errors[0] + ")");
         } else {
           alert("Erreur lors de l'ajout du signalement");
         }
