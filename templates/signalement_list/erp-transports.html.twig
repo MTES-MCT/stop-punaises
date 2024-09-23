@@ -79,7 +79,7 @@
                                 <td>{{ signalement.nomProprietaire }}</td>
                             {% endif %}
                             <td>{{ signalement.codePostal }} {{ signalement.ville }}</td>
-                            <td>{{ signalement.territoire.zip }}</td>
+                            <td>{% if signalement.territoire %}{{ signalement.territoire.zip }}{% endif %}</td>
                             <td class="button-view">
                                 <button class="fr-btn fr-icon-arrow-right-fill" data-fr-opened="false" aria-controls="fr-modal-signalement-erp-transports-{{signalement.uuid}}" title="Voir le signalement {{ signalement.reference }}">
                                     Voir le signalement {{ signalement.reference }}

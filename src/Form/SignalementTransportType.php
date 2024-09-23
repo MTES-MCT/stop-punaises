@@ -11,7 +11,6 @@ use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\SignalementDateTimeProcessing;
 use App\Service\Signalement\ZipCodeProvider;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -25,7 +24,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Email;
 
 class SignalementTransportType extends AbstractType
 {
@@ -87,16 +85,13 @@ class SignalementTransportType extends AbstractType
                     'class' => 'fr-hint-text',
                 ],
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner la commune.'),
-                    //TODO : rebase de precedente PR pour eviter conflit
-                ],
             ])
             ->add('geoloc', HiddenType::class, [
                 'attr' => [
                     'class' => 'fr-hidden',
                 ],
                 'required' => false,
+                'mapped' => false,
             ])
             ->add('codePostal', HiddenType::class, [
                 'attr' => [
@@ -125,9 +120,6 @@ class SignalementTransportType extends AbstractType
                 ],
                 'label' => 'Type de transport',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le type de transport.'),
-                ],
             ])
             ->add('transportLineNumber', TextType::class, [
                 'attr' => [
@@ -143,10 +135,6 @@ class SignalementTransportType extends AbstractType
                     'class' => 'fr-hint-text',
                 ],
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le numéro de ligne.'),
-                    new Assert\Length(max: 50, maxMessage: 'Veuillez renseigner un numéro de ligne correcte.'),
-                ],
             ])
             ->add('isPlaceAvertie', ChoiceType::class, [
                 'choice_attr' => [
@@ -162,9 +150,6 @@ class SignalementTransportType extends AbstractType
                 ],
                 'label' => 'Avez-vous prévenu la compagnie de transport ?',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez indiquer si vous avez prévenu la compagnie de transport.'),
-                ],
             ])
             ->add('autresInformations', TextareaType::class, [
                 'attr' => [
@@ -182,39 +167,28 @@ class SignalementTransportType extends AbstractType
                     'class' => 'fr-hint-text',
                 ],
                 'required' => false,
-                'constraints' => [
-                    new Assert\Length(min: 10, minMessage: 'Merci de proposer une description (minimum 10 caractères).'),
-                ],
             ])
             ->add('nomDeclarant', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
-                    'maxlength' => '100',
+                    'maxlength' => '50',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
                 'label' => 'Nom',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner votre nom.'),
-                    new Assert\Length(max: 100),
-                ],
             ])
             ->add('prenomDeclarant', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
-                    'maxlength' => '100',
+                    'maxlength' => '50',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
                 'label' => 'Prénom',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner votre prénom.'),
-                    new Assert\Length(max: 100),
-                ],
             ])
             ->add('emailDeclarant', EmailType::class, [
                 'attr' => [
@@ -225,48 +199,7 @@ class SignalementTransportType extends AbstractType
                 ],
                 'label' => 'Adresse email',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner votre email.'),
-                    new Email(
-                        mode: Email::VALIDATION_MODE_STRICT,
-                        message: 'Veuillez renseigner un email valide.'
-                    ),
-                ],
             ]);
-
-        $builder->get('geoloc')->addModelTransformer(new CallbackTransformer(
-            function ($tagsAsArray) {
-                // transform the array to a string
-                if (!empty($tagsAsArray)) {
-                    return $tagsAsArray[0].'|'.$tagsAsArray[1];
-                }
-
-                return '';
-            },
-            function ($tagsAsString) {
-                // transform the string back to an array
-                if (!empty($tagsAsString)) {
-                    $coord = explode('|', $tagsAsString);
-
-                    return ['lat' => $coord[0], 'lng' => $coord[1]];
-                }
-
-                return [];
-            }
-        ));
-
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-            $form = $event->getForm();
-            $data = $event->getData();
-
-            if ($data['placeType'] === PlaceType::TYPE_TRANSPORT_AUTRE->name) {
-                $form->add('transportLineNumber', TextType::class, [
-                    'constraints' => [
-                        new Assert\Length(max: 50, maxMessage: 'Veuillez renseigner un numéro de ligne correcte.'),
-                    ],
-                ]);
-            }
-        });
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();

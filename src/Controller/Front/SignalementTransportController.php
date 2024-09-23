@@ -6,6 +6,7 @@ use App\Entity\Signalement;
 use App\Form\SignalementTransportType;
 use App\Manager\SignalementManager;
 use App\Service\Mailer\MailerProvider;
+use App\Service\Signalement\GeolocateService;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -40,7 +41,8 @@ class SignalementTransportController extends AbstractController
         SignalementManager $signalementManager,
         UploadHandlerService $uploadHandlerService,
         MailerProvider $mailerProvider,
-        ParameterBagInterface $parameterBag
+        ParameterBagInterface $parameterBag,
+        GeolocateService $geolocateService,
     ): Response {
         if (!$parameterBag->get('feature_three_forms')) {
             return $this->redirectToRoute('home');
@@ -50,9 +52,9 @@ class SignalementTransportController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            dump($signalement->getPunaisesViewedAt());
             $files = $uploadHandlerService->handleUploadFilesRequest($request->files->get('file-upload'));
             $signalement->setPhotos($files);
+            $geolocateService->geolocate($signalement);
             $signalementManager->save($signalement);
             $mailerProvider->sendSignalementValidationWithConseilsEviterPunaises($signalement);
 
