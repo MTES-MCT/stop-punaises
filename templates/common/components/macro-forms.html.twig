@@ -5,11 +5,9 @@
             {{ form_label(form_view) }}
             {{ form_widget(form_view, { 'attr': {
                 'aria-describedby': form_view.vars.id ~ '-error',
-                'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
-                'onvalid': "this.setCustomValidity('')",
-                'onchange': "this.setCustomValidity('')",
                 'title': error_text,
-                'data-error': error_text
+                'data-error': error_text,
+                'data-error-id': form_view.vars.id ~ '-error'
             } }) }}
             <div id="{{ form_view.vars.id }}-error" class="fr-error-text fr-mt-1v">
                 {{ form_errors(form_view) }}
@@ -19,11 +17,9 @@
         <div class="fr-input-group">
             {{ form_label(form_view) }}
             {{ form_widget(form_view, { 'attr': {
-                'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
-                'onvalid': "this.setCustomValidity('')",
-                'onchange': "this.setCustomValidity('')",
                 'title': error_text,
-                'data-error': error_text
+                'data-error': error_text,
+                'data-error-id': form_view.vars.id ~ '-error'
             } }) }}
             <p id="{{ form_view.vars.id }}-error" class="fr-error-text fr-hidden">
                 {{ error_text}}
@@ -38,11 +34,9 @@
             {{ form_label(form_view) }}
             {{ form_widget(form_view, { 'attr': {
                 'aria-describedby': form_view.vars.id ~ '-error',
-                'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
-                'onvalid': "this.setCustomValidity('')",
-                'onchange': "this.setCustomValidity('')",
                 'title': error_text,
-                'data-error': error_text
+                'data-error': error_text,
+                'data-error-id': form_view.vars.id ~ '-error'
             } }) }}
             <div id="{{ form_view.vars.id }}-error" class="fr-error-text fr-mt-1v">
                 {{ form_errors(form_view) }}
@@ -52,11 +46,9 @@
         <div class="fr-select-group">
             {{ form_label(form_view) }}
             {{ form_widget(form_view, { 'attr': {
-                'oninvalid': "this.setCustomValidity('" ~ error_text ~ "')",
-                'onvalid': "this.setCustomValidity('')",
-                'onchange': "this.setCustomValidity('')",
                 'title': error_text,
-                'data-error': error_text
+                'data-error': error_text,
+                'data-error-id': form_view.vars.id ~ '-error'
             } }) }}
             <p id="{{ form_view.vars.id }}-error" class="fr-error-text fr-hidden">
                 {{ error_text}}
