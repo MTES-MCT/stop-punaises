@@ -70,7 +70,7 @@ class SignalementErpControllerTest extends WebTestCase
                 'error' => [
                     'signalement_front[nomDeclarant]' => 'Veuillez renseigner votre nom.',
                     'signalement_front[prenomDeclarant]' => 'Veuillez renseigner votre prénom.',
-                    'signalement_front[emailDeclarant]' => 'Veuillez renseigner votre email.',
+                    'signalement_front[emailDeclarant]' => 'Veuillez renseigner votre e-mail.',
                 ],
             ],
             json_decode($client->getResponse()->getContent(), true));

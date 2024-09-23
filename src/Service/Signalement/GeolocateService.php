@@ -19,7 +19,7 @@ class GeolocateService
 
     public function geolocate(Signalement $signalement): int
     {
-        if (SignalementType::TYPE_LOGEMENT === $signalement->getType()) {
+        if (SignalementType::TYPE_TRANSPORT !== $signalement->getType()) {
             $response = $this->geolocateAddress($signalement);
         } else {
             $response = $this->geolocateMunicipality($signalement);

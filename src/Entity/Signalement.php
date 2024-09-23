@@ -37,14 +37,14 @@ class Signalement
     #[Assert\Length(max: 255)]
     #[Assert\NotBlank(
         message: 'Veuillez renseigner une adresse.',
-        groups: ['front_add_signalement_logement']
+        groups: ['front_add_signalement_logement', 'front_add_signalement_erp']
     )]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 10)]
     #[Assert\NotBlank(
         message: 'Veuillez renseigner le code postal.',
-        groups: ['front_add_signalement_logement']
+        groups: ['front_add_signalement_logement', 'front_add_signalement_transport', 'front_add_signalement_erp']
     )]
     #[Assert\Regex(
         pattern: '/^[0-9]{5}$/',
@@ -56,7 +56,7 @@ class Signalement
     #[Assert\Length(max: 255)]
     #[Assert\NotBlank(
         message: 'Veuillez renseigner la ville.',
-        groups: ['front_add_signalement_logement', 'front_add_signalement_transport']
+        groups: ['front_add_signalement_logement', 'front_add_signalement_transport', 'front_add_signalement_erp']
     )]
     private ?string $ville = null;
 
@@ -211,6 +211,7 @@ class Signalement
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner le nom de l\'établissement.', groups: ['front_add_signalement_erp'])]
     private ?string $nomProprietaire = null;
 
     #[ORM\Column(nullable: true)]
@@ -248,16 +249,17 @@ class Signalement
     private SignalementType $type;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\NotBlank(message: 'Veuillez renseigner la date.', groups: ['front_add_signalement_transport'])]
+    #[Assert\NotBlank(message: 'Veuillez renseigner la date.', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     #[Assert\LessThan(
         value: new \DateTime(),
         message: 'La date renseignée n\'est pas encore passée, veuillez renseigner une nouvelle date.',
-        groups: ['front_add_signalement_transport']
+        groups: ['front_add_signalement_transport', 'front_add_signalement_erp']
     )]
     private ?\DateTimeImmutable $punaisesViewedAt = null;
 
     #[ORM\Column(type: 'string', enumType: PlaceType::class, nullable: true)]
     #[Assert\NotBlank(message: 'Veuillez renseigner le type de transport', groups: ['front_add_signalement_transport'])]
+    #[Assert\NotBlank(message: 'Veuillez selectionner le type d\'établissement', groups: ['front_add_signalement_erp'])]
     private ?PlaceType $placeType = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -266,26 +268,28 @@ class Signalement
 
     #[ORM\Column(nullable: true)]
     #[Assert\NotNull(message: 'Veuillez indiquer si vous avez prévenu la compagnie de transport.', groups: ['front_add_signalement_transport'])]
+    #[Assert\NotNull(message: 'Veuillez indiquer si vous avez prévenu l\'établissement.', groups: ['front_add_signalement_erp'])]
     private ?bool $isPlaceAvertie = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    #[Assert\Length(min: 10, max: 500, minMessage: 'Merci de proposer une description (minimum 10 caractères).')]
+    #[Assert\Length(max: 500)]
+    #[Assert\Length(min: 10, minMessage: 'Merci de proposer une description (minimum 10 caractères).', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     private ?string $autresInformations;
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\Length(max: 50)]
-    #[Assert\NotBlank(message: 'Veuillez renseigner votre nom.', groups: ['front_add_signalement_transport'])]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre nom.', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     private ?string $nomDeclarant = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\Length(max: 50)]
-    #[Assert\NotBlank(message: 'Veuillez renseigner votre prénom.', groups: ['front_add_signalement_transport'])]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre prénom.', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     private ?string $prenomDeclarant = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100)]
     #[Email(mode : Email::VALIDATION_MODE_STRICT, message: 'Veuillez renseigner un email valide.', )]
-    #[Assert\NotBlank(message: 'Veuillez renseigner votre e-mail.', groups: ['front_add_signalement_transport'])]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre e-mail.', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     private ?string $emailDeclarant = null;
 
     public function __construct()

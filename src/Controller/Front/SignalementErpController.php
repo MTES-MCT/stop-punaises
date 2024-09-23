@@ -6,6 +6,7 @@ use App\Entity\Signalement;
 use App\Form\SignalementErpType;
 use App\Manager\SignalementManager;
 use App\Service\Mailer\MailerProvider;
+use App\Service\Signalement\GeolocateService;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -40,16 +41,16 @@ class SignalementErpController extends AbstractController
         SignalementManager $signalementManager,
         UploadHandlerService $uploadHandlerService,
         MailerProvider $mailerProvider,
+        GeolocateService $geolocateService,
     ): Response {
         $signalement = new Signalement();
         $form = $this->createForm(SignalementErpType::class, $signalement);
         $form->handleRequest($request);
 
-        if ($form->isValid()
-            && $this->isCsrfTokenValid('save_signalement_erp', $request->request->get('_csrf_token'))
-        ) {
+        if ($form->isValid()) {
             $files = $uploadHandlerService->handleUploadFilesRequest($request->files->get('file-upload'));
             $signalement->setPhotos($files);
+            $geolocateService->geolocate($signalement);
             $signalementManager->save($signalement);
             $mailerProvider->sendSignalementValidationWithConseilsEviterPunaises($signalement);
 
