@@ -479,7 +479,7 @@ class PunaisesFrontSignalementController {
           inputDiv.attr('aria-describedby', 'file-upload-error');
         } else {
             let imgSrc = URL.createObjectURL(file);
-            let strAppend = '<div class="fr-col-6 fr-col-md-3" style="text-align: center;">';
+            let strAppend = '<div class="fr-col-6 fr-col-md-3 align-center">';
             strAppend += '<img src="' + imgSrc + '" width="100" height="100">';
             strAppend += '</div>';
             $('.fr-front-signalement-photos').append(strAppend);

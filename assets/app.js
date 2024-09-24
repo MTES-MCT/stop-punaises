@@ -30,3 +30,4 @@ import './controllers/list_employes';
 import './controllers/list_entreprises_publiques';
 
 import './controllers/weekly_slider';
+import './controllers/form_helper';

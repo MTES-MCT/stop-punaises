@@ -1,6 +1,6 @@
 {% if matomo is defined and matomo.enable == 1 %}
     <!-- Matomo -->
-    <script>
+    <script nonce="{{ app.request.attributes.get('csp_script_nonce') }}">
         var _paq = window._paq = window._paq || [];
         {% if platform.url starts with 'https' %}
             _paq.push(['setSecureCookie', true]);
