@@ -11,7 +11,7 @@ var map = L.map('map-signalements-view', {
     maxZoom: 18,
     zoom: 6
 });
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {crossOrigin: true}).addTo(map);
 var heat;
 
 async function getMarkers(offset) {
