@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d03f6b26f40775b6595a4a72b7dffed0",
+    "content-hash": "580fbf56ff92b86029aed7da813a18e2",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -4263,6 +4263,62 @@
                 }
             ],
             "time": "2024-02-26T09:27:19+00:00"
+        },
+        {
+            "name": "sineflow/clamav",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sineflow/clamav.git",
+                "reference": "e7f8d70041f6c41b2c74ad9f2f9a1ad6c4e5f95f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sineflow/clamav/zipball/e7f8d70041f6c41b2c74ad9f2f9a1ad6c4e5f95f",
+                "reference": "e7f8d70041f6c41b2c74ad9f2f9a1ad6c4e5f95f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-sockets": "*",
+                "php": "^7.3 || ^8.0",
+                "symfony/config": "~4.0 || ~5.0 || ~6.0 || ~7.0",
+                "symfony/dependency-injection": "~4.0 || ~5.0 || ~6.0 || ~7.0",
+                "symfony/http-kernel": "~4.0 || ~5.0 || ~6.0 || ~7.0",
+                "symfony/yaml": "~4.0 || ~5.0 || ~6.0 || ~7.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.5",
+                "phpunit/phpunit": "^9.0",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Sineflow\\ClamAV\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Plamen Mishev",
+                    "email": "pmishev@sineflow.com",
+                    "homepage": "http://sineflow.com/"
+                }
+            ],
+            "description": "ClamAV PHP Client for Symfony",
+            "keywords": [
+                "bundle",
+                "clamav",
+                "symfony"
+            ],
+            "support": {
+                "issues": "https://github.com/sineflow/clamav/issues",
+                "source": "https://github.com/sineflow/clamav/tree/v1.1.2"
+            },
+            "time": "2024-04-06T10:59:33+00:00"
         },
         {
             "name": "symfony/asset",

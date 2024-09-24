@@ -173,3 +173,6 @@ tools-down: ## [Tools] Shutdown tools containers
 
 k6: ## Run K6 tests
 	@$(DOCKER_COMP) -f $(DOCKER_COMP_FILE_TOOLS) run --rm -T stopunaises_k6 run -<tools/k6/k6-50000.js --env "URL=$(URL)"
+
+clamscan-tmp: ## [Clamscan] Scan a tmp directory
+	@bash -l -c '$(DOCKER_COMP) exec -it stopunaises_clamav clamscan /app/tmp -r'

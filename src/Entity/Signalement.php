@@ -152,7 +152,7 @@ class Signalement
     private ?array $punaisesDetails = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
-    private $photos = [];
+    private array $photos = [];
 
     #[ORM\ManyToOne(inversedBy: 'signalements')]
     private ?Territoire $territoire = null;
@@ -194,7 +194,7 @@ class Signalement
     private ?string $uuidPublic = null;
 
     #[ORM\Column(type: 'json')]
-    private $geoloc = [];
+    private array $geoloc = [];
 
     #[ORM\Column(type: 'string', enumType: SignalementType::class)]
     private SignalementType $type;
@@ -202,7 +202,7 @@ class Signalement
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $punaisesViewedAt = null;
 
-    #[ORM\Column(type: 'string', enumType: PlaceType::class, nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true, enumType: PlaceType::class)]
     private ?PlaceType $placeType = null;
 
     #[ORM\Column(length: 50, nullable: true)]

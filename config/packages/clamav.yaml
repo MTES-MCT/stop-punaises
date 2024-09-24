@@ -1,0 +1,5 @@
+sineflow_clam_av:
+  strategy: '%env(CLAMAV_STRATEGY)%'
+  host: '%env(CLAMAV_HOST)%'
+  socket: "/app/run/clamd.sock"
+  port: 3310
