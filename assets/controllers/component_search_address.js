@@ -87,6 +87,9 @@ function initSearchAddress() {
       $('#rechercheAdresseListe select option:selected').trigger('click');
     }
   });
+  $('#rechercheAdresseListe select').on('change', function(e){	
+    $('#rechercheAdresseListe select option:selected').trigger('click');
+  });
 
   $('#toggle-skip-search-address').on('click', function(){
     if ($('.address-fields').length > 0) {
