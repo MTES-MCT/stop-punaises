@@ -120,7 +120,9 @@ function initSearchAddress() {
     } else if (event.key === 'Enter') {
       event.preventDefault();
       handleEnter();
-    }
+    } else if (event.key === 'Tab') {
+      closeSuggestions();
+  }
   });
 
   $('#toggle-skip-search-address').on('click', function(){
