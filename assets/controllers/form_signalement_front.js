@@ -59,7 +59,8 @@ class PunaisesFrontSignalementController {
     self = this;
     self.fetchTerritoireOpened();
     $('input').on('keyup', function(e){
-      if (e.which == 13) {
+      // Do not move to the next screen when pressing Enter while selecting an address
+      if (e.which == 13 && e.currentTarget.id !== 'rechercheAdresse') {
         e.preventDefault();
         $('#step-'+self.stepStr + ' .btn-next').trigger( "click" );
       }
