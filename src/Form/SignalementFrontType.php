@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Signalement;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -15,8 +14,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Email;
 
 class SignalementFrontType extends AbstractType
 {
@@ -56,10 +53,6 @@ class SignalementFrontType extends AbstractType
                 ],
                 'label' => 'La superficie de mon logement est de…',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner une superficie'),
-                    new Assert\Regex('/[0-9]{5}/', 'Veuillez renseigner une superficie valide'),
-                ],
             ])
             ->add('adresse', TextType::class, [
                 'attr' => [
@@ -89,10 +82,6 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-hint-text',
                 ],
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le code postal'),
-                    new Assert\Regex('/[0-9]{5}/', 'Veuillez utiliser un code postal valide'),
-                ],
             ])
             ->add('codeInsee', HiddenType::class, [
                 'attr' => [
@@ -117,8 +106,8 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-hidden',
                 ],
                 'required' => false,
+                'mapped' => false,
             ])
-
             // Step info_locataire
             ->add('locataire', ChoiceType::class, [
                 'attr' => [
@@ -323,9 +312,6 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-hint-text',
                 ],
                 'required' => false,
-                'constraints' => [
-                    new Assert\Regex('/[0-9]{10}/', 'Veuillez renseigner un numéro de téléphone valide'),
-                ],
             ])
             ->add('emailOccupant', EmailType::class, [
                 'attr' => [
@@ -342,12 +328,6 @@ class SignalementFrontType extends AbstractType
                     'class' => 'fr-hint-text',
                 ],
                 'required' => false,
-                'constraints' => [
-                    new Email(
-                        mode: Email::VALIDATION_MODE_STRICT,
-                        message: 'Veuillez renseigner un email valide.'
-                    ),
-                ],
             ])
             ->add('autotraitement', HiddenType::class, [
                 'attr' => [
@@ -356,27 +336,6 @@ class SignalementFrontType extends AbstractType
                 'empty_data' => false,
             ])
         ;
-        $builder->get('geoloc')->addModelTransformer(new CallbackTransformer(
-            function ($tagsAsArray) {
-                // transform the array to a string
-                if (!empty($tagsAsArray)) {
-                    return $tagsAsArray[0].'|'.$tagsAsArray[1];
-                }
-
-                return '';
-            },
-            function ($tagsAsString) {
-                // transform the string back to an array
-                if (!empty($tagsAsString)) {
-                    $coord = explode('|', $tagsAsString);
-
-                    return ['lat' => $coord[0], 'lng' => $coord[1]];
-                }
-
-                return [];
-            }
-        ));
-
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             /** @var Signalement $signalement */
             $signalement = $event->getData();
@@ -404,8 +363,8 @@ class SignalementFrontType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Signalement::class,
             'allow_extra_fields' => true,
-            'csrf_protection' => false,
             'validation_groups' => ['Default', 'front_add_signalement_logement'],
+            'csrf_token_id' => 'signalement_front',
         ]);
     }
 

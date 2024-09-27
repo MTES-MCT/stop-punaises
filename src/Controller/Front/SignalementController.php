@@ -11,6 +11,7 @@ use App\Form\SignalementFrontType;
 use App\Manager\SignalementManager;
 use App\Repository\EntrepriseRepository;
 use App\Repository\TerritoireRepository;
+use App\Service\FormHelper;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Signalement\GeolocateService;
 use App\Service\Signalement\ReferenceGenerator;
@@ -65,11 +66,10 @@ class SignalementController extends AbstractController
         GeolocateService $geolocateService,
     ): Response {
         $signalement = new Signalement();
-        $form = $this->createForm(SignalementFrontType::class, $signalement, ['validation_groups' => 'front_add_signalement_logement']);
+        $form = $this->createForm(SignalementFrontType::class, $signalement);
         $form->handleRequest($request);
 
-        $submittedToken = $request->request->get('_csrf_token');
-        if ($form->isValid() && $this->isCsrfTokenValid('front-add-signalement', $submittedToken)) {
+        if ($form->isValid()) {
             $signalement
                 ->setType(SignalementType::TYPE_LOGEMENT)
                 ->setReference($referenceGenerator->generate())
@@ -79,19 +79,15 @@ class SignalementController extends AbstractController
             $filesPosted = $request->files->get('file-upload');
             $filesToSave = $uploadHandlerService->handleUploadFilesRequest($filesPosted);
             $signalement->setPhotos($filesToSave);
+            $geolocateService->geolocate($signalement);
 
-            if ([] === $signalement->getGeoloc()) {
-                $geolocateService->geolocate($signalement);
+            $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
+            $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
+            if (!$territoire) {
+                return $this->json(['response' => 'error', 'errors' => 'territoire introuvable sur le code postal '.$signalement->getCodePostal()], Response::HTTP_BAD_REQUEST);
             }
-            if (null !== $signalement->getCodePostal()) {
-                $zipCode = $zipCodeService->getByCodePostal($signalement->getCodePostal());
-                $territoire = $territoireRepository->findOneBy(['zip' => $zipCode]);
-                $signalement->setTerritoire($territoire);
-
-                $signalementManager->save($signalement);
-            } else {
-                return $this->json(['response' => 'error', 'errors' => 'code postal null'], Response::HTTP_BAD_REQUEST);
-            }
+            $signalement->setTerritoire($territoire);
+            $signalementManager->save($signalement);
 
             if ($signalement->isAutotraitement()) {
                 if ($signalement->getTerritoire()->isActive()) {
@@ -123,7 +119,8 @@ class SignalementController extends AbstractController
 
             return $this->json(['response' => 'success']);
         }
+        $errors = FormHelper::getErrorsFromForm($form);
 
-        return $this->json(['response' => 'error', 'errors' => $form->getErrors(true)], Response::HTTP_BAD_REQUEST);
+        return $this->json(['response' => 'error', 'errors' => $errors], Response::HTTP_BAD_REQUEST);
     }
 }

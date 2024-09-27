@@ -14,7 +14,7 @@
             <span class="fr-text--bold">Étape suivante :</span> Durée de l'infestation
         </p>
     </div>
-
+    {{ form_widget(form._token) }}
     {{ forms.radio_choice(form.typeLogement, 'Veuillez renseigner le type de logement.') }}
 
     <div class="fr-form-group">
