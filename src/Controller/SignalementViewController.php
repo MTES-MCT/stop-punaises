@@ -54,6 +54,16 @@ class SignalementViewController extends AbstractController
         $entrepriseIntervention = null;
         if (!$this->isGranted('ROLE_ADMIN')) {
             $userEntreprise = $user->getEntreprise();
+
+            // Block if signalement historique and was created by other entreprise
+            if ($signalement->getEntreprise() && $signalement->getEntreprise() !== $user->getEntreprise()) {
+                return $this->render('signalement_view/not-found.html.twig');
+            }
+            // Block if signalement is not on same territory as entreprise
+            if (!$user->getEntreprise()->getTerritoires()->contains($signalement->getTerritoire())) {
+                return $this->render('signalement_view/not-found.html.twig');
+            }
+            
             $entrepriseIntervention = $interventionRepository->findBySignalementAndEntreprise(
                 $signalement,
                 $userEntreprise
@@ -123,6 +133,18 @@ class SignalementViewController extends AbstractController
                 $user->getEntreprise()
             );
 
+            $acceptedEstimations = $interventionRepository->findBy([
+                'signalement' => $signalement,
+                'acceptedByUsager' => true,
+                'canceledByEntrepriseAt' => null,
+            ]);
+            if ($signalement->getResolvedAt()
+                || $signalement->getClosedAt()
+                || \count($acceptedEstimations) > 0) {
+                    $this->addFlash('error', "Vous ne pouvez pas accepter ce signalement.");
+                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+            }
+
             if (null === $intervention) {
                 $intervention = new Intervention();
                 $intervention->setSignalement($signalement);
@@ -154,10 +176,24 @@ class SignalementViewController extends AbstractController
         EntrepriseManager $entrepriseManager,
         ValidatorInterface $validator,
         EventDispatcherInterface $eventDispatcher,
+        InterventionRepository $interventionRepository,
     ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
             $intervention->setSignalement($signalement);
+
+            $acceptedEstimations = $interventionRepository->findBy([
+                'signalement' => $signalement,
+                'acceptedByUsager' => true,
+                'canceledByEntrepriseAt' => null,
+            ]);
+            if ($signalement->getResolvedAt()
+                || $signalement->getClosedAt()
+                || \count($acceptedEstimations) > 0) {
+                    $this->addFlash('error', "Vous ne pouvez pas refuser ce signalement.");
+                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+            }
+
             /** @var User $user */
             $user = $this->getUser();
             $intervention->setEntreprise($user->getEntreprise());
@@ -218,10 +254,18 @@ class SignalementViewController extends AbstractController
                 /** @var User $user */
                 $user = $this->getUser();
                 $userEntreprise = $user->getEntreprise();
+                /** @var Intervention $intervention */
                 $intervention = $interventionRepository->findBySignalementAndEntreprise(
                     $signalement,
                     $userEntreprise
                 );
+
+                if (!$intervention
+                    || !$intervention->isAccepted()) {
+                        $this->addFlash('error', "Vous ne pouvez pas envoyer d'estimation pour ce signalement.");
+                        return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+                }
+
                 $intervention->setCommentaireEstimation($request->get('commentaire'));
                 $intervention->setMontantEstimation(ceil($montant));
                 $intervention->setEstimationSentAt(new \DateTimeImmutable());
@@ -252,6 +296,13 @@ class SignalementViewController extends AbstractController
         MailerProvider $mailerProvider,
     ): Response {
         if ($this->isCsrfTokenValid('signalement_admin_stop', $request->get('_csrf_token'))) {
+            if (!$this->isGranted('ROLE_ADMIN')
+                || $signalement->getResolvedAt()
+                || $signalement->getClosedAt()) {
+                    $this->addFlash('error', "Vous ne pouvez pas fermer ce signalement.");
+                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+            }
+
             $this->addFlash('success', 'La procédure est terminée !');
             $signalement->setClosedAt(new \DateTimeImmutable());
             $signalement->updateUuidPublic();
@@ -278,6 +329,19 @@ class SignalementViewController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
     ): Response {
         if ($this->isCsrfTokenValid('intervention_stop', $request->get('_csrf_token'))) {
+            $signalement = $intervention->getSignalement();
+
+            if ($signalement->getResolvedAt()
+                || $signalement->getClosedAt()
+                || !$intervention->isAccepted()
+                || !$intervention->getEstimationSentAt()
+                || $intervention->getCanceledByEntrepriseAt()
+                || (!$intervention->getChoiceByEntrepriseAt() && !$intervention->isAcceptedByUsager())
+                || $signalement->getTypeIntervention()) {
+                    $this->addFlash('error', "Vous ne pouvez pas clôturer ce signalement.");
+                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+            }
+
             $this->addFlash('success', 'Votre procédure est terminée !');
 
             $wasAccepted = $intervention->isAccepted();
