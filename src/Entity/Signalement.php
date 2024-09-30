@@ -259,7 +259,7 @@ class Signalement
 
     #[ORM\Column(type: 'string', enumType: PlaceType::class, nullable: true)]
     #[Assert\NotBlank(message: 'Veuillez renseigner le type de transport', groups: ['front_add_signalement_transport'])]
-    #[Assert\NotBlank(message: 'Veuillez selectionner le type d\'établissement', groups: ['front_add_signalement_erp'])]
+    #[Assert\NotBlank(message: 'Veuillez sélectionner le type d\'établissement', groups: ['front_add_signalement_erp'])]
     private ?PlaceType $placeType = null;
 
     #[ORM\Column(length: 50, nullable: true)]

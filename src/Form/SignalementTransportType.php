@@ -114,7 +114,7 @@ class SignalementTransportType extends AbstractType
                 'row_attr' => [
                     'class' => 'fr-select-group',
                 ],
-                'placeholder' => 'Selectionner un type',
+                'placeholder' => 'Sélectionner un type',
                 'attr' => [
                     'class' => 'fr-select',
                 ],

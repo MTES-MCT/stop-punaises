@@ -42,7 +42,11 @@ class SignalementErpController extends AbstractController
         UploadHandlerService $uploadHandlerService,
         MailerProvider $mailerProvider,
         GeolocateService $geolocateService,
+        ParameterBagInterface $parameterBag,
     ): Response {
+        if (!$parameterBag->get('feature_three_forms')) {
+            return $this->redirectToRoute('home');
+        }
         $signalement = new Signalement();
         $form = $this->createForm(SignalementErpType::class, $signalement);
         $form->handleRequest($request);
