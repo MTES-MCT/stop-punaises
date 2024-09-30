@@ -195,17 +195,21 @@ span.statut-infestation {
         z-index: 1;
         display: none;
         border: 1px solid;
-        background: #FFF;
-        min-width: 300px;
-        select {
-            width: 100%;
-            
-            option {
-                cursor: pointer;
-                &:hover {
-                    background-color: #dde5ff;
-                }
-            }
+        background-color: var(--background-alt-blue-france);
+        min-width: 100%;
+        list-style-type: none;
+
+        .fr-autocomplete-list {
+            cursor: pointer;
+        }
+        .fr-autocomplete-suggestion:hover {
+            background-color: var(--artwork-minor-blue-cumulus);
+            color: white !important;
+        }
+
+        .fr-autocomplete-suggestion-highlighted {
+            background-color: #417dc4;
+            color: white !important;
         }
     }
 }

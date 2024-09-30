@@ -34,15 +34,22 @@
                 <span class="fr-hint-text help-text">Saisissez le début de votre adresse puis sélectionnez-la dans la liste.</span>
             </label>
             <div class="fr-input-wrap fr-icon-map-pin-2-line">
-                <input id="rechercheAdresse" type="text" class="fr-input" autocomplete="street">
+                <input id="rechercheAdresse"
+                       type="text"
+                       class="fr-input"
+                       autocomplete="street"
+                       aria-controls="rechercheAdresseListe"
+                       aria-autocomplete="list"
+                       role="combobox"
+
+                >
                 <p id="rechercheAdresse-error" class="fr-error-text fr-hidden">
-                    Veuillez renseigner l'adresse de votre logement.
+                    Veuillez renseigner et sélectionner l'adresse de votre logement.
                 </p>
             </div>
-            <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
-                <select size="5">
-                </select>
-            </div>
+            <ul id="rechercheAdresseListe"
+                class="fr-grid-row fr-background-alt--blue-france fr-text-label--blue-france fr-autocomplete-list">
+            </ul>
         </div>
                 
         <div class="fr-toggle">

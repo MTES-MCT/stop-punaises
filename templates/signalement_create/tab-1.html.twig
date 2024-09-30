@@ -26,11 +26,17 @@
                         </span>
                     </label>
                     <div class="fr-input-wrap fr-icon-map-pin-2-line">
-                        <input id="rechercheAdresse" type="text" class="fr-input" autocomplete="street">
-                        <div id="rechercheAdresseListe" class="fr-mt-1v fr-py-1w">
-                            <select size="5">
-                            </select>
-                        </div>
+                        <input id="rechercheAdresse"
+                               type="text"
+                               class="fr-input"
+                               autocomplete="street"
+                               aria-controls="rechercheAdresseListe"
+                               aria-autocomplete="list"
+                               role="combobox"
+                        >
+                        <ul id="rechercheAdresseListe"
+                            class="fr-grid-row fr-background-alt--blue-france fr-text-label--blue-france fr-autocomplete-list">
+                        </ul>
                     </div>
                 </div>
             </div>
