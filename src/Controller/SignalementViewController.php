@@ -63,7 +63,7 @@ class SignalementViewController extends AbstractController
             if (!$user->getEntreprise()->getTerritoires()->contains($signalement->getTerritoire())) {
                 return $this->render('signalement_view/not-found.html.twig');
             }
-            
+
             $entrepriseIntervention = $interventionRepository->findBySignalementAndEntreprise(
                 $signalement,
                 $userEntreprise
@@ -141,8 +141,9 @@ class SignalementViewController extends AbstractController
             if ($signalement->getResolvedAt()
                 || $signalement->getClosedAt()
                 || \count($acceptedEstimations) > 0) {
-                    $this->addFlash('error', "Vous ne pouvez pas accepter ce signalement.");
-                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+                $this->addFlash('error', 'Vous ne pouvez pas accepter ce signalement.');
+
+                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
             }
 
             if (null === $intervention) {
@@ -190,8 +191,9 @@ class SignalementViewController extends AbstractController
             if ($signalement->getResolvedAt()
                 || $signalement->getClosedAt()
                 || \count($acceptedEstimations) > 0) {
-                    $this->addFlash('error', "Vous ne pouvez pas refuser ce signalement.");
-                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+                $this->addFlash('error', 'Vous ne pouvez pas refuser ce signalement.');
+
+                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
             }
 
             /** @var User $user */
@@ -262,8 +264,9 @@ class SignalementViewController extends AbstractController
 
                 if (!$intervention
                     || !$intervention->isAccepted()) {
-                        $this->addFlash('error', "Vous ne pouvez pas envoyer d'estimation pour ce signalement.");
-                        return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+                    $this->addFlash('error', "Vous ne pouvez pas envoyer d'estimation pour ce signalement.");
+
+                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
                 }
 
                 $intervention->setCommentaireEstimation($request->get('commentaire'));
@@ -299,8 +302,9 @@ class SignalementViewController extends AbstractController
             if (!$this->isGranted('ROLE_ADMIN')
                 || $signalement->getResolvedAt()
                 || $signalement->getClosedAt()) {
-                    $this->addFlash('error', "Vous ne pouvez pas fermer ce signalement.");
-                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+                $this->addFlash('error', 'Vous ne pouvez pas fermer ce signalement.');
+
+                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
             }
 
             $this->addFlash('success', 'La procédure est terminée !');
@@ -338,32 +342,28 @@ class SignalementViewController extends AbstractController
                 || $intervention->getCanceledByEntrepriseAt()
                 || (!$intervention->getChoiceByEntrepriseAt() && !$intervention->isAcceptedByUsager())
                 || $signalement->getTypeIntervention()) {
-                    $this->addFlash('error', "Vous ne pouvez pas clôturer ce signalement.");
-                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+                $this->addFlash('error', 'Vous ne pouvez pas clôturer ce signalement.');
+
+                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
             }
 
             $this->addFlash('success', 'Votre procédure est terminée !');
 
-            $wasAccepted = $intervention->isAccepted();
-            if ($wasAccepted) {
-                $date = new \DateTimeImmutable();
-                $intervention->setCanceledByEntrepriseAt($date);
-            }
+            $date = new \DateTimeImmutable();
+            $intervention->setCanceledByEntrepriseAt($date);
             $intervention->setAccepted(false);
             $interventionManager->save($intervention);
 
-            if ($wasAccepted) {
-                /** @var User $user */
-                $user = $this->getUser();
-                $eventDispatcher->dispatch(
-                    new InterventionEntrepriseCanceledEvent(
-                        $intervention,
-                        $user->getId(),
-                        $date
-                    ),
-                    InterventionEntrepriseCanceledEvent::NAME
-                );
-            }
+            /** @var User $user */
+            $user = $this->getUser();
+            $eventDispatcher->dispatch(
+                new InterventionEntrepriseCanceledEvent(
+                    $intervention,
+                    $user->getId(),
+                    $date
+                ),
+                InterventionEntrepriseCanceledEvent::NAME
+            );
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $intervention->getSignalement()->getUuid()]);

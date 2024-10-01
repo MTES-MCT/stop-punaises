@@ -51,9 +51,9 @@ class SignalementResolveController extends AbstractController
                 || !$intervention->isAccepted()
                 || empty($intervention->getEstimationSentAt())
                 || !$intervention->isAcceptedByUsager()) {
+                $this->addFlash('error', 'Vous ne pouvez pas marquer ce signalement comme traité.');
 
-                    $this->addFlash('error', "Vous ne pouvez pas marquer ce signalement comme traité.");
-                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
+                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
             }
 
             $signalement->updateUuidPublic();
