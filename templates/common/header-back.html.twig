@@ -93,6 +93,13 @@
                             <a class="fr-nav__link" href="{{ path('app_entreprise_list') }}" target="_self" {% if app.request.get('_route') == 'app_entreprise_list' or app.request.get('_route') == 'app_entreprise_view' %}aria-current="page"{% endif %}>Les entreprises</a>
                         </li>
                     {% endif %}
+                    
+                    {% if gitbook is defined %}
+                        <li class="fr-nav__item">
+                            <a class="fr-nav__link" href="{{ gitbook.faq }}" target="_blank" rel="noopener"
+                                >Documentation</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>

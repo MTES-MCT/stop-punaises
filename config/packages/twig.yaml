@@ -4,6 +4,8 @@ twig:
         feature_three_forms: '%feature_three_forms%'
         platform:
             url: '%base_url%'
+        gitbook:
+            faq: https://faq.stop-punaises.gouv.fr/
 
 when@dev:
     twig:
