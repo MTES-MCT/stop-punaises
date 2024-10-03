@@ -20,6 +20,8 @@ use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Repository\MessageThreadRepository;
 use App\Security\Voter\FileVoter;
+use App\Security\Voter\InterventionVoter;
+use App\Security\Voter\SignalementVoter;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Upload\UploadHandlerService;
 use Doctrine\Common\Collections\Collection;
@@ -101,7 +103,7 @@ class SignalementViewController extends AbstractController
             'can_display_traitement' => null !== $signalement->getTypeIntervention(),
             'can_display_messages' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
             'can_display_adresse' => $this->isGranted('ROLE_ADMIN') || ($entrepriseIntervention && $entrepriseIntervention->isAcceptedByUsager()),
-            'can_send_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
+            'can_send_estimation' => $this->isGranted(InterventionVoter::SEND_ESTIMATION, $entrepriseIntervention),
             'has_sent_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->getEstimationSentAt(),
             'has_other_entreprise' => \count($acceptedEstimations) > 0 && !$entrepriseIntervention,
             'accepted_interventions' => $interventionsAccepted,
@@ -133,18 +135,7 @@ class SignalementViewController extends AbstractController
                 $user->getEntreprise()
             );
 
-            $acceptedEstimations = $interventionRepository->findBy([
-                'signalement' => $signalement,
-                'acceptedByUsager' => true,
-                'canceledByEntrepriseAt' => null,
-            ]);
-            if ($signalement->getResolvedAt()
-                || $signalement->getClosedAt()
-                || \count($acceptedEstimations) > 0) {
-                $this->addFlash('error', 'Vous ne pouvez pas accepter ce signalement.');
-
-                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
-            }
+            $this->denyAccessUnlessGranted(SignalementVoter::ACCEPT, $signalement);
 
             if (null === $intervention) {
                 $intervention = new Intervention();
@@ -183,18 +174,7 @@ class SignalementViewController extends AbstractController
             $intervention = new Intervention();
             $intervention->setSignalement($signalement);
 
-            $acceptedEstimations = $interventionRepository->findBy([
-                'signalement' => $signalement,
-                'acceptedByUsager' => true,
-                'canceledByEntrepriseAt' => null,
-            ]);
-            if ($signalement->getResolvedAt()
-                || $signalement->getClosedAt()
-                || \count($acceptedEstimations) > 0) {
-                $this->addFlash('error', 'Vous ne pouvez pas refuser ce signalement.');
-
-                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
-            }
+            $this->denyAccessUnlessGranted(SignalementVoter::ACCEPT, $signalement);
 
             /** @var User $user */
             $user = $this->getUser();
@@ -262,12 +242,7 @@ class SignalementViewController extends AbstractController
                     $userEntreprise
                 );
 
-                if (!$intervention
-                    || !$intervention->isAccepted()) {
-                    $this->addFlash('error', "Vous ne pouvez pas envoyer d'estimation pour ce signalement.");
-
-                    return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
-                }
+                $this->denyAccessUnlessGranted(InterventionVoter::SEND_ESTIMATION, $intervention);
 
                 $intervention->setCommentaireEstimation($request->get('commentaire'));
                 $intervention->setMontantEstimation(ceil($montant));
@@ -299,13 +274,7 @@ class SignalementViewController extends AbstractController
         MailerProvider $mailerProvider,
     ): Response {
         if ($this->isCsrfTokenValid('signalement_admin_stop', $request->get('_csrf_token'))) {
-            if (!$this->isGranted('ROLE_ADMIN')
-                || $signalement->getResolvedAt()
-                || $signalement->getClosedAt()) {
-                $this->addFlash('error', 'Vous ne pouvez pas fermer ce signalement.');
-
-                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
-            }
+            $this->denyAccessUnlessGranted(SignalementVoter::CLOSE, $signalement);
 
             $this->addFlash('success', 'La procédure est terminée !');
             $signalement->setClosedAt(new \DateTimeImmutable());
@@ -333,19 +302,7 @@ class SignalementViewController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
     ): Response {
         if ($this->isCsrfTokenValid('intervention_stop', $request->get('_csrf_token'))) {
-            $signalement = $intervention->getSignalement();
-
-            if ($signalement->getResolvedAt()
-                || $signalement->getClosedAt()
-                || !$intervention->isAccepted()
-                || !$intervention->getEstimationSentAt()
-                || $intervention->getCanceledByEntrepriseAt()
-                || (!$intervention->getChoiceByEntrepriseAt() && !$intervention->isAcceptedByUsager())
-                || $signalement->getTypeIntervention()) {
-                $this->addFlash('error', 'Vous ne pouvez pas clôturer ce signalement.');
-
-                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
-            }
+            $this->denyAccessUnlessGranted(InterventionVoter::STOP, $intervention);
 
             $this->addFlash('success', 'Votre procédure est terminée !');
 

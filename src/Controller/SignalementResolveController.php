@@ -10,6 +10,7 @@ use App\Form\SignalementHistoryType;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
+use App\Security\Voter\InterventionVoter;
 use App\Service\Mailer\MailerProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -44,17 +45,7 @@ class SignalementResolveController extends AbstractController
                 $userEntreprise
             );
 
-            if (!$intervention
-                || $signalement->getResolvedAt()
-                || $signalement->getClosedAt()
-                || empty($signalement->getTypeIntervention())
-                || !$intervention->isAccepted()
-                || empty($intervention->getEstimationSentAt())
-                || !$intervention->isAcceptedByUsager()) {
-                $this->addFlash('error', 'Vous ne pouvez pas marquer ce signalement comme traité.');
-
-                return $this->redirect($this->generateUrl('app_signalement_view', ['uuid' => $signalement->getUuid()]));
-            }
+            $this->denyAccessUnlessGranted(InterventionVoter::RESOLVE, $intervention);
 
             $signalement->updateUuidPublic();
             $signalementManager->save($signalement);
