@@ -221,7 +221,7 @@ class SignalementHistoryType extends AbstractType
                 'constraints' => [
                     new Email(
                         mode: Email::VALIDATION_MODE_STRICT,
-                        message: 'Veuillez renseigner un email valide.'
+                        message: 'Veuillez renseigner un e-mail valide.'
                     ),
                 ],
             ])

@@ -96,7 +96,7 @@ class Signalement
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100)]
-    #[Email(mode : Email::VALIDATION_MODE_STRICT, message: 'Veuillez renseigner un email valide.', )]
+    #[Email(mode : Email::VALIDATION_MODE_STRICT, message: 'Veuillez renseigner un e-mail valide.', )]
     #[Assert\NotBlank(message: 'Veuillez renseigner votre e-mail.', groups: ['front_add_signalement_logement'])]
     private ?string $emailOccupant = null;
 
@@ -288,7 +288,7 @@ class Signalement
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100)]
-    #[Email(mode : Email::VALIDATION_MODE_STRICT, message: 'Veuillez renseigner un email valide.', )]
+    #[Email(mode : Email::VALIDATION_MODE_STRICT, message: 'Veuillez renseigner un e-mail valide.', )]
     #[Assert\NotBlank(message: 'Veuillez renseigner votre e-mail.', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     private ?string $emailDeclarant = null;
 

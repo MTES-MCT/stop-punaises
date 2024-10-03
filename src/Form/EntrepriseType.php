@@ -104,7 +104,7 @@ class EntrepriseType extends AbstractType
                 'constraints' => [
                     new Email(
                         mode: Email::VALIDATION_MODE_STRICT,
-                        message: 'Veuillez renseigner un email valide.'
+                        message: 'Veuillez renseigner un e-mail valide.'
                     ),
                     new Assert\NotBlank(message: 'Veuillez renseigner une adresse e-mail.'),
                 ],

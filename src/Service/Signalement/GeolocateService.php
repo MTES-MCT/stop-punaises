@@ -24,7 +24,6 @@ class GeolocateService
         } else {
             $response = $this->geolocateMunicipality($signalement);
         }
-        $response = $this->geolocateAddress($signalement);
         $statusCode = $response->getStatusCode();
         if (Response::HTTP_OK === $statusCode) {
             $data = json_decode($response->getContent(), true);
