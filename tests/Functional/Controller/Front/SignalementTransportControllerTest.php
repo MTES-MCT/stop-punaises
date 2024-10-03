@@ -94,7 +94,7 @@ class SignalementTransportControllerTest extends WebTestCase
                 'error' => [
                     'signalement_transport[nomDeclarant]' => 'Veuillez renseigner votre nom.',
                     'signalement_transport[prenomDeclarant]' => 'Veuillez renseigner votre prénom.',
-                    'signalement_transport[emailDeclarant]' => 'Veuillez renseigner votre email.',
+                    'signalement_transport[emailDeclarant]' => 'Veuillez renseigner votre e-mail.',
                     'signalement_transport[transportLineNumber]' => 'Veuillez renseigner le numéro de ligne.',
                 ],
             ],

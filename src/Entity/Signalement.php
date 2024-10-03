@@ -14,6 +14,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: SignalementRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
@@ -35,14 +37,14 @@ class Signalement
     #[Assert\Length(max: 255)]
     #[Assert\NotBlank(
         message: 'Veuillez renseigner une adresse.',
-        groups: ['front_add_signalement_logement']
+        groups: ['front_add_signalement_logement', 'front_add_signalement_erp']
     )]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 10)]
     #[Assert\NotBlank(
         message: 'Veuillez renseigner le code postal.',
-        groups: ['front_add_signalement_logement']
+        groups: ['front_add_signalement_logement', 'front_add_signalement_transport', 'front_add_signalement_erp']
     )]
     #[Assert\Regex(
         pattern: '/^[0-9]{5}$/',
@@ -54,7 +56,7 @@ class Signalement
     #[Assert\Length(max: 255)]
     #[Assert\NotBlank(
         message: 'Veuillez renseigner la ville.',
-        groups: ['front_add_signalement_logement']
+        groups: ['front_add_signalement_logement', 'front_add_signalement_transport', 'front_add_signalement_erp']
     )]
     private ?string $ville = null;
 
@@ -94,12 +96,8 @@ class Signalement
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100)]
-    #[Assert\Email]
+    #[Email(mode : Email::VALIDATION_MODE_STRICT, message: 'Veuillez renseigner un e-mail valide.', )]
     #[Assert\NotBlank(message: 'Veuillez renseigner votre e-mail.', groups: ['front_add_signalement_logement'])]
-    #[Assert\Email(
-        message: 'Veuillez renseigner une adresse e-mail valide.',
-        groups: ['front_add_signalement_logement']
-    )]
     private ?string $emailOccupant = null;
 
     #[ORM\Column(length: 30, nullable: true)]
@@ -213,6 +211,7 @@ class Signalement
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(max: 100)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner le nom de l\'établissement.', groups: ['front_add_signalement_erp'])]
     private ?string $nomProprietaire = null;
 
     #[ORM\Column(nullable: true)]
@@ -250,28 +249,47 @@ class Signalement
     private SignalementType $type;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner la date.', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
+    #[Assert\LessThan(
+        value: new \DateTime(),
+        message: 'La date renseignée n\'est pas encore passée, veuillez renseigner une nouvelle date.',
+        groups: ['front_add_signalement_transport', 'front_add_signalement_erp']
+    )]
     private ?\DateTimeImmutable $punaisesViewedAt = null;
 
-    #[ORM\Column(type: 'string', nullable: true, enumType: PlaceType::class)]
+    #[ORM\Column(type: 'string', enumType: PlaceType::class, nullable: true)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner le type de transport', groups: ['front_add_signalement_transport'])]
+    #[Assert\NotBlank(message: 'Veuillez sélectionner le type d\'établissement', groups: ['front_add_signalement_erp'])]
     private ?PlaceType $placeType = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50)]
     private ?string $transportLineNumber = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotNull(message: 'Veuillez indiquer si vous avez prévenu la compagnie de transport.', groups: ['front_add_signalement_transport'])]
+    #[Assert\NotNull(message: 'Veuillez indiquer si vous avez prévenu l\'établissement.', groups: ['front_add_signalement_erp'])]
     private ?bool $isPlaceAvertie = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Assert\Length(max: 500)]
+    #[Assert\Length(min: 10, minMessage: 'Merci de proposer une description (minimum 10 caractères).', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     private ?string $autresInformations;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre nom.', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     private ?string $nomDeclarant = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre prénom.', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     private ?string $prenomDeclarant = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Email]
+    #[Assert\Length(max: 100)]
+    #[Email(mode : Email::VALIDATION_MODE_STRICT, message: 'Veuillez renseigner un e-mail valide.', )]
+    #[Assert\NotBlank(message: 'Veuillez renseigner votre e-mail.', groups: ['front_add_signalement_transport', 'front_add_signalement_erp'])]
     private ?string $emailDeclarant = null;
 
     public function __construct()
@@ -279,6 +297,16 @@ class Signalement
         $this->uuid = Uuid::v4();
         $this->interventions = new ArrayCollection();
         $this->messagesThread = new ArrayCollection();
+    }
+
+    #[Assert\Callback(groups: ['front_add_signalement_transport'])]
+    public function validate(ExecutionContextInterface $context, $payload): void
+    {
+        if (!$this->transportLineNumber && PlaceType::TYPE_TRANSPORT_AUTRE !== $this->placeType) {
+            $context->buildViolation('Veuillez renseigner le numéro de ligne.')
+                ->atPath('transportLineNumber')
+                ->addViolation();
+        }
     }
 
     public function getId(): ?int

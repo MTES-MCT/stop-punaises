@@ -2,10 +2,12 @@
 
 namespace App\Service\Signalement;
 
+use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class GeolocateService
 {
@@ -17,29 +19,11 @@ class GeolocateService
 
     public function geolocate(Signalement $signalement): int
     {
-        $address = $signalement->getAdresse();
-        $postalCode = $signalement->getCodePostal();
-        $city = $signalement->getVille();
-
-        // Compose the address string to be used in the geocoding API request
-        $fullAddress = '';
-        if (null !== $address) {
-            $fullAddress .= $address.', ';
+        if (SignalementType::TYPE_TRANSPORT !== $signalement->getType()) {
+            $response = $this->geolocateAddress($signalement);
+        } else {
+            $response = $this->geolocateMunicipality($signalement);
         }
-        if (null !== $postalCode) {
-            $fullAddress .= $postalCode.', ';
-        }
-        if (null !== $city) {
-            $fullAddress .= $city;
-        }
-
-        // Make the API request to geocode the address
-        $response = $this->client->request('GET', 'https://api-adresse.data.gouv.fr/search', [
-            'query' => [
-                'q' => $fullAddress,
-                'limit' => 1,
-            ],
-        ]);
         $statusCode = $response->getStatusCode();
         if (Response::HTTP_OK === $statusCode) {
             $data = json_decode($response->getContent(), true);
@@ -59,5 +43,40 @@ class GeolocateService
         }
 
         return $statusCode;
+    }
+
+    private function geolocateAddress(Signalement $signalement): ResponseInterface
+    {
+        $address = $signalement->getAdresse();
+        $postalCode = $signalement->getCodePostal();
+        $city = $signalement->getVille();
+        $fullAddress = '';
+        if (null !== $address) {
+            $fullAddress .= $address.', ';
+        }
+        if (null !== $postalCode) {
+            $fullAddress .= $postalCode.', ';
+        }
+        if (null !== $city) {
+            $fullAddress .= $city;
+        }
+
+        return $this->client->request('GET', 'https://api-adresse.data.gouv.fr/search', [
+            'query' => [
+                'q' => $fullAddress,
+                'limit' => 1,
+            ],
+        ]);
+    }
+
+    private function geolocateMunicipality(Signalement $signalement): ResponseInterface
+    {
+        return $this->client->request('GET', 'https://api-adresse.data.gouv.fr/search', [
+            'query' => [
+                'q' => $signalement->getVille(),
+                'type' => 'municipality',
+                'limit' => 1,
+            ],
+        ]);
     }
 }

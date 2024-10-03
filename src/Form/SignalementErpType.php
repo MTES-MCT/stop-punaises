@@ -11,7 +11,6 @@ use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\SignalementDateTimeProcessing;
 use App\Service\Signalement\ZipCodeProvider;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -25,7 +24,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Email;
 
 class SignalementErpType extends AbstractType
 {
@@ -54,13 +52,6 @@ class SignalementErpType extends AbstractType
                 'label' => 'Date',
                 'required' => true,
                 'invalid_message' => 'La date que vous avez saisie a un format de date incorrect.',
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner la date.'),
-                    new Assert\LessThan(
-                        value: new \DateTime(),
-                        message: 'La date renseignée n\'est pas encore passée, veuillez renseigner une nouvelle date.'
-                    ),
-                ],
             ])
             ->add('punaisesViewedTimeAt', TimeType::class, [
                 'widget' => 'single_text',
@@ -90,9 +81,6 @@ class SignalementErpType extends AbstractType
                 ],
                 'label' => 'Nom de l\'établissement',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le nom de l\'établissement.'),
-                ],
             ])
             ->add('adresse', TextType::class, [
                 'attr' => [
@@ -109,9 +97,6 @@ class SignalementErpType extends AbstractType
                     'class' => 'fr-hint-text',
                 ],
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner l\'adresse.'),
-                ],
             ])
             ->add('codePostal', TextType::class, [
                 'attr' => [
@@ -126,10 +111,6 @@ class SignalementErpType extends AbstractType
                 ],
                 'label' => 'Code postal',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner le code postal.'),
-                    new Assert\Regex('/[0-9]{5}/', 'Veuillez utiliser un code postal valide'),
-                ],
             ])
             ->add('ville', TextType::class, [
                 'attr' => [
@@ -142,9 +123,6 @@ class SignalementErpType extends AbstractType
                 ],
                 'label' => 'Ville',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner la ville.'),
-                ],
             ])
             ->add('codeInsee', HiddenType::class, [
                 'attr' => [
@@ -157,6 +135,7 @@ class SignalementErpType extends AbstractType
                     'class' => 'fr-hidden',
                 ],
                 'required' => false,
+                'mapped' => false,
             ])
             ->add('placeType', EnumType::class, [
                 'class' => PlaceType::class,
@@ -173,9 +152,6 @@ class SignalementErpType extends AbstractType
                 ],
                 'label' => 'Type d\'établissement',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez selectionner le type d\'établissement.'),
-                ],
             ])
             ->add('isPlaceAvertie', ChoiceType::class, [
                 'choice_attr' => [
@@ -211,9 +187,6 @@ class SignalementErpType extends AbstractType
                     'class' => 'fr-hint-text',
                 ],
                 'required' => false,
-                'constraints' => [
-                    new Assert\Length(min: 10, minMessage: 'Merci de proposer une description (minimum 10 caractères).'),
-                ],
             ])
             ->add('nomDeclarant', TextType::class, [
                 'attr' => [
@@ -225,10 +198,6 @@ class SignalementErpType extends AbstractType
                 ],
                 'label' => 'Nom',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner votre nom.'),
-                    new Assert\Length(max: 100),
-                ],
             ])
             ->add('prenomDeclarant', TextType::class, [
                 'attr' => [
@@ -240,10 +209,6 @@ class SignalementErpType extends AbstractType
                 ],
                 'label' => 'Prénom',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner votre prénom.'),
-                    new Assert\Length(max: 100),
-                ],
             ])
             ->add('emailDeclarant', EmailType::class, [
                 'attr' => [
@@ -254,35 +219,7 @@ class SignalementErpType extends AbstractType
                 ],
                 'label' => 'Adresse email',
                 'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(message: 'Veuillez renseigner votre email.'),
-                    new Email(
-                        mode: Email::VALIDATION_MODE_STRICT,
-                        message: 'Veuillez renseigner un email valide.'
-                    ),
-                ],
             ]);
-
-        $builder->get('geoloc')->addModelTransformer(new CallbackTransformer(
-            function ($tagsAsArray) {
-                // transform the array to a string
-                if (!empty($tagsAsArray)) {
-                    return $tagsAsArray[0].'|'.$tagsAsArray[1];
-                }
-
-                return '';
-            },
-            function ($tagsAsString) {
-                // transform the string back to an array
-                if (!empty($tagsAsString)) {
-                    $coord = explode('|', $tagsAsString);
-
-                    return ['lat' => $coord[0], 'lng' => $coord[1]];
-                }
-
-                return [];
-            }
-        ));
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
@@ -309,7 +246,7 @@ class SignalementErpType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Signalement::class,
-            'csrf_protection' => false, // generated manually
+            'validation_groups' => ['Default', 'front_add_signalement_erp'],
         ]);
     }
 

@@ -21,7 +21,7 @@
                             {% endif %}
 
                             <br>
-                            Territoire : {{signalement.territoire.nomComplet}}
+                            Territoire : {% if signalement.territoire %}{{signalement.territoire.nomComplet}}{% else %}N/R{% endif %}
                             <br>
                             {% if signalement.type is same as enum('App\\Entity\\Enum\\SignalementType').TYPE_ERP %}
                                 Adresse : {{ signalement.adresse }}
