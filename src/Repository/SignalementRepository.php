@@ -276,6 +276,10 @@ class SignalementRepository extends ServiceEntityRepository
         }
 
         if (!empty($orderColumn)) {
+            $orderDirection = strtoupper($orderDirection);
+            if (!in_array($orderDirection, ['ASC', 'DESC'])) {
+                $orderDirection = 'DESC';
+            }
             switch ($orderColumn) {
                 case 'id':
                     $sql .= ' ORDER BY s.id '.$orderDirection;
@@ -306,10 +310,10 @@ class SignalementRepository extends ServiceEntityRepository
         }
 
         if (!empty($length)) {
-            $sql .= ' LIMIT '.$length;
+            $sql .= ' LIMIT '.(int) $length;
         }
         if (!empty($start)) {
-            $sql .= ' OFFSET '.$start;
+            $sql .= ' OFFSET '.(int) $start;
         }
 
         $statement = $connexion->prepare($sql);
