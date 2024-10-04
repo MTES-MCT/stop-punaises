@@ -38,7 +38,6 @@ class Entreprise
         match: true,
         message: 'Merci de saisir le numéro de téléphone au bon format'
     )]
-    #[Assert\Length(max: 20, maxMessage: 'Le numéro de téléphone ne doit pas dépasser {{ limit }} caractères')]
     private ?string $telephone = null;
 
     #[ORM\Column(length: 100, nullable: true)]
