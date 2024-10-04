@@ -17,6 +17,9 @@ class DataTableRequestResolver implements ValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $order = $request->get('order');
+        if (!is_array($order)) {
+            return;
+        }
         $orderList = [];
         foreach ($order as $orderItem) {
             if (!isset($orderItem['column']) || !is_numeric($orderItem['column'])) {
