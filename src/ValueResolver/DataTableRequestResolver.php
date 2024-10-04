@@ -16,13 +16,25 @@ class DataTableRequestResolver implements ValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
+        $order = $request->get('order');
+        $orderList = [];
+        foreach ($order as $orderItem) {
+            if (!isset($orderItem['column']) || !is_numeric($orderItem['column'])) {
+                $orderItem['column'] = 0;
+            }
+
+            if (!isset($orderItem['dir']) || !in_array(strtolower($orderItem['dir']), ['asc', 'desc'])) {
+                $orderItem['dir'] = 'desc';
+            }
+            $orderList[] = $orderItem;
+        }
         if ($this->supports($request, $argument)) {
             yield new DataTableRequest(
                 draw: $request->get('draw'),
                 start: $request->get('start'),
                 length: $request->get('length'),
                 columns: $request->get('columns'),
-                order: $request->get('order'),
+                order: $orderList,
             );
         }
     }
