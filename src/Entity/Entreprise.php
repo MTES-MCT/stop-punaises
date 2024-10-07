@@ -24,10 +24,12 @@ class Entreprise
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom de l\'entreprise ne doit pas dépasser {{ limit }} caractères')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Assert\Length(max: 50, maxMessage: 'Le numéro de SIRET ne doit pas dépasser {{ limit }} caractères')]
     private ?string $numeroSiret = null;
 
     #[ORM\Column(length: 20)]
@@ -39,10 +41,12 @@ class Entreprise
     private ?string $telephone = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Length(max: 100, maxMessage: 'Le numéro de label ne doit pas dépasser {{ limit }} caractères')]
     private ?string $numeroLabel = null;
 
     #[Assert\NotBlank]
     #[Assert\Email]
+    #[Assert\Length(max: 255, maxMessage: 'L\'adresse e-mail ne doit pas dépasser {{ limit }} caractères')]
     private ?string $email = null;
 
     #[ORM\ManyToMany(targetEntity: Territoire::class, inversedBy: 'entreprises')]

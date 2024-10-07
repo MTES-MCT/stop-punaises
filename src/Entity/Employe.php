@@ -28,18 +28,22 @@ class Employe
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Assert\Length(max: 50, maxMessage: 'Le nom de l\'employé ne doit pas dépasser {{ limit }} caractères')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Assert\Length(max: 50, maxMessage: 'Le prénom de l\'employé ne doit pas dépasser {{ limit }} caractères')]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\NotBlank]
+    #[Assert\Length(max: 50, maxMessage: 'Le numéro de certification ne doit pas dépasser {{ limit }} caractères')]
     private ?string $numeroCertification = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Email]
+    #[Assert\Length(max: 100, maxMessage: 'L\'adresse e-mail ne doit pas dépasser {{ limit }} caractères')]
     private ?string $email = null;
 
     #[ORM\Column(length: 20, nullable: true)]
