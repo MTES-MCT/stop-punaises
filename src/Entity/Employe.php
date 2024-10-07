@@ -43,7 +43,7 @@ class Employe
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Email]
-    #[Assert\Length(max: 100, maxMessage: 'L\'adresse email ne doit pas dépasser {{ limit }} caractères')]
+    #[Assert\Length(max: 100, maxMessage: 'L\'adresse e-mail ne doit pas dépasser {{ limit }} caractères')]
     private ?string $email = null;
 
     #[ORM\Column(length: 20, nullable: true)]

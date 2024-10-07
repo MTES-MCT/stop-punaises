@@ -46,7 +46,7 @@ class Entreprise
 
     #[Assert\NotBlank]
     #[Assert\Email]
-    #[Assert\Length(max: 255, maxMessage: 'L\'adresse email ne doit pas dépasser {{ limit }} caractères')]
+    #[Assert\Length(max: 255, maxMessage: 'L\'adresse e-mail ne doit pas dépasser {{ limit }} caractères')]
     private ?string $email = null;
 
     #[ORM\ManyToMany(targetEntity: Territoire::class, inversedBy: 'entreprises')]
