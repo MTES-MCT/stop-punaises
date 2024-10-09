@@ -325,4 +325,16 @@ class Entreprise
 
         return $this;
     }
+
+    public function getStatusLabel(): string
+    {
+        if ($this->user) {
+            return match ($this->user->getStatus()->name) {
+                'ARCHIVE' => 'Archivée',
+                default => ucfirst($this->user->getStatus()->value),
+            };
+        }
+
+        return 'Aucun utilisateur';
+    }
 }

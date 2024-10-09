@@ -49,6 +49,7 @@
                             <th>Label</th>
                             <th>Employés</th>
                             <th>Territoire(s)</th>
+                            <th>Statut</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -64,6 +65,19 @@
                                     {% for territoire in entreprise.territoires %}
                                         {{ territoire.zip }}{{ not loop.last ? ',' }}
                                     {% endfor %}
+                                </td>
+                                <td>
+                                    {% if entreprise.user and entreprise.user.status is same as enum('App\\Entity\\Enum\\Status').ACTIVE %}
+                                        <a href="{{path('app_entreprise_switch_status', {uuid:entreprise.uuid})}}?_t={{ csrf_token('switch_status') }}" class="no-background" title="Archiver l'entreprise {{ entreprise.nom }}">
+                                            <span class="niveau-infestation niveau-3 fr-icon-refresh-line" aria-hidden="true"></span>
+                                        </a>
+                                    {% endif %}
+                                    {% if entreprise.user and entreprise.user.status is same as enum('App\\Entity\\Enum\\Status').ARCHIVE %}
+                                        <a href="{{path('app_entreprise_switch_status', {uuid:entreprise.uuid})}}?_t={{ csrf_token('switch_status') }}" class="no-background" title="Désarchiver l'entreprise {{ entreprise.nom }}">
+                                            <span class="niveau-infestation niveau-3 fr-icon-refresh-line" aria-hidden="true"></span>
+                                        </a>
+                                    {% endif %}
+                                    {{ entreprise.statusLabel }}
                                 </td>
                                 <td class="button-view">
                                     <a href="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir l'entreprise {{ entreprise.nom }}">

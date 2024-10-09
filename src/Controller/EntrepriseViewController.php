@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Employe;
 use App\Entity\Entreprise;
+use App\Entity\Enum\Status;
 use App\Event\EntrepriseUpdatedEvent;
 use App\Form\EmployeType;
 use App\Form\EntrepriseType;
 use App\Manager\EmployeManager;
 use App\Manager\EntrepriseManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
@@ -81,6 +83,26 @@ class EntrepriseViewController extends AbstractController
             'formEditEntreprise' => $formEditEntreprise->createView(),
             'formsEditEmploye' => $formsEditEmploye,
         ]);
+    }
+
+    #[Route('/bo/entreprises/{uuid}/switch_status', name: 'app_entreprise_switch_status')]
+    public function switchStatus(
+        Entreprise $entreprise,
+        Request $request,
+        EntityManagerInterface $entityManager,
+    ): Response {
+        if ($this->isCsrfTokenValid('switch_status', $request->get('_t'))) {
+            if (Status::ACTIVE === $entreprise->getUser()->getStatus()) {
+                $entreprise->getUser()->setStatus(Status::ARCHIVE);
+                $this->addFlash('success', 'L\'entreprise "'.$entreprise->getNom().'" (id : '.$entreprise->getId().') a été archivée.');
+            } elseif (Status::ARCHIVE === $entreprise->getUser()->getStatus()) {
+                $entreprise->getUser()->setStatus(Status::ACTIVE);
+                $this->addFlash('success', 'L\'entreprise "'.$entreprise->getNom().' (id : '.$entreprise->getId().')" a été désarchivée.');
+            }
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_entreprise_list');
     }
 
     private function displayErrors(FormInterface $form): void
