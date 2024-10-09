@@ -964,7 +964,7 @@ span.image-caption {
     background: white;
 }
 
-.leaflet-control-zoom a {
+.leaflet-control-zoom a, a.no-background {
     background-image: none !important;
 }
 
