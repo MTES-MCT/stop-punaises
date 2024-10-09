@@ -97,7 +97,7 @@ class EntrepriseViewController extends AbstractController
                 $this->addFlash('success', 'L\'entreprise "'.$entreprise->getNom().'" (id : '.$entreprise->getId().') a été archivée.');
             } elseif (Status::ARCHIVE === $entreprise->getUser()->getStatus()) {
                 $entreprise->getUser()->setStatus(Status::ACTIVE);
-                $this->addFlash('success', 'L\'entreprise "'.$entreprise->getNom().' (id : '.$entreprise->getId().')" a été désarchivée.');
+                $this->addFlash('success', 'L\'entreprise "'.$entreprise->getNom().'" (id : '.$entreprise->getId().') a été désarchivée.');
             }
             $entityManager->flush();
         }
