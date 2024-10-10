@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Intervention;
 use App\Entity\Signalement;
 use App\Entity\User;
 use App\Event\InterventionEntrepriseResolvedEvent;
@@ -9,6 +10,7 @@ use App\Form\SignalementHistoryType;
 use App\Manager\InterventionManager;
 use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
+use App\Security\Voter\InterventionVoter;
 use App\Service\Mailer\MailerProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -34,18 +36,22 @@ class SignalementResolveController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $signalement->updateUuidPublic();
-            $signalementManager->save($signalement);
-
-            $this->addFlash('success', 'Le traitement a été marqué comme effectué. Un email de suivi sera envoyé à l\'usager dans 30 jours.');
-
             /** @var User $user */
             $user = $this->getUser();
             $userEntreprise = $user->getEntreprise();
+            /** @var Intervention $intervention */
             $intervention = $interventionRepository->findBySignalementAndEntreprise(
                 $signalement,
                 $userEntreprise
             );
+
+            $this->denyAccessUnlessGranted(InterventionVoter::RESOLVE, $intervention);
+
+            $signalement->updateUuidPublic();
+            $signalementManager->save($signalement);
+
+            $this->addFlash('success', 'Le traitement a été marqué comme effectué. Un e-mail de suivi sera envoyé à l\'usager dans 30 jours.');
+
             $intervention->setResolvedByEntrepriseAt(new \DateTimeImmutable());
             $interventionManager->save($intervention);
 

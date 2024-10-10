@@ -17,7 +17,6 @@ class SignalementListController extends AbstractController
 {
     #[Route('/bo/signalements', name: 'app_signalement_list')]
     public function signalements(
-        SignalementManager $signalementManager,
         TerritoireRepository $territoireRepository,
     ): Response {
         $territoires = $territoireRepository->findAll();

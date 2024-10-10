@@ -24,7 +24,7 @@
 
             {% if can_display_messages %}
                 <div class="fr-grid-row fr-grid fr-grid-row--gutters">
-                    {% if can_send_estimation %}
+                    {% if is_granted('INTERVENTION_SEND_ESTIMATION', entrepriseIntervention) %}
                         <div class="fr-col-12 fr-col-lg-6">
                             <button class="fr-btn fr-btn--icon-left fr-icon-article-line" data-fr-opened="false" aria-controls="fr-modal-send-estimation" {% if has_sent_estimation %}disabled{% endif %}>Envoyer une estimation</button>
                         </div>
