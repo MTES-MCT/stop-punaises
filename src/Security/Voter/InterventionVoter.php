@@ -3,6 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\Intervention;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,7 +35,7 @@ class InterventionVoter extends Voter
         }
 
         if (self::STOP == $attribute) {
-            return $this->canStop($subject);
+            return $this->canStop($subject, $user);
         }
 
         return false;
@@ -66,8 +67,15 @@ class InterventionVoter extends Voter
         return false;
     }
 
-    private function canStop(Intervention $intervention): bool
+    private function canStop(Intervention $intervention, User $user): bool
     {
+        if (
+            !$user->getEntreprise()
+            || $user->getEntreprise() != $intervention->getEntreprise()
+        ) {
+            return false;
+        }
+
         $signalement = $intervention->getSignalement();
 
         if (!$signalement->getResolvedAt()
