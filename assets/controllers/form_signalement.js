@@ -160,10 +160,6 @@ function checkSignalementFirstStep() {
     'Le format de l\'adresse email est incorrect.',
     false
   ) && buffer;
-
-  if (buffer && $('input#signalement_history_codeInsee').val() == '') {
-    $('input#signalement_history_codeInsee').val(0);
-  }
   
   return buffer;
 }
