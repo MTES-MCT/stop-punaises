@@ -62,7 +62,7 @@ class SuiviUsagerViewControllerTest extends WebTestCase
         $client = static::createClient();
         /** @var SignalementRepository $signalementRepository */
         $signalementRepository = static::getContainer()->get(SignalementRepository::class);
-        $signalement = $signalementRepository->findOneBy(['autotraitement' => 1]);
+        $signalement = $signalementRepository->findOneBy(['autotraitement' => 1, 'codePostal' => '38000']);
         /** @var RouterInterface $router */
         $router = self::getContainer()->get(RouterInterface::class);
         $routePostSignalement = $router->generate(

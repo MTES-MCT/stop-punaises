@@ -71,13 +71,15 @@
                                         <a href="{{path('app_entreprise_switch_status', {uuid:entreprise.uuid})}}?_t={{ csrf_token('switch_status') }}" class="no-background" title="Archiver l'entreprise {{ entreprise.nom }}">
                                             <span class="niveau-infestation niveau-3 fr-icon-refresh-line" aria-hidden="true"></span>
                                         </a>
-                                    {% endif %}
-                                    {% if entreprise.user and entreprise.user.status is same as enum('App\\Entity\\Enum\\Status').ARCHIVE %}
+                                        <p class="fr-badge fr-badge--no-icon fr-badge--success">Active</p>
+                                    {% elseif entreprise.user and entreprise.user.status is same as enum('App\\Entity\\Enum\\Status').ARCHIVE %}
                                         <a href="{{path('app_entreprise_switch_status', {uuid:entreprise.uuid})}}?_t={{ csrf_token('switch_status') }}" class="no-background" title="Désarchiver l'entreprise {{ entreprise.nom }}">
                                             <span class="niveau-infestation niveau-3 fr-icon-refresh-line" aria-hidden="true"></span>
                                         </a>
+                                        <p class="fr-badge fr-badge--no-icon fr-badge--warning">Archivée</p>
+                                    {% else %}
+                                        <p class="fr-badge fr-badge--no-icon fr-badge--warning">Inactive</p>
                                     {% endif %}
-                                    {{ entreprise.statusLabel }}
                                 </td>
                                 <td class="button-view">
                                     <a href="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" class="fr-btn fr-icon-arrow-right-fill" title="Voir l'entreprise {{ entreprise.nom }}">

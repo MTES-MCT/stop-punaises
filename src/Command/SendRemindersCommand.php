@@ -178,6 +178,10 @@ class SendRemindersCommand extends Command
         $interventionsToNotifyPro = $this->interventionRepository->findToNotifyPro();
         $countInterventionsToNotifyPro = \count($interventionsToNotifyPro);
         foreach ($interventionsToNotifyPro as $intervention) {
+            $entreprise = $intervention->getEntreprise();
+            if (!$entreprise->isActive()) {
+                continue;
+            }
             $this->io->success(\sprintf('Intervention id %s to notify for pro',
                 $intervention->getId()
             ));
