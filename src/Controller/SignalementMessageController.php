@@ -66,7 +66,7 @@ class SignalementMessageController extends AbstractController
         SerializerInterface $serializer,
     ): JsonResponse {
         if ($this->isGranted('ROLE_ADMIN')) {
-            return $this->json(['message' => 'Vous ne pouvez pas envoyez de message en tant qu\'admin.'], Response::HTTP_FORBIDDEN);
+            return $this->json(['message' => 'Vous ne pouvez pas envoyer de message en tant qu\'admin.'], Response::HTTP_FORBIDDEN);
         }
         $entreprise = $messageThread->getEntreprise();
         if (!$entreprise || !$entreprise->isActive()) {
