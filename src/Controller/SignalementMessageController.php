@@ -75,6 +75,13 @@ class SignalementMessageController extends AbstractController
         ValidatorInterface $validator,
         SerializerInterface $serializer,
     ): JsonResponse {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->json(['message' => 'Vous ne pouvez pas envoyer de message en tant qu\'admin.'], Response::HTTP_FORBIDDEN);
+        }
+        $entreprise = $messageThread->getEntreprise();
+        if (!$entreprise || !$entreprise->isActive()) {
+            return $this->json(['message' => 'L\'entreprise n\'existe pas ou n\'est pas active.'], Response::HTTP_BAD_REQUEST);
+        }
         $data = $request->request->all();
         $message = $messageFactory->createInstanceFrom(
             messageThread: $messageThread,

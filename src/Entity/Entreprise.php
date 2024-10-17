@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\Status;
 use App\Repository\EntrepriseRepository;
 use App\Validator as AppAssert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -324,5 +325,10 @@ class Entreprise
         }
 
         return $this;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->user && Status::ACTIVE === $this->user->getStatus();
     }
 }

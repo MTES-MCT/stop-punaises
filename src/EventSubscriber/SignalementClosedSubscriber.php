@@ -41,8 +41,12 @@ class SignalementClosedSubscriber implements EventSubscriberInterface
             'accepted' => true,
         ]);
         foreach ($acceptedInterventions as $intervention) {
+            $entreprise = $intervention->getEntreprise();
+            if (!$entreprise->isActive()) {
+                continue;
+            }
             if (!$intervention->getChoiceByUsagerAt() || $intervention->isAcceptedByUsager()) {
-                $this->mailerProvider->sendSignalementClosed($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
+                $this->mailerProvider->sendSignalementClosed($entreprise->getUser()->getEmail(), $intervention->getSignalement());
             }
         }
 

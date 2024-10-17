@@ -28,27 +28,43 @@
                             <strong>Montant :</strong>
                             {{ intervention.montantEstimation }}&nbsp;€
                         </p>
+                        
+                        {% if intervention.entreprise and intervention.entreprise.isActive %}
+                            <p>
+                                <u>Si vous acceptez</u> cette estimation, les estimations des autres entreprises seront automatiquement refusées.
+                            </p>
 
-                        <p>
-                            <u>Si vous acceptez</u> cette estimation, les estimations des autres entreprises seront automatiquement refusées.
-                        </p>
+                            <p>
+                                <u>Si vous refusez</u> cette estimation, vous ne pourrez pas revenir en arrière.
+                            </p>
 
-                        <p>
-                            <u>Si vous refusez</u> cette estimation, vous ne pourrez pas revenir en arrière.
-                        </p>
+                            {% if is_last_intervention_to_answer %}
+                            <div class="fr-alert fr-alert--warning">
+                                <h3 class="fr-alert__title">Dernière estimation</h3>
+                                <p>Si vous refusez cette estimation, vous pourrez être réorienté vers l'auto-traitement ou l'arrêt de la procédure.</p>
+                            </div>
+                            {% endif %}
 
-                        {% if is_last_intervention_to_answer %}
-                        <div class="fr-alert fr-alert--warning">
-                            <h3 class="fr-alert__title">Dernière estimation</h3>
-                            <p>Si vous refusez cette estimation, vous pourrez être réorienté vers l'auto-traitement ou l'arrêt de la procédure.</p>
-                        </div>
+                            <form action="{{ path('app_signalement_estimation_choice', {'uuid': intervention.signalement.uuid, 'id': intervention.id }) }}" method="POST" class="align-center fr-mt-3v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_estimation_choice') }}">
+                                <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check fr-mb-3v" name="action" value="accept">Accepter</button>
+                                <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close" name="action" value="refuse">Refuser</button>
+                            </form>
+                        {% else %}
+                            <div class="fr-notice fr-notice--warning">
+                                <div class="fr-container">
+                                    <div class="fr-notice__body">
+                                        <p>
+                                            <span class="fr-notice__title">Cette entreprise n'est plus active sur la plateforme</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="{{ path('app_signalement_estimation_choice', {'uuid': intervention.signalement.uuid, 'id': intervention.id }) }}" method="POST" class="align-center fr-mt-3v">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_estimation_choice') }}">
+                                <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close" name="action" value="refuse">Refuser</button>
+                            </form>
                         {% endif %}
-
-                        <form action="{{ path('app_signalement_estimation_choice', {'uuid': intervention.signalement.uuid, 'id': intervention.id }) }}" method="POST" class="align-center fr-mt-3v">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('signalement_estimation_choice') }}">
-                            <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-check-line color-check fr-mb-3v" name="action" value="accept">Accepter</button>
-                            <button type="submit" class="fr-btn fr-btn--sm fr-btn--icon-left fr-icon-close-line color-close" name="action" value="refuse">Refuser</button>
-                        </form>
                     </div>
                 </div>
             </div>
