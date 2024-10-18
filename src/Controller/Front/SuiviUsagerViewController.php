@@ -90,7 +90,7 @@ class SuiviUsagerViewController extends AbstractController
 
             $entreprises = $entrepriseRepository->findByTerritoire($signalement->getTerritoire());
             foreach ($entreprises as $entreprise) {
-                if ($entreprise->getUser() && $entreprise->getUser()->getEmail()) {
+                if ($entreprise->isActive() && $entreprise->getUser()->getEmail()) {
                     $mailerProvider->sendSignalementNewForPro($entreprise->getUser()->getEmail(), $signalement);
                 }
             }
@@ -156,7 +156,10 @@ class SuiviUsagerViewController extends AbstractController
                     'acceptedByUsager' => true,
                 ]);
                 foreach ($interventionsAcceptedByUsager as $intervention) {
-                    $mailerProvider->sendSignalementTraitementResolvedForPro($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
+                    $entreprise = $intervention->getEntreprise();
+                    if ($entreprise->isActive() && $entreprise->getUser()->getEmail()) {
+                        $mailerProvider->sendSignalementTraitementResolvedForPro($entreprise->getUser()->getEmail(), $intervention->getSignalement());
+                    }
                 }
             }
 
@@ -238,6 +241,9 @@ class SuiviUsagerViewController extends AbstractController
         }
 
         if ('accept' == $request->get('action')) {
+            if (!$intervention->getEntreprise() || !$intervention->getEntreprise()->isActive()) {
+                return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
+            }
             $this->addFlash('success', 'L\'estimation a bien été acceptée');
             $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
             $intervention->setAcceptedByUsager(true);
@@ -278,8 +284,9 @@ class SuiviUsagerViewController extends AbstractController
                 ),
                 InterventionUsagerRefusedEvent::NAME
             );
-
-            $mailerProvider->sendSignalementEstimationRefused($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
+            if ($intervention->getEntreprise() && $intervention->getEntreprise()->isActive()) {
+                $mailerProvider->sendSignalementEstimationRefused($intervention->getEntreprise()->getUser()->getEmail(), $intervention->getSignalement());
+            }
         }
 
         return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
@@ -290,7 +297,6 @@ class SuiviUsagerViewController extends AbstractController
         name: 'app_suivi_usager_view_messages_thread'
     )]
     public function displayThreadMessages(
-        Request $request,
         #[MapEntity(mapping: ['signalement_uuid' => 'uuid'])]
         Signalement $signalement,
         #[MapEntity(mapping: ['thread_uuid' => 'uuid'])]
@@ -301,6 +307,7 @@ class SuiviUsagerViewController extends AbstractController
             'entreprise_name' => $messageThread->getEntreprise()->getNom(),
             'messages' => $messageThread->getMessages(),
             'messages_thread_uuid' => $messageThread->getUuid(),
+            'entreprise' => $messageThread->getEntreprise(),
         ]);
     }
 }

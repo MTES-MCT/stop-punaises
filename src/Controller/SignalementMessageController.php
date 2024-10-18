@@ -8,6 +8,7 @@ use App\Entity\Signalement;
 use App\Factory\MessageFactory;
 use App\Manager\MessageManager;
 use App\Manager\MessageThreadManager;
+use App\Repository\InterventionRepository;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +35,16 @@ class SignalementMessageController extends AbstractController
         MessageManager $messageManager,
         ValidatorInterface $validator,
         SerializerInterface $serializer,
+        InterventionRepository $interventionRepository,
     ): JsonResponse {
+        $entrepriseIntervention = $interventionRepository->findBySignalementAndEntreprise(
+            $signalement,
+            $entreprise
+        );
+        if (!$entrepriseIntervention || !$entrepriseIntervention->isAccepted()) {
+            return $this->json(['status' => 'denied'], Response::HTTP_FORBIDDEN);
+        }
+
         $data = $request->request->all();
         $messageThread = $messageThreadManager->createOrGet($signalement, $entreprise);
         $message = $messageFactory->createInstanceFrom(
@@ -60,12 +70,18 @@ class SignalementMessageController extends AbstractController
     public function sendMessageToEntreprise(
         Request $request,
         MessageThread $messageThread,
-        MessageThreadManager $messageThreadManager,
         MessageFactory $messageFactory,
         MessageManager $messageManager,
         ValidatorInterface $validator,
         SerializerInterface $serializer,
     ): JsonResponse {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->json(['message' => 'Vous ne pouvez pas envoyer de message en tant qu\'admin.'], Response::HTTP_FORBIDDEN);
+        }
+        $entreprise = $messageThread->getEntreprise();
+        if (!$entreprise || !$entreprise->isActive()) {
+            return $this->json(['message' => 'L\'entreprise n\'existe pas ou n\'est pas active.'], Response::HTTP_BAD_REQUEST);
+        }
         $data = $request->request->all();
         $message = $messageFactory->createInstanceFrom(
             messageThread: $messageThread,

@@ -20,6 +20,8 @@ use App\Repository\EventRepository;
 use App\Repository\InterventionRepository;
 use App\Repository\MessageThreadRepository;
 use App\Security\Voter\FileVoter;
+use App\Security\Voter\InterventionVoter;
+use App\Security\Voter\SignalementVoter;
 use App\Service\Mailer\MailerProvider;
 use App\Service\Upload\UploadHandlerService;
 use Doctrine\Common\Collections\Collection;
@@ -54,6 +56,16 @@ class SignalementViewController extends AbstractController
         $entrepriseIntervention = null;
         if (!$this->isGranted('ROLE_ADMIN')) {
             $userEntreprise = $user->getEntreprise();
+
+            // Block if signalement historique and was created by other entreprise
+            if ($signalement->getEntreprise() && $signalement->getEntreprise() !== $user->getEntreprise()) {
+                return $this->render('signalement_view/not-found.html.twig');
+            }
+            // Block if signalement is not on same territory as entreprise
+            if (!$user->getEntreprise()->getTerritoires()->contains($signalement->getTerritoire())) {
+                return $this->render('signalement_view/not-found.html.twig');
+            }
+
             $entrepriseIntervention = $interventionRepository->findBySignalementAndEntreprise(
                 $signalement,
                 $userEntreprise
@@ -91,7 +103,7 @@ class SignalementViewController extends AbstractController
             'can_display_traitement' => null !== $signalement->getTypeIntervention(),
             'can_display_messages' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
             'can_display_adresse' => $this->isGranted('ROLE_ADMIN') || ($entrepriseIntervention && $entrepriseIntervention->isAcceptedByUsager()),
-            'can_send_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->isAccepted(),
+            'can_send_estimation' => $this->isGranted(InterventionVoter::SEND_ESTIMATION, $entrepriseIntervention),
             'has_sent_estimation' => !$this->isGranted('ROLE_ADMIN') && $entrepriseIntervention && $entrepriseIntervention->getEstimationSentAt(),
             'has_other_entreprise' => \count($acceptedEstimations) > 0 && !$entrepriseIntervention,
             'accepted_interventions' => $interventionsAccepted,
@@ -122,6 +134,8 @@ class SignalementViewController extends AbstractController
                 $signalement,
                 $user->getEntreprise()
             );
+
+            $this->denyAccessUnlessGranted(SignalementVoter::ACCEPT, $signalement);
 
             if (null === $intervention) {
                 $intervention = new Intervention();
@@ -154,10 +168,14 @@ class SignalementViewController extends AbstractController
         EntrepriseManager $entrepriseManager,
         ValidatorInterface $validator,
         EventDispatcherInterface $eventDispatcher,
+        InterventionRepository $interventionRepository,
     ): Response {
         if ($this->isCsrfTokenValid('signalement_intervention_refuse', $request->get('_csrf_token'))) {
             $intervention = new Intervention();
             $intervention->setSignalement($signalement);
+
+            $this->denyAccessUnlessGranted(SignalementVoter::ACCEPT, $signalement);
+
             /** @var User $user */
             $user = $this->getUser();
             $intervention->setEntreprise($user->getEntreprise());
@@ -218,10 +236,14 @@ class SignalementViewController extends AbstractController
                 /** @var User $user */
                 $user = $this->getUser();
                 $userEntreprise = $user->getEntreprise();
+                /** @var Intervention $intervention */
                 $intervention = $interventionRepository->findBySignalementAndEntreprise(
                     $signalement,
                     $userEntreprise
                 );
+
+                $this->denyAccessUnlessGranted(InterventionVoter::SEND_ESTIMATION, $intervention);
+
                 $intervention->setCommentaireEstimation($request->get('commentaire'));
                 $intervention->setMontantEstimation(ceil($montant));
                 $intervention->setEstimationSentAt(new \DateTimeImmutable());
@@ -252,6 +274,8 @@ class SignalementViewController extends AbstractController
         MailerProvider $mailerProvider,
     ): Response {
         if ($this->isCsrfTokenValid('signalement_admin_stop', $request->get('_csrf_token'))) {
+            $this->denyAccessUnlessGranted(SignalementVoter::CLOSE, $signalement);
+
             $this->addFlash('success', 'La procédure est terminée !');
             $signalement->setClosedAt(new \DateTimeImmutable());
             $signalement->updateUuidPublic();
@@ -278,28 +302,25 @@ class SignalementViewController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
     ): Response {
         if ($this->isCsrfTokenValid('intervention_stop', $request->get('_csrf_token'))) {
+            $this->denyAccessUnlessGranted(InterventionVoter::STOP, $intervention);
+
             $this->addFlash('success', 'Votre procédure est terminée !');
 
-            $wasAccepted = $intervention->isAccepted();
-            if ($wasAccepted) {
-                $date = new \DateTimeImmutable();
-                $intervention->setCanceledByEntrepriseAt($date);
-            }
+            $date = new \DateTimeImmutable();
+            $intervention->setCanceledByEntrepriseAt($date);
             $intervention->setAccepted(false);
             $interventionManager->save($intervention);
 
-            if ($wasAccepted) {
-                /** @var User $user */
-                $user = $this->getUser();
-                $eventDispatcher->dispatch(
-                    new InterventionEntrepriseCanceledEvent(
-                        $intervention,
-                        $user->getId(),
-                        $date
-                    ),
-                    InterventionEntrepriseCanceledEvent::NAME
-                );
-            }
+            /** @var User $user */
+            $user = $this->getUser();
+            $eventDispatcher->dispatch(
+                new InterventionEntrepriseCanceledEvent(
+                    $intervention,
+                    $user->getId(),
+                    $date
+                ),
+                InterventionEntrepriseCanceledEvent::NAME
+            );
         }
 
         return $this->redirectToRoute('app_signalement_view', ['uuid' => $intervention->getSignalement()->getUuid()]);
