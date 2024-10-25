@@ -23,9 +23,17 @@ class CartographieController extends AbstractController
             } else {
                 $date = new \DateTimeImmutable();
             }
+            $swLat = $request->get('swLat');
+            $swLng = $request->get('swLng');
+            $neLat = $request->get('neLat');
+            $neLng = $request->get('neLng');
+
             $signalements = $signalementRepository->findAllWithGeoData(
                 $date,
-                (int) $request->get('offset')
+                $swLat,
+                $swLng,
+                $neLat,
+                $neLng
             );
 
             return $this->json(
