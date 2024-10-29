@@ -25,7 +25,7 @@ $( function() {
     $("#weekly-slider-selection").text(selectedDateString)
     $("input[name=filter-date]").val(selectedDateString)
     if (refreshHeatMap){
-      getMarkers(0)
+      getMarkers()
     }
   }
 } );

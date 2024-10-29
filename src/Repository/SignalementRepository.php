@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dto\CartographieRequest;
 use App\Dto\SignalementOccupantDataTableFilters;
 use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
@@ -25,7 +26,7 @@ class SignalementRepository extends ServiceEntityRepository
 {
     private const NB_DAYS_BEFORE_NOTIFYING = 45;
     private const NB_DAYS_BEFORE_CLOSING_AUTOTRAITEMENT = 45;
-    public const MARKERS_PAGE_SIZE = 9000; // @todo: is high cause duplicate result, the query findAllWithGeoData should be reviewed
+    public const MARKERS_PAGE_SIZE = 5000;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -471,32 +472,31 @@ class SignalementRepository extends ServiceEntityRepository
         )->fetchOne();
     }
 
-    public function findAllWithGeoData(\DateTimeImmutable $date, int $offset): array
-    {
-        $firstResult = $offset;
-        $qb = $this->createQueryBuilder('s');
-        $qb->select('
-            DISTINCT s.id,
-            s.uuid,
-            s.reference,
-            s.createdAt,
-            s.nomOccupant,
-            s.prenomOccupant,
-            s.adresse,
-            s.codePostal,
-            s.ville,
-            s.niveauInfestation,
-            s.resolvedAt,
-            s.closedAt,
-            s.geoloc,
-            t.active')
-            ->leftJoin('s.territoire', 't')
-            ->where('s.createdAt < :date')
-            ->setParameter('date', $date);
+    public function findAllWithGeoData(
+        CartographieRequest $cartoRequest,
+    ): array {
+        $conn = $this->getEntityManager()->getConnection();
+        $limit = self::MARKERS_PAGE_SIZE;
+        $sql = "
+            SELECT DISTINCT s.created_at, s.niveau_infestation, s.resolved_at, s.closed_at, s.geoloc
+            FROM signalement s
+            WHERE s.created_at < :date
+            AND s.geoloc != 'null'
+            AND s.geoloc != '[]'
+            AND CAST(JSON_UNQUOTE(JSON_EXTRACT(s.geoloc, '$.lat')) AS DECIMAL(10, 6)) BETWEEN :swLat AND :neLat
+            AND CAST(JSON_UNQUOTE(JSON_EXTRACT(s.geoloc, '$.lng')) AS DECIMAL(10, 6)) BETWEEN :swLng AND :neLng
+            ORDER BY s.created_at DESC
+            LIMIT $limit;
+        ";
 
-        $qb->setFirstResult($firstResult)
-            ->setMaxResults(self::MARKERS_PAGE_SIZE);
+        $resultSet = $conn->executeQuery($sql, [
+            'date' => $cartoRequest->getDate(),
+            'swLat' => $cartoRequest->getSwLat(),
+            'neLat' => $cartoRequest->getNeLat(),
+            'swLng' => $cartoRequest->getSwLng(),
+            'neLng' => $cartoRequest->getNeLng(),
+        ]);
 
-        return $qb->getQuery()->getArrayResult();
+        return $resultSet->fetchAllAssociative();
     }
 }
