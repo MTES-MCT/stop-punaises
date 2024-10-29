@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\CartographieRequest;
 use App\Repository\SignalementRepository;
 use App\Service\Signalement\CartoStatutCalculator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,18 +24,15 @@ class CartographieController extends AbstractController
             } else {
                 $date = new \DateTimeImmutable();
             }
-            $swLat = $request->get('swLat');
-            $swLng = $request->get('swLng');
-            $neLat = $request->get('neLat');
-            $neLng = $request->get('neLng');
-
-            $signalements = $signalementRepository->findAllWithGeoData(
+            $cartoRequest = new CartographieRequest(
+                $request->get('swLat'),
+                $request->get('swLng'),
+                $request->get('neLat'),
+                $request->get('neLng'),
                 $date,
-                $swLat,
-                $swLng,
-                $neLat,
-                $neLng
             );
+
+            $signalements = $signalementRepository->findAllWithGeoData($cartoRequest);
 
             return $this->json(
                 [

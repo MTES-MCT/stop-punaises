@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dto\CartographieRequest;
 use App\Dto\SignalementOccupantDataTableFilters;
 use App\Entity\Entreprise;
 use App\Entity\Enum\Declarant;
@@ -25,7 +26,7 @@ class SignalementRepository extends ServiceEntityRepository
 {
     private const NB_DAYS_BEFORE_NOTIFYING = 45;
     private const NB_DAYS_BEFORE_CLOSING_AUTOTRAITEMENT = 45;
-    public const MARKERS_PAGE_SIZE = 6000; // @todo: is high cause duplicate result, the query findAllWithGeoData should be reviewed
+    public const MARKERS_PAGE_SIZE = 5000;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -472,11 +473,7 @@ class SignalementRepository extends ServiceEntityRepository
     }
 
     public function findAllWithGeoData(
-        \DateTimeImmutable $date,
-        float $swLat,
-        float $swLng,
-        float $neLat,
-        float $neLng,
+        CartographieRequest $cartoRequest,
     ): array {
         $conn = $this->getEntityManager()->getConnection();
         $limit = self::MARKERS_PAGE_SIZE;
@@ -493,11 +490,11 @@ class SignalementRepository extends ServiceEntityRepository
         ";
 
         $resultSet = $conn->executeQuery($sql, [
-            'date' => $date->format('Y-m-d H:i:s'),
-            'swLat' => $swLat,
-            'neLat' => $neLat,
-            'swLng' => $swLng,
-            'neLng' => $neLng,
+            'date' => $cartoRequest->getDate(),
+            'swLat' => $cartoRequest->getSwLat(),
+            'neLat' => $cartoRequest->getNeLat(),
+            'swLng' => $cartoRequest->getSwLng(),
+            'neLng' => $cartoRequest->getNeLng(),
         ]);
 
         return $resultSet->fetchAllAssociative();
