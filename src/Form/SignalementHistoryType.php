@@ -311,12 +311,16 @@ class SignalementHistoryType extends AbstractType
             ->add('nomBiocide', TextType::class, [
                 'attr' => [
                     'class' => 'fr-input',
-                    'maxlength' => '100',
+                    'maxlength' => '50',
                 ],
                 'label_attr' => [
                     'class' => 'fr-label',
                 ],
                 'label' => 'Nom du biocide',
+                'help' => 'Format attendu : 50 caractères maximum',
+                'help_attr' => [
+                    'class' => 'fr-hint-text',
+                ],
                 'required' => false,
             ])
             ->add('typeDiagnostic', ChoiceType::class, [

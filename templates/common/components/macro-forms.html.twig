@@ -1,103 +1,80 @@
 
 {% macro input(form_view, error_text, help = false) %}
-    {% if form_errors(form_view) %}
-        <div class="fr-input-group fr-input-group--error">
-            {{ form_label(form_view) }}
-            {{ form_widget(form_view, { 'attr': {
-                'aria-describedby': form_view.vars.id ~ '-error',
-                'title': error_text,
-                'data-error': error_text,
-                'data-error-id': form_view.vars.id ~ '-error'
-            } }) }}
-            <div id="{{ form_view.vars.id }}-error" class="fr-error-text fr-mt-1v">
-                {{ form_errors(form_view) }}
-            </div>
+    {% set has_error = form_errors(form_view) %}
+    <div class="fr-input-group{% if has_error %} fr-input-group--error{% endif %}">
+        {{ form_label(form_view) }}
+        
+        {% if help %}
+            {{ form_help(form_view) }}
+        {% endif %}
+        
+        {{ form_widget(form_view, { 'attr': {
+            'aria-describedby': has_error ? (form_view.vars.id ~ '-error') : null,
+            'title': error_text,
+            'data-error': error_text,
+            'data-error-id': form_view.vars.id ~ '-error'
+        } }) }}
+        
+        <div id="{{ form_view.vars.id }}-error" class="fr-error-text{% if has_error %} fr-mt-1v{% else %} fr-hidden{% endif %}">
+            {{ has_error ? form_errors(form_view) : error_text }}
         </div>
-    {% else %}
-        <div class="fr-input-group">
-            {{ form_label(form_view) }}
-            {{ form_widget(form_view, { 'attr': {
-                'title': error_text,
-                'data-error': error_text,
-                'data-error-id': form_view.vars.id ~ '-error'
-            } }) }}
-            <p id="{{ form_view.vars.id }}-error" class="fr-error-text fr-hidden">
-                {{ error_text}}
-            </p>
-        </div>
-    {% endif %}
+    </div>
 {% endmacro %}
 
 {% macro select(form_view, error_text, help = false) %}
-    {% if form_errors(form_view) %}
-        <div class="fr-select-group fr-select-group--error">
-            {{ form_label(form_view) }}
-            {{ form_widget(form_view, { 'attr': {
-                'aria-describedby': form_view.vars.id ~ '-error',
-                'title': error_text,
-                'data-error': error_text,
-                'data-error-id': form_view.vars.id ~ '-error'
-            } }) }}
-            <div id="{{ form_view.vars.id }}-error" class="fr-error-text fr-mt-1v">
-                {{ form_errors(form_view) }}
-            </div>
+    {% set has_error = form_errors(form_view) %}
+    <div class="fr-select-group{% if has_error %}  fr-select-group--error{% endif %}">
+        {{ form_label(form_view) }}
+        {% if help %}
+            {{ form_help(form_view) }}                
+        {% endif %}
+        {{ form_widget(form_view, { 'attr': {
+            'aria-describedby': has_error ? (form_view.vars.id ~ '-error') : null,
+            'title': error_text,
+            'data-error': error_text,
+            'data-error-id': form_view.vars.id ~ '-error'
+        } }) }}
+        
+        <div id="{{ form_view.vars.id }}-error" class="fr-error-text{% if has_error %} fr-mt-1v{% else %} fr-hidden{% endif %}">
+            {{ has_error ? form_errors(form_view) : error_text }}
         </div>
-    {% else %}
-        <div class="fr-select-group">
-            {{ form_label(form_view) }}
-            {{ form_widget(form_view, { 'attr': {
-                'title': error_text,
-                'data-error': error_text,
-                'data-error-id': form_view.vars.id ~ '-error'
-            } }) }}
-            <p id="{{ form_view.vars.id }}-error" class="fr-error-text fr-hidden">
-                {{ error_text}}
-            </p>
-        </div>
-    {% endif %}
+    </div>
 {% endmacro %}
 
 
 {% macro radio_choice(form_view, error_text, help = false, displayLabel = true) %}
-    {% if form_errors(form_view) %}
-        <fieldset class="fr-fieldset fr-fieldset--error" role="group" id="{{ form_view.vars.id }}" aria-labelledby="{{ form_view.vars.id }}_legend">
+    {% set has_error = form_errors(form_view) %}
+        <fieldset 
+            class="fr-fieldset{% if has_error %} fr-fieldset--error{% endif %}" 
+            role="group" id="{{ form_view.vars.id }}"
+            aria-labelledby="{{ form_view.vars.id }}_legend"
+        >
             <legend class="fr-fieldset__legend fr-fieldset__legend--regular" id="{{ form_view.vars.id }}_legend">
                 {% if displayLabel %}
                     {{ form_label(form_view) }}
                 {% endif %}
             </legend>
+            {% if help %}
+                {{ form_help(form_view) }}                
+            {% endif %}
             {% for key, choice in form_view.children %}
                 <div class="fr-fieldset__element">
                     <div class="fr-radio-group">
                         {{ form_widget(choice, { 'attr': {
-                            'aria-describedby': form_view.vars.id ~ '-error'
+                            'aria-describedby': has_error ? (form_view.vars.id ~ '-error') : null
                         } }) }}
                         {{ form_label(choice) }}
                     </div>
                 </div>
             {% endfor %}
+            {% if has_error %}
                 <div id="{{ form_view.vars.id }}-error" class="fr-messages-group fr-error-text fr-mt-1v">
                     {{ form_errors(form_view) }}
                 </div>
-        </fieldset>
-    {% else %}
-        <fieldset class="fr-fieldset" role="group" id="{{ form_view.vars.id }}" aria-labelledby="{{ form_view.vars.id }}_legend">
-            <legend class="fr-fieldset__legend fr-fieldset__legend--regular"  id="{{ form_view.vars.id }}_legend">
-                {% if displayLabel %}
-                    {{ form_label(form_view) }}
-                {% endif %}
-            </legend>
-            {% for key, choice in form_view.children %}
-                <div class="fr-fieldset__element">
-                    <div class="fr-radio-group">
-                        {{ form_widget(choice) }}
-                        {{ form_label(choice) }}
-                    </div>
-                </div>
-            {% endfor %}
+            {% else %}
                 <p id="{{ form_view.vars.id }}-error" class="fr-error-text fr-hidden">
                     {{ error_text}}
                 </p>
+            {% endif %}
         </fieldset>
-    {% endif %}
 {% endmacro %}
