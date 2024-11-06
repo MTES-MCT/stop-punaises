@@ -142,6 +142,8 @@ class Signalement
     private ?\DateTimeInterface $dateVisitePostTraitement = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive()]
+    #[Assert\Type(type: 'integer')]
     private ?int $prixFactureHT = null;
 
     #[ORM\ManyToOne(inversedBy: 'signalements')]

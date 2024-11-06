@@ -19,7 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -400,7 +399,7 @@ class SignalementHistoryType extends AbstractType
                 'label' => 'Date de la visite post-traitement',
                 'required' => false,
             ])
-            ->add('prixFactureHT', NumberType::class, [
+            ->add('prixFactureHT', IntegerType::class, [
                 'attr' => [
                     'class' => 'fr-input',
                     'maxlength' => '100',
@@ -409,7 +408,7 @@ class SignalementHistoryType extends AbstractType
                     'class' => 'fr-label',
                 ],
                 'label' => 'Prix facturé (en €)',
-                'help' => 'Le prix facturé doit être un nombre supérieur à 0.',
+                'help' => 'Le prix facturé doit être un nombre entier supérieur à 0.',
                 'help_attr' => [
                     'class' => 'fr-hint-text',
                 ],
@@ -420,6 +419,9 @@ class SignalementHistoryType extends AbstractType
                     new Assert\Positive(
                         message: 'Le prix facturé doit être un nombre supérieur à 0.'
                     ),
+                    new Assert\Type(
+                        type: 'integer',
+                        message: 'Le prix facturé {{ value }} n\'est pas un entier valide.', ),
                 ],
             ])
         ;
