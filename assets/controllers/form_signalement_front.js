@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import _ from 'lodash';
 $(function() {
   if ($('form.front-signalement').length > 0) {
     const frontSignalementController = new PunaisesFrontSignalementController();
@@ -678,7 +679,10 @@ class PunaisesFrontSignalementController {
       $('.if-territory-open').hide();
       $('.if-logement-social').hide();
       $('.if-territory-not-open').show();
-      $('.if-territory-not-open').append('<input type="hidden" id="hidden-postal-code" name="signalement_front[codePostal]" value="'+ $('input#code-postal').val() +'">');
+      const postalCode = _.escape($('input#code-postal').val());
+      console.log(postalCode)
+      $('.if-territory-not-open').append('<input type="hidden" id="hidden-postal-code" name="signalement_front[codePostal]" value="'+ postalCode +'">');
+      // $('.if-territory-not-open').append('<input type="hidden" id="hidden-postal-code" name="signalement_front[codePostal]" value="'+ $('input#code-postal').val() +'">');
     }
   }
 
@@ -767,7 +771,9 @@ class PunaisesFrontSignalementController {
       $("#recapDejectionsFaciliteDetections").text(dejectionsFaciliteDetections);
       $("#recapDejectionsLieuxObservations").empty()
       $("input[name='signalement_front[dejectionsLieuxObservations][]']:checked").each(function() {
-        $("#recapDejectionsLieuxObservations").append($(this).next("label").text() + ", ");
+        const textContent = $(this).next("label").text() + ", ";
+        console.log(textContent)
+        $("#recapDejectionsLieuxObservations").text($("#recapDejectionsLieuxObservations").text() + textContent);
       });
       const sliced = $("#recapDejectionsLieuxObservations").text().slice(0,-2)
       $("#recapDejectionsLieuxObservations").text(sliced);
@@ -784,7 +790,9 @@ class PunaisesFrontSignalementController {
       $("#recapOeufsEtLarvesFaciliteDetections").text(oeufsEtLarvesFaciliteDetections);
       $("#recapOeufsEtLarvesLieuxObservations").empty()
       $("input[name='signalement_front[oeufsEtLarvesLieuxObservations][]']:checked").each(function() {
-        $("#recapOeufsEtLarvesLieuxObservations").append($(this).next("label").text() + ", ");
+        const textContent = $(this).next("label").text() + ", ";
+        console.log(textContent)
+        $("#recapOeufsEtLarvesLieuxObservations").text($("#recapOeufsEtLarvesLieuxObservations").text() + textContent);
       });
       const sliced = $("#recapOeufsEtLarvesLieuxObservations").text().slice(0,-2)
       $("#recapOeufsEtLarvesLieuxObservations").text(sliced);
@@ -801,7 +809,9 @@ class PunaisesFrontSignalementController {
       $("#recapPunaisesFaciliteDetections").text(punaisesFaciliteDetections);
       $("#recapPunaisesLieuxObservations").empty()
       $("input[name='signalement_front[punaisesLieuxObservations][]']:checked").each(function() {
-        $("#recapPunaisesLieuxObservations").append($(this).next("label").text() + ", ");
+        const textContent = $(this).next("label").text() + ", ";
+        console.log(textContent)
+        $("#recapPunaisesLieuxObservations").text($("#recapPunaisesLieuxObservations").text() + textContent);
       });
       const sliced = $("#recapPunaisesLieuxObservations").text().slice(0,-2)
       $("#recapPunaisesLieuxObservations").text(sliced);
@@ -838,7 +848,8 @@ class PunaisesFrontSignalementController {
   
       success: function() {
         if (!self.isTerritoryOpen) {
-          let codePostal = $('input#code-postal').val();
+          let codePostal = encodeURIComponent($('input#code-postal').val());
+          console.log(codePostal)
           window.location.href = $('input#url-entreprises-publiques').val() + codePostal;
           return;
         }
