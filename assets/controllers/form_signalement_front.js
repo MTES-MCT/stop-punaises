@@ -680,7 +680,6 @@ class PunaisesFrontSignalementController {
       $('.if-logement-social').hide();
       $('.if-territory-not-open').show();
       const postalCode = _.escape($('input#code-postal').val());
-      console.log(postalCode)
       $('.if-territory-not-open').append('<input type="hidden" id="hidden-postal-code" name="signalement_front[codePostal]" value="'+ postalCode +'">');
       // $('.if-territory-not-open').append('<input type="hidden" id="hidden-postal-code" name="signalement_front[codePostal]" value="'+ $('input#code-postal').val() +'">');
     }
@@ -772,7 +771,6 @@ class PunaisesFrontSignalementController {
       $("#recapDejectionsLieuxObservations").empty()
       $("input[name='signalement_front[dejectionsLieuxObservations][]']:checked").each(function() {
         const textContent = $(this).next("label").text() + ", ";
-        console.log(textContent)
         $("#recapDejectionsLieuxObservations").text($("#recapDejectionsLieuxObservations").text() + textContent);
       });
       const sliced = $("#recapDejectionsLieuxObservations").text().slice(0,-2)
@@ -791,7 +789,6 @@ class PunaisesFrontSignalementController {
       $("#recapOeufsEtLarvesLieuxObservations").empty()
       $("input[name='signalement_front[oeufsEtLarvesLieuxObservations][]']:checked").each(function() {
         const textContent = $(this).next("label").text() + ", ";
-        console.log(textContent)
         $("#recapOeufsEtLarvesLieuxObservations").text($("#recapOeufsEtLarvesLieuxObservations").text() + textContent);
       });
       const sliced = $("#recapOeufsEtLarvesLieuxObservations").text().slice(0,-2)
@@ -810,7 +807,6 @@ class PunaisesFrontSignalementController {
       $("#recapPunaisesLieuxObservations").empty()
       $("input[name='signalement_front[punaisesLieuxObservations][]']:checked").each(function() {
         const textContent = $(this).next("label").text() + ", ";
-        console.log(textContent)
         $("#recapPunaisesLieuxObservations").text($("#recapPunaisesLieuxObservations").text() + textContent);
       });
       const sliced = $("#recapPunaisesLieuxObservations").text().slice(0,-2)
@@ -849,7 +845,6 @@ class PunaisesFrontSignalementController {
       success: function() {
         if (!self.isTerritoryOpen) {
           let codePostal = encodeURIComponent($('input#code-postal').val());
-          console.log(codePostal)
           window.location.href = $('input#url-entreprises-publiques').val() + codePostal;
           return;
         }
