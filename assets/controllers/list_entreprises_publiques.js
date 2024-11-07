@@ -11,9 +11,10 @@ $(function() {
 
 function startListeEntreprisesPubliquesApp() {
   $('select#select-entreprises-order').on('change', function() {
-    window.location.href = $('select#select-entreprises-order').data('redirect') + '&order=' + $('select#select-entreprises-order').val() + '&filter=' + $('select#select-entreprises-filter').val()
+    window.location.href = 
+    $('select#select-entreprises-order').data('redirect') + '&order=' + encodeURIComponent($('select#select-entreprises-order').val()) + '&filter=' + encodeURIComponent($('select#select-entreprises-filter').val())
   });
   $('select#select-entreprises-filter').on('change', function() {
-    window.location.href = $('select#select-entreprises-filter').data('redirect') + '&filter=' + $('select#select-entreprises-filter').val() + '&order=' + $('select#select-entreprises-order').val()
+    window.location.href = $('select#select-entreprises-filter').data('redirect') + '&filter=' + encodeURIComponent($('select#select-entreprises-filter').val()) + '&order=' + encodeURIComponent($('select#select-entreprises-order').val())
   });
 }
