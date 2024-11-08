@@ -2,6 +2,8 @@
 
 {% block content %}
     {% import "common/components/macro-forms.html.twig" as forms %}
+    {% use 'common/form/custom_theme.html.twig' %}
+    {% form_theme form 'common/form/custom_theme.html.twig' %}
     <div class="fr-stepper">
         <h1 class="fr-stepper__title fr-h2">
             Informations du logement
@@ -16,7 +18,7 @@
     {{ forms.radio_choice(form.locataire, 'Veuillez renseigner si vous êtes propriétaire ou locataire.') }}
 
     <div id="form-group-nomProprietaire" class="fr-form-group">
-        {{ forms.input(form.nomProprietaire, 'Veuillez renseigner le nom du bailleur / propriétaire..') }}
+        {{ forms.input(form.nomProprietaire, 'Veuillez renseigner le nom du bailleur / propriétaire.') }}
     </div>
 
     {{ forms.radio_choice(form.logementSocial, 'Veuillez renseigner si vous vivez dans un logement social.') }}

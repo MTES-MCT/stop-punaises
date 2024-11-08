@@ -4,10 +4,6 @@
     <div class="fr-input-group{% if has_error %} fr-input-group--error{% endif %}">
         {{ form_label(form_view) }}
         
-        {% if help %}
-            {{ form_help(form_view) }}
-        {% endif %}
-        
         {{ form_widget(form_view, { 'attr': {
             'aria-describedby': has_error ? (form_view.vars.id ~ '-error') : null,
             'title': error_text,
@@ -25,9 +21,7 @@
     {% set has_error = form_errors(form_view) %}
     <div class="fr-select-group{% if has_error %}  fr-select-group--error{% endif %}">
         {{ form_label(form_view) }}
-        {% if help %}
-            {{ form_help(form_view) }}                
-        {% endif %}
+
         {{ form_widget(form_view, { 'attr': {
             'aria-describedby': has_error ? (form_view.vars.id ~ '-error') : null,
             'title': error_text,
@@ -54,9 +48,7 @@
                     {{ form_label(form_view) }}
                 {% endif %}
             </legend>
-            {% if help %}
-                {{ form_help(form_view) }}                
-            {% endif %}
+
             {% for key, choice in form_view.children %}
                 <div class="fr-fieldset__element">
                     <div class="fr-radio-group">
