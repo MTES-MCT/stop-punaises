@@ -1,4 +1,6 @@
 {% import "common/components/macro-forms.html.twig" as forms %}
+{% use 'common/form/custom_theme.html.twig' %}
+{% form_theme form 'common/form/custom_theme.html.twig' %}
 
 <div class="fr-stepper">
     <h2 class="fr-stepper__title fr-h2">
@@ -44,7 +46,7 @@
         </div>
 
         <div class="fr-form-group display-if-traitement display-if-biocide fr-mt-3v">
-            {{ forms.input(form.nomBiocide, 'Veuillez renseigner le nom du Biocide.') }}
+            {{ forms.input(form.nomBiocide, 'Veuillez renseigner le nom du Biocide.', true) }}
         </div>
 
         <div class="fr-form-group display-if-diagnostic fr-mt-3v">
@@ -70,7 +72,7 @@
         </div>
 
         <div class="fr-form-group display-if-diagnostic display-if-traitement fr-mt-3v">
-            {{ forms.input(form.prixFactureHT, 'Veuillez renseigner le prix facturé.') }}
+            {{ forms.input(form.prixFactureHT, 'Veuillez renseigner le prix facturé.', true) }}
         </div>
     </div>
 </div>

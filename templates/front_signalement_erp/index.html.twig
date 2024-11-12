@@ -4,6 +4,8 @@
 
 {% block body %}
 {% import "common/components/macro-forms.html.twig" as forms %}
+{% use 'common/form/custom_theme.html.twig' %}
+{% form_theme form 'common/form/custom_theme.html.twig' %}
 
     <div class="signalement-punaises fr-grid-row fr-grid-row--center">
         <div class="fr-col-12 fr-col-md-8 fr-col-md-6">
