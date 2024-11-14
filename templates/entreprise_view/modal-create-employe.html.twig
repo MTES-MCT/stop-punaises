@@ -10,6 +10,8 @@
                         <h1 id="fr-modal-title-modal-create-employe" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Ajouter un employé</h1>
                         <p>Remplissez le formulaire ci-dessous pour ajouter un employé.</p>
                         {% import "common/components/macro-forms.html.twig" as forms %}
+                        {% use 'common/form/custom_theme.html.twig' %}
+                        {% form_theme formCreateEmploye 'common/form/custom_theme.html.twig' %}
 
                         <form action="{{ path('app_entreprise_view',{uuid:entreprise.uuid}) }}" method="POST" class="fr-my-5w">
                             {{ form_row(formCreateEmploye._token) }}

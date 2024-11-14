@@ -74,12 +74,11 @@ class SignalementImportLoader
 
                 $dataMapped['declarant'] = Declarant::DECLARANT_ENTREPRISE;
                 $dateIntervention = $dataMapped['dateIntervention'];
-
+                $dateCreation = $dataMapped['createdAt'];
                 if (null !== $dateIntervention) {
-                    $dateCreation = \DateTimeImmutable::createFromInterface($dateIntervention)->modify('-3 months');
+                    $dateCreation = $dateCreation ?? \DateTimeImmutable::createFromInterface($dateIntervention)->modify('-3 months');
                     $dataMapped['reference'] = $this->referenceGenerator->generate($dateCreation->format('Y'));
                 } else {
-                    $dateCreation = null;
                     $dataMapped['reference'] = $this->referenceGenerator->generate();
                 }
 

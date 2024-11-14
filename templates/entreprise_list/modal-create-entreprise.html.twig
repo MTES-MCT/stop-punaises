@@ -10,6 +10,8 @@
                         <h1 id="fr-modal-title-modal-create-entreprise" class="fr-modal__title"><span class="fr-fi-arrow-right-line fr-fi--lg"></span>Créer une entreprise</h1>
                         <p>Remplissez le formulaire ci-dessous pour ajouter une entreprise.</p>
                         {% import "common/components/macro-forms.html.twig" as forms %}
+                        {% use 'common/form/custom_theme.html.twig' %}
+                        {% form_theme form 'common/form/custom_theme.html.twig' %}
 
                         <form action="{{ path('app_entreprise_list') }}" method="POST" class="fr-my-5w">
                             {{ form_row(form._token) }}

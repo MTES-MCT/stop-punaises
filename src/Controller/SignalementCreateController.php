@@ -31,8 +31,7 @@ class SignalementCreateController extends AbstractController
         $signalement = new Signalement();
         $form = $this->createForm(
             SignalementHistoryType::class,
-            $signalement,
-            ['validation_groups' => 'back_add_signalement_logement']
+            $signalement
         );
         $form->handleRequest($request);
 

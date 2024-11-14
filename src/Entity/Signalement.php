@@ -123,6 +123,7 @@ class Signalement
     private ?array $typeTraitement = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(max: 50, maxMessage: 'Le nom du biocide doit contenir au maximum 50 caractères.')]
     private ?string $nomBiocide = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -141,6 +142,8 @@ class Signalement
     private ?\DateTimeInterface $dateVisitePostTraitement = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive()]
+    #[Assert\Type(type: 'integer')]
     private ?int $prixFactureHT = null;
 
     #[ORM\ManyToOne(inversedBy: 'signalements')]

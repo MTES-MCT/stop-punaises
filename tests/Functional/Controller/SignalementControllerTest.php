@@ -45,7 +45,7 @@ class SignalementControllerTest extends WebTestCase
                 'nombrePiecesTraitees' => '',
                 'delaiEntreInterventions' => '',
                 'dateVisitePostTraitement' => '',
-                'prixFactureHT' => '555',
+                'prixFactureHT' => 555,
             ],
         ];
 

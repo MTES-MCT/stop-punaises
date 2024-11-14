@@ -4,6 +4,8 @@
 
 {% block body %}
     {% import "common/components/macro-forms.html.twig" as forms %}
+    {% use 'common/form/custom_theme.html.twig' %}
+    {% form_theme form 'common/form/custom_theme.html.twig' %}
     <div id="contact-container" class="fr-container--fluid fr-py-5w fr-py-md-10w">
     
         {% for label, messages in app.flashes %}
