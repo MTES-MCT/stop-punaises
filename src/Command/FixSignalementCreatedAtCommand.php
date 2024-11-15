@@ -97,13 +97,9 @@ class FixSignalementCreatedAtCommand extends Command
                 if (null !== $dateIntervention) {
                     $dateCreation = $dateCreation ?? \DateTimeImmutable::createFromInterface($dateIntervention)->modify('-3 months');
                 }
-
                 $signalement = $this->signalementRepository->findOneBy([
                     'entreprise' => $dataMapped['entreprise'],
                     'declarant' => $dataMapped['declarant'],
-                    'dateIntervention' => $dataMapped['dateIntervention'],
-                    'typeLogement' => $dataMapped['typeLogement'],
-                    'localisationDansImmeuble' => $dataMapped['localisationDansImmeuble'],
                     'adresse' => $dataMapped['adresse'],
                     'ville' => $dataMapped['ville'],
                     'codePostal' => $dataMapped['codePostal'],
@@ -113,6 +109,24 @@ class FixSignalementCreatedAtCommand extends Command
                 if ($signalement && null !== $dateCreation) {
                     ++$countSignalementFixed;
                     $signalement->setCreatedAt($dateCreation);
+                    if (null === $signalement->getTypeLogement() && null !== $dataMapped['typeLogement']) {
+                        $signalement->setTypeLogement($dataMapped['typeLogement']);
+                    }
+                    if (null === $signalement->getLocalisationDansImmeuble() && null !== $dataMapped['localisationDansImmeuble']) {
+                        $signalement->setLocalisationDansImmeuble($dataMapped['localisationDansImmeuble']);
+                    }
+                    if (null === $signalement->getNiveauInfestation() && null !== $dataMapped['niveauInfestation']) {
+                        $signalement->setNiveauInfestation($dataMapped['niveauInfestation']);
+                    }
+                    if (null === $signalement->getDateVisitePostTraitement() && null !== $dataMapped['dateVisitePostTraitement']) {
+                        $signalement->setDateVisitePostTraitement($dataMapped['dateVisitePostTraitement']);
+                    }
+                    if (null === $signalement->getTypeIntervention() && null !== $dataMapped['typeIntervention']) {
+                        $signalement->setTypeIntervention($dataMapped['typeIntervention']);
+                    }
+                    if (null === $signalement->getTypeDiagnostic() && null !== $dataMapped['typeDiagnostic']) {
+                        $signalement->setTypeDiagnostic($dataMapped['typeDiagnostic']);
+                    }
                     $this->signalementManager->save($signalement);
 
                     if (0 === $countSignalementFixed % self::FLUSH_COUNT) {
@@ -138,7 +152,7 @@ class FixSignalementCreatedAtCommand extends Command
         $io->success(\sprintf('%s signalement(s) have been fixed', $countSignalementFixed));
 
         $io->success(\sprintf(
-            '%s signalement(s) have been fixed, %s signalement(s) have not beeen found, %s signalement(s) have NOT been fixed',
+            '%s signalement(s) have been fixed, %s signalement(s) have not been found, %s signalement(s) have NOT been fixed',
             $countSignalementFixed,
             $countSignalementNotFound,
             $countSignalementNotFixed
