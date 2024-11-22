@@ -12,11 +12,6 @@ var map = L.map('map-signalements-view', {
     zoom: 6
 });
 
-map.on('zoomend', async function() {
-    const zoomLevel = map.getZoom();
-    await getMarkers();
-});
-
 map.on('moveend', async function() {
     await getMarkers();
 });
@@ -37,25 +32,20 @@ async function getMarkers() {
         const southWest = bounds.getSouthWest();
         const northEast = bounds.getNorthEast();
         const formData = new FormData(document.querySelector('form#bo_carto_filter'));
-        const jsonData = {};
-        formData.forEach((value, key) => {
-            jsonData[key] = value;
-        });
 
         if (map.getZoom() > 6) {
-            jsonData.swLat = southWest.lat;
-            jsonData.swLng = southWest.lng;
-            jsonData.neLat = northEast.lat;
-            jsonData.neLng = northEast.lng;
+            formData.append('swLat', southWest.lat);
+            formData.append('swLng', southWest.lng);
+            formData.append('neLat', northEast.lat);
+            formData.append('neLng', northEast.lng);
         }
 
         const response = await fetch('?load_markers=true', {
             headers: {
                 'X-TOKEN': document.querySelector('#carto__js').getAttribute('data-token'),
-                "Content-Type": "application/json",
             },
             method: 'POST',
-            body: JSON.stringify(jsonData),
+            body: formData,
             signal: abortController.signal // Passer le signal d'annulation
         });
         const result = await response.json();
@@ -84,10 +74,9 @@ async function getMarkers() {
         loader.classList.add('fr-hidden')
     } catch (error) {
         if (error.name === 'AbortError') {
-            console.log('Requête annulée');
+            //console.log('Requête annulée');
         } else {
-            console.error('Erreur lors de l\'analyse du JSON:', error);
-            alert(error)
+            //console.error('Erreur lors de l\'analyse du JSON:', error);
             loader.classList.add('fr-hidden')
         }
     }
