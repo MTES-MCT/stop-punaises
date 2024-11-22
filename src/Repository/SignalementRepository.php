@@ -26,7 +26,7 @@ class SignalementRepository extends ServiceEntityRepository
 {
     private const NB_DAYS_BEFORE_NOTIFYING = 45;
     private const NB_DAYS_BEFORE_CLOSING_AUTOTRAITEMENT = 45;
-    public const MARKERS_PAGE_SIZE = 5000;
+    public const MARKERS_PAGE_SIZE = 15000;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -477,25 +477,43 @@ class SignalementRepository extends ServiceEntityRepository
     ): array {
         $conn = $this->getEntityManager()->getConnection();
         $limit = self::MARKERS_PAGE_SIZE;
-        $sql = "
-            SELECT DISTINCT s.created_at, s.niveau_infestation, s.resolved_at, s.closed_at, s.geoloc
-            FROM signalement s
-            WHERE s.created_at < :date
-            AND s.geoloc != 'null'
-            AND s.geoloc != '[]'
-            AND CAST(JSON_UNQUOTE(JSON_EXTRACT(s.geoloc, '$.lat')) AS DECIMAL(10, 6)) BETWEEN :swLat AND :neLat
-            AND CAST(JSON_UNQUOTE(JSON_EXTRACT(s.geoloc, '$.lng')) AS DECIMAL(10, 6)) BETWEEN :swLng AND :neLng
-            ORDER BY s.created_at DESC
-            LIMIT $limit;
-        ";
+        if (null === $cartoRequest->getSwLat()
+        || null === $cartoRequest->getNeLat()
+        || null === $cartoRequest->getSwLng()
+        || null === $cartoRequest->getNeLng()
+        ) {
+            $sql = "
+                SELECT DISTINCT s.created_at, s.niveau_infestation, s.resolved_at, s.closed_at, s.geoloc
+                FROM signalement s
+                WHERE s.created_at < :date
+                ORDER BY s.created_at DESC
+                LIMIT $limit;
+            ";
+            $params = [
+                'date' => $cartoRequest->getDate(),
+            ];
+        } else {
+            $sql = "
+                SELECT DISTINCT s.created_at, s.niveau_infestation, s.resolved_at, s.closed_at, s.geoloc
+                FROM signalement s
+                WHERE s.created_at < :date
+                AND s.geoloc != 'null'
+                AND s.geoloc != '[]'
+                AND CAST(JSON_UNQUOTE(JSON_EXTRACT(s.geoloc, '$.lat')) AS DECIMAL(10, 6)) BETWEEN :swLat AND :neLat
+                AND CAST(JSON_UNQUOTE(JSON_EXTRACT(s.geoloc, '$.lng')) AS DECIMAL(10, 6)) BETWEEN :swLng AND :neLng
+                ORDER BY s.created_at DESC
+                LIMIT $limit;
+            ";
+            $params = [
+                'date' => $cartoRequest->getDate(),
+                'swLat' => $cartoRequest->getSwLat(),
+                'neLat' => $cartoRequest->getNeLat(),
+                'swLng' => $cartoRequest->getSwLng(),
+                'neLng' => $cartoRequest->getNeLng(),
+            ];
+        }
 
-        $resultSet = $conn->executeQuery($sql, [
-            'date' => $cartoRequest->getDate(),
-            'swLat' => $cartoRequest->getSwLat(),
-            'neLat' => $cartoRequest->getNeLat(),
-            'swLng' => $cartoRequest->getSwLng(),
-            'neLng' => $cartoRequest->getNeLng(),
-        ]);
+        $resultSet = $conn->executeQuery($sql, $params);
 
         return $resultSet->fetchAllAssociative();
     }
