@@ -23,7 +23,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@gouvfr/dsfr": "^1.11.0",
+        "@gouvfr/dsfr": "^1.13.0",
         "datatables.net": "^1.12.1",
         "datatables.net-dt": "^1.12.1",
         "datatables.net-responsive-dt": "^2.5.0",
