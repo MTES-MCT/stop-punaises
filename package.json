@@ -4,14 +4,14 @@
         "@babel/preset-env": "^7.16.0",
         "@hotwired/stimulus": "^3.0.0",
         "@symfony/stimulus-bridge": "^3.2.0",
-        "@symfony/webpack-encore": "^4.0.0",
+        "@symfony/webpack-encore": "^5.0.1",
         "core-js": "^3.23.0",
         "file-loader": "^6.2.0",
         "regenerator-runtime": "^0.13.9",
         "sass": "^1.55.0",
-        "sass-loader": "^13.0.2",
+        "sass-loader": "^16.0.1",
         "webpack": "^5.94.0",
-        "webpack-cli": "^4.10.0",
+        "webpack-cli": "^5.1.4",
         "webpack-notifier": "^1.15.0"
     },
     "license": "UNLICENSED",
@@ -23,7 +23,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@gouvfr/dsfr": "^1.11.0",
+        "@gouvfr/dsfr": "^1.13.0",
         "datatables.net": "^1.12.1",
         "datatables.net-dt": "^1.12.1",
         "datatables.net-responsive-dt": "^2.5.0",
