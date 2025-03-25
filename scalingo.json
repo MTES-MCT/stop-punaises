@@ -13,5 +13,11 @@
       "description": "When set, this environment variable instructs the image to NOT start the freshclam daemon.",
       "value": "true"
     }
+  },
+  "formation": {
+    "postdeploy": {
+      "amount": 1,
+      "size": "2XL"
+    }
   }
 }

@@ -61,7 +61,7 @@ services:
       - 1090:1080
 
   stopunaises_redis:
-    image: redis:7.0-alpine
+    image: redis:7.2.7-alpine
     container_name: stopunaises_redis
 
   stopunaises_clamav:
