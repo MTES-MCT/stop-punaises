@@ -12,11 +12,6 @@ var map = L.map('map-signalements-view', {
     zoom: 6
 });
 
-map.on('zoomend', async function() {
-    const zoomLevel = map.getZoom();
-    await getMarkers();
-});
-
 map.on('moveend', async function() {
     await getMarkers();
 });
@@ -26,24 +21,28 @@ let abortController;
 var heat;
 
 async function getMarkers() {
+    const loader = document.getElementById('loading-overlay');
     if (abortController) {
         abortController.abort();
     }
     abortController = new AbortController();
-
     try {
+        loader.classList.remove('fr-hidden')
         const bounds = map.getBounds();
         const southWest = bounds.getSouthWest();
         const northEast = bounds.getNorthEast();
         const formData = new FormData(document.querySelector('form#bo_carto_filter'));
-        formData.append('swLat', southWest.lat);
-        formData.append('swLng', southWest.lng);
-        formData.append('neLat', northEast.lat);
-        formData.append('neLng', northEast.lng);
+
+        if (map.getZoom() > 6) {
+            formData.append('swLat', southWest.lat);
+            formData.append('swLng', southWest.lng);
+            formData.append('neLat', northEast.lat);
+            formData.append('neLng', northEast.lng);
+        }
 
         const response = await fetch('?load_markers=true', {
             headers: {
-                'X-TOKEN': document.querySelector('#carto__js').getAttribute('data-token')
+                'X-TOKEN': document.querySelector('#carto__js').getAttribute('data-token'),
             },
             method: 'POST',
             body: formData,
@@ -72,11 +71,13 @@ async function getMarkers() {
         } else {
             alert('Erreur lors du chargement des signalements...')
         }
+        loader.classList.add('fr-hidden')
     } catch (error) {
         if (error.name === 'AbortError') {
-            console.log('Requête annulée');
+            //console.log('Requête annulée');
         } else {
-            console.error('Erreur lors de l\'analyse du JSON:', error);
+            //console.error('Erreur lors de l\'analyse du JSON:', error);
+            loader.classList.add('fr-hidden')
         }
     }
 }

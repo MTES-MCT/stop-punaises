@@ -17,7 +17,6 @@ $( function() {
     },
     create: function(event, ui){
         $(this).slider('value', currentDateMs )
-        refreshSliderValue(currentDateMs, true)
     }
   })
   function refreshSliderValue(dateMs, refreshHeatMap){
