@@ -50,11 +50,11 @@ jobs:
       - name: Check PHP Version
         run: php -v
 
-      - name: NPM install
+      - name: NPM ci
         uses: actions/setup-node@v2
         with:
           node-version: '18'
-      - run: npm install
+      - run: npm ci --omit=dev
 
       - name: NPM build
         run: npm run build
