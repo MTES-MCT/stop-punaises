@@ -55,6 +55,7 @@ services:
 
   stopunaises_mailer:
     image: schickling/mailcatcher
+    container_name: stopunaises_mailer
     ports:
       - 1035:1025
       - 1090:1080
