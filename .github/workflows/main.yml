@@ -56,6 +56,9 @@ jobs:
           node-version: '18'
       - run: npm ci --omit=dev
 
+      - name: Install Symfony Encore # --omit-dev just above, do not delete, required for npm run build
+        run: npm ci @symfony/webpack-encore
+
       - name: NPM build
         run: npm run build
 
