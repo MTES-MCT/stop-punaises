@@ -24,6 +24,8 @@ parameters:
     csp_enable: '%env(bool:CSP_ENABLE)%'
     matomo_enable: '%env(bool:MATOMO_ENABLE)%'
     matomo_site_id: '%env(resolve:MATOMO_SITE_ID)%'
+    matomo_url: '%env(resolve:MATOMO_URL)%'
+    matomo_cdn: '%env(resolve:MATOMO_CDN)%'
 
 services:
     # default configuration for services in *this* file
