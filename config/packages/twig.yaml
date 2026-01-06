@@ -24,7 +24,7 @@ when@prod:
     twig:
         globals:
             matomo:
-                url: https://histologe.matomo.cloud/
-                cdn: //cdn.matomo.cloud/histologe.matomo.cloud/matomo.js
+                url: '%matomo_url%'
+                cdn: '%matomo_cdn%'
                 site_id: '%matomo_site_id%'
                 enable: '%matomo_enable%'

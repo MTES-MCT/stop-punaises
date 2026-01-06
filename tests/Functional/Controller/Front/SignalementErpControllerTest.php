@@ -86,7 +86,7 @@ class SignalementErpControllerTest extends WebTestCase
         $crawler = $client->request('GET', $route);
         $form = $crawler->selectButton('Signaler mon problème')->form();
 
-        $form['signalement_front[punaisesViewedAt]'] = '2025-10-10';
+        $form['signalement_front[punaisesViewedAt]'] = '2055-10-10';
         $form['signalement_front[punaisesViewedTimeAt]'] = '10:15';
         $form['signalement_front[nomProprietaire]'] = 'Monsieur patate';
         $form['signalement_front[adresse]'] = 'Rue de la Pata';

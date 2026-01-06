@@ -1,11 +1,11 @@
 parameters:
   csp_parameters:
     default-src: "'none'"
-    script-src: "'self' 'unsafe-inline' 'unsafe-eval' https://cdn.matomo.cloud/histologe.matomo.cloud/matomo.js https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/ https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/"
+    script-src: "'self' 'unsafe-inline' 'unsafe-eval' https://cdn.matomo.cloud/histologe.matomo.cloud/matomo.js https://stats.beta.gouv.fr/matomo.js https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/ https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/"
     style-src: "'self' https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/"
     style-src-attr: "'self' 'unsafe-inline'"
     img-src: "'self' data: blob: https://*.tile.openstreetmap.org https://cdn.jsdelivr.net"
-    connect-src: "'self' https://api-adresse.data.gouv.fr https://cdn.matomo.cloud https://histologe.matomo.cloud https://sentry.incubateur.net"
+    connect-src: "'self' https://api-adresse.data.gouv.fr https://cdn.matomo.cloud https://histologe.matomo.cloud https://stats.beta.gouv.fr https://sentry.incubateur.net"
     font-src: "'self'"
     frame-src: "'none'"
     object-src: "'none'"
