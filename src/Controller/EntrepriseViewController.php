@@ -42,7 +42,7 @@ class EntrepriseViewController extends AbstractController
 
         $this->displayErrors($formEditEntreprise);
 
-        $editEmployeUuid = $request->get('editEmploye');
+        $editEmployeUuid = $request->request->get('editEmploye');
         $employe = new Employe();
         $employe->setUuid(uniqid());
         $formCreateEmploye = $this->createForm(EmployeType::class, $employe);
@@ -91,7 +91,7 @@ class EntrepriseViewController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
     ): Response {
-        if ($this->isCsrfTokenValid('switch_status', $request->get('_t'))) {
+        if ($this->isCsrfTokenValid('switch_status', $request->query->get('_t'))) {
             if (Status::ACTIVE === $entreprise->getUser()->getStatus()) {
                 $entreprise->getUser()->setStatus(Status::ARCHIVE);
                 $this->addFlash('success', 'L\'entreprise "'.$entreprise->getNom().'" (id : '.$entreprise->getId().') a été archivée.');

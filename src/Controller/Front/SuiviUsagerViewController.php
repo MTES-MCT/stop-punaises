@@ -82,7 +82,7 @@ class SuiviUsagerViewController extends AbstractController
         MailerProvider $mailerProvider,
         EntrepriseRepository $entrepriseRepository,
     ): Response {
-        if ($this->isCsrfTokenValid('signalement_switch_pro', $request->get('_csrf_token'))) {
+        if ($this->isCsrfTokenValid('signalement_switch_pro', $request->request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre signalement est transféré ! Les entreprises vont vous contacter au plus vite !');
             $signalement->setAutotraitement(false);
             $signalement->setSwitchedTraitementAt(new \DateTimeImmutable());
@@ -114,7 +114,7 @@ class SuiviUsagerViewController extends AbstractController
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
     ): Response {
-        if ($this->isCsrfTokenValid('signalement_switch_autotraitement', $request->get('_csrf_token'))) {
+        if ($this->isCsrfTokenValid('signalement_switch_autotraitement', $request->request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre choix a été enregistré. Vous pouvez consulter le protocole d\'auto-traitement.');
             $signalement->setAutotraitement(true);
             $signalement->setReminderAutotraitementAt(null);
@@ -143,7 +143,7 @@ class SuiviUsagerViewController extends AbstractController
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
     ): Response {
-        if ($this->isCsrfTokenValid('signalement_resolve', $request->get('_csrf_token'))) {
+        if ($this->isCsrfTokenValid('signalement_resolve', $request->request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
 
             $signalement->setResolvedAt(new \DateTimeImmutable());
@@ -181,7 +181,7 @@ class SuiviUsagerViewController extends AbstractController
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
     ): Response {
-        if ($this->isCsrfTokenValid('signalement_confirm_toujours_punaises', $request->get('_csrf_token'))) {
+        if ($this->isCsrfTokenValid('signalement_confirm_toujours_punaises', $request->request->get('_csrf_token'))) {
             $this->addFlash('success', 'Stop Punaises a été prévenu de votre retour.');
             $mailerProvider->sendAdminToujoursPunaises($this->getParameter('admin_email'), $signalement);
 
@@ -203,7 +203,7 @@ class SuiviUsagerViewController extends AbstractController
         SignalementManager $signalementManager,
         EventDispatcherInterface $eventDispatcher,
     ): Response {
-        if ($this->isCsrfTokenValid('signalement_stop', $request->get('_csrf_token'))) {
+        if ($this->isCsrfTokenValid('signalement_stop', $request->request->get('_csrf_token'))) {
             $this->addFlash('success', 'Votre procédure est terminée !');
             $signalement->setClosedAt(new \DateTimeImmutable());
             $signalementManager->save($signalement);
@@ -230,7 +230,7 @@ class SuiviUsagerViewController extends AbstractController
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
     ): Response {
-        if (!$this->isCsrfTokenValid('signalement_estimation_choice', $request->get('_csrf_token'))) {
+        if (!$this->isCsrfTokenValid('signalement_estimation_choice', $request->request->get('_csrf_token'))) {
             return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
         }
         if ($intervention->getSignalement()->getId() !== $signalement->getId()) {
@@ -240,7 +240,7 @@ class SuiviUsagerViewController extends AbstractController
             return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
         }
 
-        if ('accept' == $request->get('action')) {
+        if ('accept' == $request->request->get('action')) {
             if (!$intervention->getEntreprise() || !$intervention->getEntreprise()->isActive()) {
                 return $this->redirectToRoute('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
             }
@@ -272,7 +272,7 @@ class SuiviUsagerViewController extends AbstractController
                 ),
                 InterventionUsagerAcceptedEvent::NAME
             );
-        } elseif ('refuse' == $request->get('action')) {
+        } elseif ('refuse' == $request->request->get('action')) {
             $this->addFlash('success', 'L\'estimation a bien été refusée');
             $intervention->setChoiceByUsagerAt(new \DateTimeImmutable());
             $intervention->setAcceptedByUsager(false);

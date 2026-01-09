@@ -63,7 +63,7 @@ class SignalementCreateController extends AbstractController
     #[Route('/bo/signalements/ajout/liste-employes', name: 'app_liste_employes')]
     public function get_list_employes(Request $request, EntrepriseRepository $entrepriseRepository): Response
     {
-        $idEntreprise = $request->get('idEntreprise');
+        $idEntreprise = $request->request->get('idEntreprise');
         $entreprise = $entrepriseRepository->findOneBy(['id' => $idEntreprise]);
 
         if (empty($entreprise)) {

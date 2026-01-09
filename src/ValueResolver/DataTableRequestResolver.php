@@ -3,6 +3,7 @@
 namespace App\ValueResolver;
 
 use App\Dto\DataTableRequest;
+use App\Service\RequestDataExtractor;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -16,7 +17,8 @@ class DataTableRequestResolver implements ValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $order = $request->get('order');
+        $queryData = $request->query->all();
+        $order = RequestDataExtractor::getArray($queryData, 'order');
         if (!is_array($order)) {
             return;
         }
@@ -33,10 +35,10 @@ class DataTableRequestResolver implements ValueResolverInterface
         }
         if ($this->supports($request, $argument)) {
             yield new DataTableRequest(
-                draw: $request->get('draw'),
-                start: $request->get('start'),
-                length: $request->get('length'),
-                columns: $request->get('columns'),
+                draw: (int) RequestDataExtractor::getString($queryData, 'draw'),
+                start: (int) RequestDataExtractor::getString($queryData, 'start'),
+                length: (int) RequestDataExtractor::getString($queryData, 'length'),
+                columns: RequestDataExtractor::getArray($queryData, 'columns'),
                 order: $orderList,
             );
         }

@@ -58,10 +58,15 @@ class SignalementViewControllerTest extends WebTestCase
             'app_signalement_intervention_accept',
             [
                 'uuid' => $signalement->getUuid(),
+            ]
+        );
+        $client->request(
+            'POST',
+            $routePostSignalement,
+            [
                 '_csrf_token' => $this->generateCsrfToken($client, 'signalement_intervention_accept'),
             ]
         );
-        $client->request('POST', $routePostSignalement);
 
         $this->assertResponseRedirects('/bo/signalements/'.$signalement->getUuid());
 

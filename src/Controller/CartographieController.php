@@ -18,17 +18,17 @@ class CartographieController extends AbstractController
         CartoStatutCalculator $cartoStatutCalculator,
         Request $request,
     ): Response {
-        if ($request->get('load_markers')) {
-            if ($request->get('filter-date')) {
-                $date = \DateTimeImmutable::createFromFormat('j/m/Y', $request->get('filter-date'));
+        if ($request->query->get('load_markers')) {
+            if ($request->request->get('filter-date')) {
+                $date = \DateTimeImmutable::createFromFormat('j/m/Y', $request->request->get('filter-date'));
             } else {
                 $date = new \DateTimeImmutable();
             }
             $cartoRequest = new CartographieRequest(
-                $request->get('swLat'),
-                $request->get('swLng'),
-                $request->get('neLat'),
-                $request->get('neLng'),
+                $request->request->get('swLat'),
+                $request->request->get('swLng'),
+                $request->request->get('neLat'),
+                $request->request->get('neLng'),
                 $date,
             );
 

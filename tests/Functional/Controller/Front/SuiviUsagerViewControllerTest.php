@@ -69,10 +69,15 @@ class SuiviUsagerViewControllerTest extends WebTestCase
             'app_signalement_switch_pro',
             [
                 'uuid' => $signalement->getUuid(),
+            ]
+        );
+        $client->request(
+            'POST',
+            $routePostSignalement,
+            [
                 '_csrf_token' => $this->generateCsrfToken($client, 'signalement_switch_pro'),
             ]
         );
-        $client->request('POST', $routePostSignalement);
         $this->assertEmailCount(1);
         $this->assertResponseRedirects('/signalements/'.$signalement->getUuidPublic());
     }
