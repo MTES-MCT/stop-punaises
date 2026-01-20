@@ -36,7 +36,7 @@ function initSearchAddress() {
           searchField += ' ' + $('#code-postal').val();
         }
         ajaxObject = $.ajax({
-          url: 'https://api-adresse.data.gouv.fr/search/?q=' + searchField
+          url: 'https://data.geopf.fr/geocodage/search/?q=' + searchField
         }).done(function(jsonData) {
           let ariaPosinset = 1;
           for (let feature of jsonData.features) {

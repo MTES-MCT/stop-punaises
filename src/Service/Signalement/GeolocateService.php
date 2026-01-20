@@ -61,7 +61,7 @@ class GeolocateService
             $fullAddress .= $city;
         }
 
-        return $this->client->request('GET', 'https://api-adresse.data.gouv.fr/search', [
+        return $this->client->request('GET', 'https://data.geopf.fr/geocodage/search', [
             'query' => [
                 'q' => $fullAddress,
                 'limit' => 1,
@@ -71,7 +71,7 @@ class GeolocateService
 
     private function geolocateMunicipality(Signalement $signalement): ResponseInterface
     {
-        return $this->client->request('GET', 'https://api-adresse.data.gouv.fr/search', [
+        return $this->client->request('GET', 'https://data.geopf.fr/geocodage/search', [
             'query' => [
                 'q' => $signalement->getVille(),
                 'type' => 'municipality',
