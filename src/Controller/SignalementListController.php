@@ -49,7 +49,7 @@ class SignalementListController extends AbstractController
         }
 
         return $this->render('signalement_list/historique.html.twig', [
-            'display_signalement_create_success' => '1' == $request->get('create_success_message'),
+            'display_signalement_create_success' => '1' == $request->query->get('create_success_message'),
             'signalements' => $signalements,
             'entreprises' => $entreprises,
             'niveaux_infestation' => InfestationLevel::getLabelList(),
