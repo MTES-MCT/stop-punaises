@@ -25,7 +25,7 @@ function initSearchCommune() {
                 let searchField = $(this).val();
 
                 ajaxObject = $.ajax({
-                    url: 'https://api-adresse.data.gouv.fr/search/?q=' + searchField + '&type=municipality&limit10'
+                    url: 'https://data.geopf.fr/geocodage/search/?q=' + searchField + '&type=municipality&limit10'
                 }).done(function(jsonData) {
                     for (let feature of jsonData.features) {
                         let postCode = feature.properties.postcode;
