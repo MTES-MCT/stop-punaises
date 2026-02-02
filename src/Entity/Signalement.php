@@ -83,13 +83,18 @@ class Signalement
     private ?string $prenomOccupant = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    #[Assert\Regex(
-        pattern: '/^(?:0|\(?\+33\)?\s?|0033\s?)[1-9](?:[\.\-\s]?\d\d){4}$/',
-        match: true,
-        message: 'Merci de saisir le numéro de téléphone au bon format'
-    )]
-    #[Assert\NotBlank(
-        message: 'Veuillez renseigner votre numéro de téléphone.',
+    #[Assert\When(
+        expression: 'this.isAutotraitement() == false',
+        constraints: [
+            new Assert\NotBlank(
+                message: 'Veuillez renseigner votre numéro de téléphone.'
+            ),
+            new Assert\Regex(
+                pattern: '/^(?:0|\(?\+33\)?\s?|0033\s?)[1-9](?:[\.\-\s]?\d\d){4}$/',
+                message: 'Merci de saisir le numéro de téléphone au bon format',
+                match: true
+            ),
+        ],
         groups: ['front_add_signalement_logement']
     )]
     private ?string $telephoneOccupant = null;
@@ -107,14 +112,18 @@ class Signalement
     private ?\DateTimeInterface $dateIntervention = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    #[Assert\Range(
-        min: 0,
-        max: 4,
-        notInRangeMessage: 'Le niveau d\'infestation doit être compris entre 1 et 4.',
-        groups: ['front_add_signalement_logement']
-    )]
-    #[Assert\NotBlank(
-        message: 'Veuillez renseigner un niveau d\'infestation.',
+    #[Assert\When(
+        expression: 'this.isAutotraitement() == false',
+        constraints: [
+            new Assert\Range(
+                notInRangeMessage: 'Le niveau d\'infestation doit être compris entre 1 et 4.',
+                min: 0,
+                max: 4
+            ),
+            new Assert\NotBlank(
+                message: 'Veuillez renseigner un niveau d\'infestation.'
+            ),
+        ],
         groups: ['front_add_signalement_logement']
     )]
     private ?int $niveauInfestation = null;
