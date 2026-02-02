@@ -84,7 +84,7 @@ class Signalement
 
     #[ORM\Column(length: 20, nullable: true)]
     #[Assert\When(
-        expression: 'this.isAutotraitement() == false',
+        expression: 'this.isAutotraitement() == false and this.isLogementSocial() == false',
         constraints: [
             new Assert\NotBlank(
                 message: 'Veuillez renseigner votre numéro de téléphone.'
