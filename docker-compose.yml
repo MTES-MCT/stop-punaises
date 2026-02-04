@@ -2,7 +2,7 @@
 
 services:
   stopunaises_mysql:
-    image: 'mysql:8.0.40'
+    image: 'mysql:8.0.45'
     container_name: stopunaises_mysql
     restart: always
     environment:
