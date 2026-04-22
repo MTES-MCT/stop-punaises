@@ -16,7 +16,7 @@ map.on('moveend', async function() {
     await getMarkers();
 });
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {crossOrigin: true}).addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {crossOrigin: true, referrerPolicy: "origin"}).addTo(map);
 let abortController;
 var heat;
 
