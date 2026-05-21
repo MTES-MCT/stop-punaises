@@ -31,7 +31,7 @@ class SignalementClosedSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onSignalementClosed(SignalementClosedEvent $signalementClosedEvent)
+    public function onSignalementClosed(SignalementClosedEvent $signalementClosedEvent): void
     {
         $signalement = $signalementClosedEvent->getSignalement();
 

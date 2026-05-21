@@ -23,7 +23,7 @@ class SignalementResolvedSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onSignalementResolved(SignalementResolvedEvent $signalementResolvedEvent)
+    public function onSignalementResolved(SignalementResolvedEvent $signalementResolvedEvent): void
     {
         $signalement = $signalementResolvedEvent->getSignalement();
 

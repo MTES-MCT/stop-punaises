@@ -13,7 +13,7 @@ class ContentSecurityPolicyListener
     ) {
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 
@@ -22,7 +22,7 @@ class ContentSecurityPolicyListener
         $request->attributes->set('csp_script_nonce', $scriptNonce);
     }
 
-    public function onKernelResponse(ResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event): void
     {
         $response = $event->getResponse();
         $request = $event->getRequest();

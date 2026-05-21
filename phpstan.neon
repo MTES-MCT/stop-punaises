@@ -6,3 +6,14 @@ parameters:
 	excludePaths:
 		- .php-cs-fixer.dist.php
 	treatPhpDocTypesAsCertain: false
+	ignoreErrors:
+		-
+			message: '#Property .*::\$id \(int\|null\) is never assigned int so it can be removed from the property type\.#'
+			path: src/Entity/*
+        # Ignore PHPStan 2.0 strictness - to be fixed gradually
+		-
+			identifier: notIdentical.alwaysTrue
+		-
+			identifier: function.alreadyNarrowedType
+		-
+			identifier: method.alreadyNarrowedType

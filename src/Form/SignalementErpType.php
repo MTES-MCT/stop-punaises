@@ -140,7 +140,7 @@ class SignalementErpType extends AbstractType
             ->add('placeType', EnumType::class, [
                 'class' => PlaceType::class,
                 'choices' => PlaceType::getErpTypes(),
-                'choice_label' => function ($value) {
+                'choice_label' => static function ($value) {
                     return $value->label();
                 },
                 'choice_attr' => [

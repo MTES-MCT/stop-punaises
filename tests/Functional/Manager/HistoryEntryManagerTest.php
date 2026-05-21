@@ -42,7 +42,7 @@ class HistoryEntryManagerTest extends KernelTestCase
         );
     }
 
-    public function testCreateHistoryEntry()
+    public function testCreateHistoryEntry(): void
     {
         /** @var UserRepository $userRepository */
         $userRepository = $this->entityManager->getRepository(User::class);

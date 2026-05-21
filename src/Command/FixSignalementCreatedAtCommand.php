@@ -76,7 +76,7 @@ class FixSignalementCreatedAtCommand extends Command
         $progressBar->start(\count($data));
 
         // avoids loading same entreprise entity multiple times
-        /** @var Entreprise $currentEntreprise */
+        /** @var Entreprise|null $currentEntreprise */
         $currentEntreprise = null;
 
         foreach ($data as $item) {

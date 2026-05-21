@@ -134,7 +134,7 @@ class SendRemindersCommand extends Command
         return $countCloseSignalementsTraitementPro;
     }
 
-    private function closeSignalement(Signalement $signalement)
+    private function closeSignalement(Signalement $signalement): void
     {
         $signalement->setClosedAt(new \DateTimeImmutable());
         $signalement->updateUuidPublic();

@@ -27,7 +27,7 @@ class Intervention
     private ?bool $accepted = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Assert\Length(min: 10, minMessage: 'Le commentaire doit faire plus de {{ limit }} caractères.') ]
+    #[Assert\Length(min: 10, minMessage: 'Le commentaire doit faire plus de {{ limit }} caractères.')]
     private ?string $commentaireRefus = null;
 
     #[ORM\Column(nullable: true)]

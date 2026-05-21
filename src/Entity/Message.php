@@ -27,7 +27,7 @@ class Message
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 10, minMessage: 'Votre message doit avoir {{ limit }} caractères minimum') ]
+    #[Assert\Length(min: 10, minMessage: 'Votre message doit avoir {{ limit }} caractères minimum')]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages', cascade: ['persist'])]

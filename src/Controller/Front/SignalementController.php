@@ -36,7 +36,7 @@ class SignalementController extends AbstractController
         $form = $this->createForm(SignalementFrontType::class, $signalement);
         $codePostal = $request->query->get('code-postal');
 
-        $activeTerritoires = array_map(function ($codeDepartement) {
+        $activeTerritoires = array_map(static function ($codeDepartement) {
             if (Territoire::CORSE_DU_SUD_CODE_DEPARTMENT_2A === $codeDepartement
                 || Territoire::HAUTE_CORSE_CODE_DEPARTMENT_2B === $codeDepartement) {
                 return '20';

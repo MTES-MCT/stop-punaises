@@ -26,7 +26,7 @@ class EventManager extends AbstractManager
         ?int $userId,
         ?string $recipient,
         ?string $title = null,
-    ) {
+    ): void {
         $activeEvents = $this->eventRepository->findActiveDomainEvents(
             $signalement->getUuid(),
             $domain,

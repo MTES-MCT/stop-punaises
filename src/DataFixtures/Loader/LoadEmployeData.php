@@ -25,7 +25,7 @@ class LoadEmployeData extends Fixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
-    public function loadEmploye(ObjectManager $manager, array $row)
+    public function loadEmploye(ObjectManager $manager, array $row): void
     {
         $faker = Factory::create('fr_FR');
 

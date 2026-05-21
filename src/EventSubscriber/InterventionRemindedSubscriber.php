@@ -23,7 +23,7 @@ class InterventionRemindedSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onInterventionReminded(InterventionRemindedEvent $interventionRemindedEvent)
+    public function onInterventionReminded(InterventionRemindedEvent $interventionRemindedEvent): void
     {
         $intervention = $interventionRemindedEvent->getIntervention();
         $event = $this->eventManager->createEventReminderPro(

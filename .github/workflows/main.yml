@@ -20,7 +20,7 @@ jobs:
     services:
       # https://docs.docker.com/samples/library/mysql/
       mysql:
-        image: mysql:8.0
+        image: mysql:8.4
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: stopunaises
@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['8.3']
+        php-versions: ['8.4']
     steps:
       # https://github.com/actions/checkout (official)
       - name: Checkout
@@ -53,7 +53,7 @@ jobs:
       - name: NPM ci
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: '24'
       - run: npm ci --omit=dev
 
       - name: Install Symfony Encore # --omit-dev just above, do not delete, required for npm run build

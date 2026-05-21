@@ -2,7 +2,8 @@
 
 services:
   stopunaises_mysql:
-    image: 'mysql:8.0.40'
+    image: 'mysql:8.4.9'
+    command: --max_allowed_packet=32505856 --innodb-buffer-pool-size=4G
     container_name: stopunaises_mysql
     restart: always
     environment:
@@ -61,7 +62,7 @@ services:
       - 1090:1080
 
   stopunaises_redis:
-    image: redis:7.2.7-alpine
+    image: redis:7.2.14-alpine
     container_name: stopunaises_redis
 
   stopunaises_clamav:

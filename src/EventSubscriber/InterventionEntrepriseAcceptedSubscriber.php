@@ -23,7 +23,7 @@ class InterventionEntrepriseAcceptedSubscriber implements EventSubscriberInterfa
         ];
     }
 
-    public function onInterventionEntrepriseAccepted(InterventionEntrepriseAcceptedEvent $interventionEntrepriseAcceptedEvent)
+    public function onInterventionEntrepriseAccepted(InterventionEntrepriseAcceptedEvent $interventionEntrepriseAcceptedEvent): void
     {
         $intervention = $interventionEntrepriseAcceptedEvent->getIntervention();
         $event = $this->eventManager->createEventSignalementAcceptedByEntreprise(
