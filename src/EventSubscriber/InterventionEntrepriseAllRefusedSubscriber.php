@@ -23,7 +23,7 @@ class InterventionEntrepriseAllRefusedSubscriber implements EventSubscriberInter
         ];
     }
 
-    public function onInterventionEntrepriseAllRefused(InterventionEntrepriseAllRefusedEvent $interventionEntrepriseAllRefusedEvent)
+    public function onInterventionEntrepriseAllRefused(InterventionEntrepriseAllRefusedEvent $interventionEntrepriseAllRefusedEvent): void
     {
         $intervention = $interventionEntrepriseAllRefusedEvent->getIntervention();
         $event = $this->eventManager->createEventNoEntrepriseAvailable(

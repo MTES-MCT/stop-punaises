@@ -23,7 +23,7 @@ class SignalementAddedSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onSignalementAdded(SignalementAddedEvent $signalementAddedEvent)
+    public function onSignalementAdded(SignalementAddedEvent $signalementAddedEvent): void
     {
         $signalement = $signalementAddedEvent->getSignalement();
         $event = $this->eventManager->createEventNewSignalement(

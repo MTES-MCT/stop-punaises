@@ -24,7 +24,7 @@ class SignalementSwitchedSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onSignalementSwitchedPro(SignalementSwitchedEvent $signalementSwitchedEvent)
+    public function onSignalementSwitchedPro(SignalementSwitchedEvent $signalementSwitchedEvent): void
     {
         $signalement = $signalementSwitchedEvent->getSignalement();
         $event = $this->eventManager->createEventSwitchTraitement(
@@ -44,7 +44,7 @@ class SignalementSwitchedSubscriber implements EventSubscriberInterface
         $this->eventRepository->updateCreatedAt($event, $signalementSwitchedEvent->getCreatedAt());
     }
 
-    public function onSignalementSwitchedAutotraitement(SignalementSwitchedEvent $signalementSwitchedEvent)
+    public function onSignalementSwitchedAutotraitement(SignalementSwitchedEvent $signalementSwitchedEvent): void
     {
         $signalement = $signalementSwitchedEvent->getSignalement();
         $event = $this->eventManager->createEventSwitchTraitement(

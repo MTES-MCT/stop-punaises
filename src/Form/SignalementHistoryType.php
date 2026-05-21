@@ -266,7 +266,7 @@ class SignalementHistoryType extends AbstractType
                     'class' => 'fr-select',
                 ],
                 'class' => InfestationLevel::class,
-                'choice_label' => function (InfestationLevel $infestationLevel) {
+                'choice_label' => static function (InfestationLevel $infestationLevel) {
                     return $infestationLevel->label();
                 },
 
@@ -426,7 +426,7 @@ class SignalementHistoryType extends AbstractType
             ])
         ;
         $builder->get('geoloc')->addModelTransformer(new CallbackTransformer(
-            function ($tagsAsArray) {
+            static function ($tagsAsArray) {
                 // transform the array to a string
                 if (!empty($tagsAsArray) && !empty($tagsAsArray[1])) {
                     return $tagsAsArray[0].'|'.$tagsAsArray[1];
@@ -434,7 +434,7 @@ class SignalementHistoryType extends AbstractType
 
                 return '';
             },
-            function ($tagsAsString) {
+            static function ($tagsAsString) {
                 // transform the string back to an array
                 if (!empty($tagsAsString)) {
                     $coord = explode('|', $tagsAsString);
@@ -448,14 +448,14 @@ class SignalementHistoryType extends AbstractType
 
         $builder->get('niveauInfestation')
             ->addModelTransformer(new CallbackTransformer(
-                function (?int $level) {
+                static function (?int $level) {
                     if (empty($level)) {
                         return InfestationLevel::from(InfestationLevel::NULLE->value);
                     }
 
                     return InfestationLevel::from($level);
                 },
-                function (InfestationLevel $level) {
+                static function (InfestationLevel $level) {
                     return $level->value;
                 }
             ));
@@ -480,7 +480,7 @@ class SignalementHistoryType extends AbstractType
         $builder
             ->add('entreprise', EntityType::class, [
                 'class' => Entreprise::class,
-                'query_builder' => function (EntrepriseRepository $er) {
+                'query_builder' => static function (EntrepriseRepository $er) {
                     return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
                 },
                 'attr' => [
@@ -495,7 +495,7 @@ class SignalementHistoryType extends AbstractType
             ])
             ->add('agent', EntityType::class, [
                 'class' => Employe::class,
-                'query_builder' => function (EmployeRepository $er) {
+                'query_builder' => static function (EmployeRepository $er) {
                     return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
                 },
                 'attr' => [

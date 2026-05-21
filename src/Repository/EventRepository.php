@@ -69,7 +69,7 @@ class EventRepository extends ServiceEntityRepository
             ->andWhere('e.active = 1')
             ->orderBy('e.createdAt', 'DESC');
 
-        return array_map(function ($item) {
+        return array_map(static function ($item) {
             return [
                 'domain' => $item['domain'],
                 'title' => $item['title'],
@@ -98,7 +98,7 @@ class EventRepository extends ServiceEntityRepository
             ->andWhere('e.active = 1')
             ->orderBy('e.createdAt', 'DESC');
 
-        return array_map(function ($item) {
+        return array_map(static function ($item) {
             return [
                 'domain' => $item['domain'],
                 'title' => $item['title'],
@@ -123,7 +123,7 @@ class EventRepository extends ServiceEntityRepository
             ->andWhere('e.active = 1')
             ->orderBy('e.createdAt', 'DESC');
 
-        return array_map(function ($item) {
+        return array_map(static function ($item) {
             return [
                 'domain' => $item['domain'],
                 'title' => $item['title'],
@@ -136,7 +136,7 @@ class EventRepository extends ServiceEntityRepository
         }, $qb->getQuery()->getResult());
     }
 
-    public function updateCreatedAt(Event $event, ?\DateTimeImmutable $createdAt)
+    public function updateCreatedAt(Event $event, ?\DateTimeImmutable $createdAt): void
     {
         if ($createdAt) {
             $qb = $this->createQueryBuilder('e');

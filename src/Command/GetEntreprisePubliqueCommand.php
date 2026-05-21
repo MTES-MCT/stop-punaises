@@ -153,7 +153,7 @@ class GetEntreprisePubliqueCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function parseUrl(array &$dataToSave, $zip, $slug)
+    private function parseUrl(array &$dataToSave, $zip, $slug): void
     {
         $htmlContent = file_get_contents(self::DISTANT_URL.$slug.'/');
 

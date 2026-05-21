@@ -112,7 +112,7 @@ class EntrepriseType extends AbstractType
             ])
             ->add('territoires', EntityType::class, [
                 'class' => Territoire::class,
-                'query_builder' => function (TerritoireRepository $er) {
+                'query_builder' => static function (TerritoireRepository $er) {
                     return $er->createQueryBuilder('e')->orderBy('e.id', 'ASC');
                 },
                 'attr' => [

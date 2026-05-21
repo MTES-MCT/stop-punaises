@@ -33,7 +33,7 @@ class InterventionEntrepriseCanceledSubscriber implements EventSubscriberInterfa
         ];
     }
 
-    public function onInterventionEntrepriseCanceled(InterventionEntrepriseCanceledEvent $interventionEntrepriseCanceledEvent)
+    public function onInterventionEntrepriseCanceled(InterventionEntrepriseCanceledEvent $interventionEntrepriseCanceledEvent): void
     {
         $intervention = $interventionEntrepriseCanceledEvent->getIntervention();
         $signalement = $intervention->getSignalement();

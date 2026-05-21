@@ -14,7 +14,7 @@ class ContactFormHandler
     ) {
     }
 
-    public function handle(FormInterface $form)
+    public function handle(FormInterface $form): void
     {
         $nom = $form->get('nom')->getData();
         $email = $form->get('email')->getData();

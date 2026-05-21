@@ -20,7 +20,7 @@ class InterventionEstimationSentSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onInterventionEstimationSent(InterventionEstimationSentEvent $interventionEstimationSentEvent)
+    public function onInterventionEstimationSent(InterventionEstimationSentEvent $interventionEstimationSentEvent): void
     {
         $this->estimationSentFactory->add(
             $interventionEstimationSentEvent->getIntervention(),

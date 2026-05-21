@@ -23,7 +23,7 @@ class SignalementRemindedSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onSignalementReminded(SignalementRemindedEvent $signalementRemindedEvent)
+    public function onSignalementReminded(SignalementRemindedEvent $signalementRemindedEvent): void
     {
         $signalement = $signalementRemindedEvent->getSignalement();
         $event = $this->eventManager->createEventReminderAutotraitement(

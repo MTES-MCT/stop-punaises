@@ -54,7 +54,7 @@ class EntreprisePubliqueImportLoader
         }
     }
 
-    private function createAndSaveEntreprise(array $dataMapped, ?OutputInterface $output = null)
+    private function createAndSaveEntreprise(array $dataMapped, ?OutputInterface $output = null): void
     {
         ++$this->count;
         if ($output) {

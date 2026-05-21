@@ -36,7 +36,7 @@ class UserManager extends AbstractManager
         }
     }
 
-    public function requestActivationFrom(string $email)
+    public function requestActivationFrom(string $email): void
     {
         $user = $this->loadUserToken($email);
         if (!empty($user)) {

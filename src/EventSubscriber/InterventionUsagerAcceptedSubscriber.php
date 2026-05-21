@@ -23,7 +23,7 @@ class InterventionUsagerAcceptedSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onInterventionUsagerAccepted(InterventionUsagerAcceptedEvent $interventionUsagerAcceptedEvent)
+    public function onInterventionUsagerAccepted(InterventionUsagerAcceptedEvent $interventionUsagerAcceptedEvent): void
     {
         $intervention = $interventionUsagerAcceptedEvent->getIntervention();
 

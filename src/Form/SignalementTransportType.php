@@ -108,7 +108,7 @@ class SignalementTransportType extends AbstractType
             ->add('placeType', EnumType::class, [
                 'class' => PlaceType::class,
                 'choices' => PlaceType::getTransportTypes(),
-                'choice_label' => function ($value) {
+                'choice_label' => static function ($value) {
                     return $value->label();
                 },
                 'row_attr' => [

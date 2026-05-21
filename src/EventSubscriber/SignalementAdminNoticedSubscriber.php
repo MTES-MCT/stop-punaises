@@ -23,7 +23,7 @@ class SignalementAdminNoticedSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onSignalementAdminNoticed(SignalementAdminNoticedEvent $signalementAdminNoticedEvent)
+    public function onSignalementAdminNoticed(SignalementAdminNoticedEvent $signalementAdminNoticedEvent): void
     {
         $signalement = $signalementAdminNoticedEvent->getSignalement();
 

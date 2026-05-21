@@ -23,7 +23,7 @@ class InterventionEntrepriseResolvedSubscriber implements EventSubscriberInterfa
         ];
     }
 
-    public function onInterventionEntrepriseResolved(InterventionEntrepriseResolvedEvent $interventionEntrepriseResolvedEvent)
+    public function onInterventionEntrepriseResolved(InterventionEntrepriseResolvedEvent $interventionEntrepriseResolvedEvent): void
     {
         $intervention = $interventionEntrepriseResolvedEvent->getIntervention();
         $signalement = $intervention->getSignalement();

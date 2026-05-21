@@ -74,7 +74,7 @@ class InitSignalementEventsCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function initEvents(Signalement $signalement)
+    private function initEvents(Signalement $signalement): void
     {
         $this->eventDispatcher->dispatch(
             new SignalementAddedEvent(

@@ -27,7 +27,7 @@ class MessageAddedSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onMessageAdded(MessageAddedEvent $messageAddedEvent)
+    public function onMessageAdded(MessageAddedEvent $messageAddedEvent): void
     {
         $messageThread = $messageAddedEvent->getMessage()->getMessagesThread();
         $signalement = $messageThread->getSignalement();
