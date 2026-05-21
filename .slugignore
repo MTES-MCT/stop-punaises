@@ -17,6 +17,7 @@ scripts/upload-s3.sh
 .github
 assets
 cypress
+tests
 tools
 node_modules
 tmp/cache

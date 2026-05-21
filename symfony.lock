@@ -11,15 +11,6 @@
             "config/packages/test/dama_doctrine_test_bundle.yaml"
         ]
     },
-    "doctrine/annotations": {
-        "version": "1.13",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.10",
-            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
-        }
-    },
     "doctrine/deprecations": {
         "version": "1.1",
         "recipe": {
@@ -79,18 +70,6 @@
         "files": [
             "config/packages/flysystem.yaml",
             "var/storage/.gitignore"
-        ]
-    },
-    "php-http/discovery": {
-        "version": "1.19",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.18",
-            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
-        },
-        "files": [
-            "config/packages/http_discovery.yaml"
         ]
     },
     "phpstan/phpstan": {

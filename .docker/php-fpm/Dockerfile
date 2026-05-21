@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.4-fpm
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         curl \
@@ -30,6 +30,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && docker-php-ext-install -j2 bcmath ctype iconv pdo pdo_mysql pdo_sqlite zip xsl sockets\
         && docker-php-ext-enable opcache \
         && rm /usr/src/php/ext/*.tgz \
-        && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+        && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer \
+        && mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
+        \
+        # Clean up
+        && rm -rf /var/lib/apt/lists/* /usr/src/php/ext/*.tgz
+
+RUN sed -E -i -e 's/memory_limit = 128M/memory_limit = 512M/' "$PHP_INI_DIR/php.ini"
 
 WORKDIR /app/

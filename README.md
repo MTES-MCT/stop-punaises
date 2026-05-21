@@ -18,12 +18,12 @@ Cette application est déployé chez Scalingo, hébergé par Outscale.
 
 Requirements|Release
 ------------|--------
-Docker engine (minimum)| [20.10.17](https://www.docker.com/)
-Scalingo CLI (minimum) | [1.24](https://doc.scalingo.com/platform/cli/start)
+Docker engine (minimum)| [29.*](https://www.docker.com/)
+Scalingo CLI (minimum) | [1.44](https://doc.scalingo.com/platform/cli/start)
 AWS CLI OVH Object storage (optionnel) | [1.25](https://docs.ovh.com/fr/storage/s3/debuter-avec-s3/#utilisation-de-aws-cli)
-PHP (optionnel)| [8.3.*](https://www.php.net/)
-Composer (optionnel) | [2.4.*](https://getcomposer.org/download/)
-Node (optionnel)| [16.*](https://nodejs.org/en/)
+PHP (optionnel)| [8.4.*](https://www.php.net/)
+Composer (optionnel) | [2.9.*](https://getcomposer.org/download/)
+Node (optionnel)| [24.*](https://nodejs.org/en/)
 
 ## Environnement technique
 
@@ -31,10 +31,10 @@ Node (optionnel)| [16.*](https://nodejs.org/en/)
 
 Service|Version
 -------|-------
-Nginx | 1.20.2
-PHP | 8.3.x (latest)
-MySQL | 8.0.31
-Redis | 7.0.x (latest)
+Nginx | 1.28.x
+PHP | 8.4.x
+MySQL | 8.4.x
+Redis | 7.x
 
 ### URL(s)
 
