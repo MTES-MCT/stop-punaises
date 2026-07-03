@@ -20,6 +20,7 @@ parameters:
     doc_conseil_size: 928666
     admin_email: '%env(resolve:CONTACT_EMAIL)%'
     inconnu_email: '%env(resolve:INCONNU_EMAIL)%'
+    is_signalements_disabled: '%env(bool:IS_SIGNALEMENTS_DISABLED)%'
     feature_three_forms: '%env(bool:FEATURE_THREE_FORMS_ENABLE)%'
     csp_enable: '%env(bool:CSP_ENABLE)%'
     matomo_enable: '%env(bool:MATOMO_ENABLE)%'

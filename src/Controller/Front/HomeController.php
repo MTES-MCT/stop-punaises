@@ -14,6 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
+    private bool $isSignalementsDisabled;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+    ) {
+        $this->isSignalementsDisabled = $parameterBag->get('is_signalements_disabled');
+    }
+
     #[Cache(public: true, maxage: 3600)]
     #[Route(
         '/',
@@ -22,7 +30,7 @@ class HomeController extends AbstractController
     )]
     public function index(): Response
     {
-        return $this->render('front/index.html.twig', []);
+        return $this->render('front/index.html.twig', ['is_signalements_disabled' => $this->isSignalementsDisabled]);
     }
 
     #[Cache(public: true, maxage: 3600)]
@@ -33,6 +41,10 @@ class HomeController extends AbstractController
     )]
     public function signalementList(ParameterBagInterface $parameterBag): Response
     {
+        if ($this->isSignalementsDisabled) {
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('front/signalement-type-list.html.twig', [
             'feature_three_forms' => $parameterBag->get('feature_three_forms'),
         ]);

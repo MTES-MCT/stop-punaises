@@ -18,6 +18,7 @@ use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\ZipCodeProvider;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementController extends AbstractController
 {
+    private bool $isSignalementsDisabled;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+    ) {
+        $this->isSignalementsDisabled = $parameterBag->get('is_signalements_disabled');
+    }
+
     #[Route(
         '/signalement/logement',
         name: 'app_front_signalement_logement',
@@ -32,6 +41,9 @@ class SignalementController extends AbstractController
     )]
     public function signalementLogement(Request $request, TerritoireRepository $territoireRepository): Response
     {
+        if ($this->isSignalementsDisabled) {
+            return $this->redirectToRoute('home');
+        }
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
         $codePostal = $request->query->get('code-postal');
@@ -65,6 +77,9 @@ class SignalementController extends AbstractController
         EventDispatcherInterface $eventDispatcher,
         GeolocateService $geolocateService,
     ): Response {
+        if ($this->isSignalementsDisabled) {
+            return $this->redirectToRoute('home');
+        }
         $signalement = new Signalement();
         $form = $this->createForm(SignalementFrontType::class, $signalement);
         $form->handleRequest($request);

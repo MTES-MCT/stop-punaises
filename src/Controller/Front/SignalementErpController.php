@@ -17,6 +17,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignalementErpController extends AbstractController
 {
+    private bool $isSignalementsDisabled;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+    ) {
+        $this->isSignalementsDisabled = $parameterBag->get('is_signalements_disabled');
+    }
+
     #[Route(
         '/signalement/erp',
         name: 'app_front_signalement_erp',
@@ -24,6 +32,10 @@ class SignalementErpController extends AbstractController
     )]
     public function index(ParameterBagInterface $parameterBag): Response
     {
+        if ($this->isSignalementsDisabled) {
+            return $this->redirectToRoute('home');
+        }
+
         if (!$parameterBag->get('feature_three_forms')) {
             return $this->redirectToRoute('home');
         }
@@ -44,6 +56,10 @@ class SignalementErpController extends AbstractController
         GeolocateService $geolocateService,
         ParameterBagInterface $parameterBag,
     ): Response {
+        if ($this->isSignalementsDisabled) {
+            return $this->redirectToRoute('home');
+        }
+
         if (!$parameterBag->get('feature_three_forms')) {
             return $this->redirectToRoute('home');
         }
