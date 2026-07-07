@@ -11,7 +11,7 @@ Cette application est déployé chez Scalingo, hébergé par Outscale.
 
 - Production: [stop-punaises.gouv.fr](https://stop-punaises.gouv.fr)
 
-- Staging: [stop-punaises-staging.osc-fr1.scalingo.io](https://stop-punaises-staging.osc-fr1.scalingo.io)
+- Staging: [stop-punaises-staging.incubateur.net](https://stop-punaises-staging.incubateur.net/)
 
 
 ## Pré-requis
