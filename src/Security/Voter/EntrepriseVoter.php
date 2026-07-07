@@ -7,6 +7,7 @@ use App\Entity\Enum\Role;
 use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -25,7 +26,7 @@ class EntrepriseVoter extends Voter
             && $subject instanceof Entreprise;
     }
 
-    protected function voteOnAttribute(string $attribute, $entreprise, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $entreprise, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
         if (!$user instanceof UserInterface) {
