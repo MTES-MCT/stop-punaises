@@ -1,10 +1,10 @@
 {
     "devDependencies": {
-        "@babel/core": "7.26.10",
-        "@babel/preset-env": "7.26.9",
+        "@babel/core": "8.0.1",
+        "@babel/preset-env": "8.0.2",
         "@hotwired/stimulus": "3.2.2",
         "@symfony/stimulus-bridge": "3.2.3",
-        "@symfony/webpack-encore": "6.0.0",
+        "@symfony/webpack-encore": "7.1.0",
         "core-js": "3.41.0",
         "file-loader": "6.2.0",
         "regenerator-runtime": "0.13.11",
@@ -23,7 +23,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@gouvfr/dsfr": "1.13.0",
+        "@gouvfr/dsfr": "1.14.4",
         "datatables.net": "1.13.11",
         "datatables.net-dt": "1.13.11",
         "datatables.net-responsive-dt": "2.5.1",
