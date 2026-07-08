@@ -3,6 +3,7 @@
 namespace App\Tests\Functional\Controller\Front;
 
 use App\Tests\SessionHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,7 @@ class SignalementControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    /** @dataProvider providePayloadSignalement */
+    #[DataProvider('providePayloadSignalement')]
     public function testAddSignalementLogement(array $payload, ?string $codePostal = null): void
     {
         $csrf_token = $this->generateCsrfToken($this->client, 'signalement_front');
@@ -41,7 +42,7 @@ class SignalementControllerTest extends WebTestCase
         $this->assertEquals(json_decode($bodyContent, true)['response'], 'success');
     }
 
-    public function providePayloadSignalement(): \Generator
+    public static function providePayloadSignalement(): \Generator
     {
         yield 'Post signalement in territory not open' => [
             [

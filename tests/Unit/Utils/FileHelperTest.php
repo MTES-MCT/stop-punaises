@@ -3,13 +3,12 @@
 namespace App\Tests\Unit\Utils;
 
 use App\Utils\FileHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class FileHelperTest extends TestCase
 {
-    /**
-     * @dataProvider provideData
-     */
+    #[DataProvider('provideData')]
     public function testFileSizeFormatter($data, $expectedResult): void
     {
         $formattedData = FileHelper::fileSizeFormatter($data[0], $data[1]);
@@ -17,7 +16,7 @@ class FileHelperTest extends TestCase
         $this->assertEquals($expectedResult, $formattedData);
     }
 
-    public function provideData(): \Generator
+    public static function provideData(): \Generator
     {
         yield '1024 sans décimale' => [
             [1024, 0],

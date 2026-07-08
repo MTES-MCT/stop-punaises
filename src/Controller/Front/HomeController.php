@@ -5,12 +5,13 @@ namespace App\Controller\Front;
 use App\Form\ContactType;
 use App\FormHandler\ContactFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class HomeController extends AbstractController
 {
@@ -107,6 +108,7 @@ class HomeController extends AbstractController
     public function contact(
         Request $request,
         ContactFormHandler $contactFormHandler,
+        #[Autowire(service: 'limiter.contact_form')]
         RateLimiterFactory $contactFormLimiter,
     ): Response {
         $form = $this->createForm(ContactType::class);

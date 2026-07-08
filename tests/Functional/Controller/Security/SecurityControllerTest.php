@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Controller\Security;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
@@ -16,9 +17,7 @@ class SecurityControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    /**
-     * @dataProvider provideUsers
-     */
+    #[DataProvider('provideUsers')]
     public function testLogin(string $email, string $redirectUrl): void
     {
         /** @var RouterInterface $router */
@@ -36,7 +35,7 @@ class SecurityControllerTest extends WebTestCase
         $this->assertResponseRedirects($redirectUrl);
     }
 
-    public function provideUsers(): \Generator
+    public static function provideUsers(): \Generator
     {
         yield 'Admin can login as Admin' => ['admin@punaises.fr', '/bo'];
         yield 'Company 1 can login as Entreprise' => ['company-01@punaises.fr', '/bo'];

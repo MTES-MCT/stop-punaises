@@ -11,18 +11,20 @@ use App\Form\EntrepriseType;
 use App\Manager\EmployeManager;
 use App\Manager\EntrepriseManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class EntrepriseViewController extends AbstractController
 {
     #[Route('/bo/entreprises/{uuid}', name: 'app_entreprise_view')]
     public function index(Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Entreprise $entreprise,
         EntrepriseManager $entrepriseManager,
         EmployeManager $employeManager,
@@ -87,6 +89,7 @@ class EntrepriseViewController extends AbstractController
 
     #[Route('/bo/entreprises/{uuid}/switch_status', name: 'app_entreprise_switch_status')]
     public function switchStatus(
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Entreprise $entreprise,
         Request $request,
         EntityManagerInterface $entityManager,

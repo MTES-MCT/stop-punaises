@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -69,6 +69,7 @@ class SignalementMessageController extends AbstractController
     #[Route('messages-thread/{uuid}/send-messsage', name: 'app_public_thread_message_send')]
     public function sendMessageToEntreprise(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         MessageThread $messageThread,
         MessageFactory $messageFactory,
         MessageManager $messageManager,

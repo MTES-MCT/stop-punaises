@@ -109,7 +109,7 @@ class Signalement
     private ?string $typeIntervention = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateIntervention = null;
+    private ?\DateTime $dateIntervention = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     #[Assert\When(
@@ -148,7 +148,7 @@ class Signalement
     private ?bool $faitVisitePostTraitement = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateVisitePostTraitement = null;
+    private ?\DateTime $dateVisitePostTraitement = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\Positive()]
@@ -468,12 +468,12 @@ class Signalement
         return $this;
     }
 
-    public function getDateIntervention(): ?\DateTimeInterface
+    public function getDateIntervention(): ?\DateTime
     {
         return $this->dateIntervention;
     }
 
-    public function setDateIntervention(?\DateTimeInterface $dateIntervention): self
+    public function setDateIntervention(?\DateTime $dateIntervention): self
     {
         $this->dateIntervention = $dateIntervention;
 
@@ -564,12 +564,12 @@ class Signalement
         return $this;
     }
 
-    public function getDateVisitePostTraitement(): ?\DateTimeInterface
+    public function getDateVisitePostTraitement(): ?\DateTime
     {
         return $this->dateVisitePostTraitement;
     }
 
-    public function setDateVisitePostTraitement(?\DateTimeInterface $dateVisitePostTraitement): self
+    public function setDateVisitePostTraitement(?\DateTime $dateVisitePostTraitement): self
     {
         $this->dateVisitePostTraitement = $dateVisitePostTraitement;
 

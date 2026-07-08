@@ -5,7 +5,7 @@ namespace App\Controller\Front;
 use App\Repository\TerritoireRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class TerritoryController extends AbstractController
 {

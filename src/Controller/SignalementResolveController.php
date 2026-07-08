@@ -12,19 +12,21 @@ use App\Manager\SignalementManager;
 use App\Repository\InterventionRepository;
 use App\Security\Voter\InterventionVoter;
 use App\Service\Mailer\MailerProvider;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class SignalementResolveController extends AbstractController
 {
     #[Route('/bo/signalements/{uuid}/traiter', name: 'app_signalement_treated')]
     public function index(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         SignalementManager $signalementManager,
         InterventionRepository $interventionRepository,

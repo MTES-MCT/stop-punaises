@@ -3,15 +3,14 @@
 namespace App\Tests\Unit\Entity;
 
 use App\Entity\User;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserTest extends KernelTestCase
 {
-    /**
-     * @dataProvider provideInvalidPassword
-     */
+    #[DataProvider('provideInvalidPassword')]
     public function testPasswordValidationError(string $expectedResult, string $password): void
     {
         /** @var ValidatorInterface $validator */
@@ -40,7 +39,7 @@ class UserTest extends KernelTestCase
         $this->assertCount(0, $errors);
     }
 
-    public function provideInvalidPassword(): \Generator
+    public static function provideInvalidPassword(): \Generator
     {
         yield 'blank' => ['Cette valeur ne doit pas être vide', ''];
         yield 'short' => ['Le mot de passe doit contenir au moins 12 caractères', 'short'];

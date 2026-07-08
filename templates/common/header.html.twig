@@ -34,7 +34,7 @@
                                     </a>
                                 {% else %}
                                     <a class="fr-btn fr-icon-lock-line" href="{{ path('app_login') }}"
-                                        {% if app.request.get('_route') == 'app_login' %}aria-current="page"{% endif %}
+                                        {% if app.request.attributes.get('_route') == 'app_login' %}aria-current="page"{% endif %}
                                         >
                                         Espace pro
                                     </a>
@@ -57,23 +57,23 @@
                 <ul class="fr-nav__list">
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ path('home') }}" target="_self"
-                            {% if app.request.get('_route') == 'home' %}aria-current="page"{% endif %}
+                            {% if app.request.attributes.get('_route') == 'home' %}aria-current="page"{% endif %}
                             >Accueil</a>
                     </li>
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ path('app_front_information') }}" target="_self"
-                            {% if app.request.get('_route') == 'app_front_information' %}aria-current="page"{% endif %}
+                            {% if app.request.attributes.get('_route') == 'app_front_information' %}aria-current="page"{% endif %}
                             >Informations</a>
                     </li>
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ path('app_front_contact') }}" target="_self"
-                            {% if app.request.get('_route') == 'app_front_contact' %}aria-current="page"{% endif %}
+                            {% if app.request.attributes.get('_route') == 'app_front_contact' %}aria-current="page"{% endif %}
                             >Contact</a>
                     </li>
                     {% if app.user %}
                     <li class="fr-nav__item">
                         <a class="fr-nav__link" href="{{ path('app_dashboard_home') }}" target="_self"
-                            {% if app.request.get('_route') == 'app_dashboard_home' %}aria-current="page"{% endif %}
+                            {% if app.request.attributes.get('_route') == 'app_dashboard_home' %}aria-current="page"{% endif %}
                             >Tableau de bord</a>
                     </li>
                     {% endif %}

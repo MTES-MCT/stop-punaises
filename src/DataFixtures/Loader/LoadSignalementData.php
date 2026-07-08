@@ -75,7 +75,7 @@ class LoadSignalementData extends Fixture implements OrderedFixtureInterface
                 ->setNombrePiecesTraitees($faker->randomDigitNotZero())
                 ->setDelaiEntreInterventions($faker->randomDigitNotZero())
                 ->setPrixFactureHT($faker->randomNumber(5))
-                ->setDateIntervention(new \DateTimeImmutable());
+                ->setDateIntervention(new \DateTime());
         }
         if (!empty($row['adresse'])) {
             $signalement->setAdresse($row['adresse']);

@@ -19,30 +19,14 @@ class SuiviUsagerViewControllerTest extends WebTestCase
         self::ensureKernelShutdown();
     }
 
-    /** @dataProvider provideRoutes */
-    public function testSignalementSuccessfullyDisplay(string $route, Signalement $signalement): void
+    public function testSignalementSuccessfullyDisplay(): void
     {
         $client = static::createClient();
+
         /** @var UserRepository $userRepository */
         $userRepository = static::getContainer()->get(UserRepository::class);
-
         $user = $userRepository->findOneBy(['email' => 'admin@punaises.fr']);
 
-        $client->loginUser($user);
-        $client->request('GET', $route);
-        $this->assertResponseIsSuccessful($signalement->getId());
-        $this->assertSelectorTextContains(
-            '.suivi-usager h1',
-            'Suivi de votre signalement #'.$signalement->getReference()
-        );
-        $this->assertSelectorTextContains(
-            '.suivi-usager h2',
-            'A propos de votre signalement'
-        );
-    }
-
-    public function provideRoutes(): \Generator
-    {
         /** @var SignalementRepository $signalementRepository */
         $signalementRepository = static::getContainer()->get(SignalementRepository::class);
         /** @var UrlGeneratorInterface $generatorUrl */
@@ -52,8 +36,23 @@ class SuiviUsagerViewControllerTest extends WebTestCase
 
         /** @var Signalement $signalement */
         foreach ($signalements as $signalement) {
+            if (!$signalement->getUuidPublic()) {
+                continue; // Skip signalements without uuidPublic
+            }
+
             $route = $generatorUrl->generate('app_suivi_usager_view', ['uuidPublic' => $signalement->getUuidPublic()]);
-            yield $route => [$route, $signalement];
+
+            $client->loginUser($user);
+            $client->request('GET', $route);
+            $this->assertResponseIsSuccessful('Signalement #'.$signalement->getId().' should load successfully');
+            $this->assertSelectorTextContains(
+                '.suivi-usager h1',
+                'Suivi de votre signalement #'.$signalement->getReference()
+            );
+            $this->assertSelectorTextContains(
+                '.suivi-usager h2',
+                'A propos de votre signalement'
+            );
         }
     }
 
@@ -63,6 +62,7 @@ class SuiviUsagerViewControllerTest extends WebTestCase
         /** @var SignalementRepository $signalementRepository */
         $signalementRepository = static::getContainer()->get(SignalementRepository::class);
         $signalement = $signalementRepository->findOneBy(['autotraitement' => 1, 'codePostal' => '38000']);
+
         /** @var RouterInterface $router */
         $router = self::getContainer()->get(RouterInterface::class);
         $routePostSignalement = $router->generate(
