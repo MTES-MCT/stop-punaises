@@ -7,11 +7,12 @@ use App\Entity\Enum\Status;
 use App\Entity\User;
 use App\Manager\UserManager;
 use App\Service\Token\ActivationToken;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AccountActivationController extends AbstractController
@@ -49,6 +50,7 @@ class AccountActivationController extends AbstractController
         UserManager $userManager,
         ValidatorInterface $validator,
         Security $security,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         User $user,
         string $token,
     ): Response {

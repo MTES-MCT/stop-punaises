@@ -2,15 +2,14 @@
 
 namespace App\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 
 class SmokeTest extends WebTestCase
 {
-    /**
-     * @dataProvider provideRoutes
-     */
+    #[DataProvider('provideRoutes')]
     public function testPageSuccessfullyRespondWithoutError500(string $path, int $statusCode): void
     {
         self::ensureKernelShutdown();
@@ -24,7 +23,7 @@ class SmokeTest extends WebTestCase
         );
     }
 
-    public function provideRoutes(): \Generator
+    public static function provideRoutes(): \Generator
     {
         /** @var RouterInterface $router */
         $router = self::getContainer()->get(RouterInterface::class);

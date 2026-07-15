@@ -11,7 +11,7 @@ use App\Entity\Enum\SignalementStatus;
 use App\Entity\Enum\SignalementType;
 use App\Entity\Signalement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -317,9 +317,7 @@ class SignalementRepository extends ServiceEntityRepository
             $sql .= ' OFFSET '.(int) $start;
         }
 
-        $statement = $connexion->prepare($sql);
-
-        return $statement->executeQuery($parameters)->fetchAllAssociative();
+        return $connexion->executeQuery($sql, $parameters)->fetchAllAssociative();
     }
 
     public function findToNotify(): ?array
@@ -433,7 +431,7 @@ class SignalementRepository extends ServiceEntityRepository
                 'entrepriseId' => $entreprise->getId(),
             ],
             [
-                'territoires' => Connection::PARAM_INT_ARRAY,
+                'territoires' => ArrayParameterType::INTEGER,
             ]
         )->fetchOne();
     }
@@ -467,7 +465,7 @@ class SignalementRepository extends ServiceEntityRepository
                 'entrepriseId' => $entreprise->getId(),
             ],
             [
-                'territoires' => Connection::PARAM_INT_ARRAY,
+                'territoires' => ArrayParameterType::INTEGER,
             ]
         )->fetchOne();
     }

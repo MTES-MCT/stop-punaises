@@ -5,6 +5,7 @@ namespace App\Tests\Functional\Controller\Security;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Routing\RouterInterface;
@@ -63,9 +64,7 @@ class AccountActivationControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @dataProvider provideInvalidPassword
-     */
+    #[DataProvider('provideInvalidPassword')]
     public function testActivationUserFormSubmitWithInvalidPassword(string $expectedResult, string $password): void
     {
         /** @var RouterInterface $router */
@@ -85,7 +84,7 @@ class AccountActivationControllerTest extends WebTestCase
         );
     }
 
-    public function provideInvalidPassword(): \Generator
+    public static function provideInvalidPassword(): \Generator
     {
         yield 'blank' => ['Cette valeur ne doit pas être vide', ''];
         yield 'short' => ['Le mot de passe doit contenir au moins 12 caractères', 'short'];

@@ -5,6 +5,7 @@ namespace App\Security\Voter;
 use App\Entity\Intervention;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,7 +20,7 @@ class InterventionVoter extends Voter
         return \in_array($attribute, [self::RESOLVE, self::SEND_ESTIMATION, self::STOP]) && $subject instanceof Intervention;
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         $user = $token->getUser();
         if (!$user instanceof UserInterface) {

@@ -23,12 +23,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class SuiviUsagerViewController extends AbstractController
 {
     #[Route('/signalements/{uuidPublic}', name: 'app_suivi_usager_view')]
     public function suivi_usager(
+        #[MapEntity(mapping: ['uuidPublic' => 'uuidPublic'])]
         Signalement $signalement,
         InterventionRepository $interventionRepository,
         EventRepository $eventRepository,
@@ -76,6 +77,7 @@ class SuiviUsagerViewController extends AbstractController
     #[Route('/signalements/{uuid}/basculer-pro', name: 'app_signalement_switch_pro', methods: 'POST')]
     public function signalement_bascule_pro(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         SignalementManager $signalementManager,
         EventDispatcherInterface $eventDispatcher,
@@ -109,6 +111,7 @@ class SuiviUsagerViewController extends AbstractController
     #[Route('/signalements/{uuid}/basculer-autotraitement', name: 'app_signalement_switch_autotraitement', methods: 'POST')]
     public function signalement_bascule_autotraitement(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         SignalementManager $signalementManager,
         MailerProvider $mailerProvider,
@@ -137,6 +140,7 @@ class SuiviUsagerViewController extends AbstractController
     #[Route('/signalements/{uuid}/resoudre', name: 'app_signalement_resolve', methods: 'POST')]
     public function signalement_resolu(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         SignalementManager $signalementManager,
         InterventionRepository $interventionRepository,
@@ -177,6 +181,7 @@ class SuiviUsagerViewController extends AbstractController
     #[Route('/signalements/{uuid}/notification-toujours-punaises', name: 'app_signalement_confirm_toujours_punaises', methods: 'POST')]
     public function signalement_confirm_toujours_punaises(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         MailerProvider $mailerProvider,
         EventDispatcherInterface $eventDispatcher,
@@ -199,6 +204,7 @@ class SuiviUsagerViewController extends AbstractController
     #[Route('/signalements/{uuid}/stop', name: 'app_signalement_stop', methods: 'POST')]
     public function signalement_stop(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         SignalementManager $signalementManager,
         EventDispatcherInterface $eventDispatcher,

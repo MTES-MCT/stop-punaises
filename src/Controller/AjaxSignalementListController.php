@@ -6,7 +6,7 @@ use App\Dto\DataTableRequest;
 use App\Service\Signalement\SignalementOccupantDataTableHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class AjaxSignalementListController extends AbstractController
 {

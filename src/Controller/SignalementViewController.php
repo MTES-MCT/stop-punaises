@@ -26,11 +26,12 @@ use App\Service\Mailer\MailerProvider;
 use App\Service\Upload\UploadHandlerService;
 use Doctrine\Common\Collections\Collection;
 use League\Flysystem\FilesystemOperator;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SignalementViewController extends AbstractController
@@ -43,6 +44,7 @@ class SignalementViewController extends AbstractController
 
     #[Route('/bo/signalements/{uuid}', name: 'app_signalement_view')]
     public function indexSignalement(
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         ?Signalement $signalement,
         InterventionRepository $interventionRepository,
     ): Response {
@@ -121,6 +123,7 @@ class SignalementViewController extends AbstractController
     #[Route('/bo/signalements/{uuid}/accept', name: 'app_signalement_intervention_accept', methods: 'POST')]
     public function signalementInterventionAccept(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         InterventionManager $interventionManager,
         EventDispatcherInterface $eventDispatcher,
@@ -162,6 +165,7 @@ class SignalementViewController extends AbstractController
     #[Route('/bo/signalements/{uuid}/refuse', name: 'app_signalement_intervention_refuse', methods: 'POST')]
     public function signalementInterventionRefuse(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         InterventionManager $interventionManager,
         MailerProvider $mailerProvider,
@@ -222,6 +226,7 @@ class SignalementViewController extends AbstractController
     #[Route('/bo/signalements/{uuid}/estimation', name: 'app_signalement_estimation_send', methods: 'POST')]
     public function signalementInterventionEstimation(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         InterventionManager $interventionManager,
         InterventionRepository $interventionRepository,
@@ -268,6 +273,7 @@ class SignalementViewController extends AbstractController
     #[Route('/bo/signalements/{uuid}/stop', name: 'app_signalement_admin_stop', methods: 'POST')]
     public function signalementStop(
         Request $request,
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         SignalementManager $signalementManager,
         EventDispatcherInterface $eventDispatcher,
@@ -327,8 +333,10 @@ class SignalementViewController extends AbstractController
     }
 
     #[Route('/bo/historique/{uuid}', name: 'app_signalement_historique_view')]
-    public function indexHistorique(?Signalement $signalement): Response
-    {
+    public function indexHistorique(
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
+        ?Signalement $signalement,
+    ): Response {
         if (!$signalement) {
             return $this->render('signalement_view/not-found.html.twig');
         }
@@ -373,6 +381,7 @@ class SignalementViewController extends AbstractController
 
     #[Route('/bo/historique/{uuid}/ajouter-photos', name: 'app_add_photos', methods: 'POST')]
     public function addPhoto(
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         Request $request,
         UploadHandlerService $uploadHandlerService,
@@ -395,6 +404,7 @@ class SignalementViewController extends AbstractController
 
     #[Route('/bo/historique/{uuid}/{filename}/supprimer-photo', name: 'app_delete_photo', methods: 'POST')]
     public function deletePhoto(
+        #[MapEntity(mapping: ['uuid' => 'uuid'])]
         Signalement $signalement,
         string $filename,
         Request $request,
