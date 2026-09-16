@@ -1,7 +1,8 @@
 import $ from 'jquery';
-import 'datatables.net';
-import 'datatables.net-dt';
+import DataTable from 'datatables.net-dt';
 import 'datatables.net-responsive-dt';
+
+DataTable.use($);
 
 $(function() {
   if ($('div.liste-signalements').length > 0) {
@@ -39,36 +40,24 @@ function startListeSignalementsApp() {
     },
     drawCallback: function( oSettings ) {
 
-      // Signalement historique
-      if ($('#datatable_paginate').length > 0) {
-        $('#datatable_paginate').attr('role', 'navigation');
-        $('#datatable_paginate').attr('aria-label', 'Pagination');
-        $('#datatable_previous')
+      let $paging = $(oSettings.table).closest('.dt-container').find('.dt-paging');
+      if ($paging.length > 0) {
+        $paging.attr('role', 'navigation');
+        $paging.attr('aria-label', 'Pagination');
+        $paging.find('.dt-paging-button.previous')
             .attr('title', 'Page précédente')
             .addClass('fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label');
-        $('#datatable_next')
-            .attr('title', 'Page suivante')
-            .addClass('fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label');
-      }
-      if ($('#datatable-ajax_paginate').length > 0) {
-        $('#datatable-ajax_paginate').attr('role', 'navigation');
-        $('#datatable-ajax_paginate').attr('aria-label', 'Pagination');
-        $('#datatable-ajax_previous')
-            .attr('title', 'Page précédente')
-            .addClass('fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label');
-
-        $('#datatable-ajax_next')
+        $paging.find('.dt-paging-button.next')
             .attr('title', 'Page suivante')
             .addClass('fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label');
       }
 
-      $('a.paginate_button').each(function(index, element) {
-        $(element).attr('href', '#')
+      $paging.find('.dt-paging-button').each(function(index, element) {
         if ($(element).text().indexOf('Page') == -1) {
           $(element).attr('title', 'Page ' + index)
         }
       })
-      $("a.paginate_button").on("click", function(e){
+      $paging.find('.dt-paging-button').on('click', function(e){
         e.preventDefault();
       })
 
@@ -86,13 +75,6 @@ function startListeSignalementsApp() {
     idTable += '-ajax';
     options.ajax = '/bo/liste-signalements';
     options.serverSide = true;
-    // refresh count when ajax call is done
-    options.fnDrawCallback = function( oSettings ) {
-      let textCount = generateTableTitleFromDatatable('signalement');
-      $("span#count-signalement").text(textCount);
-      $("caption#count-signalement-caption").text(textCount);
-      document.title = generatePageTitleFromDatatable('Les signalements usagers', 'signalement');
-    }
   }
   listTable = $(idTable).DataTable(options);
   initComponentsEvents();

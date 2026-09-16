@@ -1,7 +1,8 @@
 import $ from 'jquery';
-import 'datatables.net';
-import 'datatables.net-dt';
+import DataTable from 'datatables.net-dt';
 import 'datatables.net-responsive-dt';
+
+DataTable.use($);
 
 $(function() {
   if ($('div.sublist-employes').length > 0) {
@@ -35,24 +36,24 @@ function startListeEmployesApp() {
         sortDescending: ' - activez pour trier dans un ordre décroissant'
       }
     },
-    drawCallback: function(settings, json) {
-      $('#datatable_paginate').attr('role', 'navigation');
-      $('#datatable_paginate').attr('aria-label', 'Pagination');
-      $('#datatable_previous')
+    drawCallback: function(settings) {
+      let $paging = $(settings.table).closest('.dt-container').find('.dt-paging');
+      $paging.attr('role', 'navigation');
+      $paging.attr('aria-label', 'Pagination');
+      $paging.find('.dt-paging-button.previous')
           .attr('title', 'Page précédente')
           .addClass('fr-pagination__link fr-pagination__link--prev fr-pagination__link--lg-label');
 
-      $('#datatable_next')
+      $paging.find('.dt-paging-button.next')
           .attr('title', 'Page suivante')
           .addClass('fr-pagination__link fr-pagination__link--next fr-pagination__link--lg-label');
 
-      $('a.paginate_button').each(function(index, element) {
-        $(element).attr('href', '#')
+      $paging.find('.dt-paging-button').each(function(index, element) {
         if ($(element).text().indexOf('Page') == -1) {
           $(element).attr('title', 'Page ' + index)
         }
       })
-      $("a.paginate_button").on("click", function(e){
+      $paging.find('.dt-paging-button').on('click', function(e){
         e.preventDefault();
       })
     }
