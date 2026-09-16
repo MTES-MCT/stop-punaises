@@ -18,10 +18,12 @@ use App\Service\Signalement\ReferenceGenerator;
 use App\Service\Signalement\ZipCodeProvider;
 use App\Service\Upload\UploadHandlerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 class SignalementController extends AbstractController
@@ -76,6 +78,7 @@ class SignalementController extends AbstractController
         EntrepriseRepository $entrepriseRepository,
         EventDispatcherInterface $eventDispatcher,
         GeolocateService $geolocateService,
+        #[Target('forms')] RateLimiterFactoryInterface $rateLimiter,
     ): Response {
         if ($this->isSignalementsDisabled) {
             return $this->redirectToRoute('home');
@@ -85,6 +88,11 @@ class SignalementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $limiter = $rateLimiter->create($request->getClientIp());
+            if (false === $limiter->consume(1)->isAccepted()) {
+                return $this->json(['response' => 'error', 'errors' => ['Vous avez atteint le nombre maximum de créations de signalements. Veuillez réessayer plus tard.']], Response::HTTP_BAD_REQUEST);
+            }
+
             $signalement
                 ->setType(SignalementType::TYPE_LOGEMENT)
                 ->setReference($referenceGenerator->generate())
