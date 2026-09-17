@@ -88,7 +88,7 @@ class SignalementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $limiter = $rateLimiter->create($request->getClientIp());
+            $limiter = $rateLimiter->create($request->getClientIp().'_signalement_logement_form');
             if (false === $limiter->consume(1)->isAccepted()) {
                 return $this->json(['response' => 'error', 'errors' => ['Vous avez atteint le nombre maximum de créations de signalements. Veuillez réessayer plus tard.']], Response::HTTP_BAD_REQUEST);
             }

@@ -36,7 +36,7 @@ class AccountActivationController extends AbstractController
         }
 
         if ($request->isMethod('POST') && $email = $request->request->get('email')) {
-            $limiter = $rateLimiter->create($request->getClientIp());
+            $limiter = $rateLimiter->create($request->getClientIp().'_account_activation');
             if (false === $limiter->consume(1)->isAccepted()) {
                 $this->addFlash('error', 'Vous avez atteint le nombre maximum de demandes d\'activation. Veuillez réessayer plus tard.');
 

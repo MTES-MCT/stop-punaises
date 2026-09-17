@@ -29,7 +29,7 @@ class ResetPasswordController extends AbstractController
         }
 
         if ($request->isMethod('POST') && $email = $request->request->get('email')) {
-            $limiter = $rateLimiter->create($request->getClientIp());
+            $limiter = $rateLimiter->create($request->getClientIp().'_password_reset');
             if (false === $limiter->consume(1)->isAccepted()) {
                 $this->addFlash('error', 'Vous avez atteint le nombre maximum de demandes de réinitialisation de mot de passe. Veuillez réessayer plus tard.');
 

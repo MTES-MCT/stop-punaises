@@ -113,13 +113,13 @@ class HomeController extends AbstractController
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            $limiter = $rateLimiter->create($request->getClientIp());
-            if (false === $limiter->consume(1)->isAccepted()) {
-                $this->addFlash('error', 'Vous avez atteint le nombre maximum de messages que vous pouvez envoyer. Veuillez réessayer plus tard.');
-
-                return $this->redirectToRoute('app_front_contact');
-            }
             if ($form->isValid()) {
+                $limiter = $rateLimiter->create($request->getClientIp().'_contact_form');
+                if (false === $limiter->consume(1)->isAccepted()) {
+                    $this->addFlash('error', 'Vous avez atteint le nombre maximum de messages que vous pouvez envoyer. Veuillez réessayer plus tard.');
+
+                    return $this->redirectToRoute('app_front_contact');
+                }
                 $contactFormHandler->handle($form);
                 $this->addFlash('success', 'Votre message à bien été envoyé !');
             } else {
