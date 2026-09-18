@@ -11,7 +11,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SitemapController extends AbstractController
 {
-    #[Cache(public: true, maxage: 3600)]
     #[Route('/plan-du-site', name: 'app_front_plan_du_site')]
     public function index(
         RouterInterface $router,
