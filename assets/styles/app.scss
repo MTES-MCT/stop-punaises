@@ -86,7 +86,7 @@ span.statut-infestation {
     background-color: var(--grey-975-75);
 }
 
-.dataTables_wrapper {
+.dt-container {
     table {
         width: 100%;
         .button-view {
@@ -109,16 +109,16 @@ span.statut-infestation {
         }
     }
 
-    .dataTables_filter {
+    .dt-search {
         display: none;
     }
-    .dataTables_paginate .paginate_button {
+    .dt-paging .dt-paging-button {
         border: 0px;
         color: #161616;
         background: none;
         padding: 0.2em 0.7em;
     }
-    .dataTables_paginate .paginate_button.current {
+    .dt-paging .dt-paging-button.current {
         border: 0px;
         background: var(--blue-france-850-200);
     }
@@ -701,7 +701,7 @@ span.image-caption {
         }
     }
 
-    .dataTables_wrapper {
+    .dt-container {
         table {
             tbody {
                 td{
@@ -781,7 +781,7 @@ span.image-caption {
         }
     }
 
-    .dataTables_wrapper {
+    .dt-container {
         table {
             tbody {
                 td{
