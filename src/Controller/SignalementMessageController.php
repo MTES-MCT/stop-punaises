@@ -45,18 +45,23 @@ class SignalementMessageController extends AbstractController
             return $this->json(['status' => 'denied'], Response::HTTP_FORBIDDEN);
         }
 
-        $data = $request->request->all();
+        $messageContent = $request->request->get('message');
+        $token = $request->request->get('_token');
+        if (null === $messageContent || null === $token) {
+            return $this->json(['message' => 'Le message et le jeton CSRF sont requis.'], Response::HTTP_BAD_REQUEST);
+        }
+
         $messageThread = $messageThreadManager->createOrGet($signalement, $entreprise);
         $message = $messageFactory->createInstanceFrom(
             messageThread: $messageThread,
             sender: $entreprise->getUser()->getEmail(),
             recipient: $signalement->getEmailOccupant(),
-            message : $data['message']
+            message : $messageContent
         );
 
         /** @var ConstraintViolationList $errors */
         $errors = $validator->validate($message);
-        if (0 === $errors->count() && $this->isCsrfTokenValid('send_message', $data['_token'])) {
+        if (0 === $errors->count() && $this->isCsrfTokenValid('send_message', $token)) {
             $messageResponse = $messageManager->createMessageResponse($message, $this->getUser());
             $response = $serializer->serialize($messageResponse, 'json');
 
@@ -83,16 +88,21 @@ class SignalementMessageController extends AbstractController
         if (!$entreprise || !$entreprise->isActive()) {
             return $this->json(['message' => 'L\'entreprise n\'existe pas ou n\'est pas active.'], Response::HTTP_BAD_REQUEST);
         }
-        $data = $request->request->all();
+        $messageContent = $request->request->get('message');
+        $token = $request->request->get('_token');
+        if (null === $messageContent || null === $token) {
+            return $this->json(['message' => 'Le message et le jeton CSRF sont requis.'], Response::HTTP_BAD_REQUEST);
+        }
+
         $message = $messageFactory->createInstanceFrom(
             messageThread: $messageThread,
             sender: $messageThread->getSignalement()->getEmailOccupant(),
             recipient: $messageThread->getEntreprise()->getUser()->getEmail(),
-            message : $data['message']
+            message : $messageContent
         );
 
         $errors = $validator->validate($message);
-        if (0 === $errors->count() && $this->isCsrfTokenValid('send_message', $data['_token'])) {
+        if (0 === $errors->count() && $this->isCsrfTokenValid('send_message', $token)) {
             $messageResponse = $messageManager->createMessageResponse($message);
             $response = $serializer->serialize($messageResponse, 'json');
 

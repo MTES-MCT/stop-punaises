@@ -9,7 +9,7 @@ class ActivationToken extends AbstractGeneratorToken
 {
     public function validateToken(User $user, string $token): bool|User
     {
-        if ($user->getToken() != $token) {
+        if (null === $user->getToken() || !hash_equals($user->getToken(), $token)) {
             return false;
         }
 
