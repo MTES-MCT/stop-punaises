@@ -12,6 +12,7 @@ parameters:
     base_url: '%env(resolve:APP_URL)%'
     uploads_tmp_dir: '%kernel.project_dir%/tmp/'
     url_bucket: '%env(resolve:S3_URL_BUCKET)%'
+    file_url_lifetime: '1 hour'
     doc_autotraitement: 'pdf/stop-punaises-protocole-auto-traitement.pdf'
     doc_domicile: 'pdf/stop-punaises-preparer-son-domicile.pdf'
     doc_conseil: 'pdf/stop-punaises-eviter-punaises-de-lit.pdf'
@@ -59,6 +60,10 @@ services:
         arguments:
             $baseUrl: '%base_url%'
             $from: '%from%'
+
+    App\Twig\AppExtension:
+        arguments:
+            $fileUrlLifetime: '%file_url_lifetime%'
 
     Aws\S3\S3Client:
         arguments:
