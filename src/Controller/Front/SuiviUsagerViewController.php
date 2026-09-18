@@ -308,6 +308,12 @@ class SuiviUsagerViewController extends AbstractController
         #[MapEntity(mapping: ['thread_uuid' => 'uuid'])]
         MessageThread $messageThread,
     ): Response {
+        if ($messageThread->getSignalement()->getId() !== $signalement->getId()) {
+            $this->addFlash('error', 'Le lien n\'est pas valide. Veuillez réessayer ou nous contacter.');
+
+            return $this->redirectToRoute('app_front_contact');
+        }
+
         return $this->render('front_suivi_usager/messages_thread.html.twig', [
             'signalement' => $signalement,
             'entreprise_name' => $messageThread->getEntreprise()->getNom(),

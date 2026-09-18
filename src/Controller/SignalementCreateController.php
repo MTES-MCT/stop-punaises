@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class SignalementCreateController extends AbstractController
 {
@@ -61,6 +62,7 @@ class SignalementCreateController extends AbstractController
     }
 
     #[Route('/bo/signalements/ajout/liste-employes', name: 'app_liste_employes')]
+    #[IsGranted('ROLE_ADMIN')]
     public function get_list_employes(Request $request, EntrepriseRepository $entrepriseRepository): Response
     {
         $idEntreprise = $request->request->get('idEntreprise');
