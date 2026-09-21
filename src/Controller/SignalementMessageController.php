@@ -47,7 +47,7 @@ class SignalementMessageController extends AbstractController
 
         $messageContent = $request->request->get('message');
         $token = $request->request->get('_token');
-        if (null === $messageContent || null === $token) {
+        if (empty($messageContent) || empty($token)) {
             return $this->json(['message' => 'Le message et le jeton CSRF sont requis.'], Response::HTTP_BAD_REQUEST);
         }
 
@@ -90,7 +90,7 @@ class SignalementMessageController extends AbstractController
         }
         $messageContent = $request->request->get('message');
         $token = $request->request->get('_token');
-        if (null === $messageContent || null === $token) {
+        if (empty($messageContent) || empty($token)) {
             return $this->json(['message' => 'Le message et le jeton CSRF sont requis.'], Response::HTTP_BAD_REQUEST);
         }
 
