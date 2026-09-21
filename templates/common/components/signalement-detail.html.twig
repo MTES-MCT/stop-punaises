@@ -81,9 +81,9 @@
             <div class="fr-grid-row fr-grid fr-grid-row--gutters fr-signalement-photos">
                 {% for index,photo in photos %}
                     <div class="fr-col-6 fr-col-md-3">
-                        <div style="background: url('{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}')no-repeat center center/cover">
+                        <div style="background: url('{{ sign_url(photo.url) }}')no-repeat center center/cover">
                             <a class="fr-btn fr-icon-eye-line"
-                                href="{{ photo.url }}?_csrf_token={{ csrf_token('signalement_ext_file_view') }}"
+                                href="{{ sign_url(photo.url) }}"
                                 title="Voir la photo {{ index + 1 }} {{ photo.file }} - nouvelle fenêtre"
                                 aria-label="Voir la photo {{ index + 1 }} {{ photo.file }} - nouvelle fenêtre"
                                 target="_blank"

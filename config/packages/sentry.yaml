@@ -8,11 +8,16 @@ when@prod:
     monolog:
         handlers:
             sentry:
-                type: sentry
-                level: !php/const Monolog\Logger::ERROR
-                hub_id: Sentry\State\HubInterface
+                type: service
+                id: Sentry\Monolog\Handler
 
     services:
+        Sentry\Monolog\Handler:
+            arguments:
+                $hub: '@Sentry\State\HubInterface'
+                $level: !php/const Monolog\Level::Error
+                $bubble: true
+
         Monolog\Processor\PsrLogMessageProcessor:
             tags: { name: monolog.processor, handler: sentry }
 

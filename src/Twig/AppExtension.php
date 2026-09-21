@@ -9,8 +9,11 @@ use App\Entity\Signalement;
 use App\Service\Signalement\StatusProvider;
 use App\Utils\FileHelper;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\UriSigner;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
@@ -18,6 +21,9 @@ class AppExtension extends AbstractExtension
 
     public function __construct(
         private Security $security,
+        private UriSigner $uriSigner,
+        private RequestStack $requestStack,
+        private string $fileUrlLifetime,
     ) {
     }
 
@@ -35,6 +41,22 @@ class AppExtension extends AbstractExtension
             new TwigFilter('place_type', [$this, 'formatPlaceType']),
             new TwigFilter('format_bytes', [$this, 'formatBytes']),
         ];
+    }
+
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('sign_url', [$this, 'signUrl']),
+        ];
+    }
+
+    public function signUrl(string $url): string
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $absoluteUrl = $request ? $request->getSchemeAndHttpHost().$request->getBaseUrl().$url : $url;
+        $expiresAt = (new \DateTimeImmutable())->modify($this->fileUrlLifetime);
+
+        return $this->uriSigner->sign($absoluteUrl, $expiresAt);
     }
 
     public function formatPhone(?string $value): ?string

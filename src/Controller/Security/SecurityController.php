@@ -7,7 +7,9 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\UriSigner;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -35,19 +37,32 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route('/_up/{filename}', name: 'show_uploaded_file')]
-    public function showUploadedFile(string $filename)
+    #[Route(
+        path: '/_up/{filename}',
+        name: 'show_uploaded_file',
+        requirements: ['filename' => '[A-Za-z0-9_\-\.]+']
+    )]
+    #[IsGranted('ROLE_ENTREPRISE')]
+    public function showUploadedFile(string $filename, Request $request, UriSigner $uriSigner): BinaryFileResponse
     {
-        $request = Request::createFromGlobals();
-        if (!$this->isCsrfTokenValid('signalement_ext_file_view', $request->query->get('_csrf_token'))) {
-            $this->denyAccessUnlessGranted('ENTREPRISE_VIEW');
+        if (!$uriSigner->checkRequest($request)) {
+            throw $this->createAccessDeniedException('Invalid or expired file link.');
         }
 
-        $tmpFilepath = $this->getParameter('uploads_tmp_dir').$filename;
-        $bucketFilepath = $this->getParameter('url_bucket').'/'.$filename;
-        file_put_contents($tmpFilepath, file_get_contents($bucketFilepath));
-        $file = new File($tmpFilepath);
+        $safeFilename = basename($filename);
+        if ($safeFilename !== $filename) {
+            throw $this->createNotFoundException();
+        }
 
-        return new BinaryFileResponse($file);
+        $tmpDir = realpath($this->getParameter('uploads_tmp_dir'));
+        $tmpFilepath = $tmpDir.'/'.$safeFilename;
+        if (!str_starts_with($tmpFilepath, $tmpDir.'/')) {
+            throw $this->createNotFoundException();
+        }
+
+        $bucketFilepath = rtrim($this->getParameter('url_bucket'), '/').'/'.$safeFilename;
+        file_put_contents($tmpFilepath, file_get_contents($bucketFilepath));
+
+        return new BinaryFileResponse(new File($tmpFilepath));
     }
 }
