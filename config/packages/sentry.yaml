@@ -3,6 +3,9 @@ when@prod:
         dsn: '%env(SENTRY_DSN)%'
         register_error_listener: false # Disables the ErrorListener to avoid duplicated log in sentry
         options:
+            ignore_exceptions:
+              - 'Symfony\Component\Security\Core\Exception\AccessDeniedException'
+              - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
             environment: '%kernel.environment%'
 
     monolog:
